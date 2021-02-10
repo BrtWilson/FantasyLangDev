@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * Represents a follow relationship.
  */
-public class Follow {
+public class Follow { // TODO: This will need a revamp as we were going to have two follow lists in each user
 
     private final User follower;
     private final User followee;

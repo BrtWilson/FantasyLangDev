@@ -13,6 +13,7 @@ public class User implements Comparable<User>, Serializable {
     private final String alias;
     private final String imageUrl;
     private byte [] imageBytes;
+    // Todo: add the two types of follow
 
     public User(String firstName, String lastName, String imageURL) {
         this(firstName, lastName, String.format("@%s%s", firstName, lastName), imageURL);
