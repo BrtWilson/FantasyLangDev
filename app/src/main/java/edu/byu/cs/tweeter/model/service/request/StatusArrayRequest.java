@@ -6,23 +6,40 @@ package edu.byu.cs.tweeter.model.service.request;
  */
 public class StatusArrayRequest { //TODO
 
-    private final String followerAlias;
+    private final String userAlias;
     private final int limit;
     private final String lastStatusDate;
+    private final Boolean feedInstead;
 
     /**
      * Creates an instance.
      *
-     * @param followerAlias the alias of the user whose followees are to be returned.
+     * @param userAlias the alias of the user whose followees are to be returned.
      * @param limit the maximum number of followees to return.
      * @param lastStatusDate the alias of the last followee that was returned in the previous request (null if
      *                     there was no previous request or if no followees were returned in the
      *                     previous request).
+     * This is used for any Story request, rather than a feed request.
      */
-    public StatusArrayRequest(String followerAlias, int limit, String lastStatusDate) {
-        this.followerAlias = followerAlias;
+    public StatusArrayRequest(String userAlias, int limit, String lastStatusDate) {
+        this(userAlias, limit, lastStatusDate, false);
+    }
+
+    /**
+     * Creates an instance.
+     *
+     * @param userAlias the alias of the user whose followees are to be returned.
+     * @param limit the maximum number of followees to return.
+     * @param lastStatusDate the alias of the last followee that was returned in the previous request (null if
+     *                     there was no previous request or if no followees were returned in the
+     *                     previous request).
+     * @param feedInstead whether this request iis for a user feed instead of the target user's story
+     */
+    public StatusArrayRequest(String userAlias, int limit, String lastStatusDate, Boolean feedInstead) {
+        this.userAlias = userAlias;
         this.limit = limit;
         this.lastStatusDate = lastStatusDate;
+        this.feedInstead = feedInstead;
     }
 
     /**
@@ -30,8 +47,8 @@ public class StatusArrayRequest { //TODO
      *
      * @return the follower.
      */
-    public String getFollowerAlias() {
-        return followerAlias;
+    public String getUserAlias() {
+        return userAlias;
     }
 
     /**
@@ -51,5 +68,9 @@ public class StatusArrayRequest { //TODO
      */
     public String getLastStatusDate() {
         return lastStatusDate;
+    }
+
+    public Boolean getFeedInstead() {
+        return feedInstead;
     }
 }

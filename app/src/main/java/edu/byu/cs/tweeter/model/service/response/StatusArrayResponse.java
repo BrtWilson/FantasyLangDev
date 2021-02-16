@@ -31,9 +31,9 @@ public class StatusArrayResponse extends PagedResponse {
     }
 
     /**
-     * Returns the followees for the corresponding request.
+     * Returns the statuses for the corresponding request.
      *
-     * @return the followees.
+     * @return the statuses.
      */
     public List<Status> getStatuses() {
         return statuses;
