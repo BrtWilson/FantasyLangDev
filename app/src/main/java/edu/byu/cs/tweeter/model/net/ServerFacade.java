@@ -1,14 +1,8 @@
 package edu.byu.cs.tweeter.model.net;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 import edu.byu.cs.tweeter.BuildConfig;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
@@ -119,7 +113,7 @@ public class ServerFacade {
                 throw new AssertionError();
             }
 
-            if(request.getFollowerAlias() == null) {
+            if(request.getUserAlias() == null) {
                 throw new AssertionError();
             }
         }
@@ -130,7 +124,7 @@ public class ServerFacade {
         boolean hasMorePages = false;
 
         if(request.getLimit() > 0) {
-            int followeesIndex = getFolloweesStartingIndex(request.getLastFolloweeAlias(), allFollowees);
+            int followeesIndex = getFolloweesStartingIndex(request.getLastDataKey(), allFollowees);
 
             for(int limitCounter = 0; followeesIndex < allFollowees.size() && limitCounter < request.getLimit(); followeesIndex++, limitCounter++) {
                 responseFollowees.add(allFollowees.get(followeesIndex));

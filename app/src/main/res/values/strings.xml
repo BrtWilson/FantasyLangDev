@@ -18,4 +18,6 @@
     <string name="title_activity_login">Sign in</string>
     <string name="followeeCount">Following: %d</string>
     <string name="followerCount">Followers: %d</string>
+    <string name="sampleTimeStamp">Tue, 8:01pm</string>
+    <string name="sampleStatusMessage">You were supposed to destroy the Sith, not join them!</string>
 </resources>

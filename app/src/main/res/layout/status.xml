@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:textStyle="bold"
-            tools:text="@string/sampleUserName"/>
+            tools:text="@string/sampleTimeStamp"/>
 
     </LinearLayout>
 
@@ -42,5 +42,5 @@
         android:id="@+id/statusMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="@string/sampleAlias"/>
+        tools:text="@string/sampleStatusMessage"/>
 </RelativeLayout>

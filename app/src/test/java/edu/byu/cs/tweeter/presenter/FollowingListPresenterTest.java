@@ -13,7 +13,7 @@ import edu.byu.cs.tweeter.model.service.FollowingService;
 import edu.byu.cs.tweeter.model.service.request.FollowingRequest;
 import edu.byu.cs.tweeter.model.service.response.FollowingResponse;
 
-public class FollowingPresenterTest {
+public class FollowingListPresenterTest {
 
     private FollowingRequest request;
     private FollowingResponse response;

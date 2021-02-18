@@ -22,10 +22,13 @@ import java.util.List;
 import edu.byu.cs.tweeter.R;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
-import edu.byu.cs.tweeter.model.service.request.FollowingRequest;
+import edu.byu.cs.tweeter.model.domain.status_members.Status;
+import edu.byu.cs.tweeter.model.service.request.StatusArrayRequest;
 import edu.byu.cs.tweeter.model.service.response.FollowingResponse;
+import edu.byu.cs.tweeter.model.service.response.StatusArrayResponse;
 import edu.byu.cs.tweeter.presenter.StatusArrayPresenter;
 import edu.byu.cs.tweeter.view.asyncTasks.GetFollowingTask;
+import edu.byu.cs.tweeter.view.asyncTasks.GetStatusesTask;
 import edu.byu.cs.tweeter.view.util.ImageUtils;
 
 /**
@@ -97,20 +100,22 @@ public class StatusArrayFragment extends Fragment implements StatusArrayPresente
     private class StatusHolder extends RecyclerView.ViewHolder {
 
         private final ImageView userImage;
-        private final TextView userAlias;
+        private final TextView statusMessage;
+        private final TextView statusTimeStamp;
         private final TextView userName;
 
         /**
          * Creates an instance and sets an OnClickListener for the user's row.
          *
-         * @param itemView the view on which the user will be displayed.
+         * @param itemView the view on which the status will be displayed.
          */
         StatusHolder(@NonNull View itemView, int viewType) {
             super(itemView);
 
             if(viewType == ITEM_VIEW) {
                 userImage = itemView.findViewById(R.id.userImage);
-                userAlias = itemView.findViewById(R.id.userAlias);
+                statusMessage = itemView.findViewById(R.id.statusMessage);
+                statusTimeStamp = itemView.findViewById(R.id.statusTimeStamp);
                 userName = itemView.findViewById(R.id.userName);
 
                 itemView.setOnClickListener(new View.OnClickListener() {
@@ -121,31 +126,33 @@ public class StatusArrayFragment extends Fragment implements StatusArrayPresente
                 });
             } else {
                 userImage = null;
-                userAlias = null;
+                statusMessage = null;
+                statusTimeStamp = null;
                 userName = null;
             }
         }
 
         /**
-         * Binds the user's data to the view.
+         * Binds the status's data to the view.
          *
-         * @param user the user.
+         * @param status the status.
          */
-        void bindUser(User user) {
-            userImage.setImageDrawable(ImageUtils.drawableFromByteArray(user.getImageBytes()));
-            userAlias.setText(user.getAlias());
-            userName.setText(user.getName());
+        void bindUser(Status status) {
+            userImage.setImageDrawable(ImageUtils.drawableFromByteArray(status.getCorrespondingUser().getImageBytes()));
+            statusMessage.setText(status.getMessage());
+            statusTimeStamp.setText(status.getDate());
+            userName.setText(status.getCorrespondingUser().getAlias());
         }
     }
 
     /**
      * The adapter for the RecyclerView that displays the Following data.
      */
-    private class StatusRecyclerViewAdapter extends RecyclerView.Adapter<StatusHolder> implements GetFollowingTask.Observer {
+    private class StatusRecyclerViewAdapter extends RecyclerView.Adapter<StatusHolder> implements GetStatusesTask.Observer {
 
-        private final List<User> users = new ArrayList<>();
+        private final List<Status> statuses = new ArrayList<>();
 
-        private User lastFollowee;
+        private Status lastStatusDate;
 
         private boolean hasMorePages;
         private boolean isLoading = false;
@@ -161,34 +168,34 @@ public class StatusArrayFragment extends Fragment implements StatusArrayPresente
          * Adds new users to the list from which the RecyclerView retrieves the users it displays
          * and notifies the RecyclerView that items have been added.
          *
-         * @param newUsers the users to add.
+         * @param newStatuses the users to add.
          */
-        void addItems(List<User> newUsers) {
-            int startInsertPosition = users.size();
-            users.addAll(newUsers);
-            this.notifyItemRangeInserted(startInsertPosition, newUsers.size());
+        void addItems(List<Status> newStatuses) {
+            int startInsertPosition = this.statuses.size();
+            this.statuses.addAll(newStatuses);
+            this.notifyItemRangeInserted(startInsertPosition, newStatuses.size());
         }
 
         /**
-         * Adds a single user to the list from which the RecyclerView retrieves the users it
+         * Adds a single status to the list from which the RecyclerView retrieves the users it
          * displays and notifies the RecyclerView that an item has been added.
          *
-         * @param user the user to add.
+         * @param status the status to add.
          */
-        void addItem(User user) {
-            users.add(user);
-            this.notifyItemInserted(users.size() - 1);
+        void addItem(Status status) {
+            statuses.add(status);
+            this.notifyItemInserted(statuses.size() - 1);
         }
 
         /**
-         * Removes a user from the list from which the RecyclerView retrieves the users it displays
+         * Removes a status from the list from which the RecyclerView retrieves the users it displays
          * and notifies the RecyclerView that an item has been removed.
          *
-         * @param user the user to remove.
+         * @param status the status to remove.
          */
-        void removeItem(User user) {
-            int position = users.indexOf(user);
-            users.remove(position);
+        void removeItem(Status status) {
+            int position = statuses.indexOf(status);
+            statuses.remove(position);
             this.notifyItemRemoved(position);
         }
 
@@ -227,7 +234,7 @@ public class StatusArrayFragment extends Fragment implements StatusArrayPresente
         @Override
         public void onBindViewHolder(@NonNull StatusHolder statusHolder, int position) {
             if(!isLoading) {
-                statusHolder.bindUser(users.get(position));
+                statusHolder.bindUser(statuses.get(position));
             }
         }
 
@@ -237,7 +244,7 @@ public class StatusArrayFragment extends Fragment implements StatusArrayPresente
          */
         @Override
         public int getItemCount() {
-            return users.size();
+            return statuses.size();
         }
 
         /**
@@ -249,7 +256,7 @@ public class StatusArrayFragment extends Fragment implements StatusArrayPresente
          */
         @Override
         public int getItemViewType(int position) {
-            return (position == users.size() - 1 && isLoading) ? LOADING_DATA_VIEW : ITEM_VIEW;
+            return (position == statuses.size() - 1 && isLoading) ? LOADING_DATA_VIEW : ITEM_VIEW;
         }
 
         /**
@@ -260,27 +267,27 @@ public class StatusArrayFragment extends Fragment implements StatusArrayPresente
             isLoading = true;
             addLoadingFooter();
 
-            GetFollowingTask getFollowingTask = new GetFollowingTask(presenter, this);
-            FollowingRequest request = new FollowingRequest(user.getAlias(), PAGE_SIZE, (lastFollowee == null ? null : lastFollowee.getAlias()));
-            getFollowingTask.execute(request);
+            GetStatusesTask getStatusesTask = new GetStatusesTask(presenter, this);
+            StatusArrayRequest request = new StatusArrayRequest(user.getAlias(), PAGE_SIZE, (lastStatusDate == null ? null : lastStatusDate.getDate()));
+            getStatusesTask.execute(request);
         }
 
         /**
          * A callback indicating more following data has been received. Loads the new followees
          * and removes the loading footer.
          *
-         * @param followingResponse the asynchronous response to the request to load more items.
+         * @param statusArrayResponse the asynchronous response to the request to load more items.
          */
         @Override
-        public void followeesRetrieved(FollowingResponse followingResponse) {
-            List<User> followees = followingResponse.getFollowees();
+        public void statusesRetrieved(StatusArrayResponse statusArrayResponse) {
+            List<Status> statuses = statusArrayResponse.getStatuses();
 
-            lastFollowee = (followees.size() > 0) ? followees.get(followees.size() -1) : null;
-            hasMorePages = followingResponse.getHasMorePages();
+            lastStatusDate = (statuses.size() > 0) ? statuses.get(statuses.size() -1) : null;
+            hasMorePages = statusArrayResponse.getHasMorePages();
 
             isLoading = false;
             removeLoadingFooter();
-            statusRecyclerViewAdapter.addItems(followees);
+            statusRecyclerViewAdapter.addItems(statuses);
         }
 
         /**
@@ -300,7 +307,7 @@ public class StatusArrayFragment extends Fragment implements StatusArrayPresente
          * loading footer view) at the bottom of the list.
          */
         private void addLoadingFooter() {
-            addItem(new User("Dummy", "User", ""));
+            addItem(new Status("Dummy Message: I have the low ground", "Long Ago", null));
         }
 
         /**
@@ -308,7 +315,7 @@ public class StatusArrayFragment extends Fragment implements StatusArrayPresente
          * the loading footer at the bottom of the list.
          */
         private void removeLoadingFooter() {
-            removeItem(users.get(users.size() - 1));
+            removeItem(statuses.get(statuses.size() - 1));
         }
     }
 
