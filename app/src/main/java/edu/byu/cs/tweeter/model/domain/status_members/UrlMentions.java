@@ -2,7 +2,7 @@ package edu.byu.cs.tweeter.model.domain.status_members;
 
 import java.util.ArrayList;
 
-import edu.byu.cs.tweeter.model.utils.StringParser;
+import edu.byu.cs.tweeter.util.StringParser;
 
 public class UrlMentions {
     private String[] urls;
