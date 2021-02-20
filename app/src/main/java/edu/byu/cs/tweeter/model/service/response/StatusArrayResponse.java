@@ -3,7 +3,7 @@ package edu.byu.cs.tweeter.model.service.response;
 import java.util.List;
 import java.util.Objects;
 
-import edu.byu.cs.tweeter.model.domain.status_members.Status;
+import edu.byu.cs.tweeter.model.domain.Status;
 
 public class StatusArrayResponse extends PagedResponse implements IListResponse{
 
