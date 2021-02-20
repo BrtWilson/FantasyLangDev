@@ -1,4 +1,4 @@
-package edu.byu.cs.tweeter.util;
+package edu.byu.cs.tweeter.model.utils;
 
 public class StringParser {
     public static String[] parseBySpaces(String str) {

@@ -5,7 +5,7 @@ import java.util.Objects;
 
 import edu.byu.cs.tweeter.model.domain.status_members.Status;
 
-public class StatusArrayResponse extends PagedResponse {
+public class StatusArrayResponse extends PagedResponse implements IListResponse{
 
     private List<Status> statuses;
 
@@ -51,9 +51,7 @@ public class StatusArrayResponse extends PagedResponse {
 
         StatusArrayResponse that = (StatusArrayResponse) param;
 
-        return (Objects.equals(statuses, that.statuses) &&
-                Objects.equals(this.getMessage(), that.getMessage()) &&
-                this.isSuccess() == that.isSuccess());
+        return (Objects.equals(statuses, that.statuses));
     }
 
     @Override

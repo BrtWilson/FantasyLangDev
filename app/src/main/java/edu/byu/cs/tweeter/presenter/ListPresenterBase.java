@@ -1,22 +1,33 @@
 package edu.byu.cs.tweeter.presenter;
 
-import android.app.DownloadManager;
-
 import java.io.IOException;
 
-import edu.byu.cs.tweeter.model.service.FollowingService;
-import edu.byu.cs.tweeter.model.service.request.FollowingRequest;
+import edu.byu.cs.tweeter.model.service.IListService;
+import edu.byu.cs.tweeter.model.service.request.IListRequest;
 import edu.byu.cs.tweeter.model.service.request.ListRequest;
-import edu.byu.cs.tweeter.model.service.response.FollowingResponse;
-import edu.byu.cs.tweeter.model.service.response.Response;
+import edu.byu.cs.tweeter.model.service.response.IListResponse;
 
-public interface ListPresenter {
+/**
+ * The presenter for the "following" functionality of the application.
+ */
+abstract class ListPresenterBase {
+
+    private final View view;
 
     /**
      * The interface by which this presenter communicates with it's view.
      */
     public interface View {
         // If needed, specify methods here that will be called on the view in response to model updates
+    }
+
+    /**
+     * Creates an instance.
+     *
+     * @param view the view for which this class is the presenter.
+     */
+    public ListPresenterBase(View view) {
+        this.view = view;
     }
 
     /**
@@ -27,14 +38,17 @@ public interface ListPresenter {
      * @param request contains the data required to fulfill the request.
      * @return the followees.
      */
-    public Response getTypeList(ListRequest request) throws IOException;
+    public IListResponse getDataList(IListRequest request) throws IOException {
+        IListService listService = getListService();
+        return listService.getList(request);
+    }
 
     /**
-     * Returns an instance of {@link FollowingService}. Allows mocking of the FollowingService class
+     * Returns an instance of { ListService}. Allows mocking of the FollowingService class
      * for testing purposes. All usages of FollowingService should get their FollowingService
      * instance from this method to allow for mocking of the instance.
      *
      * @return the instance.
      */
-    Service getService();
+    abstract IListService getListService();
 }

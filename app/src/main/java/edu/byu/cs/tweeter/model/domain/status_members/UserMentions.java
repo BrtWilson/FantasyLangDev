@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import edu.byu.cs.tweeter.model.domain.User;
-import edu.byu.cs.tweeter.util.StringParser;
+import edu.byu.cs.tweeter.model.utils.StringParser;
 
 public class UserMentions {
     private final String mentionIndicator = "@";

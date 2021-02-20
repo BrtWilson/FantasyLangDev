@@ -1,6 +1,6 @@
 package edu.byu.cs.tweeter.model.service.request;
 
-public class ListRequest {
+abstract class ListRequest implements IListRequest{
     private final String userAlias;
     private final int limit;
     private final String lastDataKey;
