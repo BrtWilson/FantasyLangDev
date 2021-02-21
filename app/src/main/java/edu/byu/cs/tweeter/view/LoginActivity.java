@@ -53,6 +53,14 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
                 loginTask.execute(loginRequest);
             }
         });
+
+        Button registerButton = findViewById(R.id.RegisterButton);
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setContentView(R.layout.activity_register);
+            }
+        });
     }
 
     /**

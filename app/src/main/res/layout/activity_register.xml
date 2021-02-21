@@ -8,20 +8,40 @@
     android:orientation="vertical"
     android:paddingLeft="30dp"
     android:paddingRight="30dp"
-    tools:context=".view.LoginActivity">
+    tools:context=".view.RegisterActivity">
 
     <!--User Name-->
     <EditText
-        android:id="@+id/login_username"
+        android:id="@+id/register_firstname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp"
         android:layout_margin="3dp"
+        android:hint="First name"/>
+
+    <!--Password-->
+    <EditText
+        android:id="@+id/register_lastname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_margin="3dp"
+        android:inputType="textPassword"
+        android:hint="Last name"/>
+
+    <!--Password-->
+    <EditText
+        android:id="@+id/register_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_margin="3dp"
+        android:inputType="textPassword"
         android:hint="\@Username"/>
 
     <!--Password-->
     <EditText
-        android:id="@+id/login_password"
+        android:id="@+id/register_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp"
@@ -30,17 +50,9 @@
         android:hint="Password"/>
 
     <Button
-        android:id="@+id/LoginButton"
+        android:id="@+id/RegisterConfirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login"
-        android:layout_centerInParent="true"/>
-
-    <Button
-        android:id="@+id/RegisterButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/Widget.AppCompat.Button.Borderless.Colored"
-        android:text="Register"
+        android:text="Confirm"
         android:layout_centerInParent="true"/>
 </LinearLayout>
