@@ -6,12 +6,9 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import edu.byu.cs.tweeter.R;
@@ -27,8 +24,8 @@ public class RegisterActivity extends AppCompatActivity implements RegisterPrese
 
     private RegisterPresenter presenter;
     private Toast registerToast;
-    private EditText firstname;
-    private EditText lastname;
+    private EditText firstName;
+    private EditText lastName;
     private EditText username;
     private EditText password;
     private EditText url;
@@ -41,8 +38,8 @@ public class RegisterActivity extends AppCompatActivity implements RegisterPrese
 
         presenter = new RegisterPresenter(this);
 
-        firstname = (EditText) findViewById(R.id.register_firstname);
-        lastname = (EditText) findViewById(R.id.register_lastname);
+        firstName = (EditText) findViewById(R.id.register_firstname);
+        lastName = (EditText) findViewById(R.id.register_lastname);
         username = (EditText) findViewById(R.id.register_username);
         password = (EditText) findViewById(R.id.register_password);
         url = (EditText) findViewById(R.id.register_url);
@@ -54,8 +51,8 @@ public class RegisterActivity extends AppCompatActivity implements RegisterPrese
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                registerConfirm.setEnabled(!TextUtils.isEmpty(firstname.getText().toString()) &&
-                        !TextUtils.isEmpty(lastname.getText().toString()) &&
+                registerConfirm.setEnabled(!TextUtils.isEmpty(firstName.getText().toString()) &&
+                        !TextUtils.isEmpty(lastName.getText().toString()) &&
                         !TextUtils.isEmpty(username.getText().toString()) &&
                         !TextUtils.isEmpty(password.getText().toString()) &&
                         !TextUtils.isEmpty(url.getText().toString()));
@@ -64,8 +61,8 @@ public class RegisterActivity extends AppCompatActivity implements RegisterPrese
             public void afterTextChanged(Editable s) {}
         };
 
-        firstname.addTextChangedListener(watcher);
-        lastname.addTextChangedListener(watcher);
+        firstName.addTextChangedListener(watcher);
+        lastName.addTextChangedListener(watcher);
         username.addTextChangedListener(watcher);
         password.addTextChangedListener(watcher);
         url.addTextChangedListener(watcher);
@@ -77,8 +74,8 @@ public class RegisterActivity extends AppCompatActivity implements RegisterPrese
                 registerToast.show();
 
                 RegisterRequest registerRequest = new RegisterRequest(
-                        firstname.getText().toString(),
-                        lastname.getText().toString(),
+                        firstName.getText().toString(),
+                        lastName.getText().toString(),
                         username.getText().toString(),
                         password.getText().toString(),
                         url.getText().toString());

@@ -24,7 +24,6 @@
         android:layout_height="wrap_content"
         android:padding="5dp"
         android:layout_margin="3dp"
-        android:inputType="textPassword"
         android:hint="Last name"/>
 
     <EditText
@@ -33,7 +32,6 @@
         android:layout_height="wrap_content"
         android:padding="5dp"
         android:layout_margin="3dp"
-        android:inputType="textPassword"
         android:hint="\@Username"/>
 
     <EditText
@@ -51,7 +49,6 @@
         android:layout_height="wrap_content"
         android:padding="5dp"
         android:layout_margin="3dp"
-        android:inputType="textPassword"
         android:hint="Image URL"/>
 
     <Button

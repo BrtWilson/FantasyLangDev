@@ -60,12 +60,12 @@ public class ServerFacade {
     }
 
     public RegisterResponse register(RegisterRequest request) {
-        String firstname = request.getFirstName();
-        String lastname = request.getLastName();
+        String firstName = request.getFirstName();
+        String lastName = request.getLastName();
         String username = request.getUserName();
         String url = request.getImageURL();
 
-        User user = new User(firstname, lastname, username, url);
+        User user = new User(firstName, lastName, username, url);
         // FIXME: Remove this hardcoded user
 //        User user = new User("First", "Last", "Username", "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
         return new RegisterResponse(user, new AuthToken(), true);
