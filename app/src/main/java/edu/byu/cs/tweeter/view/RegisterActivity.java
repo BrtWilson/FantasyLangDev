@@ -2,11 +2,13 @@ package edu.byu.cs.tweeter.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import edu.byu.cs.tweeter.R;
+import edu.byu.cs.tweeter.model.service.request.RegisterRequest;
 import edu.byu.cs.tweeter.model.service.response.RegisterResponse;
 import edu.byu.cs.tweeter.presenter.RegisterPresenter;
 import edu.byu.cs.tweeter.view.asyncTasks.RegisterTask;
@@ -32,26 +34,33 @@ public class RegisterActivity extends AppCompatActivity implements RegisterPrese
             public void onClick(View view) {
                 registerToast = Toast.makeText(RegisterActivity.this, "Registering", Toast.LENGTH_LONG);
                 registerToast.show();
+
+                RegisterRequest registerRequest = new RegisterRequest("First", "Last", "username", "Password", "url");
+                RegisterTask registerTask = new RegisterTask(presenter, RegisterActivity.this);
+                registerTask.execute(registerRequest);
             }
         });
     }
 
     @Override
     public void registerSuccessful(RegisterResponse registerResponse) {
-        // TODO: registerSuccessful
         Intent intent = new Intent(this, MainActivity.class);
-        System.out.println("in register successful");
+
+        intent.putExtra(MainActivity.CURRENT_USER_KEY, registerResponse.getUser());
+        intent.putExtra(MainActivity.AUTH_TOKEN_KEY, registerResponse.getAuthToken());
+
+        registerToast.cancel();
+        startActivity(intent);
     }
 
     @Override
     public void registerUnsuccessful(RegisterResponse registerResponse) {
-        // TODO: registerUnsuccessful
-        System.out.println("in register unsuccessful");
+        Toast.makeText(this, "Failed to register. " + registerResponse.getMessage(), Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void handleException(Exception exception) {
-        // TODO: handleException
-        System.out.println("in register handleEcception");
+        Log.e(LOG_TAG, exception.getMessage(), exception);
+        Toast.makeText(this, "Failed to register because of exception: " + exception.getMessage(), Toast.LENGTH_LONG).show();
     }
 }

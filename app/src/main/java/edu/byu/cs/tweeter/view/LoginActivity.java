@@ -57,11 +57,8 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                setContentView(R.layout.activity_register);
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                System.out.println("before startActivity");
                 startActivity(intent);
-                System.out.println("after startActivity");
             }
         });
     }
