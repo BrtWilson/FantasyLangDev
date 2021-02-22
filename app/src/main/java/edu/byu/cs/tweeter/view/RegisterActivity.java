@@ -24,6 +24,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterPrese
 
     private RegisterPresenter presenter;
     private Toast registerToast;
+
     private EditText firstName;
     private EditText lastName;
     private EditText username;

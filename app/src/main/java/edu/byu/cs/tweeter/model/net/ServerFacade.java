@@ -53,7 +53,17 @@ public class ServerFacade {
      * @return the login response.
      */
     public LoginResponse login(LoginRequest request) {
-        // FIXME: Fix this hardcoded login
+        // TODO: Probably make ClientCommunicator? or HTTPConnection ??
+        // LoginResponse response = new LoginResponse(??);
+        // User user = response.getUser();
+        // String firstName = user.getFirstName();
+        // String lastName = user.getLastName();
+        // String url = user.getImageUrl();
+
+
+        // return response;
+
+        // FIXME: Fix this hardcoded login -> get data from fake DB
         User user = new User("Test", "User",
                 "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
         return new LoginResponse(user, new AuthToken());
@@ -66,7 +76,7 @@ public class ServerFacade {
         String url = request.getImageURL();
 
         User user = new User(firstName, lastName, username, url);
-        // FIXME: Remove this hardcoded user
+        // FIXME: Remove this hardcoded user input later
 //        User user = new User("First", "Last", "Username", "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
         return new RegisterResponse(user, new AuthToken(), true);
     }
