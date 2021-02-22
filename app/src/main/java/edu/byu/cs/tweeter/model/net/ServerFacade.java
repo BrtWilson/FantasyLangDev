@@ -60,7 +60,7 @@ public class ServerFacade {
 
     public RegisterResponse register(RegisterRequest request) {
         // TODO: Check if password needs to be saved
-        User user = new User("First", "Last", "Username", "URL");
+        User user = new User("First", "Last", "Username", "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
         return new RegisterResponse(user, new AuthToken(), true);
     }
 

@@ -35,7 +35,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterPrese
                 registerToast = Toast.makeText(RegisterActivity.this, "Registering", Toast.LENGTH_LONG);
                 registerToast.show();
 
-                RegisterRequest registerRequest = new RegisterRequest("First", "Last", "username", "Password", "url");
+                RegisterRequest registerRequest = new RegisterRequest("First", "Last", "username", "Password", "???");
                 RegisterTask registerTask = new RegisterTask(presenter, RegisterActivity.this);
                 registerTask.execute(registerRequest);
             }
