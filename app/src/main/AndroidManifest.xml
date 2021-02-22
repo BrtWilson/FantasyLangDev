@@ -21,6 +21,10 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".view.RegisterActivity"
+            android:label="Register">
+        </activity>
+        <activity
             android:name=".view.main.MainActivity"
             android:label="@string/title_activity_main">
         </activity>

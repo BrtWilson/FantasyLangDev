@@ -9,8 +9,10 @@ import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.model.service.request.FollowingRequest;
 import edu.byu.cs.tweeter.model.service.request.LoginRequest;
+import edu.byu.cs.tweeter.model.service.request.RegisterRequest;
 import edu.byu.cs.tweeter.model.service.response.FollowingResponse;
 import edu.byu.cs.tweeter.model.service.response.LoginResponse;
+import edu.byu.cs.tweeter.model.service.response.RegisterResponse;
 
 /**
  * Acts as a Facade to the Tweeter server. All network requests to the server should go through
@@ -51,9 +53,32 @@ public class ServerFacade {
      * @return the login response.
      */
     public LoginResponse login(LoginRequest request) {
+        // TODO: Probably make ClientCommunicator? or HTTPConnection ??
+        // LoginResponse response = new LoginResponse(??);
+        // User user = response.getUser();
+        // String firstName = user.getFirstName();
+        // String lastName = user.getLastName();
+        // String url = user.getImageUrl();
+
+
+        // return response;
+
+        // FIXME: Fix this hardcoded login -> get data from fake DB
         User user = new User("Test", "User",
                 "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
         return new LoginResponse(user, new AuthToken());
+    }
+
+    public RegisterResponse register(RegisterRequest request) {
+        String firstName = request.getFirstName();
+        String lastName = request.getLastName();
+        String username = request.getUserName();
+        String url = request.getImageURL();
+
+        User user = new User(firstName, lastName, username, url);
+        // FIXME: Remove this hardcoded user input later
+//        User user = new User("First", "Last", "Username", "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
+        return new RegisterResponse(user, new AuthToken(), true);
     }
 
     /**
