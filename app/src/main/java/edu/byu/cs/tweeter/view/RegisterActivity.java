@@ -2,9 +2,16 @@ package edu.byu.cs.tweeter.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import edu.byu.cs.tweeter.R;
@@ -20,6 +27,12 @@ public class RegisterActivity extends AppCompatActivity implements RegisterPrese
 
     private RegisterPresenter presenter;
     private Toast registerToast;
+    private EditText firstname;
+    private EditText lastname;
+    private EditText username;
+    private EditText password;
+    private EditText url;
+    private Button registerConfirm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,14 +41,47 @@ public class RegisterActivity extends AppCompatActivity implements RegisterPrese
 
         presenter = new RegisterPresenter(this);
 
-        Button registerConfirm = findViewById(R.id.RegisterConfirm);
+        firstname = (EditText) findViewById(R.id.register_firstname);
+        lastname = (EditText) findViewById(R.id.register_lastname);
+        username = (EditText) findViewById(R.id.register_username);
+        password = (EditText) findViewById(R.id.register_password);
+        url = (EditText) findViewById(R.id.register_url);
+        registerConfirm = findViewById(R.id.RegisterConfirm);
+
+
+        TextWatcher watcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                registerConfirm.setEnabled(!TextUtils.isEmpty(firstname.getText().toString()) &&
+                        !TextUtils.isEmpty(lastname.getText().toString()) &&
+                        !TextUtils.isEmpty(username.getText().toString()) &&
+                        !TextUtils.isEmpty(password.getText().toString()) &&
+                        !TextUtils.isEmpty(url.getText().toString()));
+            }
+            @Override
+            public void afterTextChanged(Editable s) {}
+        };
+
+        firstname.addTextChangedListener(watcher);
+        lastname.addTextChangedListener(watcher);
+        username.addTextChangedListener(watcher);
+        password.addTextChangedListener(watcher);
+        url.addTextChangedListener(watcher);
+
         registerConfirm.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 registerToast = Toast.makeText(RegisterActivity.this, "Registering", Toast.LENGTH_LONG);
                 registerToast.show();
 
-                RegisterRequest registerRequest = new RegisterRequest("First", "Last", "username", "Password", "???");
+                RegisterRequest registerRequest = new RegisterRequest(
+                        firstname.getText().toString(),
+                        lastname.getText().toString(),
+                        username.getText().toString(),
+                        password.getText().toString(),
+                        url.getText().toString());
                 RegisterTask registerTask = new RegisterTask(presenter, RegisterActivity.this);
                 registerTask.execute(registerRequest);
             }

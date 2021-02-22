@@ -53,14 +53,21 @@ public class ServerFacade {
      * @return the login response.
      */
     public LoginResponse login(LoginRequest request) {
+        // FIXME: Fix this hardcoded login
         User user = new User("Test", "User",
                 "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
         return new LoginResponse(user, new AuthToken());
     }
 
     public RegisterResponse register(RegisterRequest request) {
-        // TODO: Check if password needs to be saved
-        User user = new User("First", "Last", "Username", "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
+        String firstname = request.getFirstName();
+        String lastname = request.getLastName();
+        String username = request.getUserName();
+        String url = request.getImageURL();
+
+        User user = new User(firstname, lastname, username, url);
+        // FIXME: Remove this hardcoded user
+//        User user = new User("First", "Last", "Username", "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
         return new RegisterResponse(user, new AuthToken(), true);
     }
 
