@@ -1,27 +1,31 @@
 package edu.byu.cs.tweeter.model.service;
 
+import java.io.IOException;
+
+import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.model.net.ServerFacade;
 import edu.byu.cs.tweeter.model.service.request.RegisterRequest;
 import edu.byu.cs.tweeter.model.service.response.RegisterResponse;
+import edu.byu.cs.tweeter.util.ByteArrayUtils;
 
 public class RegisterService {
+    public RegisterResponse register(RegisterRequest request) throws IOException {
+        ServerFacade serverFacade = getSerferFacade();
+        RegisterResponse registerResponse = serverFacade.register(request);
 
-    private static RegisterService instance;
-    private final ServerFacade serverFacade;
-
-    public static RegisterService getInstance() {
-        if (instance == null) {
-            instance = new RegisterService();
+        if(registerResponse.isSuccess()) {
+            // TODO: check load Image?
+            loadImage(registerResponse.getUser());
+            System.out.println("Register Service: Register is success.");
         }
 
-        return instance;
+        return registerResponse;
     }
 
-    public RegisterService() {
-        serverFacade = new ServerFacade();
+    private void loadImage(User user) throws IOException {
+        byte [] bytes = ByteArrayUtils.bytesFromUrl(user.getImageUrl());
+        user.setImageBytes(bytes);
     }
 
-    public RegisterResponse register(RegisterRequest request) {
-        return serverFacade.register(request);
-    }
+    ServerFacade getSerferFacade() { return new ServerFacade();}
 }
