@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
                 loginInToast = Toast.makeText(LoginActivity.this, "Logging In", Toast.LENGTH_LONG);
                 loginInToast.show();
 
-                // It doesn't matter what values we put here. We will be logged in with a hard-coded dummy user.
+                // FIXME: Login should be done with actual data
                 LoginRequest loginRequest = new LoginRequest("dummyUserName", "dummyPassword");
                 LoginTask loginTask = new LoginTask(presenter, LoginActivity.this);
                 loginTask.execute(loginRequest);
