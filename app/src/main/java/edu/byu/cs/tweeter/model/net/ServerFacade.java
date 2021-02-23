@@ -115,14 +115,19 @@ public class ServerFacade {
     }
 
     public RegisterResponse register(RegisterRequest request) {
+        setUpUsers();
+
         String firstName = request.getFirstName();
         String lastName = request.getLastName();
-        String username = request.getUserName();
+        String alias = request.getUserName();
+        String password = request.getPassword();
         String url = request.getImageURL();
 
-        User user = new User(firstName, lastName, username, url);
-        // FIXME: Remove this hardcoded user input later
-//       User user = new User("James", "Bond", "jb007", "https://lh3.googleusercontent.com/proxy/3MvAC543S2lfokx5Ph3TmgCfYUqQCggmwh2r7H5RW9HPLlubR0DpbJS8IdZ6cB7nWGGwkn-bkrOthO8IOjzNInBkoQWpBhSL");
+        User user = new User(firstName, lastName, alias, url);
+        user.setPassword(password);
+
+        usersMap.put(user.getAlias(), user);
+        loggedInUser = user;
         return new RegisterResponse(user, new AuthToken(), true);
     }
 
