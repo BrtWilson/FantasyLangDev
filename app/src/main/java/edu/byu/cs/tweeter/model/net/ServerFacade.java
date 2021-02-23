@@ -83,7 +83,12 @@ public class ServerFacade {
         }
         User testUser1 = new User("test", "user", "https://static.wikia.nocookie.net/avatar/images/4/4b/Zuko.png/revision/latest?cb=20180630112142");
         testUser1.setPassword("password");
+
+        User testUser2 = new User("new", "user", "https://static.wikia.nocookie.net/avatar/images/4/4b/Zuko.png/revision/latest?cb=20180630112142");
+        testUser2.setPassword("password");
+
         usersMap.put(testUser1.getAlias(), testUser1);
+        usersMap.put(testUser2.getAlias(), testUser2);
     }
     /**
      * Performs a login and if successful, returns the logged in user and an auth token. The current
@@ -107,11 +112,6 @@ public class ServerFacade {
             return new LoginResponse("Username does not exist.");
         }
         return new LoginResponse("User does not exist.");
-
-        // FIXME: Fix this hardcoded login -> get data from fake DB
-//        User user = new User("James", "Bond",
-//                "https://cdn.costumewall.com/wp-content/uploads/2018/09/young-jonathan-joestar.jpg");
-//        return new LoginResponse(user, new AuthToken());
     }
 
     public RegisterResponse register(RegisterRequest request) {
