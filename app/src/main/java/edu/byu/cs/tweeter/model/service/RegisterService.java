@@ -9,8 +9,12 @@ import edu.byu.cs.tweeter.util.ByteArrayUtils;
 
 public class RegisterService {
 
+    public static ServerFacade serverFacade;
+
     public RegisterResponse register(RegisterRequest request) throws IOException {
-        ServerFacade serverFacade = getServerFacade();
+        if(serverFacade == null) {
+            serverFacade = new ServerFacade();
+        }
         RegisterResponse registerResponse = serverFacade.register(request);
 
         if(registerResponse.isSuccess()) {
@@ -26,5 +30,5 @@ public class RegisterService {
         user.setImageBytes(bytes);
     }
 
-    ServerFacade getServerFacade() { return new ServerFacade();}
+    public static ServerFacade getServerFacade() { return serverFacade;}
 }

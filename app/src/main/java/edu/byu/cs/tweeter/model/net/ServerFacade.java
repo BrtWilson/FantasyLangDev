@@ -136,10 +136,7 @@ public class ServerFacade {
     }
 
     public LogoutResponse logout(LogoutRequest request) {
-        System.out.println("* * * * ServerFacade / logout * * * *");
-        System.out.println("request: " + request.getUser().getAlias());
-        System.out.println("loggedIn: " + loggedInUser.getAlias());
-//        if (usersMap != null) {
+        if (usersMap != null) {
             if (request.getUser().getAlias().equals(loggedInUser.getAlias())) {
                 loggedInUser = null;
                 return new LogoutResponse(true, "Logout successful.");
@@ -147,9 +144,9 @@ public class ServerFacade {
             else {
                 return new LogoutResponse(false, "Logout failed. Logged in user does not match.");
             }
-//        }
+        }
 
-//        return new LogoutResponse(false, "Logout failed. No user logged in.");
+        return new LogoutResponse(false, "Logout failed. No user logged in.");
     }
 
     /**

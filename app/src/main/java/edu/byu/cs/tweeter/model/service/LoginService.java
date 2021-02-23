@@ -38,7 +38,11 @@ public class LoginService {
     }
 
     public LogoutResponse logout(LogoutRequest request) throws IOException {
+        if(serverFacade == null) {
+            serverFacade = RegisterService.getServerFacade();
+        }
         LogoutResponse logoutResponse = serverFacade.logout(request);
+        System.out.println("logoutResponse: " + logoutResponse.getMessage());
         return logoutResponse;
     }
 
