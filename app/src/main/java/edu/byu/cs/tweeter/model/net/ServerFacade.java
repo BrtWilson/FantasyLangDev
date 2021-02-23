@@ -11,10 +11,12 @@ import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.model.service.request.FollowingRequest;
 import edu.byu.cs.tweeter.model.service.request.FollowerRequest;
 import edu.byu.cs.tweeter.model.service.request.LoginRequest;
+import edu.byu.cs.tweeter.model.service.request.LogoutRequest;
 import edu.byu.cs.tweeter.model.service.request.RegisterRequest;
 import edu.byu.cs.tweeter.model.service.response.FollowingResponse;
 import edu.byu.cs.tweeter.model.service.response.FollowerResponse;
 import edu.byu.cs.tweeter.model.service.response.LoginResponse;
+import edu.byu.cs.tweeter.model.service.response.LogoutResponse;
 import edu.byu.cs.tweeter.model.service.response.RegisterResponse;
 
 /**
@@ -129,6 +131,18 @@ public class ServerFacade {
         usersMap.put(user.getAlias(), user);
         loggedInUser = user;
         return new RegisterResponse(user, new AuthToken(), true);
+    }
+
+    public LogoutResponse logout(LogoutRequest request) {
+        if (usersMap != null) {
+            if (request.getUser() == loggedInUser) {
+                loggedInUser = null;
+                return new LogoutResponse(true, "Logout successful.");
+            }
+            return new LogoutResponse(false, "Logout failed. Logged in user does not match.");
+        }
+
+        return new LogoutResponse(false, "Logout failed. No user logged in.");
     }
 
     /**

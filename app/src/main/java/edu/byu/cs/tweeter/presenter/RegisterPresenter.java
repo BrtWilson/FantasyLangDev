@@ -10,9 +10,7 @@ public class RegisterPresenter {
     private final View view;
 
     // The interface by which this presenter communicates with its view
-    public interface View {
-
-    }
+    public interface View { }
 
     public RegisterPresenter(View view) { this.view = view; }
 

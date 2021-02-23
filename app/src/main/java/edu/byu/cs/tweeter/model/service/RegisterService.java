@@ -16,7 +16,7 @@ public class RegisterService {
         if(registerResponse.isSuccess()) {
             // TODO: check load Image?
             loadImage(registerResponse.getUser());
-            System.out.println("Register Service: Register is success.");
+            System.out.println("Register Service: Register is successful.");
         }
 
         return registerResponse;

@@ -1,4 +1,4 @@
-package edu.byu.cs.tweeter.view;
+package edu.byu.cs.tweeter.view.main;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,7 +16,6 @@ import edu.byu.cs.tweeter.model.service.request.RegisterRequest;
 import edu.byu.cs.tweeter.model.service.response.RegisterResponse;
 import edu.byu.cs.tweeter.presenter.RegisterPresenter;
 import edu.byu.cs.tweeter.view.asyncTasks.RegisterTask;
-import edu.byu.cs.tweeter.view.main.MainActivity;
 
 public class RegisterActivity extends AppCompatActivity implements RegisterPresenter.View, RegisterTask.Observer {
 
