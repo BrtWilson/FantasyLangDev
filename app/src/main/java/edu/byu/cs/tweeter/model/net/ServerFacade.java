@@ -94,7 +94,7 @@ public class ServerFacade {
 
         // FIXME: Fix this hardcoded login -> get data from fake DB
         User user = new User("James", "Bond",
-                "https://lh3.googleusercontent.com/proxy/3MvAC543S2lfokx5Ph3TmgCfYUqQCggmwh2r7H5RW9HPLlubR0DpbJS8IdZ6cB7nWGGwkn-bkrOthO8IOjzNInBkoQWpBhSL");
+                "https://cdn.costumewall.com/wp-content/uploads/2018/09/young-jonathan-joestar.jpg");
         return new LoginResponse(user, new AuthToken());
     }
 
@@ -193,7 +193,7 @@ public class ServerFacade {
                 user19, user20);
     }
 
-    /**NEW CODE**/
+    /* NEW CODE */
 
     /**
      * Returns the users that the user specified in the request is following. Uses information in

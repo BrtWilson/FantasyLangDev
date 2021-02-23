@@ -21,7 +21,6 @@ import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.presenter.RegisterPresenter;
 import edu.byu.cs.tweeter.presenter.UserPagePresenter;
-import edu.byu.cs.tweeter.view.main.following.FollowerFragment;
 import edu.byu.cs.tweeter.view.util.ImageUtils;
 
 /**

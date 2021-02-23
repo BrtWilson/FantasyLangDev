@@ -121,8 +121,7 @@ public class FollowerFragment extends Fragment implements FollowerPresenter.View
                     @Override
                     public void onClick(View view) {
 
-                        //Toast.makeText(getContext(), "You selected '" + userName.getText() + "'.", Toast.LENGTH_SHORT).show();
-                        //Find user by userName? Is that a server thing?
+                       // Toast.makeText(getContext(), "You selected '" + userName.getText() + "'.", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getActivity(), UserPageActivity.class);
                         intent.putExtra(UserPageActivity.VIEWING_USER_KEY, viewingUser);
                         intent.putExtra(UserPageActivity.CURRENT_USER_KEY, user);

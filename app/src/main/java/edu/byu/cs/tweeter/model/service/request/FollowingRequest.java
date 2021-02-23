@@ -2,36 +2,36 @@ package edu.byu.cs.tweeter.model.service.request;
 
 /**
  * Contains all the information needed to make a request to have the server return the next page of
- * followees for a specified follower.
+ * followees for a specified user.
  */
 public class FollowingRequest {
 
-    private final String followerAlias;
+    private final String userAlias;
     private final int limit;
     private final String lastFolloweeAlias;
 
     /**
      * Creates an instance.
      *
-     * @param followerAlias the alias of the user whose followees are to be returned.
+     * @param userAlias the alias of the user whose followees are to be returned.
      * @param limit the maximum number of followees to return.
      * @param lastFolloweeAlias the alias of the last followee that was returned in the previous request (null if
      *                     there was no previous request or if no followees were returned in the
      *                     previous request).
      */
-    public FollowingRequest(String followerAlias, int limit, String lastFolloweeAlias) {
-        this.followerAlias = followerAlias;
+    public FollowingRequest(String userAlias, int limit, String lastFolloweeAlias) {
+        this.userAlias = userAlias;
         this.limit = limit;
         this.lastFolloweeAlias = lastFolloweeAlias;
     }
 
     /**
-     * Returns the follower whose followees are to be returned by this request.
+     * Returns the user whose followees are to be returned by this request.
      *
-     * @return the follower.
+     * @return the user.
      */
     public String getFollowingAlias() {
-        return followerAlias;
+        return userAlias;
     }
 
     /**
