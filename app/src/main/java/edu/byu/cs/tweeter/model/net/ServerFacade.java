@@ -137,7 +137,7 @@ public class ServerFacade {
     }
 
     public LogoutResponse logout(LogoutRequest request) {
-        System.out.println("* * * Logout request * * *");
+        System.out.println("- - - - - 4  ServerFacade / logout - - - - -");
         System.out.println("Request: " + request.getUser().getAlias());
         if (usersMap == null) {
             usersMap = new HashMap<>();

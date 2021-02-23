@@ -38,11 +38,8 @@ public class LoginService {
     }
 
     public LogoutResponse logout(LogoutRequest request) throws IOException {
+        System.out.println("- - - - - 3 Login Service / logout - - - - -");
         LogoutResponse logoutResponse = serverFacade.logout(request);
-
-        if(logoutResponse.isSuccess()) {
-            System.out.println("Logout Service: Logout is successful.");
-        }
 
         return logoutResponse;
     }

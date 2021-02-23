@@ -29,12 +29,18 @@ public class LogoutTask extends AsyncTask<LogoutRequest, Void, LogoutResponse> {
 
     @Override
     protected LogoutResponse doInBackground(LogoutRequest... logoutRequests) {
+        // FIXME: it has NullPointerException
         LogoutResponse logoutResponse = null;
         try {
+            System.out.println("- - - - - 1 LoginTask / doInBackground - - - - -");
             logoutResponse = presenter.logout(logoutRequests[0]);
+            // TODO: remove print
             System.out.println(" * * * * * LogoutTask - doInBackground - logoutResponse:" + logoutResponse.getMessage());
             if(logoutResponse.isSuccess()) {
                 System.out.println("Logout successful");
+            }
+            else {
+                logoutResponse = new LogoutResponse(false, "Logout failed in LogoutTask - doInBackground.");
             }
         } catch (IOException ex) {
             exception = ex;

@@ -42,7 +42,7 @@ public class LoginPresenter {
     }
 
     public LogoutResponse logout(LogoutRequest logoutRequest) throws IOException {
-        System.out.println("* * * * LoginPresenter,logout, logoutRequest.getUser.getAlias: " + logoutRequest.getUser().getAlias());
+        System.out.println("- - - - - 2 LoginPresenter / logout - - - - -");
         return loginService.logout(logoutRequest);
     }
 }
