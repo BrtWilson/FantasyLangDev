@@ -15,6 +15,15 @@ import edu.byu.cs.tweeter.util.ByteArrayUtils;
 public class LoginService {
 
     private static ServerFacade serverFacade;
+    private static LoginService instance;
+
+    public static LoginService getInstance() {
+        if(instance == null) {
+            instance = new LoginService();
+        }
+
+        return instance;
+    }
 
     public LoginResponse login(LoginRequest request) throws IOException {
         serverFacade = getServerFacade();
@@ -38,9 +47,7 @@ public class LoginService {
     }
 
     public LogoutResponse logout(LogoutRequest request) throws IOException {
-        System.out.println("- - - - - 3 Login Service / logout - - - - -");
         LogoutResponse logoutResponse = serverFacade.logout(request);
-
         return logoutResponse;
     }
 

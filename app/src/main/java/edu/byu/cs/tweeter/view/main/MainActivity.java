@@ -120,8 +120,6 @@ public class MainActivity extends AppCompatActivity implements LoginPresenter.Vi
 
     @Override
     public void logoutUnsuccessful(LogoutResponse logoutResponse) {
-        // TODO: Remove this line
-        System.out.println(logoutResponse.getMessage());
         logoutToast.makeText(this, "Failed to logout. " + logoutResponse.getMessage(), Toast.LENGTH_LONG);
     }
 

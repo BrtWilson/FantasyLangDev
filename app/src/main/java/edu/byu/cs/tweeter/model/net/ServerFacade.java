@@ -137,19 +137,14 @@ public class ServerFacade {
     }
 
     public LogoutResponse logout(LogoutRequest request) {
-        System.out.println("- - - - - 4  ServerFacade / logout - - - - -");
-        System.out.println("Request: " + request.getUser().getAlias());
-        if (usersMap == null) {
-            usersMap = new HashMap<>();
-        }
-        System.out.println("Usersmap size: " + usersMap.size());
-
         if (usersMap != null) {
-            if (request.getUser() == loggedInUser) {
+            if (request.getUser().getAlias().equals(loggedInUser.getAlias())) {
                 loggedInUser = null;
                 return new LogoutResponse(true, "Logout successful.");
             }
-            return new LogoutResponse(false, "Logout failed. Logged in user does not match.");
+            else {
+                return new LogoutResponse(false, "Logout failed. Logged in user does not match.");
+            }
         }
 
         return new LogoutResponse(false, "Logout failed. No user logged in.");

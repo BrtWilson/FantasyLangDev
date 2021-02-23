@@ -37,12 +37,12 @@ public class LoginPresenter {
      * @param loginRequest the request.
      */
     public LoginResponse login(LoginRequest loginRequest) throws IOException {
-        loginService = new LoginService();
+        loginService = LoginService.getInstance();
         return loginService.login(loginRequest);
     }
 
     public LogoutResponse logout(LogoutRequest logoutRequest) throws IOException {
-        System.out.println("- - - - - 2 LoginPresenter / logout - - - - -");
+        loginService = LoginService.getInstance();
         return loginService.logout(logoutRequest);
     }
 }
