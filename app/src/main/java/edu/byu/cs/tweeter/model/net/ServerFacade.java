@@ -2,12 +2,14 @@ package edu.byu.cs.tweeter.model.net;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import edu.byu.cs.tweeter.BuildConfig;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
+import edu.byu.cs.tweeter.model.service.NewStatusNotifier_Subject;
 import edu.byu.cs.tweeter.model.service.request.FollowingRequest;
 import edu.byu.cs.tweeter.model.service.request.LoginRequest;
 import edu.byu.cs.tweeter.model.service.request.NewStatusRequest;
@@ -15,12 +17,15 @@ import edu.byu.cs.tweeter.model.service.request.StatusArrayRequest;
 import edu.byu.cs.tweeter.model.service.response.FollowingResponse;
 import edu.byu.cs.tweeter.model.service.response.LoginResponse;
 import edu.byu.cs.tweeter.model.service.response.StatusArrayResponse;
+import edu.byu.cs.tweeter.presenter.IStatuses_Observer;
+import edu.byu.cs.tweeter.presenter.ListPresenterBase;
 
 /**
  * Acts as a Facade to the Tweeter server. All network requests to the server should go through
  * this class.
  */
-public class ServerFacade {
+public class ServerFacade extends NewStatusNotifier_Subject {
+
     // This is the hard coded followee data returned by the 'getFollowees()' method
     private static final String MALE_IMAGE_URL = "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png";
     private static final String FEMALE_IMAGE_URL = "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/daisy_duck.png";
@@ -182,13 +187,14 @@ public class ServerFacade {
     }
 
 
-    public void pushNewStatus(NewStatusRequest request) {
+    public boolean pushNewStatus(NewStatusRequest request) {
         //Pretend to save Status
-
-        return; // Todo: **Should update all status observers; we will need to figure observers properly to do this
+ // Todo: **Should update all status observers; we will need to figure observers properly to do this
+        updateObservers();
+        return true;
     }
 
-    public StatusArrayResponse getStatusArray(StatusArrayRequest request) {
+    public StatusArrayResponse getStatusArray(StatusArrayRequest request, IStatuses_Observer statuses_observer) {
 
         // Used in place of assert statements because Android does not support them
         if(BuildConfig.DEBUG) {
@@ -200,6 +206,8 @@ public class ServerFacade {
                 throw new AssertionError();
             }
         }
+
+        register(statuses_observer);
 
         List<Status> allStatuses = getDummyStatuses();
         if (request.getFeedInstead()) {
@@ -252,5 +260,20 @@ public class ServerFacade {
     List<Status> getDummyFeed() {
         return Arrays.asList(status1b, status2b, status3b, status4b, status5b, status6b, status7b, status8b,
                 status9b, status10b, status11b, status12b, status13b, status14b, status15b);
+    }
+
+
+    //OBSERVER SETUP
+    //STATUSES OBSERVERS
+    List<IStatuses_Observer> statusObservers = new LinkedList<>();
+
+    public void register(IStatuses_Observer observer) {
+        statusObservers.add(observer);
+    }
+
+    public void updateObservers() {
+        for (IStatuses_Observer o : statusObservers){
+            o.Update();
+        }
     }
 }

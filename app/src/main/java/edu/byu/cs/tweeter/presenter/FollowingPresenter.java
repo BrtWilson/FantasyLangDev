@@ -3,7 +3,6 @@ package edu.byu.cs.tweeter.presenter;
 import java.io.IOException;
 
 import edu.byu.cs.tweeter.model.service.FollowingService;
-import edu.byu.cs.tweeter.model.service.IListService;
 import edu.byu.cs.tweeter.model.service.request.FollowingRequest;
 import edu.byu.cs.tweeter.model.service.response.FollowingResponse;
 
@@ -19,6 +18,7 @@ public class FollowingPresenter {
      */
     public interface View {
         // If needed, specify methods here that will be called on the view in response to model updates
+
     }
 
     /**

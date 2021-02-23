@@ -5,18 +5,17 @@ import java.io.IOException;
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.net.ServerFacade;
-import edu.byu.cs.tweeter.model.service.request.FollowingRequest;
 import edu.byu.cs.tweeter.model.service.request.IListRequest;
 import edu.byu.cs.tweeter.model.service.request.StatusArrayRequest;
-import edu.byu.cs.tweeter.model.service.response.FollowingResponse;
 import edu.byu.cs.tweeter.model.service.response.IListResponse;
 import edu.byu.cs.tweeter.model.service.response.StatusArrayResponse;
+import edu.byu.cs.tweeter.presenter.IStatuses_Observer;
 import edu.byu.cs.tweeter.util.ByteArrayUtils;
 
 /**
  * Contains the business logic for getting the users a user is following.
  */
-public class StatusArrayService /*implements IListService*/{
+public class StatusArrayServiceStatus implements IStatusListService {
 
     /**
      * Returns the users that the user specified in the request is following. Uses information in
@@ -27,25 +26,30 @@ public class StatusArrayService /*implements IListService*/{
      * @param request contains the data required to fulfill the request.
      * @return the followees.
      */
-    public StatusArrayResponse getStatusArray(IListRequest request) throws IOException {
+    public StatusArrayResponse requestStatusArray(IListRequest request, IStatuses_Observer statuses_observer) {
         StatusArrayResponse response = new StatusArrayResponse("Statuses missing");
-        if (request.getClass() != StatusArrayRequest.class) {
-            return response;
-        }
-        StatusArrayRequest req = (StatusArrayRequest) request;
-        response = getServerFacade().getStatusArray(req);
+        try {
+            if (request.getClass() != StatusArrayRequest.class) {
+                return response;
+            }
+            StatusArrayRequest req = (StatusArrayRequest) request;
+            response = getServerFacade().getStatusArray(req, statuses_observer);
 
-        if(response.isSuccess()) {
-            loadImages(response);
+            if (response.isSuccess()) {
+                loadImages(response);
+            }
+        } catch (IOException e) {
+            response = new StatusArrayResponse("Statuses missing error");
+            return response;
         }
 
         return response;
     }
 
-    /*@Override
-    public IListResponse getList(IListRequest listRequest) {
-        return getStatusArray(listRequest);
-    }*/
+    @Override
+    public IListResponse getList(IListRequest listRequest, IStatuses_Observer statuses_observer) {
+        return requestStatusArray(listRequest, statuses_observer);
+    }
 
     /**
      * Loads the profile image data for each followee included in the response.
