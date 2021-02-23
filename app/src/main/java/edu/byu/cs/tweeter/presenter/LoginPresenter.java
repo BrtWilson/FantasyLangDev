@@ -3,7 +3,9 @@ package edu.byu.cs.tweeter.presenter;
 import java.io.IOException;
 import edu.byu.cs.tweeter.model.service.LoginService;
 import edu.byu.cs.tweeter.model.service.request.LoginRequest;
+import edu.byu.cs.tweeter.model.service.request.LogoutRequest;
 import edu.byu.cs.tweeter.model.service.response.LoginResponse;
+import edu.byu.cs.tweeter.model.service.response.LogoutResponse;
 
 /**
  * The presenter for the login functionality of the application.
@@ -11,6 +13,7 @@ import edu.byu.cs.tweeter.model.service.response.LoginResponse;
 public class LoginPresenter {
 
     private final View view;
+    private LoginService loginService;
 
     /**
      * The interface by which this presenter communicates with it's view.
@@ -34,7 +37,12 @@ public class LoginPresenter {
      * @param loginRequest the request.
      */
     public LoginResponse login(LoginRequest loginRequest) throws IOException {
-        LoginService loginService = new LoginService();
+        loginService = new LoginService();
         return loginService.login(loginRequest);
+    }
+
+    public LogoutResponse logout(LogoutRequest logoutRequest) throws IOException {
+        System.out.println("* * * * LoginPresenter,logout, logoutRequest.getUser.getAlias: " + logoutRequest.getUser().getAlias());
+        return loginService.logout(logoutRequest);
     }
 }

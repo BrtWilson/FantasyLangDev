@@ -15,7 +15,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,20 +24,20 @@ import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.model.service.request.LogoutRequest;
 import edu.byu.cs.tweeter.model.service.response.LogoutResponse;
-import edu.byu.cs.tweeter.presenter.MainPresenter;
+import edu.byu.cs.tweeter.presenter.LoginPresenter;
 import edu.byu.cs.tweeter.view.asyncTasks.LogoutTask;
 import edu.byu.cs.tweeter.view.util.ImageUtils;
 
 /**
  * The main activity for the application. Contains tabs for feed, story, following, and followers.
  */
-public class MainActivity extends AppCompatActivity implements MainPresenter.View, LogoutTask.Observer {
+public class MainActivity extends AppCompatActivity implements LoginPresenter.View, LogoutTask.Observer {
 
     public static final String LOG_TAG = "MainActivity";
     public static final String CURRENT_USER_KEY = "CurrentUser";
     public static final String AUTH_TOKEN_KEY = "AuthTokenKey";
 
-    private MainPresenter mainPresenter;
+    private LoginPresenter loginPresenter;
     private Toast logoutToast;
     private User user;
 
@@ -47,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mainPresenter = new MainPresenter(this);
+        loginPresenter = new LoginPresenter(this);
 
         user = (User) getIntent().getSerializableExtra(CURRENT_USER_KEY);
         if(user == null) {
@@ -102,8 +101,7 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
         int id = item.getItemId();
 
         if (id == R.id.logoutMenu) {
-            LogoutTask logoutTask = new LogoutTask(mainPresenter, MainActivity.this);
-            System.out.println("MainActivity, onOptionItemSelected - logoutRequestedUser: " + user.getAlias());
+            LogoutTask logoutTask = new LogoutTask(loginPresenter, MainActivity.this);
             LogoutRequest logoutRequest = new LogoutRequest(user);
             logoutTask.execute(logoutRequest);
 

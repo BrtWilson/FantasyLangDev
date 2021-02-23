@@ -14,11 +14,10 @@ import edu.byu.cs.tweeter.util.ByteArrayUtils;
  */
 public class LoginService {
 
-    private static LoginService instance;
     private static ServerFacade serverFacade;
 
     public LoginResponse login(LoginRequest request) throws IOException {
-        ServerFacade serverFacade = getServerFacade();
+        serverFacade = getServerFacade();
         LoginResponse loginResponse = serverFacade.login(request);
 
         if(loginResponse.isSuccess()) {

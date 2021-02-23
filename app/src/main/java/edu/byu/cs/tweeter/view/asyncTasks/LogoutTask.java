@@ -1,14 +1,15 @@
 package edu.byu.cs.tweeter.view.asyncTasks;
 
 import android.os.AsyncTask;
+
 import java.io.IOException;
 import edu.byu.cs.tweeter.model.service.request.LogoutRequest;
 import edu.byu.cs.tweeter.model.service.response.LogoutResponse;
-import edu.byu.cs.tweeter.presenter.MainPresenter;
+import edu.byu.cs.tweeter.presenter.LoginPresenter;
 
 public class LogoutTask extends AsyncTask<LogoutRequest, Void, LogoutResponse> {
 
-    private final MainPresenter presenter;
+    private final LoginPresenter presenter;
     private final Observer observer;
     private Exception exception;
 
@@ -18,7 +19,7 @@ public class LogoutTask extends AsyncTask<LogoutRequest, Void, LogoutResponse> {
         void handleException(Exception ex);
     }
 
-    public LogoutTask(MainPresenter presenter, Observer observer) {
+    public LogoutTask(LoginPresenter presenter, Observer observer) {
         if(observer == null) {
             throw new NullPointerException();
         }
@@ -28,24 +29,17 @@ public class LogoutTask extends AsyncTask<LogoutRequest, Void, LogoutResponse> {
 
     @Override
     protected LogoutResponse doInBackground(LogoutRequest... logoutRequests) {
-//        LogoutResponse logoutResponse = null;
-//        try {
-//            logoutResponse = presenter.logout(logoutRequests[0]);
-//            System.out.println(" * * * * * LogoutTask - doInBackground - logoutResponse:" + logoutResponse.getMessage());
-//            if(logoutResponse.isSuccess()) {
-//                // TODO: anything else?
-//                System.out.println("Logout successful");
-//            }
-//        } catch (IOException ex) {
-//            exception = ex;
-//        }
-//        return logoutResponse;
+        LogoutResponse logoutResponse = null;
         try {
-            return presenter.logout(logoutRequests[0]);
-        } catch (IOException e) {
-            e.printStackTrace();
+            logoutResponse = presenter.logout(logoutRequests[0]);
+            System.out.println(" * * * * * LogoutTask - doInBackground - logoutResponse:" + logoutResponse.getMessage());
+            if(logoutResponse.isSuccess()) {
+                System.out.println("Logout successful");
+            }
+        } catch (IOException ex) {
+            exception = ex;
         }
-        return null;
+        return logoutResponse;
     }
 
     @Override
