@@ -9,9 +9,6 @@ import edu.byu.cs.tweeter.model.service.response.LoginResponse;
 import edu.byu.cs.tweeter.model.service.response.LogoutResponse;
 import edu.byu.cs.tweeter.util.ByteArrayUtils;
 
-/**
- * Contains the business logic to support the login operation.
- */
 public class LoginService {
 
     private static ServerFacade serverFacade;
@@ -21,7 +18,6 @@ public class LoginService {
         if(instance == null) {
             instance = new LoginService();
         }
-
         return instance;
     }
 
@@ -36,11 +32,6 @@ public class LoginService {
         return loginResponse;
     }
 
-    /**
-     * Loads the profile image data for the user.
-     *
-     * @param user the user whose profile image data is to be loaded.
-     */
     private void loadImage(User user) throws IOException {
         byte [] bytes = ByteArrayUtils.bytesFromUrl(user.getImageUrl());
         user.setImageBytes(bytes);
@@ -51,13 +42,6 @@ public class LoginService {
         return logoutResponse;
     }
 
-    /**
-     * Returns an instance of {@link ServerFacade}. Allows mocking of the ServerFacade class for
-     * testing purposes. All usages of ServerFacade should get their ServerFacade instance from this
-     * method to allow for proper mocking.
-     *
-     * @return the instance.
-     */
     ServerFacade getServerFacade() {
         return new ServerFacade();
     }

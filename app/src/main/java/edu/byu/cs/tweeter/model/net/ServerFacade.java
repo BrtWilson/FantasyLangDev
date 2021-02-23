@@ -86,7 +86,7 @@ public class ServerFacade {
         User testUser1 = new User("test", "user", "https://static.wikia.nocookie.net/avatar/images/4/4b/Zuko.png/revision/latest?cb=20180630112142");
         testUser1.setPassword("password");
 
-        User testUser2 = new User("new", "user", "https://static.wikia.nocookie.net/avatar/images/4/4b/Zuko.png/revision/latest?cb=20180630112142");
+        User testUser2 = new User("test", "user2", "https://static.wikia.nocookie.net/avatar/images/4/4b/Zuko.png/revision/latest?cb=20180630112142");
         testUser2.setPassword("password");
 
         usersMap.put(testUser1.getAlias(), testUser1);
@@ -137,6 +137,9 @@ public class ServerFacade {
     }
 
     public LogoutResponse logout(LogoutRequest request) {
+        System.out.println("* * * * ServerFacade / logout * * * *");
+        System.out.println("request: " + request.getUser().getAlias());
+        System.out.println("loggedIn: " + loggedInUser.getAlias());
         if (usersMap != null) {
             if (request.getUser().getAlias().equals(loggedInUser.getAlias())) {
                 loggedInUser = null;
