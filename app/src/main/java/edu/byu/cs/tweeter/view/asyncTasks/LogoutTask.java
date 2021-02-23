@@ -28,17 +28,24 @@ public class LogoutTask extends AsyncTask<LogoutRequest, Void, LogoutResponse> {
 
     @Override
     protected LogoutResponse doInBackground(LogoutRequest... logoutRequests) {
-        LogoutResponse logoutResponse = null;
+//        LogoutResponse logoutResponse = null;
+//        try {
+//            logoutResponse = presenter.logout(logoutRequests[0]);
+//            System.out.println(" * * * * * LogoutTask - doInBackground - logoutResponse:" + logoutResponse.getMessage());
+//            if(logoutResponse.isSuccess()) {
+//                // TODO: anything else?
+//                System.out.println("Logout successful");
+//            }
+//        } catch (IOException ex) {
+//            exception = ex;
+//        }
+//        return logoutResponse;
         try {
-            logoutResponse = presenter.logout(logoutRequests[0]);
-            if(logoutResponse.isSuccess()) {
-                // TODO: anything else?
-                System.out.println("Logout successful");
-            }
-        } catch (IOException ex) {
-            exception = ex;
+            return presenter.logout(logoutRequests[0]);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return logoutResponse;
+        return null;
     }
 
     @Override

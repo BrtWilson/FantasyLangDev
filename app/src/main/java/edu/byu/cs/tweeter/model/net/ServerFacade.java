@@ -108,6 +108,8 @@ public class ServerFacade {
                 User user = usersMap.get(request.getUsername());
                 if(user.getPassword().equals(request.getPassword())) {
                     loggedInUser = user;
+                    System.out.println("* * * Login Successful * * *");
+                    System.out.println("Logged in user: " + loggedInUser.getAlias());
                     return new LoginResponse(loggedInUser, new AuthToken());
                 }
                 return new LoginResponse("Password does not match.");
@@ -135,6 +137,13 @@ public class ServerFacade {
     }
 
     public LogoutResponse logout(LogoutRequest request) {
+        System.out.println("* * * Logout request * * *");
+        System.out.println("Request: " + request.getUser().getAlias());
+        if (usersMap == null) {
+            usersMap = new HashMap<>();
+        }
+        System.out.println("Usersmap size: " + usersMap.size());
+
         if (usersMap != null) {
             if (request.getUser() == loggedInUser) {
                 loggedInUser = null;

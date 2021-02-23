@@ -102,8 +102,9 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
         int id = item.getItemId();
 
         if (id == R.id.logoutMenu) {
-            LogoutRequest logoutRequest = new LogoutRequest(user);
             LogoutTask logoutTask = new LogoutTask(mainPresenter, MainActivity.this);
+            System.out.println("MainActivity, onOptionItemSelected - logoutRequestedUser: " + user.getAlias());
+            LogoutRequest logoutRequest = new LogoutRequest(user);
             logoutTask.execute(logoutRequest);
 
             return true;
