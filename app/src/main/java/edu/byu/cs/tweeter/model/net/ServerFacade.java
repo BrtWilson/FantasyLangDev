@@ -102,6 +102,7 @@ public class ServerFacade {
      */
     public LoginResponse login(LoginRequest request) {
         setUpUsers();
+
         if(usersMap != null) {
             if(usersMap.containsKey(request.getUsername())) {
                 User user = usersMap.get(request.getUsername());

@@ -40,8 +40,7 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
 
     private MainPresenter mainPresenter;
     private Toast logoutToast;
-
-//    private MenuItem logoutButton;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +49,7 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
 
         mainPresenter = new MainPresenter(this);
 
-//        logoutButton = findViewById(R.id.logoutMenu);
-
-        User user = (User) getIntent().getSerializableExtra(CURRENT_USER_KEY);
+        user = (User) getIntent().getSerializableExtra(CURRENT_USER_KEY);
         if(user == null) {
             throw new RuntimeException("User not passed to activity");
         }
@@ -91,25 +88,6 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
 
         TextView followerCount = findViewById(R.id.followerCount);
         followerCount.setText(getString(R.string.followerCount, 27));
-
-//        logoutButton.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-//            @Override
-//            public boolean onMenuItemClick(MenuItem item) {
-//                logoutToast = Toast.makeText(MainActivity.this, "logging out", Toast.LENGTH_LONG);
-//                logoutToast.show();
-//
-//                LogoutRequest logoutRequest = new LogoutRequest(user);
-//                LogoutTask logoutTask = new LogoutTask(mainPresenter, MainActivity.this);
-//                logoutTask.execute(logoutRequest);
-//                toLoginScreen();
-//                return true;
-//            }
-//        });
-    }
-
-    private void toLoginScreen() {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
     }
 
     @Override
@@ -124,8 +102,10 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
         int id = item.getItemId();
 
         if (id == R.id.logoutMenu) {
-            Intent intent = new Intent(this, LoginActivity.class);
-            this.startActivity(intent);
+            LogoutRequest logoutRequest = new LogoutRequest(user);
+            LogoutTask logoutTask = new LogoutTask(mainPresenter, MainActivity.this);
+            logoutTask.execute(logoutRequest);
+
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -133,12 +113,17 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
 
     @Override
     public void logoutSuccessful(LogoutResponse logoutResponse) {
-
+        Intent intent = new Intent(this, LoginActivity.class);
+        logoutToast = Toast.makeText(MainActivity.this, "Logging Out", Toast.LENGTH_LONG);
+        logoutToast.show();
+        startActivity(intent);
     }
 
     @Override
     public void logoutUnsuccessful(LogoutResponse logoutResponse) {
-
+        // TODO: Remove this line
+        System.out.println(logoutResponse.getMessage());
+        logoutToast.makeText(this, "Failed to logout. " + logoutResponse.getMessage(), Toast.LENGTH_LONG);
     }
 
     @Override

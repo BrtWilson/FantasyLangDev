@@ -4,13 +4,17 @@ import java.io.IOException;
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.model.net.ServerFacade;
 import edu.byu.cs.tweeter.model.service.request.LoginRequest;
+import edu.byu.cs.tweeter.model.service.request.LogoutRequest;
 import edu.byu.cs.tweeter.model.service.response.LoginResponse;
+import edu.byu.cs.tweeter.model.service.response.LogoutResponse;
 import edu.byu.cs.tweeter.util.ByteArrayUtils;
 
 /**
  * Contains the business logic to support the login operation.
  */
 public class LoginService {
+
+    private static LoginService instance;
 
     public LoginResponse login(LoginRequest request) throws IOException {
         ServerFacade serverFacade = getServerFacade();
@@ -31,6 +35,17 @@ public class LoginService {
     private void loadImage(User user) throws IOException {
         byte [] bytes = ByteArrayUtils.bytesFromUrl(user.getImageUrl());
         user.setImageBytes(bytes);
+    }
+
+    public LogoutResponse logout(LogoutRequest request) throws IOException {
+        ServerFacade serverFacade = getServerFacade();
+        LogoutResponse logoutResponse = serverFacade.logout(request);
+
+        if(logoutResponse.isSuccess()) {
+            System.out.println("Logout Service: Logout is successful.");
+        }
+
+        return logoutResponse;
     }
 
     /**
