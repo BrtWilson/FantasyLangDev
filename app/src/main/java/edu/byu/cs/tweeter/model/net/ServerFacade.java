@@ -130,7 +130,6 @@ public class ServerFacade {
 
         User user = new User(firstName, lastName, alias, url);
         user.setPassword(password);
-
         usersMap.put(user.getAlias(), user);
         loggedInUser = user;
         return new RegisterResponse(user, new AuthToken(), true);
@@ -140,7 +139,7 @@ public class ServerFacade {
         System.out.println("* * * * ServerFacade / logout * * * *");
         System.out.println("request: " + request.getUser().getAlias());
         System.out.println("loggedIn: " + loggedInUser.getAlias());
-        if (usersMap != null) {
+//        if (usersMap != null) {
             if (request.getUser().getAlias().equals(loggedInUser.getAlias())) {
                 loggedInUser = null;
                 return new LogoutResponse(true, "Logout successful.");
@@ -148,9 +147,9 @@ public class ServerFacade {
             else {
                 return new LogoutResponse(false, "Logout failed. Logged in user does not match.");
             }
-        }
+//        }
 
-        return new LogoutResponse(false, "Logout failed. No user logged in.");
+//        return new LogoutResponse(false, "Logout failed. No user logged in.");
     }
 
     /**
