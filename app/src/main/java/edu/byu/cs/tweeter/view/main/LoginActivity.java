@@ -1,4 +1,4 @@
-package edu.byu.cs.tweeter.view;
+package edu.byu.cs.tweeter.view.main;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
@@ -16,7 +16,6 @@ import edu.byu.cs.tweeter.model.service.request.LoginRequest;
 import edu.byu.cs.tweeter.model.service.response.LoginResponse;
 import edu.byu.cs.tweeter.presenter.LoginPresenter;
 import edu.byu.cs.tweeter.view.asyncTasks.LoginTask;
-import edu.byu.cs.tweeter.view.main.MainActivity;
 
 /**
  * Contains the minimum UI required to allow the user to login with a hard-coded user. Most or all

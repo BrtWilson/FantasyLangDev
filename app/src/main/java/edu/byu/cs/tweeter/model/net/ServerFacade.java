@@ -2,6 +2,7 @@ package edu.byu.cs.tweeter.model.net;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import edu.byu.cs.tweeter.BuildConfig;
@@ -10,10 +11,12 @@ import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.model.service.request.FollowingRequest;
 import edu.byu.cs.tweeter.model.service.request.FollowerRequest;
 import edu.byu.cs.tweeter.model.service.request.LoginRequest;
+import edu.byu.cs.tweeter.model.service.request.LogoutRequest;
 import edu.byu.cs.tweeter.model.service.request.RegisterRequest;
 import edu.byu.cs.tweeter.model.service.response.FollowingResponse;
 import edu.byu.cs.tweeter.model.service.response.FollowerResponse;
 import edu.byu.cs.tweeter.model.service.response.LoginResponse;
+import edu.byu.cs.tweeter.model.service.response.LogoutResponse;
 import edu.byu.cs.tweeter.model.service.response.RegisterResponse;
 
 /**
@@ -73,6 +76,22 @@ public class ServerFacade {
     private final User user39 = new User("The Bobbiest", "Jones", MALE_IMAGE_URL_1);
     private final User user40 = new User("Karrin", "Smith", FEMALE_IMAGE_URL_1);
 
+    private HashMap<String, User> usersMap;
+    private User loggedInUser;
+
+    public void setUpUsers() {
+        if (usersMap == null) {
+            usersMap = new HashMap<>();
+        }
+        User testUser1 = new User("test", "user", "https://static.wikia.nocookie.net/avatar/images/4/4b/Zuko.png/revision/latest?cb=20180630112142");
+        testUser1.setPassword("password");
+
+        User testUser2 = new User("test", "user2", "https://static.wikia.nocookie.net/avatar/images/4/4b/Zuko.png/revision/latest?cb=20180630112142");
+        testUser2.setPassword("password");
+
+        usersMap.put(testUser1.getAlias(), testUser1);
+        usersMap.put(testUser2.getAlias(), testUser2);
+    }
     /**
      * Performs a login and if successful, returns the logged in user and an auth token. The current
      * implementation is hard-coded to return a dummy user and doesn't actually make a network
@@ -82,32 +101,55 @@ public class ServerFacade {
      * @return the login response.
      */
     public LoginResponse login(LoginRequest request) {
-        // TODO: Probably make ClientCommunicator? or HTTPConnection ??
-        // LoginResponse response = new LoginResponse(??);
-        // User user = response.getUser()
-        // String firstName = user.getFirstName();
-        // String lastName = user.getLastName();
-        // String url = user.getImageUrl();
+        setUpUsers();
 
-
-        // return response;
-
-        // FIXME: Fix this hardcoded login -> get data from fake DB
-        User user = new User("James", "Bond",
-                "https://cdn.costumewall.com/wp-content/uploads/2018/09/young-jonathan-joestar.jpg");
-        return new LoginResponse(user, new AuthToken());
+        if(usersMap != null) {
+            if(usersMap.containsKey(request.getUsername())) {
+                User user = usersMap.get(request.getUsername());
+                if(user.getPassword().equals(request.getPassword())) {
+                    loggedInUser = user;
+                    System.out.println("* * * Login Successful * * *");
+                    System.out.println("Logged in user: " + loggedInUser.getAlias());
+                    return new LoginResponse(loggedInUser, new AuthToken());
+                }
+                return new LoginResponse("Password does not match.");
+            }
+            return new LoginResponse("Username does not exist.");
+        }
+        return new LoginResponse("User does not exist.");
     }
 
     public RegisterResponse register(RegisterRequest request) {
+        setUpUsers();
+
         String firstName = request.getFirstName();
         String lastName = request.getLastName();
-        String username = request.getUserName();
+        String alias = request.getUserName();
+        String password = request.getPassword();
         String url = request.getImageURL();
 
-        User user = new User(firstName, lastName, username, url);
-        // FIXME: Remove this hardcoded user input later
-//       User user = new User("James", "Bond", "jb007", "https://lh3.googleusercontent.com/proxy/3MvAC543S2lfokx5Ph3TmgCfYUqQCggmwh2r7H5RW9HPLlubR0DpbJS8IdZ6cB7nWGGwkn-bkrOthO8IOjzNInBkoQWpBhSL");
+        User user = new User(firstName, lastName, alias, url);
+        user.setPassword(password);
+        usersMap.put(user.getAlias(), user);
+        loggedInUser = user;
         return new RegisterResponse(user, new AuthToken(), true);
+    }
+
+    public LogoutResponse logout(LogoutRequest request) {
+        System.out.println("* * * * ServerFacade / logout * * * *");
+        System.out.println("request: " + request.getUser().getAlias());
+        System.out.println("loggedIn: " + loggedInUser.getAlias());
+//        if (usersMap != null) {
+            if (request.getUser().getAlias().equals(loggedInUser.getAlias())) {
+                loggedInUser = null;
+                return new LogoutResponse(true, "Logout successful.");
+            }
+            else {
+                return new LogoutResponse(false, "Logout failed. Logged in user does not match.");
+            }
+//        }
+
+//        return new LogoutResponse(false, "Logout failed. No user logged in.");
     }
 
     /**

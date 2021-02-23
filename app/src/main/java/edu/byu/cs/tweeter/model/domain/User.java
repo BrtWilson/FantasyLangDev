@@ -15,6 +15,7 @@ public class User implements Comparable<User>, Serializable {
     private final String lastName;
     private final String alias;
     private final String imageUrl;
+    private String password;
     private byte [] imageBytes;
     //Feed Array
     //Story Array
@@ -72,6 +73,14 @@ public class User implements Comparable<User>, Serializable {
 
     public List getFollowing() {
         return following;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void addFollower(User newFollower) {
