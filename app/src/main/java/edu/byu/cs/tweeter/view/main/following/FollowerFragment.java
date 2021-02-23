@@ -1,5 +1,6 @@
 package edu.byu.cs.tweeter.view.main.following;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -27,6 +28,7 @@ import edu.byu.cs.tweeter.model.service.request.FollowerRequest;
 import edu.byu.cs.tweeter.model.service.response.FollowerResponse;
 import edu.byu.cs.tweeter.presenter.FollowerPresenter;
 import edu.byu.cs.tweeter.view.asyncTasks.GetFollowerTask;
+import edu.byu.cs.tweeter.view.main.UserPageActivity;
 import edu.byu.cs.tweeter.view.util.ImageUtils;
 
 /**
@@ -100,6 +102,7 @@ public class FollowerFragment extends Fragment implements FollowerPresenter.View
         private final ImageView userImage;
         private final TextView userAlias;
         private final TextView userName;
+        private User viewingUser;
 
         /**
          * Creates an instance and sets an OnClickListener for the user's row.
@@ -117,7 +120,14 @@ public class FollowerFragment extends Fragment implements FollowerPresenter.View
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Toast.makeText(getContext(), "You selected '" + userName.getText() + "'.", Toast.LENGTH_SHORT).show();
+
+                        //Toast.makeText(getContext(), "You selected '" + userName.getText() + "'.", Toast.LENGTH_SHORT).show();
+                        //Find user by userName? Is that a server thing?
+                        Intent intent = new Intent(getActivity(), UserPageActivity.class);
+                        intent.putExtra(UserPageActivity.VIEWING_USER_KEY, viewingUser);
+                        intent.putExtra(UserPageActivity.CURRENT_USER_KEY, user);
+                        intent.putExtra(UserPageActivity.AUTH_TOKEN_KEY, authToken);
+                        startActivity(intent);
                     }
                 });
             } else {
@@ -136,6 +146,7 @@ public class FollowerFragment extends Fragment implements FollowerPresenter.View
             userImage.setImageDrawable(ImageUtils.drawableFromByteArray(user.getImageBytes()));
             userAlias.setText(user.getAlias());
             userName.setText(user.getName());
+            viewingUser = user;
         }
     }
 

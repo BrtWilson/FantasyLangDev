@@ -51,6 +51,8 @@ public class ServerFacade {
     private static final String FEMALE_IMAGE_URL_1 = "https://c0.klipartz.com/pngpicture/250/535/sticker-png-katara-avatar-the-last-airbender-aang-korra-zuko-aang-child-face-black-hair-hand-head.png";
 
     private final User user21 = new User("Bob","Jones",  MALE_IMAGE_URL_1);
+   // user21.addFollower(user1);
+    //user21.addFollowing(user2);
     private final User user22 = new User("Bobette","Smith",  FEMALE_IMAGE_URL_1);
     private final User user23 = new User("Bobson","Jones",  MALE_IMAGE_URL_1);
     private final User user24 = new User("Bobby","Smith",  FEMALE_IMAGE_URL_1);
