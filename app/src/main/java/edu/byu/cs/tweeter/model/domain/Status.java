@@ -7,10 +7,18 @@ public class Status {
     private String message;
     private UserMentions mUserMentions;
     private UrlMentions mUrlMentions;
+    private String date;
+    private User correspondingUser;
 
     public Status(String message) {
         this.message = message;
         findMentions();
+    }
+
+    public Status(String s, String s1, User user1) {
+        message = s;
+        date = s1;
+        correspondingUser = user1;
     }
 
     private void findMentions() {
@@ -24,5 +32,13 @@ public class Status {
 
     public UrlMentions getUrls() {
         return mUrlMentions;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public User getCorrespondingUser() {
+        return correspondingUser;
     }
 }

@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import edu.byu.cs.tweeter.model.service.IListService;
 import edu.byu.cs.tweeter.model.service.request.IListRequest;
-import edu.byu.cs.tweeter.model.service.request.ListRequest;
 import edu.byu.cs.tweeter.model.service.response.IListResponse;
 
 /**
