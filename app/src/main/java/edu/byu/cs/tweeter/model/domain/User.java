@@ -98,11 +98,11 @@ public class User implements Comparable<User>, Serializable {
         following.remove(followee);
     }
 
-    public String checkFollowStatus(User potentialFollowee) {
+    public boolean checkFollowStatus(User potentialFollowee) {
         if(following.contains(potentialFollowee)) {
-            return "Following";
+            return true;
         }
-        return "Follow";
+        return false;
     }
 
     public void setImageBytes(byte[] imageBytes) {

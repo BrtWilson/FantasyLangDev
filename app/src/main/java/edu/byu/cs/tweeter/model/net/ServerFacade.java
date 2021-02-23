@@ -22,8 +22,8 @@ import edu.byu.cs.tweeter.model.service.response.RegisterResponse;
  */
 public class ServerFacade {
     // This is the hard coded following data returned by the 'getFollowees()' method
-    private static final String MALE_IMAGE_URL = "https://static.wikia.nocookie.net/fairytail/images/f/fa/Zeref_discovers_Irene.png/revision/latest?cb=20190616090207";
-    private static final String FEMALE_IMAGE_URL = "https://static.wikia.nocookie.net/fairytail/images/e/e6/Mavis%27_image.png/revision/latest?cb=20160116082303";
+    private static final String MALE_IMAGE_URL = "https://i.pinimg.com/originals/e5/9b/e7/e59be7316543f2b7c94bcf693c2ad9f3.png";
+    private static final String FEMALE_IMAGE_URL = "https://i.pinimg.com/originals/5f/79/d6/5f79d6d933f194dbcb74ec5e5ce7a759.jpg";
 
     private final User user1 = new User("Allen", "Anderson", MALE_IMAGE_URL);
     private final User user2 = new User("Amy", "Ames", FEMALE_IMAGE_URL);

@@ -1,6 +1,7 @@
 package edu.byu.cs.tweeter.view.main;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -74,7 +75,31 @@ public class UserPageActivity extends AppCompatActivity implements UserPagePrese
         followerCount.setText(getString(R.string.followerCount, viewingUser.getFollowerCount()));
 
         TextView followButton = findViewById(R.id.followButton);
-        followButton.setText(user.checkFollowStatus(viewingUser));
+        if(user.checkFollowStatus(viewingUser)) {
+            followButton.setText("Following");
+            followButton.setBackgroundColor(Color.GRAY);
+        }
+        else {
+            followButton.setText("Follow");
+            followButton.setBackgroundColor(Color.RED);
+        }
+
+        followButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if(followButton.getText().toString() == "Following") {
+                    followButton.setText("Follow");
+                    followButton.setBackgroundColor(Color.RED);
+                    user.removeFollowee(viewingUser);
+                    viewingUser.removeFollower(user);
+                }
+                else {
+                    followButton.setText("Following");
+                    followButton.setBackgroundColor(Color.GRAY);
+                    viewingUser.addFollower(user);
+                    user.addFollowing(viewingUser);
+                }
+            }
+        });
     }
 
     @Override

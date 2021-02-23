@@ -13,6 +13,7 @@ import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.view.main.following.FollowingFragment;
 import edu.byu.cs.tweeter.view.main.following.FollowerFragment;
+import edu.byu.cs.tweeter.view.main.UserPageActivity;
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to one of the sections/tabs/pages
@@ -20,17 +21,24 @@ import edu.byu.cs.tweeter.view.main.following.FollowerFragment;
  */
 class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-    private static final int FOLLOWING_FRAGMENT_POSITION = 2;
-    private static final int FOLLOWER_FRAGMENT_POSITION = 3;
+    private static int FOLLOWING_FRAGMENT_POSITION = 2;
+    private static int FOLLOWER_FRAGMENT_POSITION = 3;
 
     @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.feedTabTitle, R.string.storyTabTitle, R.string.followingTabTitle, R.string.followersTabTitle};
+    private static int[] TAB_TITLES = new int[]{R.string.feedTabTitle, R.string.storyTabTitle, R.string.followingTabTitle, R.string.followersTabTitle};
     private final Context mContext;
     private final User user;
     private final AuthToken authToken;
+    private int count = 4;
 
     public SectionsPagerAdapter(Context context, FragmentManager fm, User user, AuthToken authToken) {
         super(fm);
+        if(context instanceof UserPageActivity) {
+            TAB_TITLES = new int[]{R.string.storyTabTitle, R.string.followingTabTitle, R.string.followersTabTitle};
+            FOLLOWING_FRAGMENT_POSITION = 1;
+            FOLLOWER_FRAGMENT_POSITION = 2;
+            count = 3;
+        }
         mContext = context;
         this.user = user;
         this.authToken = authToken;
@@ -56,7 +64,6 @@ class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        // Show 4 total pages.
-        return 4;
+        return count;
     }
 }
