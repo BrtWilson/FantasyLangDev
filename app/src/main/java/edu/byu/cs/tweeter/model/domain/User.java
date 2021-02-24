@@ -29,10 +29,21 @@ public class User implements Comparable<User>, Serializable {
     public User(String firstName, String lastName, String alias, String imageURL) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.alias = alias;
+        this.alias = formatAlias(alias);
         this.imageUrl = imageURL;
         this.followers = new ArrayList<>();
         this.following = new ArrayList<>();
+    }
+
+    public String formatAlias(String alias) {
+        String correctAlias;
+
+        if (!alias.contains("@")) {
+            correctAlias = String.format("@%s", alias);
+        } else {
+            correctAlias = alias;
+        }
+        return correctAlias;
     }
 
     public String getFirstName() {
