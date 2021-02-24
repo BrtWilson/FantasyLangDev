@@ -1,5 +1,7 @@
 package edu.byu.cs.tweeter.model.net;
 
+import android.util.Log;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -7,11 +9,14 @@ import org.mockito.Mockito;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.model.service.request.FollowingRequest;
+import edu.byu.cs.tweeter.model.service.request.LoginRequest;
 import edu.byu.cs.tweeter.model.service.response.FollowingResponse;
+import edu.byu.cs.tweeter.model.service.response.LoginResponse;
 
 class ServerFacadeTest {
 
@@ -30,6 +35,34 @@ class ServerFacadeTest {
     void setup() {
         serverFacadeSpy = Mockito.spy(new ServerFacade());
     }
+
+    @Test
+    void testLogin() {
+        User validUser = new User("test", "user", "https://static.wikia.nocookie.net/avatar/images/4/4b/Zuko.png/revision/latest?cb=20180630112142");
+        validUser.setPassword("password");
+
+        User invalidUser = new User("not", "existing", "https://static.wikia.nocookie.net/avatar/images/4/4b/Zuko.png/revision/latest?cb=20180630112142");
+        invalidUser.setPassword("password");
+
+        LoginRequest validRequest = new LoginRequest(validUser.getAlias(), validUser.getPassword());
+        LoginResponse validResponse = serverFacadeSpy.login(validRequest);
+        Assertions.assertEquals(validUser, validResponse.getUser());
+
+        LoginRequest invalidRequest = new LoginRequest(invalidUser.getAlias(), validUser.getPassword());
+        LoginResponse invalidResponse = serverFacadeSpy.login(invalidRequest);
+        Assertions.assertFalse(invalidResponse.isSuccess());
+    }
+
+    @Test
+    void testRegister() {
+
+    }
+
+    @Test
+    void testLogout() {
+
+    }
+
 
     @Test
     void testGetFollowees_noFolloweesForUser() {

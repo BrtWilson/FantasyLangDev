@@ -239,8 +239,6 @@ public class ServerFacade extends NewStatusNotifier_Subject {
                 User user = usersMap.get(request.getUsername());
                 if (user.getPassword().equals(request.getPassword())) {
                     loggedInUser = user;
-                    System.out.println("* * * Login Successful * * *");
-                    System.out.println("Logged in user: " + loggedInUser.getAlias());
                     return new LoginResponse(loggedInUser, new AuthToken());
                 }
                 return new LoginResponse("Password does not match.");
