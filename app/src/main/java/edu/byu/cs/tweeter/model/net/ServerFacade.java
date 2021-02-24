@@ -259,11 +259,14 @@ public class ServerFacade extends NewStatusNotifier_Subject {
         String password = request.getPassword();
         String url = request.getImageURL();
 
-        User user = new User(firstName, lastName, alias, url);
-        user.setPassword(password);
-        usersMap.put(user.getAlias(), user);
-        loggedInUser = user;
-        return new RegisterResponse(user, new AuthToken(), true);
+        if (!usersMap.containsKey(alias)) {
+            User user = new User(firstName, lastName, alias, url);
+            user.setPassword(password);
+            usersMap.put(user.getAlias(), user);
+            loggedInUser = user;
+            return new RegisterResponse(user, new AuthToken(), true);
+        }
+        return new RegisterResponse("Username already taken. User different username.", false);
     }
 
     public LogoutResponse logout(LogoutRequest request) {

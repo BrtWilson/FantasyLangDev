@@ -12,14 +12,11 @@ public class RegisterService {
     public static ServerFacade serverFacade;
 
     public RegisterResponse register(RegisterRequest request) throws IOException {
-        if(serverFacade == null) {
-            serverFacade = new ServerFacade();
-        }
+        serverFacade = getServerFacade();
         RegisterResponse registerResponse = serverFacade.register(request);
 
         if(registerResponse.isSuccess()) {
             loadImage(registerResponse.getUser());
-            System.out.println("Register Service: Register is successful.");
         }
 
         return registerResponse;
@@ -30,5 +27,10 @@ public class RegisterService {
         user.setImageBytes(bytes);
     }
 
-    public static ServerFacade getServerFacade() { return serverFacade;}
+    static ServerFacade getServerFacade() {
+        if(serverFacade == null) {
+            serverFacade = new ServerFacade();
+        }
+        return serverFacade;
+    }
 }
