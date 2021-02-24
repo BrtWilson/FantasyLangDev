@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.List;
-import edu.byu.cs.tweeter.model.domain.Follow;
 
 /**
  * Represents a user in the system.
@@ -19,8 +18,8 @@ public class User implements Comparable<User>, Serializable {
     private byte [] imageBytes;
     //Feed Array
     //Story Array
-    private List<User> followers;
-    private List<User> following;
+    private ArrayList<User> followers;
+    private ArrayList<User> following;
 
     public User(String firstName, String lastName, String imageURL) {
         this(firstName, lastName, String.format("@%s%s", firstName, lastName), imageURL);
@@ -67,11 +66,11 @@ public class User implements Comparable<User>, Serializable {
         return following.size();
     }
 
-    public List getFollowers() {
+    public ArrayList getFollowers() {
         return followers;
     }
 
-    public List getFollowing() {
+    public ArrayList getFollowing() {
         return following;
     }
 
@@ -108,10 +107,7 @@ public class User implements Comparable<User>, Serializable {
     }
 
     public boolean checkFollowStatus(User potentialFollowee) {
-        if(following.contains(potentialFollowee)) {
-            return true;
-        }
-        return false;
+        return following.contains(potentialFollowee);
     }
 
     public void setImageBytes(byte[] imageBytes) {

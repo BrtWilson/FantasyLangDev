@@ -79,10 +79,10 @@ public class MainActivity extends AppCompatActivity implements LoginPresenter.Vi
         userImageView.setImageDrawable(ImageUtils.drawableFromByteArray(user.getImageBytes()));
 
         TextView followeeCount = findViewById(R.id.followeeCount);
-        followeeCount.setText(getString(R.string.followeeCount, 42));
+        followeeCount.setText(getString(R.string.followeeCount, user.getFolloweeCount()));
 
         TextView followerCount = findViewById(R.id.followerCount);
-        followerCount.setText(getString(R.string.followerCount, 27));
+        followerCount.setText(getString(R.string.followerCount, user.getFollowerCount()));
     }
 
     @Override

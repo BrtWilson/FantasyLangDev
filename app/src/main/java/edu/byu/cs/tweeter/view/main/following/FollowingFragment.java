@@ -28,6 +28,7 @@ import edu.byu.cs.tweeter.model.service.request.FollowingRequest;
 import edu.byu.cs.tweeter.model.service.response.FollowingResponse;
 import edu.byu.cs.tweeter.presenter.FollowingPresenter;
 import edu.byu.cs.tweeter.view.asyncTasks.GetFollowingTask;
+import edu.byu.cs.tweeter.view.main.MainActivity;
 import edu.byu.cs.tweeter.view.main.UserPageActivity;
 import edu.byu.cs.tweeter.view.util.ImageUtils;
 
@@ -102,7 +103,7 @@ public class FollowingFragment extends Fragment implements FollowingPresenter.Vi
         private final ImageView userImage;
         private final TextView userAlias;
         private final TextView userName;
-        private User viewingUser;
+        private User targetUser;
 
         /**
          * Creates an instance and sets an OnClickListener for the user's row.
@@ -122,10 +123,18 @@ public class FollowingFragment extends Fragment implements FollowingPresenter.Vi
                     public void onClick(View view) {
 
                         // Toast.makeText(getContext(), "You selected '" + userName.getText() + "'.", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getActivity(), UserPageActivity.class);
-                        intent.putExtra(UserPageActivity.VIEWING_USER_KEY, viewingUser);
-                        intent.putExtra(UserPageActivity.CURRENT_USER_KEY, user);
-                        intent.putExtra(UserPageActivity.AUTH_TOKEN_KEY, authToken);
+                        Intent intent;
+                        if(targetUser.equals(user)) {
+                            intent = new Intent(getActivity(), MainActivity.class);
+                            intent.putExtra(MainActivity.CURRENT_USER_KEY, user);
+                            intent.putExtra(MainActivity.AUTH_TOKEN_KEY, authToken);
+                        }
+                        else {
+                            intent = new Intent(getActivity(), UserPageActivity.class);
+                            intent.putExtra(UserPageActivity.TARGET_USER_KEY, targetUser);
+                            intent.putExtra(UserPageActivity.CURRENT_USER_KEY, user);
+                            intent.putExtra(UserPageActivity.AUTH_TOKEN_KEY, authToken);
+                        }
                         startActivity(intent);
                     }
                 });
@@ -145,7 +154,7 @@ public class FollowingFragment extends Fragment implements FollowingPresenter.Vi
             userImage.setImageDrawable(ImageUtils.drawableFromByteArray(user.getImageBytes()));
             userAlias.setText(user.getAlias());
             userName.setText(user.getName());
-            viewingUser = user;
+            targetUser = user;
         }
     }
 

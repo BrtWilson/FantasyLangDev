@@ -85,7 +85,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/followeeCount"
+                            android:id="@+id/followeeCount1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="20dp"
@@ -94,7 +94,7 @@
                             android:textSize="12sp" />
 
                         <TextView
-                            android:id="@+id/followerCount"
+                            android:id="@+id/followerCount1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="20dp"

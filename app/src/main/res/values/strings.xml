@@ -19,5 +19,7 @@
     <string name="followeeCount">Following: %d</string>
     <string name="followerCount">Followers: %d</string>
 
+
     <string name="followButtonText">Follow</string>
+    <string name="followButtonText2">Following</string>
 </resources>
