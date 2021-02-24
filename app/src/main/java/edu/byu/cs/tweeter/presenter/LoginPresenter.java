@@ -22,12 +22,19 @@ public class LoginPresenter {
     }
 
     public LoginResponse login(LoginRequest loginRequest) throws IOException {
-        loginService = LoginService.getInstance();
+        loginService = getLoginService();
         return loginService.login(loginRequest);
     }
 
     public LogoutResponse logout(LogoutRequest logoutRequest) throws IOException {
         loginService = LoginService.getInstance();
         return loginService.logout(logoutRequest);
+    }
+
+    public LoginService getLoginService() {
+        if (loginService == null) {
+            loginService = LoginService.getInstance();
+        }
+        return loginService;
     }
 }
