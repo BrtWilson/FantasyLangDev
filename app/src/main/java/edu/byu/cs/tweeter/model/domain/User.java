@@ -29,7 +29,7 @@ public class User implements Comparable<User>, Serializable {
         this.firstName = firstName;
         this.lastName = lastName;
         this.alias = formatAlias(alias);
-        this.imageUrl = checkImageURL(imageURL);
+        this.imageUrl = imageURL;
         this.followers = new ArrayList<>();
         this.following = new ArrayList<>();
     }
@@ -43,13 +43,6 @@ public class User implements Comparable<User>, Serializable {
             correctAlias = alias;
         }
         return correctAlias;
-    }
-
-    public String checkImageURL(String imageUrl) {
-        if (imageUrl.equals("null")) {
-            imageUrl = "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png";
-        }
-        return imageUrl;
     }
 
     public String getFirstName() {
