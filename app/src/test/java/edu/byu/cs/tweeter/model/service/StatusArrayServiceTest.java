@@ -47,7 +47,7 @@ public class StatusArrayServiceTest {
         invalidRequest = new StatusArrayRequest(null, 0, null);
 
         // Setup a mock ServerFacade that will return known responses
-        successResponse = new StatusArrayResponse(Arrays.asList(resultUser1, resultUser2, resultUser3), false);
+        successResponse = new StatusArrayResponse(Arrays.asList(resultStatus1, resultStatus2, resultStatus3), false);
         ServerFacade mockServerFacade = Mockito.mock(ServerFacade.class);
         Mockito.when(mockServerFacade.getStatusArray(validRequest)).thenReturn(successResponse);
 
@@ -67,7 +67,7 @@ public class StatusArrayServiceTest {
      * @throws IOException if an IO error occurs.
      */
     @Test
-    public void testGetFollowers_validRequest_correctResponse() throws IOException {
+    public void testGetStatusArray_validRequest_correctResponse() throws IOException {
         StatusArrayResponse response = statusArrayServiceSpy.getStatusArray(validRequest);
         Assertions.assertEquals(successResponse, response);
     }
@@ -79,11 +79,11 @@ public class StatusArrayServiceTest {
      * @throws IOException if an IO error occurs.
      */
     @Test
-    public void testGetFollowers_validRequest_loadsProfileImages() throws IOException {
+    public void testGetStatusArray_validRequest_loadsProfileImages() throws IOException {
         StatusArrayResponse response = statusArrayServiceSpy.getStatusArray(validRequest);
 
-        for(User user : response.getStatusArray()) {
-            Assertions.assertNotNull(user.getImageBytes());
+        for(Status status : response.getStatusArray()) {
+            Assertions.assertNotNull(status.getCorrespongingUser.getImageBytes());
         }
     }
 
@@ -94,7 +94,7 @@ public class StatusArrayServiceTest {
      * @throws IOException if an IO error occurs.
      */
     @Test
-    public void testGetFollowers_invalidRequest_returnsNoFollowers() throws IOException {
+    public void testGetStatusArray_invalidRequest_returnsNoFollowers() throws IOException {
         StatusArrayResponse response = statusArrayServiceSpy.getStatusArray(invalidRequest);
         Assertions.assertEquals(failureResponse, response);
     }
