@@ -3,6 +3,7 @@ package edu.byu.cs.tweeter.model.domain;
 import edu.byu.cs.tweeter.model.domain.status_members.UrlMentions;
 import edu.byu.cs.tweeter.model.domain.status_members.UserMentions;
 
+
 public class Status {
     private String message;
     private UserMentions mUserMentions;

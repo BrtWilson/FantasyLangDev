@@ -8,20 +8,34 @@
     android:orientation="vertical"
     android:paddingLeft="30dp"
     android:paddingRight="30dp"
-    tools:context=".view.main.LoginActivity">
+    tools:context=".view.main.RegisterActivity">
 
-    <!--User Name-->
     <EditText
-        android:id="@+id/login_username"
+        android:id="@+id/register_firstname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_margin="3dp"
+        android:hint="First name"/>
+
+    <EditText
+        android:id="@+id/register_lastname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_margin="3dp"
+        android:hint="Last name"/>
+
+    <EditText
+        android:id="@+id/register_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp"
         android:layout_margin="3dp"
         android:hint="\@Username"/>
 
-    <!--Password-->
     <EditText
-        android:id="@+id/login_password"
+        android:id="@+id/register_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp"
@@ -29,18 +43,18 @@
         android:inputType="textPassword"
         android:hint="Password"/>
 
-    <Button
-        android:id="@+id/LoginButton"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/register_url"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Login"
-        android:layout_centerInParent="true"/>
+        android:padding="5dp"
+        android:layout_margin="3dp"
+        android:hint="Image URL"/>
 
     <Button
-        android:id="@+id/RegisterButton"
+        android:id="@+id/RegisterConfirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/Widget.AppCompat.Button.Borderless.Colored"
-        android:text="Register"
+        android:text="Confirm"
         android:layout_centerInParent="true"/>
 </LinearLayout>

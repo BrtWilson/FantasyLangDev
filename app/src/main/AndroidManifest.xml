@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".view.LoginActivity"
+            android:name=".view.main.LoginActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -21,8 +21,16 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".view.main.RegisterActivity"
+            android:label="Register">
+        </activity>
+        <activity
             android:name=".view.main.MainActivity"
             android:label="@string/title_activity_main">
+        </activity>
+        <activity
+            android:name=".view.main.UserPageActivity"
+            android:label="Tweeter">
         </activity>
     </application>
 

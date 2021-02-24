@@ -1,7 +1,10 @@
 package edu.byu.cs.tweeter.model.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Objects;
+import java.util.List;
+import edu.byu.cs.tweeter.model.domain.Follow;
 
 /**
  * Represents a user in the system.
@@ -12,8 +15,12 @@ public class User implements Comparable<User>, Serializable {
     private final String lastName;
     private final String alias;
     private final String imageUrl;
+    private String password;
     private byte [] imageBytes;
-    // Todo: add the two types of follow
+    //Feed Array
+    //Story Array
+    private List<User> followers;
+    private List<User> following;
 
     public User(String firstName, String lastName, String imageURL) {
         this(firstName, lastName, String.format("@%s%s", firstName, lastName), imageURL);
@@ -24,6 +31,8 @@ public class User implements Comparable<User>, Serializable {
         this.lastName = lastName;
         this.alias = alias;
         this.imageUrl = imageURL;
+        this.followers = new ArrayList<>();
+        this.following = new ArrayList<>();
     }
 
     public String getFirstName() {
@@ -48,6 +57,61 @@ public class User implements Comparable<User>, Serializable {
 
     public byte [] getImageBytes() {
         return imageBytes;
+    }
+
+    public int getFollowerCount() {
+        return followers.size();
+    }
+
+    public int getFolloweeCount() {
+        return following.size();
+    }
+
+    public List getFollowers() {
+        return followers;
+    }
+
+    public List getFollowing() {
+        return following;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void addFollower(User newFollower) {
+        //Idk if this is how to check if object is current object
+        if(followers.contains(newFollower) || newFollower == this) {
+            return;
+        }
+        followers.add(newFollower);
+    }
+
+    public void addFollowing(User newFollowee) {
+        //Idk if this is how to check if object is current object
+        if(following.contains(newFollowee) || newFollowee == this) {
+            return;
+        }
+        following.add(newFollowee);
+    }
+
+    public void removeFollower(User follower) {
+        followers.remove(follower);
+    }
+
+    public void removeFollowee(User followee) {
+        following.remove(followee);
+    }
+
+    public boolean checkFollowStatus(User potentialFollowee) {
+        if(following.contains(potentialFollowee)) {
+            return true;
+        }
+        return false;
     }
 
     public void setImageBytes(byte[] imageBytes) {

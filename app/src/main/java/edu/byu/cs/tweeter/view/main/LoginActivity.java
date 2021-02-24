@@ -1,20 +1,21 @@
-package edu.byu.cs.tweeter.view;
+package edu.byu.cs.tweeter.view.main;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
-
 import edu.byu.cs.tweeter.R;
 import edu.byu.cs.tweeter.model.service.request.LoginRequest;
 import edu.byu.cs.tweeter.model.service.response.LoginResponse;
 import edu.byu.cs.tweeter.presenter.LoginPresenter;
 import edu.byu.cs.tweeter.view.asyncTasks.LoginTask;
-import edu.byu.cs.tweeter.view.main.MainActivity;
 
 /**
  * Contains the minimum UI required to allow the user to login with a hard-coded user. Most or all
@@ -27,6 +28,11 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
     private LoginPresenter presenter;
     private Toast loginInToast;
 
+    private EditText username;
+    private EditText password;
+    private Button loginButton;
+    private Button registerButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,32 +40,43 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
 
         presenter = new LoginPresenter(this);
 
-        Button loginButton = findViewById(R.id.LoginButton);
-        loginButton.setOnClickListener(new View.OnClickListener() {
+        username = (EditText) findViewById(R.id.login_username);
+        password = (EditText) findViewById(R.id.login_password);
+        loginButton = findViewById(R.id.LoginButton);
+        registerButton = findViewById(R.id.RegisterButton);
 
-            /**
-             * Makes a login request. The user is hard-coded, so it doesn't matter what data we put
-             * in the LoginRequest object.
-             *
-             * @param view the view object that was clicked.
-             */
+        TextWatcher watcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                loginButton.setEnabled(!TextUtils.isEmpty(username.getText().toString()) &&
+                        !TextUtils.isEmpty(password.getText().toString()));
+            }
+            @Override
+            public void afterTextChanged(Editable s) {}
+        };
+
+        username.addTextChangedListener(watcher);
+        password.addTextChangedListener(watcher);
+
+        loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 loginInToast = Toast.makeText(LoginActivity.this, "Logging In", Toast.LENGTH_LONG);
                 loginInToast.show();
 
-                // It doesn't matter what values we put here. We will be logged in with a hard-coded dummy user.
-                LoginRequest loginRequest = new LoginRequest("dummyUserName", "dummyPassword");
+                LoginRequest loginRequest = new LoginRequest(username.getText().toString(), password.getText().toString());
                 LoginTask loginTask = new LoginTask(presenter, LoginActivity.this);
                 loginTask.execute(loginRequest);
             }
         });
 
-        Button registerButton = findViewById(R.id.RegisterButton);
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setContentView(R.layout.activity_register);
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(intent);
             }
         });
     }
