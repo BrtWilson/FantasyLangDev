@@ -47,6 +47,9 @@ public class LoginService {
     }
 
     ServerFacade getServerFacade() {
-        return new ServerFacade();
+        if (serverFacade == null) {
+            serverFacade = new ServerFacade();
+        }
+        return serverFacade;
     }
 }

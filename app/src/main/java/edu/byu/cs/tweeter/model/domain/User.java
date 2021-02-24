@@ -37,7 +37,7 @@ public class User implements Comparable<User>, Serializable {
     public String formatAlias(String alias) {
         String correctAlias;
 
-        if (!alias.contains("@")) {
+        if (alias.charAt(0) != '@') {
             correctAlias = String.format("@%s", alias);
         } else {
             correctAlias = alias;

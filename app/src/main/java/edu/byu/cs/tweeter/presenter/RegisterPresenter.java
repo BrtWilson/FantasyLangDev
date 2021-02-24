@@ -8,13 +8,21 @@ import edu.byu.cs.tweeter.model.service.response.RegisterResponse;
 public class RegisterPresenter {
 
     private final View view;
+    private RegisterService registerService;
 
     public interface View { }
 
     public RegisterPresenter(View view) { this.view = view; }
 
     public RegisterResponse register(RegisterRequest registerRequest) throws IOException {
-        RegisterService registerService = new RegisterService();
+        registerService = getRegisterService();
         return registerService.register(registerRequest);
+    }
+
+    public RegisterService getRegisterService() {
+        if (registerService == null) {
+            registerService = new RegisterService();
+        }
+        return registerService;
     }
 }
