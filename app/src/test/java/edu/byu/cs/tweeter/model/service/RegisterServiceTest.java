@@ -43,6 +43,7 @@ public class RegisterServiceTest {
         Mockito.when(mockServerFacade.register(invalidRequest)).thenReturn(failureResponse);
 
         registerService = Mockito.spy(new RegisterService());
+//        Mockito.when(registerService.getServerFacade()).thenReturn(mockServerFacade); // this is commented out because registerService uses static serverFacade
     }
 
     @Test
