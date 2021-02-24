@@ -5,8 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import java.io.IOException;
-import java.util.Arrays;
-
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.model.net.ServerFacade;
@@ -43,19 +41,19 @@ public class LoginServiceTest {
     }
 
     @Test
-    public void testRegister_validRequest_correctResponse() throws IOException {
+    public void testLogin_validRequest_correctResponse() throws IOException {
         LoginResponse response = loginService.login(validRequest);
         Assertions.assertEquals(successResponse, response);
     }
 
     @Test
-    public void testRegister_validRequest_loadsProfileImage() throws IOException {
+    public void testLogin_validRequest_loadsProfileImage() throws IOException {
         LoginResponse response = loginService.login(validRequest);
         Assertions.assertNotNull(response.getUser().getImageBytes());
     }
 
     @Test
-    public void testGetFollowers_invalidRequest_returnsNoFollowers() throws IOException {
+    public void testLogin_invalidRequest_returnsFailedMessage() throws IOException {
         LoginResponse response = loginService.login(invalidRequest);
         Assertions.assertEquals(failureResponse, response);
     }
