@@ -256,9 +256,9 @@ public class ServerFacade extends NewStatusNotifier_Subject {
         String alias = request.getUserName();
         String password = request.getPassword();
         String url = request.getImageURL();
+        User user = new User(firstName, lastName, alias, url);
 
-        if (!usersMap.containsKey(alias)) {
-            User user = new User(firstName, lastName, alias, url);
+        if (!usersMap.containsKey(user.getAlias())) {
             user.setPassword(password);
             usersMap.put(user.getAlias(), user);
             loggedInUser = user;
