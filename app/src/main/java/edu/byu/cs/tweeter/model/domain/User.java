@@ -17,7 +17,9 @@ public class User implements Comparable<User>, Serializable {
     private String password;
     private byte [] imageBytes;
     //Feed Array
+    private StatusArray feed;
     //Story Array
+    private StatusArray story;
     private ArrayList<User> followers;
     private ArrayList<User> following;
 
@@ -151,5 +153,21 @@ public class User implements Comparable<User>, Serializable {
     @Override
     public int compareTo(User user) {
         return this.getAlias().compareTo(user.getAlias());
+    }
+
+    public StatusArray getFeed() {
+        return feed;
+    }
+
+    public void updateFeed(Status newStatus) {
+        feed.addStatus(newStatus);
+    }
+
+    public StatusArray getStory() {
+        return story;
+    }
+
+    public void postStatus(Status newStatus) {
+        story.addStatus(newStatus);
     }
 }
