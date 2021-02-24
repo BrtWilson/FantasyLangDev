@@ -15,8 +15,10 @@ import java.util.List;
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.model.service.request.FollowingRequest;
 import edu.byu.cs.tweeter.model.service.request.LoginRequest;
+import edu.byu.cs.tweeter.model.service.request.RegisterRequest;
 import edu.byu.cs.tweeter.model.service.response.FollowingResponse;
 import edu.byu.cs.tweeter.model.service.response.LoginResponse;
+import edu.byu.cs.tweeter.model.service.response.RegisterResponse;
 
 class ServerFacadeTest {
 
@@ -55,7 +57,9 @@ class ServerFacadeTest {
 
     @Test
     void testRegister() {
-
+        RegisterRequest validRequest = new RegisterRequest("new", "user", "newUser", "password", "https://static.wikia.nocookie.net/avatar/images/4/4b/Zuko.png/revision/latest?cb=20180630112142");
+        RegisterResponse validResponse = serverFacadeSpy.register(validRequest);
+        Assertions.assertTrue(validResponse.isSuccess());
     }
 
     @Test
