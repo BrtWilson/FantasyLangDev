@@ -8,6 +8,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.SpannableStringBuilder;
+import android.text.style.ClickableSpan;
+import android.text.style.URLSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +26,7 @@ import java.util.List;
 
 import edu.byu.cs.tweeter.R;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
+import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.model.service.request.StatusArrayRequest;
 import edu.byu.cs.tweeter.model.service.response.StatusArrayResponse;
@@ -88,11 +92,16 @@ public class StatusFragment extends Fragment implements StatusArrayPresenter.Vie
         statusRecyclerView.setLayoutManager(layoutManager);
 
         statusRecyclerViewAdapter = new StatusRecyclerViewAdapter();
-        statusRecyclerView.setAdapter(StatusRecyclerViewAdapter);
+        statusRecyclerView.setAdapter(statusRecyclerViewAdapter);
 
         statusRecyclerView.addOnScrollListener(new StatusRecyclerViewPaginationScrollListener(layoutManager));
 
         return view;
+    }
+
+    @Override
+    public void update() {
+        //TODO
     }
 
     /**
@@ -143,7 +152,7 @@ public class StatusFragment extends Fragment implements StatusArrayPresenter.Vie
                     }
                 });
 
-                setTextViewHTML(statusMessage, statusMessage.getText());
+                setTextViewHTML(statusMessage, statusMessage.getText().toString());
 
             } else {
                 userImage = null;
@@ -211,7 +220,7 @@ public class StatusFragment extends Fragment implements StatusArrayPresenter.Vie
             userName.setText(status.correspondingUser.getName());
             statusTimeStamp.setText(statusTimeStamp);
             statusMessage.setText(statusMessage);
-            targetUser = status.correspondingUser;
+            targetUser = status.getCorrespondingUser();
         }
     }
 
@@ -222,7 +231,7 @@ public class StatusFragment extends Fragment implements StatusArrayPresenter.Vie
 
         private final List<Status> statuses = new ArrayList<>();
 
-        private edu.byu.cs.tweeter.model.domain.User lastStatus;
+        private Status lastStatus;
 
         private boolean hasMorePages;
         private boolean isLoading = false;
@@ -250,7 +259,7 @@ public class StatusFragment extends Fragment implements StatusArrayPresenter.Vie
          * Adds a single user to the list from which the RecyclerView retrieves the statuses it
          * displays and notifies the RecyclerView that an item has been added.
          *
-         * @param user the user to add.
+         * @param status the user to add.
          */
         void addItem(Status status) {
             statuses.add(status);
@@ -261,7 +270,7 @@ public class StatusFragment extends Fragment implements StatusArrayPresenter.Vie
          * Removes a user from the list from which the RecyclerView retrieves the statuses it displays
          * and notifies the RecyclerView that an item has been removed.
          *
-         * @param user the user to remove.
+         * @param status the user to remove.
          */
         void removeItem(Status status) {
             int position = statuses.indexOf(status);
@@ -346,11 +355,11 @@ public class StatusFragment extends Fragment implements StatusArrayPresenter.Vie
          * A callback indicating more Status data has been received. Loads the new Statuses
          * and removes the loading footer.
          *
-         * @param StatusArrayResponse the asynchronous response to the request to load more items.
+         * @param statusArrayResponse the asynchronous response to the request to load more items.
          */
         @Override
         public void StatusesRetrieved(StatusArrayResponse statusArrayResponse) {
-            List<User> statuses = statusArrayResponse.getStatuses();
+            List<Status> statuses = statusArrayResponse.getStatuses();
 
             lastStatus = (statuses.size() > 0) ? statuses.get(statuses.size() -1) : null;
             hasMorePages = statusArrayResponse.getHasMorePages();
@@ -377,7 +386,7 @@ public class StatusFragment extends Fragment implements StatusArrayPresenter.Vie
          * loading footer view) at the bottom of the list.
          */
         private void addLoadingFooter() {
-            User tempUser = new User("Dummy", "User", "")
+            User tempUser = new User("Dummy", "User", "");
             addItem(new Status("Dummy status. You underestimate my power.", "A long time ago at 9:30pm", tempUser));
         }
 
