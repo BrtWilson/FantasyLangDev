@@ -6,18 +6,19 @@ import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.model.net.ServerFacade;
 import edu.byu.cs.tweeter.model.service.request.LoginRequest;
 import edu.byu.cs.tweeter.model.service.request.NewStatusRequest;
+import edu.byu.cs.tweeter.model.service.request.UserRequest;
 import edu.byu.cs.tweeter.model.service.response.LoginResponse;
-import edu.byu.cs.tweeter.model.service.response.NewStatusResponse;
+import edu.byu.cs.tweeter.model.service.response.UserResponse;
 import edu.byu.cs.tweeter.util.ByteArrayUtils;
 
 /**
  * Contains the business logic to support the login operation.
  */
-public class NewStatusService {
+public class UserService {
 
-    public NewStatusResponse postNewStatus(NewStatusRequest request) throws IOException {
+    public UserResponse getUserByAlias(UserRequest request) {
         ServerFacade serverFacade = getServerFacade();
-        return serverFacade.pushNewStatus(request);
+        return serverFacade.getUserByAlias(request);
     }
 
     /**

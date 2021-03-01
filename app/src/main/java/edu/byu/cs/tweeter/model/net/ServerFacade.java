@@ -18,10 +18,13 @@ import edu.byu.cs.tweeter.model.service.request.NewStatusRequest;
 import edu.byu.cs.tweeter.model.service.request.StatusArrayRequest;
 import edu.byu.cs.tweeter.model.service.request.LogoutRequest;
 import edu.byu.cs.tweeter.model.service.request.RegisterRequest;
+import edu.byu.cs.tweeter.model.service.request.UserRequest;
 import edu.byu.cs.tweeter.model.service.response.FollowingResponse;
 import edu.byu.cs.tweeter.model.service.response.FollowerResponse;
 import edu.byu.cs.tweeter.model.service.response.LoginResponse;
+import edu.byu.cs.tweeter.model.service.response.NewStatusResponse;
 import edu.byu.cs.tweeter.model.service.response.StatusArrayResponse;
+import edu.byu.cs.tweeter.model.service.response.UserResponse;
 import edu.byu.cs.tweeter.presenter.IStatuses_Observer;
 import edu.byu.cs.tweeter.presenter.ListPresenterBase;
 import edu.byu.cs.tweeter.model.service.response.LogoutResponse;
@@ -443,11 +446,12 @@ public class ServerFacade extends NewStatusNotifier_Subject {
     }
 
 
-    public boolean pushNewStatus(NewStatusRequest request) {
+    public NewStatusResponse pushNewStatus(NewStatusRequest request) {
         //Pretend to save Status
-        // Todo: **Should update all status observers; we will need to figure observers properly to do this
+        //Updates all status observers; we will need to figure observers properly to do this
         updateObservers();
-        return true;
+        //if successful:
+        return new NewStatusResponse(new Status(request.getMessage(), request.getDate(), user8));
     }
 
     public StatusArrayResponse getStatusArray(StatusArrayRequest request, IStatuses_Observer statuses_observer) {
@@ -531,5 +535,10 @@ public class ServerFacade extends NewStatusNotifier_Subject {
         for (IStatuses_Observer o : statusObservers) {
             o.Update();
         }
+    }
+
+    //GetUser for Status
+    public UserResponse getUserByAlias(UserRequest userRequest) {
+        return new UserResponse(user8);
     }
 }

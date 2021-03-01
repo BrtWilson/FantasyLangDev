@@ -1,6 +1,7 @@
 package edu.byu.cs.tweeter.view.main.following;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,7 +9,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Html;
+import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
 import android.util.Log;
@@ -30,8 +34,11 @@ import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.model.service.request.StatusArrayRequest;
 import edu.byu.cs.tweeter.model.service.response.StatusArrayResponse;
+import edu.byu.cs.tweeter.model.service.request.UserRequest;
+import edu.byu.cs.tweeter.model.service.response.UserResponse;
 import edu.byu.cs.tweeter.presenter.StatusArrayPresenter;
-import edu.byu.cs.tweeter.view.asyncTasks.GetStatusTask;
+import edu.byu.cs.tweeter.view.asyncTasks.GetStatusArrayTask;
+import edu.byu.cs.tweeter.view.asyncTasks.GetUserTask;
 import edu.byu.cs.tweeter.view.main.MainActivity;
 import edu.byu.cs.tweeter.view.main.UserPageActivity;
 import edu.byu.cs.tweeter.view.util.ImageUtils;
@@ -107,7 +114,7 @@ public class StatusFragment extends Fragment implements StatusArrayPresenter.Vie
     /**
      * The ViewHolder for the RecyclerView that displays the Status data.
      */
-    private class StatusHolder extends RecyclerView.ViewHolder {
+    private class StatusHolder extends RecyclerView.ViewHolder implements GetUserTask.Observer {
 
         private final ImageView userImage;
         private final TextView userAlias;
@@ -128,8 +135,8 @@ public class StatusFragment extends Fragment implements StatusArrayPresenter.Vie
                 userImage = itemView.findViewById(R.id.userImage);
                 userAlias = itemView.findViewById(R.id.userAlias);
                 userName = itemView.findViewById(R.id.userName);
-                statusTimeStamp = itemView.findViewById(R.id.statusTimeStamp);
-                statusMessage = itemView.findViewById(R.id.statusMessage);
+                statusTimeStamp = itemView.findViewById(R.id.timeStamp);
+                statusMessage = itemView.findViewById(R.id.message);
 
                 userName.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -172,8 +179,8 @@ public class StatusFragment extends Fragment implements StatusArrayPresenter.Vie
             ClickableSpan clickable = new ClickableSpan() {
                 public void onClick(View view) {
                     // Do something with span.getURL() to handle the link click...
-                    view.setMovementMethod(LinkMovementMethod.getInstance());
-                    // Not sure if this does it and I can't test it.
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(span.getURL()));
+                    startActivity(browserIntent);
                 }
             };
             strBuilder.setSpan(clickable, start, end, flags);
@@ -193,19 +200,32 @@ public class StatusFragment extends Fragment implements StatusArrayPresenter.Vie
         }
 
         //For Clickable @s
-        private void makeAliasClickable(String message, String alias)
+        private void makeAliasClickable(String message, String alias, SpannableStringBuilder strBuilder)
         {
-            //not really sure how to do this
+            int start = message.indexOf(alias);
+            int end = message.lastIndexOf(alias);
+            int flags = Spannable.SPAN_EXCLUSIVE_EXCLUSIVE;
+            ClickableSpan clickable = new ClickableSpan() {
+                public void onClick(View view) {
+                    //GO TO PAGE ACTIVITY
+                    if(alias.equals(user.getAlias())) {
+                        Intent intent = new Intent(getActivity(), MainActivity.class);
+                        intent.putExtra(MainActivity.CURRENT_USER_KEY, user);
+                        intent.putExtra(MainActivity.AUTH_TOKEN_KEY, authToken);
+                        startActivity(intent);
+                    }
+                    else {
+                        goToAliasUser(alias);
+                    }
+                }
+            };
+            strBuilder.setSpan(clickable, start, end, flags);
         }
 
-        private void setTextViewAtAlias(TextView text, String message)
-        {
-            Pattern pattern = Pattern.compile("@\\w+");
-            Matcher matcher = pattern.matcher(message);
-            while (matcher.find())
-            {
-                makeAliasClickable(message, matcher.group());
-            }
+        private void goToAliasUser(String alias) {
+            GetUserTask getAliasUser = new GetUserTask(presenter, this);
+            UserRequest userRequest = new UserRequest(alias);
+            getAliasUser.execute(userRequest);
         }
 
 
@@ -215,19 +235,32 @@ public class StatusFragment extends Fragment implements StatusArrayPresenter.Vie
          * @param status the status.
          */
         void bindStatus(Status status) {
-            userImage.setImageDrawable(ImageUtils.drawableFromByteArray(status.correspondingUser.getImageBytes()));
-            userAlias.setText(status.correspondingUser.getAlias());
-            userName.setText(status.correspondingUser.getName());
-            statusTimeStamp.setText(statusTimeStamp);
-            statusMessage.setText(statusMessage);
+            userImage.setImageDrawable(ImageUtils.drawableFromByteArray(status.getCorrespondingUser().getImageBytes()));
+            userAlias.setText(status.getCorrespondingUser().getAlias());
+            userName.setText(status.getCorrespondingUser().getName());
+            statusTimeStamp.setText(status.getDate());
+            statusMessage.setText(status.getMessage());
             targetUser = status.getCorrespondingUser();
+        }
+
+        @Override
+        public void userRetrieved(UserResponse userResponse) {
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            intent.putExtra(MainActivity.CURRENT_USER_KEY, userResponse.getUser().getAlias());
+            intent.putExtra(MainActivity.AUTH_TOKEN_KEY, authToken);
+            startActivity(intent);
+        }
+
+        @Override
+        public void handleException(Exception exception) {
+            Toast.makeText(getContext(), "Invald User Alias!", Toast.LENGTH_LONG).show();
         }
     }
 
     /**
      * The adapter for the RecyclerView that displays the Status data. = itemView.findViewById(R.id.statusMessage)
      */
-    private class StatusRecyclerViewAdapter extends RecyclerView.Adapter<StatusHolder> implements GetStatusTask.Observer {
+    private class StatusRecyclerViewAdapter extends RecyclerView.Adapter<StatusHolder> implements GetStatusArrayTask.Observer {
 
         private final List<Status> statuses = new ArrayList<>();
 
@@ -346,8 +379,8 @@ public class StatusFragment extends Fragment implements StatusArrayPresenter.Vie
             isLoading = true;
             addLoadingFooter();
 
-            GetStatusTask getStatusTask = new GetStatusTask(presenter, this);
-            StatusArrayRequest request = new StatusArrayRequest(status.getDate, PAGE_SIZE, (lastStatus == null ? null : lastStatus.getDate));
+            GetStatusArrayTask getStatusTask = new GetStatusArrayTask(presenter, this);
+            StatusArrayRequest request = new StatusArrayRequest(user.getAlias(), PAGE_SIZE, (lastStatus == null ? null : lastStatus.getDate()));
             getStatusTask.execute(request);
         }
 
@@ -358,7 +391,7 @@ public class StatusFragment extends Fragment implements StatusArrayPresenter.Vie
          * @param statusArrayResponse the asynchronous response to the request to load more items.
          */
         @Override
-        public void StatusesRetrieved(StatusArrayResponse statusArrayResponse) {
+        public void statusArrayRetrieved(StatusArrayResponse statusArrayResponse) {
             List<Status> statuses = statusArrayResponse.getStatuses();
 
             lastStatus = (statuses.size() > 0) ? statuses.get(statuses.size() -1) : null;

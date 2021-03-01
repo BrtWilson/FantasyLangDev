@@ -27,6 +27,10 @@ public class Status {
         mUrlMentions = new UrlMentions(message);
     }
 
+    public String getMessage() {
+        return message;
+    }
+
     public UserMentions getUserMentions() {
         return mUserMentions;
     }

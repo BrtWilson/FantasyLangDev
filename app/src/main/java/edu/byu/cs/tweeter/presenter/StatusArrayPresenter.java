@@ -4,10 +4,13 @@ import java.io.IOException;
 
 import edu.byu.cs.tweeter.model.service.IStatusListService;
 import edu.byu.cs.tweeter.model.service.StatusArrayServiceStatus;
+import edu.byu.cs.tweeter.model.service.UserService;
 import edu.byu.cs.tweeter.model.service.request.IListRequest;
 import edu.byu.cs.tweeter.model.service.request.StatusArrayRequest;
+import edu.byu.cs.tweeter.model.service.request.UserRequest;
 import edu.byu.cs.tweeter.model.service.response.IListResponse;
 import edu.byu.cs.tweeter.model.service.response.StatusArrayResponse;
+import edu.byu.cs.tweeter.model.service.response.UserResponse;
 
 /**
  * The presenter for the "following" functionality of the application.
@@ -75,5 +78,15 @@ public class StatusArrayPresenter implements IStatuses_Observer{
     @Override
     public void Update() {
         view.update();
+    }
+
+
+    public UserResponse getUserByAlias(UserRequest request) {
+        UserService userService = getUserService();
+        return userService.getUserByAlias(request);
+    }
+
+    private UserService getUserService() {
+        return new UserService();
     }
 }
