@@ -7,12 +7,12 @@ import edu.byu.cs.tweeter.model.service.response.NewStatusResponse;
 
 public class NewStatusPresenter {
 
-    private final View view;
+    private final  LoginPresenter.View view;
     private NewStatusService newStatusService;
 
     public interface View { }
 
-    public NewStatusPresenter(View view) { this.view = view; }
+    public NewStatusPresenter( LoginPresenter.View view) { this.view = view; }
 
     public NewStatusResponse newStatus(NewStatusRequest newStatusRequest) throws IOException {
         newStatusService = getNewStatusService();

@@ -37,4 +37,8 @@ public class LoginPresenter {
         }
         return loginService;
     }
+
+    public View getView() {
+        return view;
+    }
 }

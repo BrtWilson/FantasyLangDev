@@ -19,15 +19,19 @@ import edu.byu.cs.tweeter.R;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.model.service.request.LogoutRequest;
+import edu.byu.cs.tweeter.model.service.request.NewStatusRequest;
 import edu.byu.cs.tweeter.model.service.response.LogoutResponse;
+import edu.byu.cs.tweeter.model.service.response.NewStatusResponse;
 import edu.byu.cs.tweeter.presenter.LoginPresenter;
+import edu.byu.cs.tweeter.presenter.NewStatusPresenter;
 import edu.byu.cs.tweeter.view.asyncTasks.LogoutTask;
+import edu.byu.cs.tweeter.view.asyncTasks.PostStatusTask;
 import edu.byu.cs.tweeter.view.util.ImageUtils;
 
 /**
  * The main activity for the application. Contains tabs for feed, story, following, and followers.
  */
-public class MainActivity extends AppCompatActivity implements LoginPresenter.View, LogoutTask.Observer {
+public class MainActivity extends AppCompatActivity implements LoginPresenter.View, LogoutTask.Observer, StatusDialog.SDListener, PostStatusTask.Observer {
 
     public static final String LOG_TAG = "MainActivity";
     public static final String CURRENT_USER_KEY = "CurrentUser";
@@ -64,8 +68,7 @@ public class MainActivity extends AppCompatActivity implements LoginPresenter.Vi
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                openStatusDialogueBegin();
             }
         });
 
@@ -83,6 +86,35 @@ public class MainActivity extends AppCompatActivity implements LoginPresenter.Vi
 
         TextView followerCount = findViewById(R.id.followerCount);
         followerCount.setText(getString(R.string.followerCount, user.getFollowerCount()));
+    }
+
+    public void openStatusDialogueBegin() {
+        StatusDialog statusDialog = new StatusDialog();
+        statusDialog.show(getSupportFragmentManager(), "example dialog");
+    }
+
+    @Override
+    public void saveMessage(String message) {
+        NewStatusPresenter presenter = new NewStatusPresenter(loginPresenter.getView());
+
+        Toast statusPostedToast = Toast.makeText(MainActivity.this, "Status Posted", Toast.LENGTH_LONG);
+        statusPostedToast.show();
+
+        postStatusDialogueConclude(message, presenter);
+    }
+
+    public void postStatusDialogueConclude(String message, NewStatusPresenter presenter) {
+        //SimpleDateFormat s = new SimpleDateFormat("ddMMyyyyhhmmss");
+        //String format = s.format(new Date());
+        Long tsLong = System.currentTimeMillis()/1000;
+        String date = tsLong.toString();
+
+        NewStatusRequest newStatusRequest = new NewStatusRequest(
+                user.getAlias(),
+                message,
+                date);
+        PostStatusTask postStatusTask = new PostStatusTask(presenter, MainActivity.this);
+        postStatusTask.execute(newStatusRequest);
     }
 
     @Override
@@ -117,6 +149,16 @@ public class MainActivity extends AppCompatActivity implements LoginPresenter.Vi
     @Override
     public void logoutUnsuccessful(LogoutResponse logoutResponse) {
         logoutToast.makeText(this, "Failed to logout. " + logoutResponse.getMessage(), Toast.LENGTH_LONG);
+    }
+
+    @Override
+    public void newStatusSuccessful(NewStatusResponse newStatusResponse) {
+        logoutToast.makeText(this, "Status posted.", Toast.LENGTH_LONG);
+    }
+
+    @Override
+    public void newStatusUnsuccessful(NewStatusResponse newStatusResponse) {
+        logoutToast.makeText(this, "Status failed to post. " + newStatusResponse.getMessage(), Toast.LENGTH_LONG);
     }
 
     @Override

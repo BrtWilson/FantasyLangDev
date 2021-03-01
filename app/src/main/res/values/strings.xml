@@ -22,4 +22,6 @@
 
     <string name="followButtonText">Follow</string>
     <string name="followButtonText2">Following</string>
+    <string name="status_prompt">Enter a message for your status:</string>
+    <string name="enter_a_message">E.g. I have the high ground!</string>
 </resources>

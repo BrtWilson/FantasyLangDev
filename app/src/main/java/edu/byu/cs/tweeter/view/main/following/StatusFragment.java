@@ -51,6 +51,7 @@ public class StatusFragment extends Fragment implements StatusArrayPresenter.Vie
     private static final String LOG_TAG = "StatusFragment";
     private static final String USER_KEY = "UserKey";
     private static final String AUTH_TOKEN_KEY = "AuthTokenKey";
+    private static final String IS_FEED_KEY = "IsFeed";
 
     private static final int LOADING_DATA_VIEW = 0;
     private static final int ITEM_VIEW = 1;
@@ -63,6 +64,8 @@ public class StatusFragment extends Fragment implements StatusArrayPresenter.Vie
 
     private StatusRecyclerViewAdapter statusRecyclerViewAdapter;
 
+    private Boolean isFeed;
+
     /**
      * Creates an instance of the fragment and places the user and auth token in an arguments
      * bundle assigned to the fragment.
@@ -71,12 +74,13 @@ public class StatusFragment extends Fragment implements StatusArrayPresenter.Vie
      * @param authToken the auth token for this user's session.
      * @return the fragment.
      */
-    public static StatusFragment newInstance(User user, AuthToken authToken) {
+    public static StatusFragment newInstance(User user, AuthToken authToken, Boolean isFeed) {
         StatusFragment fragment = new StatusFragment();
 
         Bundle args = new Bundle(2);
         args.putSerializable(USER_KEY, user);
         args.putSerializable(AUTH_TOKEN_KEY, authToken);
+        args.putSerializable(IS_FEED_KEY, isFeed);
 
         fragment.setArguments(args);
         return fragment;
@@ -90,6 +94,7 @@ public class StatusFragment extends Fragment implements StatusArrayPresenter.Vie
         //noinspection ConstantConditions
         user = (User) getArguments().getSerializable(USER_KEY);
         authToken = (AuthToken) getArguments().getSerializable(AUTH_TOKEN_KEY);
+        isFeed = (Boolean) getArguments().getSerializable(IS_FEED_KEY);
 
         presenter = new StatusArrayPresenter(this);
 
@@ -108,7 +113,8 @@ public class StatusFragment extends Fragment implements StatusArrayPresenter.Vie
 
     @Override
     public void update() {
-        //TODO
+        //ToDo: - hopefully this works?
+        super.onResume();
     }
 
     /**
@@ -380,7 +386,7 @@ public class StatusFragment extends Fragment implements StatusArrayPresenter.Vie
             addLoadingFooter();
 
             GetStatusArrayTask getStatusTask = new GetStatusArrayTask(presenter, this);
-            StatusArrayRequest request = new StatusArrayRequest(user.getAlias(), PAGE_SIZE, (lastStatus == null ? null : lastStatus.getDate()));
+            StatusArrayRequest request = new StatusArrayRequest(user.getAlias(), PAGE_SIZE, (lastStatus == null ? null : lastStatus.getDate()), isFeed);
             getStatusTask.execute(request);
         }
 
@@ -399,7 +405,7 @@ public class StatusFragment extends Fragment implements StatusArrayPresenter.Vie
 
             isLoading = false;
             removeLoadingFooter();
-            StatusRecyclerViewAdapter.addItems(statuses);
+            statusRecyclerViewAdapter.addItems(statuses);
         }
 
         /**
@@ -466,10 +472,10 @@ public class StatusFragment extends Fragment implements StatusArrayPresenter.Vie
             int totalItemCount = layoutManager.getItemCount();
             int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
 
-            if (!StatusRecyclerViewAdapter.isLoading && StatusRecyclerViewAdapter.hasMorePages) {
+            if (!statusRecyclerViewAdapter.isLoading && statusRecyclerViewAdapter.hasMorePages) {
                 if ((visibleItemCount + firstVisibleItemPosition) >=
                         totalItemCount && firstVisibleItemPosition >= 0) {
-                    StatusRecyclerViewAdapter.loadMoreItems();
+                    statusRecyclerViewAdapter.loadMoreItems();
                 }
             }
         }

@@ -15,7 +15,7 @@ import edu.byu.cs.tweeter.util.ByteArrayUtils;
 /**
  * Contains the business logic for getting the users a user is following.
  */
-public class StatusArrayServiceStatus implements IStatusListService {
+public class StatusArrayService implements IStatusListService {
 
     /**
      * Returns the users that the user specified in the request is following. Uses information in

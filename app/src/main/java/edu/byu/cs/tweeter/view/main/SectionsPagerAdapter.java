@@ -14,6 +14,7 @@ import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.view.main.following.FollowingFragment;
 import edu.byu.cs.tweeter.view.main.following.FollowerFragment;
 import edu.byu.cs.tweeter.view.main.UserPageActivity;
+import edu.byu.cs.tweeter.view.main.following.StatusFragment;
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to one of the sections/tabs/pages
@@ -21,6 +22,8 @@ import edu.byu.cs.tweeter.view.main.UserPageActivity;
  */
 class SectionsPagerAdapter extends FragmentPagerAdapter {
 
+    private static int FEED_FRAGMENT_POSITION = 0;
+    private static int STORY_FRAGMENT_POSITION = 1;
     private static int FOLLOWING_FRAGMENT_POSITION = 2;
     private static int FOLLOWER_FRAGMENT_POSITION = 3;
 
@@ -50,6 +53,10 @@ class SectionsPagerAdapter extends FragmentPagerAdapter {
             return FollowingFragment.newInstance(user, authToken);
         } else if (position == FOLLOWER_FRAGMENT_POSITION) {
             return FollowerFragment.newInstance(user, authToken);
+        } else if (position == FEED_FRAGMENT_POSITION) {
+            return StatusFragment.newInstance(user, authToken, true);
+        } else if (position == STORY_FRAGMENT_POSITION) {
+            return StatusFragment.newInstance(user, authToken, false);
         }
         else {
             return PlaceholderFragment.newInstance(position + 1);
