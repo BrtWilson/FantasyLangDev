@@ -43,7 +43,7 @@ public class GetStatusArrayTask extends AsyncTask<StatusArrayRequest, Void, Stat
      * The method that is invoked on the background thread to retrieve followers. This method is
      * invoked indirectly by calling {@link #execute(StatusArrayRequest...)}.
      *
-     * @param followerRequests the request object (there will only be one).
+     * @param statusRequests the request object (there will only be one).
      * @return the response.
      */
     @Override
@@ -63,7 +63,7 @@ public class GetStatusArrayTask extends AsyncTask<StatusArrayRequest, Void, Stat
     /**
      * Notifies the observer (on the UI thread) when the task completes.
      *
-     * @param followerResponse the response that was received by the task.
+     * @param statusArrayResponse the response that was received by the task.
      */
     @Override
     protected void onPostExecute(StatusArrayResponse statusArrayResponse) {

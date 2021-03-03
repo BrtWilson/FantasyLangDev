@@ -81,7 +81,7 @@ public class StatusArrayPresenter implements IStatuses_Observer{
     }
 
 
-    public UserResponse getUserByAlias(UserRequest request) {
+    public UserResponse getUserByAlias(UserRequest request) throws IOException {
         UserService userService = getUserService();
         return userService.getUserByAlias(request);
     }

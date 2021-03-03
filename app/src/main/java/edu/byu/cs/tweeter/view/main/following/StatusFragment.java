@@ -27,6 +27,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import edu.byu.cs.tweeter.R;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
@@ -128,6 +130,7 @@ public class StatusFragment extends Fragment implements StatusArrayPresenter.Vie
         private final TextView statusTimeStamp;
         private final TextView statusMessage;
         private User targetUser;
+        private String statusMessageContent;
 
         /**
          * Creates an instance and sets an OnClickListener for the user's row.
@@ -165,8 +168,6 @@ public class StatusFragment extends Fragment implements StatusArrayPresenter.Vie
                     }
                 });
 
-                setTextViewHTML(statusMessage, statusMessage.getText().toString());
-
             } else {
                 userImage = null;
                 userAlias = null;
@@ -176,7 +177,7 @@ public class StatusFragment extends Fragment implements StatusArrayPresenter.Vie
             }
         }
 
-        //For Clickable Links
+ /*       //For Clickable Links
         private void makeLinkClickable(SpannableStringBuilder strBuilder, final URLSpan span)
         {
             int start = strBuilder.getSpanStart(span);
@@ -193,27 +194,52 @@ public class StatusFragment extends Fragment implements StatusArrayPresenter.Vie
             strBuilder.removeSpan(span);
         }
 
-        private void setTextViewHTML(TextView text, String html)
+        private void setTextViewHTML(TextView text, String content)
         {
-            CharSequence sequence = Html.fromHtml(html);
-            SpannableStringBuilder strBuilder = new SpannableStringBuilder(sequence);
-            URLSpan[] urls = strBuilder.getSpans(0, sequence.length(), URLSpan.class);
-            for(URLSpan span : urls) {
-                makeLinkClickable(strBuilder, span);
+            Pattern urlPattern = getUrlPattern();
+            Matcher htmlMatcher = urlPattern.matcher(content);
+            while (htmlMatcher.find()) {
+                SpannableStringBuilder strBuilder = new SpannableStringBuilder(htmlMatcher.group());
+               // URLSpan[] urls = strBuilder.getSpans(0, sequence.length(), URLSpan.class);
+               // for (URLSpan span : urls) {
+               //     makeLinkClickable(strBuilder, span);
+               // }
+                text.setText(strBuilder);
+                text.setMovementMethod(LinkMovementMethod.getInstance());
             }
-            text.setText(strBuilder);
-            text.setMovementMethod(LinkMovementMethod.getInstance());
         }
 
+        private Pattern getUrlPattern() {
+            return Pattern.compile(
+                    "(?:^|[\\W])((ht|f)tp(s?):\\/\\/|www\\.)"
+                            + "(([\\w\\-]+\\.){1,}?([\\w\\-.~]+\\/?)*"
+                            + "[\\p{Alnum}.,%_=?&#\\-+()\\[\\]\\*$~@!:/{};']*)",
+                    Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
+        }
+*/
         //For Clickable @s
+        private void setTextViewAtAlias(TextView textV, String message)
+        {
+            Pattern pattern = Pattern.compile("@\\w+");
+            Matcher matcher = pattern.matcher(message);
+            SpannableStringBuilder strBuilder = new SpannableStringBuilder(message);
+            while (matcher.find())
+            {
+                makeAliasClickable(message, matcher.group(), strBuilder);
+            }
+            textV.setText(strBuilder);
+            textV.setMovementMethod(LinkMovementMethod.getInstance());
+        }
+
         private void makeAliasClickable(String message, String alias, SpannableStringBuilder strBuilder)
         {
             int start = message.indexOf(alias);
-            int end = message.lastIndexOf(alias);
+            int end = start + alias.length();
             int flags = Spannable.SPAN_EXCLUSIVE_EXCLUSIVE;
             ClickableSpan clickable = new ClickableSpan() {
                 public void onClick(View view) {
                     //GO TO PAGE ACTIVITY
+                    toastAlert("Searching alias.");
                     if(alias.equals(user.getAlias())) {
                         Intent intent = new Intent(getActivity(), MainActivity.class);
                         intent.putExtra(MainActivity.CURRENT_USER_KEY, user);
@@ -234,6 +260,31 @@ public class StatusFragment extends Fragment implements StatusArrayPresenter.Vie
             getAliasUser.execute(userRequest);
         }
 
+        @Override
+        public void userRetrieved(UserResponse userResponse) {
+            if (userResponse.isSuccess()) {
+                Intent intent = new Intent(getActivity(), UserPageActivity.class);
+                intent.putExtra(UserPageActivity.TARGET_USER_KEY, userResponse.getUser());
+                intent.putExtra(UserPageActivity.CURRENT_USER_KEY, user);
+                intent.putExtra(UserPageActivity.AUTH_TOKEN_KEY, authToken);
+                startActivity(intent);
+            } else {
+                noUserFound();
+            }
+        }
+
+        @Override
+        public void handleException(Exception exception) {
+            toastAlert("Error when acquiring alias: " + exception.getMessage());
+        }
+
+        private void noUserFound() {
+            toastAlert( "No user found for that alias.");
+        }
+
+        private void toastAlert(String message) {
+            Toast.makeText(getContext(), message + message, Toast.LENGTH_SHORT).show();
+        }
 
         /**
          * Binds the status's data to the view.
@@ -245,21 +296,12 @@ public class StatusFragment extends Fragment implements StatusArrayPresenter.Vie
             userAlias.setText(status.getCorrespondingUser().getAlias());
             userName.setText(status.getCorrespondingUser().getName());
             statusTimeStamp.setText(status.getDate());
-            statusMessage.setText(status.getMessage());
+            statusMessageContent = status.getMessage();
+            statusMessage.setText(statusMessageContent);
             targetUser = status.getCorrespondingUser();
-        }
 
-        @Override
-        public void userRetrieved(UserResponse userResponse) {
-            Intent intent = new Intent(getActivity(), MainActivity.class);
-            intent.putExtra(MainActivity.CURRENT_USER_KEY, userResponse.getUser().getAlias());
-            intent.putExtra(MainActivity.AUTH_TOKEN_KEY, authToken);
-            startActivity(intent);
-        }
-
-        @Override
-        public void handleException(Exception exception) {
-            Toast.makeText(getContext(), "Invald User Alias!", Toast.LENGTH_LONG).show();
+           // setTextViewHTML(statusMessage, statusMessageContent);
+            setTextViewAtAlias(statusMessage, statusMessageContent);
         }
     }
 
