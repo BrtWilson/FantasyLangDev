@@ -12,6 +12,7 @@ import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.model.net.ServerFacade;
 import edu.byu.cs.tweeter.model.service.request.StatusArrayRequest;
 import edu.byu.cs.tweeter.model.service.response.StatusArrayResponse;
+import edu.byu.cs.tweeter.model.domain.Status;
 
 public class StatusArrayServiceTest {
 
@@ -49,10 +50,10 @@ public class StatusArrayServiceTest {
         // Setup a mock ServerFacade that will return known responses
         successResponse = new StatusArrayResponse(Arrays.asList(resultStatus1, resultStatus2, resultStatus3), false);
         ServerFacade mockServerFacade = Mockito.mock(ServerFacade.class);
-        Mockito.when(mockServerFacade.getStatusArray(validRequest)).thenReturn(successResponse);
+        Mockito.when(mockServerFacade.getStatusArray(validRequest, null)).thenReturn(successResponse);
 
         failureResponse = new StatusArrayResponse("An exception occurred");
-        Mockito.when(mockServerFacade.getStatusArray(invalidRequest)).thenReturn(failureResponse);
+        Mockito.when(mockServerFacade.getStatusArray(invalidRequest, null)).thenReturn(failureResponse);
 
         // Create a StatusArrayService instance and wrap it with a spy that will use the mock service
         statusArrayServiceSpy = Mockito.spy(new StatusArrayService());
@@ -68,7 +69,7 @@ public class StatusArrayServiceTest {
      */
     @Test
     public void testGetStatusArray_validRequest_correctResponse() throws IOException {
-        StatusArrayResponse response = statusArrayServiceSpy.getStatusArray(validRequest);
+        StatusArrayResponse response = statusArrayServiceSpy.requestStatusArray(validRequest,null);
         Assertions.assertEquals(successResponse, response);
     }
 
@@ -80,22 +81,22 @@ public class StatusArrayServiceTest {
      */
     @Test
     public void testGetStatusArray_validRequest_loadsProfileImages() throws IOException {
-        StatusArrayResponse response = statusArrayServiceSpy.getStatusArray(validRequest);
+        StatusArrayResponse response = statusArrayServiceSpy.requestStatusArray(validRequest,null);
 
-        for(Status status : response.getStatusArray()) {
-            Assertions.assertNotNull(status.getCorrespongingUser.getImageBytes());
+        for(Status status : response.getStatuses()) {
+            Assertions.assertNotNull(status.getCorrespondingUser().getImageBytes());
         }
     }
 
     /**
-     * Verify that for failed requests the {@link StatusArrayService#getStatusArray(StatusArrayRequest)}
+     * Verify that for failed requests the {@link StatusArrayService#requestStatusArray(StatusArrayRequest)}
      * method returns the same result as the {@link ServerFacade}.
      *
      * @throws IOException if an IO error occurs.
      */
     @Test
     public void testGetStatusArray_invalidRequest_returnsNoFollowers() throws IOException {
-        StatusArrayResponse response = statusArrayServiceSpy.getStatusArray(invalidRequest);
+        StatusArrayResponse response = statusArrayServiceSpy.requestStatusArray(invalidRequest,null);
         Assertions.assertEquals(failureResponse, response);
     }
 }
