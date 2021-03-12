@@ -14,11 +14,10 @@ import com.example.shared.model.service.response.NewStatusResponse;
  */
 public class NewStatusService implements INewStatusService {
 
-    static final String URL_PATH = "/poststatus";
 
     public NewStatusResponse postNewStatus(NewStatusRequest request) throws IOException {
         ServerFacade serverFacade = getServerFacade();
-        return serverFacade.pushNewStatus(request, URL_PATH);
+        return serverFacade.pushNewStatus(request);
     }
 
     /**

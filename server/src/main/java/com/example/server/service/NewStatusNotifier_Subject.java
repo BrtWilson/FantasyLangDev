@@ -1,9 +1,9 @@
 package com.example.server.service;
 
+import com.example.shared.model.service.IStatuses_Observer;
+
 import java.util.LinkedList;
 import java.util.List;
-
-import edu.byu.cs.client.presenter.IStatuses_Observer;
 
 public abstract class NewStatusNotifier_Subject {
     List<IStatuses_Observer> observers = new LinkedList<>();

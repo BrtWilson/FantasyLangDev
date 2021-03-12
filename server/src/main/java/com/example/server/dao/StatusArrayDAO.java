@@ -1,5 +1,6 @@
 package com.example.server.dao;
 
+import com.example.shared.model.service.IStatuses_Observer;
 import com.example.shared.model.service.request.StatusArrayRequest;
 import com.example.shared.model.service.response.StatusArrayResponse;
 

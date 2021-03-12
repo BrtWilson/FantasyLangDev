@@ -12,11 +12,10 @@ import edu.byu.cs.client.util.ByteArrayUtils;
 public class RegisterService implements IRegisterService {
 
     public static ServerFacade serverFacade;
-    static final String URL_PATH = "/register";
 
     public RegisterResponse register(RegisterRequest request) throws IOException {
         serverFacade = getServerFacade();
-        RegisterResponse registerResponse = serverFacade.register(request, URL_PATH);
+        RegisterResponse registerResponse = serverFacade.register(request);
 
         if(registerResponse.isSuccess()) {
             loadImage(registerResponse.getUser());

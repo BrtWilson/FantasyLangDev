@@ -11,7 +11,7 @@ import com.example.shared.model.service.request.IListRequest;
 import com.example.shared.model.service.request.StatusArrayRequest;
 import com.example.shared.model.service.response.IListResponse;
 import com.example.shared.model.service.response.StatusArrayResponse;
-import edu.byu.cs.client.presenter.IStatuses_Observer;
+import com.example.shared.model.service.IStatuses_Observer;
 import edu.byu.cs.client.util.ByteArrayUtils;
 
 /**
@@ -19,7 +19,6 @@ import edu.byu.cs.client.util.ByteArrayUtils;
  */
 public class StatusArrayService implements IStatusArrayService {
 
-    static final String URL_PATH = "/getstatusarray";
 
     /**
      * Returns the users that the user specified in the request is following. Uses information in
@@ -37,7 +36,7 @@ public class StatusArrayService implements IStatusArrayService {
                 return response;
             }
             StatusArrayRequest req = (StatusArrayRequest) request;
-            response = getServerFacade().getStatusArray(req, statuses_observer, URL_PATH);
+            response = getServerFacade().getStatusArray(req, statuses_observer);
 
             if (response.isSuccess()) {
                 loadImages(response);

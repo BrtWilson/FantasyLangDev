@@ -15,8 +15,6 @@ public class LoginService implements ILoginService {
 
     private static ServerFacade serverFacade;
     private static LoginService instance;
-    static final String URL_PATH_LOGIN = "/login";
-    static final String URL_PATH_LOGOUT = "/logout";
 
     public static LoginService getInstance() {
         if(instance == null) {
@@ -27,7 +25,7 @@ public class LoginService implements ILoginService {
 
     public LoginResponse login(LoginRequest request) throws IOException {
         serverFacade = getServerFacade();
-        LoginResponse loginResponse = serverFacade.login(request, URL_PATH_LOGIN);
+        LoginResponse loginResponse = serverFacade.login(request);
 
         if(loginResponse.isSuccess()) {
             loadImage(loginResponse.getUser());
@@ -45,7 +43,7 @@ public class LoginService implements ILoginService {
         if(serverFacade == null) {
             serverFacade = RegisterService.getServerFacade();
         }
-        LogoutResponse logoutResponse = serverFacade.logout(request, URL_PATH_LOGOUT);
+        LogoutResponse logoutResponse = serverFacade.logout(request);
         System.out.println("logoutResponse: " + logoutResponse.getMessage());
         return logoutResponse;
     }

@@ -2,9 +2,11 @@ package edu.byu.cs.client.presenter;
 
 import java.io.IOException;
 
-import edu.byu.cs.client.model.service.IStatusArrayService;
 import edu.byu.cs.client.model.service.StatusArrayService;
 import edu.byu.cs.client.model.service.UserService;
+
+import com.example.shared.model.service.IStatusArrayService;
+import com.example.shared.model.service.IStatuses_Observer;
 import com.example.shared.model.service.request.IListRequest;
 import com.example.shared.model.service.request.StatusArrayRequest;
 import com.example.shared.model.service.request.UserRequest;
@@ -15,7 +17,7 @@ import com.example.shared.model.service.response.UserResponse;
 /**
  * The presenter for the "following" functionality of the application.
  */
-public class StatusArrayPresenter implements IStatuses_Observer{
+public class StatusArrayPresenter implements IStatuses_Observer {
     protected final View view;
 
     /**

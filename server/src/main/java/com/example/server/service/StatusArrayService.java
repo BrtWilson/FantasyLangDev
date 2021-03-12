@@ -1,17 +1,14 @@
 package com.example.server.service;
 
 import com.example.server.dao.StatusArrayDAO;
-import com.example.shared.model.domain.Status;
-import com.example.shared.model.domain.User;
 import com.example.shared.model.service.IStatusArrayService;
+import com.example.shared.model.service.IStatuses_Observer;
 import com.example.shared.model.service.request.IListRequest;
 import com.example.shared.model.service.request.StatusArrayRequest;
 import com.example.shared.model.service.response.IListResponse;
 import com.example.shared.model.service.response.StatusArrayResponse;
 
 import java.io.IOException;
-
-import edu.byu.cs.client.presenter.IStatuses_Observer;
 
 /**
  * Contains the business logic for getting the users a user is following.
@@ -29,17 +26,17 @@ public class StatusArrayService implements IStatusArrayService {
      */
     public StatusArrayResponse requestStatusArray(IListRequest request, IStatuses_Observer statuses_observer) {
         StatusArrayResponse response = new StatusArrayResponse("Statuses missing");
-        try {
+        //try {
             if (request.getClass() != StatusArrayRequest.class) {
                 return response;
             }
             StatusArrayRequest req = (StatusArrayRequest) request;
             response = getStatusArrayDao().getStatusArray(req, statuses_observer);
 
-        } catch (IOException e) {
+        /*} catch (IOException e) {
             response = new StatusArrayResponse("Statuses missing error");
             return response;
-        }
+        }*/
 
         return response;
     }

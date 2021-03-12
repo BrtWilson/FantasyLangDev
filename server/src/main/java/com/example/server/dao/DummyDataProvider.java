@@ -1,8 +1,10 @@
 package com.example.server.dao;
 
+import com.example.server.service.NewStatusNotifier_Subject;
 import com.example.shared.model.domain.AuthToken;
 import com.example.shared.model.domain.Status;
 import com.example.shared.model.domain.User;
+import com.example.shared.model.service.IStatuses_Observer;
 import com.example.shared.model.service.request.FollowerRequest;
 import com.example.shared.model.service.request.FollowingRequest;
 import com.example.shared.model.service.request.LoginRequest;
@@ -25,10 +27,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-
-import edu.byu.cs.client.BuildConfig;
-import edu.byu.cs.client.model.service.NewStatusNotifier_Subject;
-import edu.byu.cs.client.presenter.IStatuses_Observer;
 
 /**
  * Acts as a Facade to the Tweeter server. All network requests to the server should go through
@@ -296,7 +294,7 @@ public class DummyDataProvider extends NewStatusNotifier_Subject {
     public FollowingResponse getFollowees(FollowingRequest request) {
 
         // Used in place of assert statements because Android does not support them
-        if (BuildConfig.DEBUG) {
+        //if (BuildConfig.DEBUG) {
             if (request.getLimit() < 0) {
                 throw new AssertionError();
             }
@@ -304,7 +302,7 @@ public class DummyDataProvider extends NewStatusNotifier_Subject {
             if (request.getFollowingAlias() == null) {
                 throw new AssertionError();
             }
-        }
+        //}
 
         List<User> allFollowees = getDummyFollowees();
         List<User> responseFollowees = new ArrayList<>(request.getLimit());
@@ -381,7 +379,7 @@ public class DummyDataProvider extends NewStatusNotifier_Subject {
     public FollowerResponse getFollowers(FollowerRequest request) {
 
         // Used in place of assert statements because Android does not support them
-        if (BuildConfig.DEBUG) {
+        //if (BuildConfig.DEBUG) {
             if (request.getLimit() < 0) {
                 throw new AssertionError();
             }
@@ -389,7 +387,7 @@ public class DummyDataProvider extends NewStatusNotifier_Subject {
             if (request.getUserAlias() == null) {
                 throw new AssertionError();
             }
-        }
+        //}
 
         List<User> allFollowers = getDummyFollowers();
         List<User> responseFollowers = new ArrayList<>(request.getLimit());
@@ -457,7 +455,7 @@ public class DummyDataProvider extends NewStatusNotifier_Subject {
     public StatusArrayResponse getStatusArray(StatusArrayRequest request, IStatuses_Observer statuses_observer) {
 
         // Used in place of assert statements because Android does not support them
-        if (BuildConfig.DEBUG) {
+        //if (BuildConfig.DEBUG) {
             if (request.getLimit() < 0) {
                 throw new AssertionError();
             }
@@ -465,7 +463,7 @@ public class DummyDataProvider extends NewStatusNotifier_Subject {
             if (request.getUserAlias() == null) {
                 throw new AssertionError();
             }
-        }
+        //}
 
         register(statuses_observer);
 

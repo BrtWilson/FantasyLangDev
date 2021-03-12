@@ -15,11 +15,10 @@ import edu.byu.cs.client.util.ByteArrayUtils;
  */
 public class UserService implements IUserService {
 
-    static final String URL_PATH = "/getuser";
 
     public UserResponse getUserByAlias(UserRequest request) throws IOException {
         ServerFacade serverFacade = getServerFacade();
-        UserResponse response = serverFacade.getUserByAlias(request, URL_PATH);
+        UserResponse response = serverFacade.getUserByAlias(request);
 
         if(response.isSuccess()) {
             loadImage(response);

@@ -1,4 +1,4 @@
-package edu.byu.cs.client.presenter;
+package com.example.shared.model.service;
 
 // TODO: Fix this dependency
 

@@ -1,5 +1,7 @@
 package edu.byu.cs.client.model.net;
 
+import com.example.shared.model.net.TweeterRemoteException;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -10,8 +12,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
-
-import edu.byu.cs.client.model.net.TweeterRemoteException;
 
 class ClientCommunicator {
 
@@ -40,7 +40,7 @@ class ClientCommunicator {
             public void sendRequest(HttpURLConnection connection) throws IOException {
                 connection.setDoOutput(true);
 
-                String entityBody = edu.byu.cs.client.client.model.net.JsonSerializer.serialize(requestInfo);
+                String entityBody = edu.byu.cs.client.model.net.JsonSerializer.serialize(requestInfo);
                 try (DataOutputStream os = new DataOutputStream(connection.getOutputStream())) {
                     os.writeBytes(entityBody);
                     os.flush();
@@ -90,7 +90,7 @@ class ClientCommunicator {
             switch (connection.getResponseCode()) {
                 case HttpURLConnection.HTTP_OK:
                     String responseString = getResponse(connection.getInputStream());
-                    return edu.byu.cs.client.client.model.net.JsonSerializer.deserialize(responseString, returnType);
+                    return edu.byu.cs.client.model.net.JsonSerializer.deserialize(responseString, returnType);
                 case HttpURLConnection.HTTP_BAD_REQUEST:
                     ErrorResponse errorResponse = getErrorResponse(connection);
                     throw new TweeterRequestException(errorResponse.errorMessage, errorResponse.errorType, errorResponse.stackTrace);
@@ -117,7 +117,7 @@ class ClientCommunicator {
         if(responseString == null) {
             throw new RuntimeException("No response returned from server for response code " + connection.getResponseCode());
         } else {
-            return edu.byu.cs.client.client.model.net.JsonSerializer.deserialize(responseString, ErrorResponse.class);
+            return edu.byu.cs.client.model.net.JsonSerializer.deserialize(responseString, ErrorResponse.class);
         }
     }
 

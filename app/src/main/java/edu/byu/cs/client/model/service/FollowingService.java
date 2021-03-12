@@ -15,8 +15,6 @@ import edu.byu.cs.client.util.ByteArrayUtils;
  */
 public class FollowingService implements IFollowingService {
 
-    static final String URL_PATH = "/getfollowing";
-
     /**
      * Returns the users that the user specified in the request is following. Uses information in
      * the request object to limit the number of followees returned and to return the next set of
@@ -27,7 +25,7 @@ public class FollowingService implements IFollowingService {
      * @return the followees.
      */
     public FollowingResponse getFollowees(FollowingRequest request) throws IOException {
-        FollowingResponse response = getServerFacade().getFollowees(request, URL_PATH);
+        FollowingResponse response = getServerFacade().getFollowees(request);
 
         if(response.isSuccess()) {
             loadImages(response);

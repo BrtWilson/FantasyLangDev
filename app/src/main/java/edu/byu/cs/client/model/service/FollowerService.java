@@ -15,7 +15,6 @@ import edu.byu.cs.client.util.ByteArrayUtils;
  */
 public class FollowerService implements IFollowerService {
 
-    static final String URL_PATH = "/getfollowers";
 
     /**
      * Returns the users that the user specified in the request is following. Uses information in
@@ -27,7 +26,7 @@ public class FollowerService implements IFollowerService {
      * @return the followers.
      */
     public FollowerResponse getFollowers(FollowerRequest request) throws IOException {
-        FollowerResponse response = getServerFacade().getFollowers(request, URL_PATH);
+        FollowerResponse response = getServerFacade().getFollowers(request);
 
         if(response.isSuccess()) {
             loadImages(response);
