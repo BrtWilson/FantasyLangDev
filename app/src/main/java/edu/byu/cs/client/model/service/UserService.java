@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.example.shared.model.domain.User;
 import edu.byu.cs.client.model.net.ServerFacade;
 
+import com.example.shared.model.net.TweeterRemoteException;
 import com.example.shared.model.service.IUserService;
 import com.example.shared.model.service.request.UserRequest;
 import com.example.shared.model.service.response.UserResponse;
@@ -16,7 +17,7 @@ import edu.byu.cs.client.util.ByteArrayUtils;
 public class UserService implements IUserService {
 
 
-    public UserResponse getUserByAlias(UserRequest request) throws IOException {
+    public UserResponse getUserByAlias(UserRequest request) throws IOException, TweeterRemoteException {
         ServerFacade serverFacade = getServerFacade();
         UserResponse response = serverFacade.getUserByAlias(request);
 

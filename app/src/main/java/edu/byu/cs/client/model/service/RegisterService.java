@@ -4,6 +4,7 @@ import java.io.IOException;
 import com.example.shared.model.domain.User;
 import edu.byu.cs.client.model.net.ServerFacade;
 
+import com.example.shared.model.net.TweeterRemoteException;
 import com.example.shared.model.service.IRegisterService;
 import com.example.shared.model.service.request.RegisterRequest;
 import com.example.shared.model.service.response.RegisterResponse;
@@ -13,7 +14,7 @@ public class RegisterService implements IRegisterService {
 
     public static ServerFacade serverFacade;
 
-    public RegisterResponse register(RegisterRequest request) throws IOException {
+    public RegisterResponse register(RegisterRequest request) throws IOException, TweeterRemoteException {
         serverFacade = getServerFacade();
         RegisterResponse registerResponse = serverFacade.register(request);
 

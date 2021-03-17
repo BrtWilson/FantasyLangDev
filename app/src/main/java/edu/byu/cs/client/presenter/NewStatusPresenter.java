@@ -2,6 +2,8 @@ package edu.byu.cs.client.presenter;
 
 import java.io.IOException;
 import edu.byu.cs.client.model.service.NewStatusService;
+
+import com.example.shared.model.net.TweeterRemoteException;
 import com.example.shared.model.service.request.NewStatusRequest;
 import com.example.shared.model.service.response.NewStatusResponse;
 
@@ -14,7 +16,7 @@ public class NewStatusPresenter {
 
     public NewStatusPresenter( LoginPresenter.View view) { this.view = view; }
 
-    public NewStatusResponse newStatus(NewStatusRequest newStatusRequest) throws IOException {
+    public NewStatusResponse newStatus(NewStatusRequest newStatusRequest) throws IOException, TweeterRemoteException {
         newStatusService = getNewStatusService();
         return newStatusService.postNewStatus(newStatusRequest);
     }

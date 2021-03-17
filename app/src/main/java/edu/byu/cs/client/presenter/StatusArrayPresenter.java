@@ -5,6 +5,7 @@ import java.io.IOException;
 import edu.byu.cs.client.model.service.StatusArrayService;
 import edu.byu.cs.client.model.service.UserService;
 
+import com.example.shared.model.net.TweeterRemoteException;
 import com.example.shared.model.service.IStatusArrayService;
 import com.example.shared.model.service.IStatuses_Observer;
 import com.example.shared.model.service.request.IListRequest;
@@ -83,7 +84,7 @@ public class StatusArrayPresenter implements IStatuses_Observer {
     }
 
 
-    public UserResponse getUserByAlias(UserRequest request) throws IOException {
+    public UserResponse getUserByAlias(UserRequest request) throws IOException, TweeterRemoteException {
         UserService userService = getUserService();
         return userService.getUserByAlias(request);
     }

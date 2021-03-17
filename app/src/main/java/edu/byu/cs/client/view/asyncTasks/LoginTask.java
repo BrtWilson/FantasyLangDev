@@ -6,6 +6,7 @@ import android.util.Log;
 import java.io.IOException;
 
 import com.example.shared.model.domain.User;
+import com.example.shared.model.net.TweeterRemoteException;
 import com.example.shared.model.service.request.LoginRequest;
 import com.example.shared.model.service.response.LoginResponse;
 import edu.byu.cs.client.presenter.LoginPresenter;
@@ -59,7 +60,7 @@ public class LoginTask extends AsyncTask<LoginRequest, Void, LoginResponse> {
             if(loginResponse.isSuccess()) {
                 loadImage(loginResponse.getUser());
             }
-        } catch (IOException ex) {
+        } catch (IOException | TweeterRemoteException ex) {
             exception = ex;
         }
 

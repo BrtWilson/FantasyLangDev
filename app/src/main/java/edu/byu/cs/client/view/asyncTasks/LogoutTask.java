@@ -3,6 +3,8 @@ package edu.byu.cs.client.view.asyncTasks;
 import android.os.AsyncTask;
 
 import java.io.IOException;
+
+import com.example.shared.model.net.TweeterRemoteException;
 import com.example.shared.model.service.request.LogoutRequest;
 import com.example.shared.model.service.response.LogoutResponse;
 import edu.byu.cs.client.presenter.LoginPresenter;
@@ -38,7 +40,7 @@ public class LogoutTask extends AsyncTask<LogoutRequest, Void, LogoutResponse> {
             else {
                 logoutResponse = new LogoutResponse(false, "Logout failed in LogoutTask - doInBackground.");
             }
-        } catch (IOException ex) {
+        } catch (IOException | TweeterRemoteException ex) {
             exception = ex;
         }
         return logoutResponse;

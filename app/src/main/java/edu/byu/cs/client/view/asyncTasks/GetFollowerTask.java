@@ -2,6 +2,8 @@ package edu.byu.cs.client.view.asyncTasks;
 
 import android.os.AsyncTask;
 import java.io.IOException;
+
+import com.example.shared.model.net.TweeterRemoteException;
 import com.example.shared.model.service.request.FollowerRequest;
 import com.example.shared.model.service.response.FollowerResponse;
 import edu.byu.cs.client.presenter.FollowerPresenter;
@@ -53,7 +55,7 @@ public class GetFollowerTask extends AsyncTask<FollowerRequest, Void, FollowerRe
 
         try {
             response = presenter.getFollowers(followerRequests[0]);
-        } catch (IOException ex) {
+        } catch (IOException | TweeterRemoteException ex) {
             exception = ex;
         }
 

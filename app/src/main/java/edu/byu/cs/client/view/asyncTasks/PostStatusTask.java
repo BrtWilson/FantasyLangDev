@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 
 import java.io.IOException;
 import com.example.shared.model.domain.User;
+import com.example.shared.model.net.TweeterRemoteException;
 import com.example.shared.model.service.request.NewStatusRequest;
 import com.example.shared.model.service.response.NewStatusResponse;
 import edu.byu.cs.client.presenter.NewStatusPresenter;
@@ -35,7 +36,7 @@ public class PostStatusTask extends AsyncTask<NewStatusRequest, Void, NewStatusR
 
         try {
             newStatusResponse = presenter.newStatus(newStatusRequests[0]);
-        } catch (IOException ex) {
+        } catch (IOException | TweeterRemoteException ex) {
             exception = ex;
         }
 

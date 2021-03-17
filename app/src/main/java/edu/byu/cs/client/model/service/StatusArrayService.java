@@ -6,6 +6,7 @@ import com.example.shared.model.domain.User;
 import com.example.shared.model.domain.Status;
 import edu.byu.cs.client.model.net.ServerFacade;
 
+import com.example.shared.model.net.TweeterRemoteException;
 import com.example.shared.model.service.IStatusArrayService;
 import com.example.shared.model.service.request.IListRequest;
 import com.example.shared.model.service.request.StatusArrayRequest;
@@ -41,8 +42,8 @@ public class StatusArrayService implements IStatusArrayService {
             if (response.isSuccess()) {
                 loadImages(response);
             }
-        } catch (IOException e) {
-            response = new StatusArrayResponse("Statuses missing error");
+        } catch (IOException | TweeterRemoteException e) {
+            response = new StatusArrayResponse("Statuses error: " + e.getMessage());
             return response;
         }
 

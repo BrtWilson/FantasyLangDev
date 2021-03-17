@@ -1,6 +1,6 @@
 package edu.byu.cs.client.presenter;
 
-import edu.byu.cs.client.model.service.IStatusArrayService;
+import com.example.shared.model.service.IStatusArrayService;
 import com.example.shared.model.service.request.IListRequest;
 import com.example.shared.model.service.response.IListResponse;
 

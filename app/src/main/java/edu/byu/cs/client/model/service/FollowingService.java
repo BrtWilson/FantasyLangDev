@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.example.shared.model.domain.User;
 import edu.byu.cs.client.model.net.ServerFacade;
 
+import com.example.shared.model.net.TweeterRemoteException;
 import com.example.shared.model.service.IFollowingService;
 import com.example.shared.model.service.request.FollowingRequest;
 import com.example.shared.model.service.response.FollowingResponse;
@@ -24,7 +25,7 @@ public class FollowingService implements IFollowingService {
      * @param request contains the data required to fulfill the request.
      * @return the followees.
      */
-    public FollowingResponse getFollowees(FollowingRequest request) throws IOException {
+    public FollowingResponse getFollowees(FollowingRequest request) throws IOException, TweeterRemoteException {
         FollowingResponse response = getServerFacade().getFollowees(request);
 
         if(response.isSuccess()) {

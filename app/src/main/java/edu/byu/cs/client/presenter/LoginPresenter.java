@@ -2,6 +2,8 @@ package edu.byu.cs.client.presenter;
 
 import java.io.IOException;
 import edu.byu.cs.client.model.service.LoginService;
+
+import com.example.shared.model.net.TweeterRemoteException;
 import com.example.shared.model.service.request.LoginRequest;
 import com.example.shared.model.service.request.LogoutRequest;
 import com.example.shared.model.service.response.LoginResponse;
@@ -21,12 +23,12 @@ public class LoginPresenter {
         this.view = view;
     }
 
-    public LoginResponse login(LoginRequest loginRequest) throws IOException {
+    public LoginResponse login(LoginRequest loginRequest) throws IOException, TweeterRemoteException {
         loginService = getLoginService();
         return loginService.login(loginRequest);
     }
 
-    public LogoutResponse logout(LogoutRequest logoutRequest) throws IOException {
+    public LogoutResponse logout(LogoutRequest logoutRequest) throws IOException, TweeterRemoteException {
         loginService = LoginService.getInstance();
         return loginService.logout(logoutRequest);
     }

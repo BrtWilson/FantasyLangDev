@@ -4,6 +4,7 @@ import java.io.IOException;
 import com.example.shared.model.domain.User;
 import edu.byu.cs.client.model.net.ServerFacade;
 
+import com.example.shared.model.net.TweeterRemoteException;
 import com.example.shared.model.service.ILoginService;
 import com.example.shared.model.service.request.LoginRequest;
 import com.example.shared.model.service.request.LogoutRequest;
@@ -23,7 +24,7 @@ public class LoginService implements ILoginService {
         return instance;
     }
 
-    public LoginResponse login(LoginRequest request) throws IOException {
+    public LoginResponse login(LoginRequest request) throws IOException, TweeterRemoteException {
         serverFacade = getServerFacade();
         LoginResponse loginResponse = serverFacade.login(request);
 
@@ -39,7 +40,7 @@ public class LoginService implements ILoginService {
         user.setImageBytes(bytes);
     }
 
-    public LogoutResponse logout(LogoutRequest request) throws IOException {
+    public LogoutResponse logout(LogoutRequest request) throws IOException, TweeterRemoteException {
         if(serverFacade == null) {
             serverFacade = RegisterService.getServerFacade();
         }

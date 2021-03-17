@@ -2,6 +2,8 @@ package edu.byu.cs.client.presenter;
 
 import java.io.IOException;
 import edu.byu.cs.client.model.service.RegisterService;
+
+import com.example.shared.model.net.TweeterRemoteException;
 import com.example.shared.model.service.request.RegisterRequest;
 import com.example.shared.model.service.response.RegisterResponse;
 
@@ -14,7 +16,7 @@ public class RegisterPresenter {
 
     public RegisterPresenter(View view) { this.view = view; }
 
-    public RegisterResponse register(RegisterRequest registerRequest) throws IOException {
+    public RegisterResponse register(RegisterRequest registerRequest) throws IOException, TweeterRemoteException {
         registerService = getRegisterService();
         return registerService.register(registerRequest);
     }

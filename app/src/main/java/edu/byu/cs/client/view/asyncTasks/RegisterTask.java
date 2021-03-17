@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import java.io.IOException;
 import com.example.shared.model.domain.User;
+import com.example.shared.model.net.TweeterRemoteException;
 import com.example.shared.model.service.request.RegisterRequest;
 import com.example.shared.model.service.response.RegisterResponse;
 import edu.byu.cs.client.presenter.RegisterPresenter;
@@ -40,7 +41,7 @@ public class RegisterTask extends AsyncTask<RegisterRequest, Void, RegisterRespo
             if(registerResponse.isSuccess()) {
                 loadImage(registerResponse.getUser());
             }
-        } catch (IOException ex) {
+        } catch (IOException | TweeterRemoteException ex) {
             exception = ex;
         }
 

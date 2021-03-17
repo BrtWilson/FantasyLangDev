@@ -1,6 +1,7 @@
 package com.example.shared.model.service;
 
 import com.example.shared.model.domain.User;
+import com.example.shared.model.net.TweeterRemoteException;
 import com.example.shared.model.service.request.FollowerRequest;
 import com.example.shared.model.service.response.FollowerResponse;
 
@@ -20,5 +21,5 @@ public interface IFollowerService {
      * @param request contains the data required to fulfill the request.
      * @return the followers.
      */
-    public FollowerResponse getFollowers(FollowerRequest request) throws IOException;
+    public FollowerResponse getFollowers(FollowerRequest request) throws IOException, TweeterRemoteException;
 }

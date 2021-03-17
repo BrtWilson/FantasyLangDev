@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.example.shared.model.domain.User;
 import edu.byu.cs.client.model.net.ServerFacade;
 
+import com.example.shared.model.net.TweeterRemoteException;
 import com.example.shared.model.service.INewStatusService;
 import com.example.shared.model.service.request.NewStatusRequest;
 import com.example.shared.model.service.response.NewStatusResponse;
@@ -15,7 +16,7 @@ import com.example.shared.model.service.response.NewStatusResponse;
 public class NewStatusService implements INewStatusService {
 
 
-    public NewStatusResponse postNewStatus(NewStatusRequest request) throws IOException {
+    public NewStatusResponse postNewStatus(NewStatusRequest request) throws IOException, TweeterRemoteException {
         ServerFacade serverFacade = getServerFacade();
         return serverFacade.pushNewStatus(request);
     }
