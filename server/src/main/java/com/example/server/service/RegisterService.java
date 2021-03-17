@@ -1,7 +1,6 @@
 package com.example.server.service;
 
-import com.example.server.dao.RegisterDAO;
-import com.example.shared.model.domain.User;
+import com.example.server.dao.UsersTableDAO;
 import com.example.shared.model.service.IRegisterService;
 import com.example.shared.model.service.request.RegisterRequest;
 import com.example.shared.model.service.response.RegisterResponse;
@@ -16,7 +15,7 @@ public class RegisterService implements IRegisterService {
         return registerResponse;
     }
 
-    static RegisterDAO getRegisterDao() {
-        return new RegisterDAO();
+    static UsersTableDAO getRegisterDao() {
+        return new UsersTableDAO();
     }
 }

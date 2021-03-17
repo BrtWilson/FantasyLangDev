@@ -1,6 +1,6 @@
 package com.example.server.service;
 
-import com.example.server.dao.PostStatusDAO;
+import com.example.server.dao.StatusesTableDAO;
 import com.example.shared.model.service.INewStatusService;
 import com.example.shared.model.service.request.NewStatusRequest;
 import com.example.shared.model.service.response.NewStatusResponse;
@@ -13,7 +13,7 @@ import java.io.IOException;
 public class NewStatusService implements INewStatusService {
 
     public NewStatusResponse postNewStatus(NewStatusRequest request) throws IOException {
-        PostStatusDAO postStatusDAO = getPostStatusDao();
+        StatusesTableDAO postStatusDAO = getPostStatusDao();
         return postStatusDAO.pushNewStatus(request);
     }
 
@@ -24,7 +24,7 @@ public class NewStatusService implements INewStatusService {
      *
      * @return the instance.
      */
-    PostStatusDAO getPostStatusDao() {
-        return new PostStatusDAO();
+    StatusesTableDAO getPostStatusDao() {
+        return new StatusesTableDAO();
     }
 }

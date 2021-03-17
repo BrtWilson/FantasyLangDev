@@ -1,7 +1,6 @@
 package com.example.server.service;
 
-import com.example.server.dao.FollowerDAO;
-import com.example.shared.model.domain.User;
+import com.example.server.dao.FollowsTableDAO;
 import com.example.shared.model.service.IFollowerService;
 import com.example.shared.model.service.request.FollowerRequest;
 import com.example.shared.model.service.response.FollowerResponse;
@@ -30,13 +29,13 @@ public class FollowerService implements IFollowerService {
 
 
     /**
-     * Returns an instance of {@link ServerFacade}. Allows mocking of the ServerFacade class for
+     * Returns an instance of {@link}. Allows mocking of the ServerFacade class for
      * testing purposes. All usages of ServerFacade should get their ServerFacade instance from this
      * method to allow for proper mocking.
      *
      * @return the instance.
      */
-    FollowerDAO getFollowersDao() {
-        return new FollowerDAO();
+    FollowsTableDAO getFollowersDao() {
+        return new FollowsTableDAO();
     }
 }

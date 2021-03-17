@@ -1,14 +1,12 @@
 package com.example.server.service;
 
-import com.example.server.dao.StatusArrayDAO;
+import com.example.server.dao.StatusesTableDAO;
 import com.example.shared.model.service.IStatusArrayService;
 import com.example.shared.model.service.IStatuses_Observer;
 import com.example.shared.model.service.request.IListRequest;
 import com.example.shared.model.service.request.StatusArrayRequest;
 import com.example.shared.model.service.response.IListResponse;
 import com.example.shared.model.service.response.StatusArrayResponse;
-
-import java.io.IOException;
 
 /**
  * Contains the business logic for getting the users a user is following.
@@ -54,8 +52,8 @@ public class StatusArrayService implements IStatusArrayService {
      *
      * @return the instance.
      */
-    StatusArrayDAO getStatusArrayDao() {
-        return new StatusArrayDAO();
+    StatusesTableDAO getStatusArrayDao() {
+        return new StatusesTableDAO();
     }
 
 }

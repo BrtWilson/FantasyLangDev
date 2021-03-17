@@ -1,8 +1,6 @@
 package com.example.server.service;
 
-import com.example.server.dao.LoginDAO;
-import com.example.server.dao.LogoutDAO;
-import com.example.shared.model.domain.User;
+import com.example.server.dao.UsersTableDAO;
 import com.example.shared.model.service.ILoginService;
 import com.example.shared.model.service.request.LoginRequest;
 import com.example.shared.model.service.request.LogoutRequest;
@@ -29,16 +27,12 @@ public class LoginService implements ILoginService {
     }
 
     public LogoutResponse logout(LogoutRequest request) throws IOException {
-        LogoutResponse logoutResponse = getLogoutDao().logout(request);
+        LogoutResponse logoutResponse = getLoginDao().logout(request);
         System.out.println("logoutResponse: " + logoutResponse.getMessage());
         return logoutResponse;
     }
 
-    LoginDAO getLoginDao() {
-        return new LoginDAO();
-    }
-
-    LogoutDAO getLogoutDao() {
-        return new LogoutDAO();
+    UsersTableDAO getLoginDao() {
+        return new UsersTableDAO();
     }
 }

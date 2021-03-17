@@ -1,7 +1,6 @@
 package com.example.server.service;
 
-import com.example.server.dao.UserDAO;
-import com.example.shared.model.domain.User;
+import com.example.server.dao.UsersTableDAO;
 import com.example.shared.model.service.IUserService;
 import com.example.shared.model.service.request.UserRequest;
 import com.example.shared.model.service.response.UserResponse;
@@ -26,7 +25,7 @@ public class UserService implements IUserService {
      *
      * @return the instance.
      */
-    UserDAO getUserDao() {
-        return new UserDAO();
+    UsersTableDAO getUserDao() {
+        return new UsersTableDAO();
     }
 }
