@@ -5,12 +5,15 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 
 import com.example.shared.model.service.request.FollowingRequest;
 import com.example.shared.model.service.response.FollowingResponse;
-import edu.byu.cs.client.server.service.FollowingServiceImpl;
+import com.example.server.service.FollowingService;
+
+import java.io.IOException;
+//import edu.byu.cs.client.server.service.FollowingServiceImpl;
 
 /**
  * An AWS lambda function that returns the users a user is following.
  */
-public class GetFollowingHandler implements RequestHandler<FollowingRequest, FollowingResponse> {
+public class FollowingHandler implements RequestHandler<FollowingRequest, FollowingResponse> {
 
     /**
      * Returns the users that the user specified in the request is following. Uses information in
@@ -23,7 +26,12 @@ public class GetFollowingHandler implements RequestHandler<FollowingRequest, Fol
      */
     @Override
     public FollowingResponse handleRequest(FollowingRequest request, Context context) {
-        FollowingServiceImpl service = new FollowingServiceImpl();
-        return service.getFollowees(request);
+        FollowingService service = new FollowingService();
+        try {
+            return service.getFollowees(request);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

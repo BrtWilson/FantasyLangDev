@@ -5,7 +5,9 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 
 import com.example.shared.model.service.request.LoginRequest;
 import com.example.shared.model.service.response.LoginResponse;
-import edu.byu.cs.client.server.service.LoginServiceImpl;
+import com.example.server.service.LoginService;
+
+import java.io.IOException;
 
 //TODO: These Handlers
 
@@ -16,7 +18,12 @@ import edu.byu.cs.client.server.service.LoginServiceImpl;
 public class LoginHandler implements RequestHandler<LoginRequest, LoginResponse> {
     @Override
     public LoginResponse handleRequest(LoginRequest loginRequest, Context context) {
-        LoginServiceImpl loginService = new LoginServiceImpl();
-        return loginService.login(loginRequest);
+        LoginService loginService = new LoginService();
+        try {
+            return loginService.login(loginRequest);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
