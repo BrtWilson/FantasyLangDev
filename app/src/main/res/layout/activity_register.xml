@@ -43,18 +43,23 @@
         android:inputType="textPassword"
         android:hint="Password"/>
 
-    <EditText
+    <!--EditText
         android:id="@+id/register_url"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp"
         android:layout_margin="3dp"
-        android:hint="Image URL"/>
+        android:hint="Image URL"/-->
+
+    <Button android:id="@+id/profilePhotoButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/take_profile_photo_button"
+        android:textColor="@color/design_default_color_primary"/>
 
     <Button
         android:id="@+id/RegisterConfirm"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Confirm"
-        android:layout_centerInParent="true"/>
+        android:text="@string/confirm_register_button"/>
 </LinearLayout>

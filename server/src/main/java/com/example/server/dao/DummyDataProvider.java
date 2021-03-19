@@ -137,7 +137,7 @@ public class DummyDataProvider extends NewStatusNotifier_Subject {
         User testUser2 = new User("test", "user2", "https://static.wikia.nocookie.net/avatar/images/4/4b/Zuko.png/revision/latest?cb=20180630112142");
         testUser2.setPassword("password");
 
-        testUser1.addFollowing(user1);
+        /*testUser1.addFollowing(user1);
         user1.addFollower(testUser1);
         testUser1.addFollowing(user2);
         user2.addFollower(testUser1);
@@ -218,7 +218,7 @@ public class DummyDataProvider extends NewStatusNotifier_Subject {
         testUser2.addFollower(user21);
         user21.addFollowing(testUser2);
         testUser2.addFollower(user22);
-        user22.addFollowing(testUser2);
+        user22.addFollowing(testUser2);*/
 
         usersMap.put(testUser1.getAlias(), testUser1);
         usersMap.put(testUser2.getAlias(), testUser2);
@@ -256,7 +256,8 @@ public class DummyDataProvider extends NewStatusNotifier_Subject {
         String lastName = request.getLastName();
         String alias = request.getUserName();
         String password = request.getPassword();
-        String url = request.getImageURL();
+//        String url = request.getImageURL();
+        String url = "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png";
         User user = new User(firstName, lastName, alias, url);
 
         if (!usersMap.containsKey(user.getAlias())) {

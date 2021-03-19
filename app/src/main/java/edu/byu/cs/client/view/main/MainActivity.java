@@ -2,6 +2,11 @@ package edu.byu.cs.client.view.main;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.example.shared.model.service.request.FollowerRequest;
+import com.example.shared.model.service.request.FollowingRequest;
+import com.example.shared.model.service.response.FollowerResponse;
+import com.example.shared.model.service.response.FollowingResponse;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import androidx.viewpager.widget.ViewPager;
@@ -21,8 +26,13 @@ import com.example.shared.model.service.request.LogoutRequest;
 import com.example.shared.model.service.request.NewStatusRequest;
 import com.example.shared.model.service.response.LogoutResponse;
 import com.example.shared.model.service.response.NewStatusResponse;
+
+import edu.byu.cs.client.presenter.FollowerPresenter;
+import edu.byu.cs.client.presenter.FollowingPresenter;
 import edu.byu.cs.client.presenter.LoginPresenter;
 import edu.byu.cs.client.presenter.NewStatusPresenter;
+import edu.byu.cs.client.view.asyncTasks.GetFollowerTask;
+import edu.byu.cs.client.view.asyncTasks.GetFollowingTask;
 import edu.byu.cs.client.view.asyncTasks.LogoutTask;
 import edu.byu.cs.client.view.asyncTasks.PostStatusTask;
 import edu.byu.cs.client.view.util.ImageUtils;
@@ -30,7 +40,9 @@ import edu.byu.cs.client.view.util.ImageUtils;
 /**
  * The main activity for the application. Contains tabs for feed, story, following, and followers.
  */
-public class MainActivity extends AppCompatActivity implements LoginPresenter.View, LogoutTask.Observer, StatusDialog.SDListener, PostStatusTask.Observer {
+public class MainActivity extends AppCompatActivity implements LoginPresenter.View,
+        LogoutTask.Observer, StatusDialog.SDListener, PostStatusTask.Observer,
+        GetFollowerTask.Observer, GetFollowingTask.Observer {
 
     public static final String LOG_TAG = "MainActivity";
     public static final String CURRENT_USER_KEY = "CurrentUser";
@@ -39,6 +51,9 @@ public class MainActivity extends AppCompatActivity implements LoginPresenter.Vi
     private LoginPresenter loginPresenter;
     private Toast logoutToast;
     private User user;
+
+    TextView followerCount;
+    TextView followeeCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,11 +95,13 @@ public class MainActivity extends AppCompatActivity implements LoginPresenter.Vi
         ImageView userImageView = findViewById(R.id.userImage);
         userImageView.setImageDrawable(ImageUtils.drawableFromByteArray(user.getImageBytes()));
 
-        TextView followeeCount = findViewById(R.id.followeeCount);
-        followeeCount.setText(getString(R.string.followeeCount, user.getFolloweeCount()));
+        followeeCount = findViewById(R.id.followeeCount);
+        GetFollowingTask followingTask = new GetFollowingTask(new FollowingPresenter(null),this);
+        followingTask.execute(new FollowingRequest());
 
-        TextView followerCount = findViewById(R.id.followerCount);
-        followerCount.setText(getString(R.string.followerCount, user.getFollowerCount()));
+        followerCount = findViewById(R.id.followerCount);
+        GetFollowerTask followersTask = new GetFollowerTask(new FollowerPresenter(null), this);
+        followersTask.execute(new FollowerRequest());
     }
 
     public void openStatusDialogueBegin() {
@@ -158,6 +175,16 @@ public class MainActivity extends AppCompatActivity implements LoginPresenter.Vi
     @Override
     public void newStatusUnsuccessful(NewStatusResponse newStatusResponse) {
         logoutToast.makeText(this, "Status failed to post. " + newStatusResponse.getMessage(), Toast.LENGTH_LONG);
+    }
+
+    @Override
+    public void followersRetrieved(FollowerResponse followerResponse) {
+        followerCount.setText(getString(R.string.followerCount, followerResponse.getNumFollowers()));
+    }
+
+    @Override
+    public void followeesRetrieved(FollowingResponse followingResponse) {
+        followeeCount.setText(getString(R.string.followeeCount, followingResponse.getNumFollowing()));
     }
 
     @Override

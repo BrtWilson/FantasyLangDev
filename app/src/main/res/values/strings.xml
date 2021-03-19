@@ -19,6 +19,8 @@
     <string name="followeeCount">Following: %d</string>
     <string name="followerCount">Followers: %d</string>
 
+    <string name="take_profile_photo_button">Take Profile Photo</string>
+    <string name="confirm_register_button">Confirm</string>
 
     <string name="followButtonText">Follow</string>
     <string name="followButtonText2">Following</string>

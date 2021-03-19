@@ -27,8 +27,11 @@ public class FollowerService implements IFollowerService {
      * @return the followers.
      */
     public FollowerResponse getFollowers(FollowerRequest request) throws IOException, TweeterRemoteException {
-        FollowerResponse response = getServerFacade().getFollowers(request);
 
+        if (request.isNumFollowerRequest())
+            return getServerFacade().getNumFollowers(request);
+
+        FollowerResponse response = getServerFacade().getFollowers(request);
         if(response.isSuccess()) {
             loadImages(response);
         }

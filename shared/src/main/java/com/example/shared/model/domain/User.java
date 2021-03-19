@@ -17,11 +17,11 @@ public class User implements Comparable<User>, Serializable {
     private String password;
     private byte [] imageBytes;
     //Feed Array
-    private StatusArray feed;
+//    private StatusArray feed;
     //Story Array
-    private StatusArray story;
-    private ArrayList<User> followers;
-    private ArrayList<User> following;
+//    private StatusArray story;
+    //private ArrayList<User> followers;
+    //private ArrayList<User> following;
 
     public User(String firstName, String lastName, String imageURL) {
         this(firstName, lastName, String.format("@%s%s", firstName, lastName), imageURL);
@@ -32,8 +32,8 @@ public class User implements Comparable<User>, Serializable {
         this.lastName = lastName;
         this.alias = formatAlias(alias);
         this.imageUrl = imageURL;
-        this.followers = new ArrayList<>();
-        this.following = new ArrayList<>();
+        //this.followers = new ArrayList<>();
+        //this.following = new ArrayList<>();
     }
 
     public String formatAlias(String alias) {
@@ -71,21 +71,13 @@ public class User implements Comparable<User>, Serializable {
         return imageBytes;
     }
 
-    public int getFollowerCount() {
-        return followers.size();
-    }
+    //public int getFollowerCount() { return followers.size(); }
 
-    public int getFolloweeCount() {
-        return following.size();
-    }
+//    public int getFolloweeCount() { return following.size(); }
 
-    public ArrayList getFollowers() {
-        return followers;
-    }
+//    public ArrayList getFollowers() { return followers; }
 
-    public ArrayList getFollowing() {
-        return following;
-    }
+//    public ArrayList getFollowing() { return following; }
 
     public String getPassword() {
         return password;
@@ -95,33 +87,27 @@ public class User implements Comparable<User>, Serializable {
         this.password = password;
     }
 
-    public void addFollower(User newFollower) {
+    /*public void addFollower(User newFollower) {
         //Idk if this is how to check if object is current object
         if(followers.contains(newFollower) || newFollower == this) {
             return;
         }
         followers.add(newFollower);
-    }
+    }*/
 
-    public void addFollowing(User newFollowee) {
+    /*public void addFollowing(User newFollowee) {
         //Idk if this is how to check if object is current object
         if(following.contains(newFollowee) || newFollowee == this) {
             return;
         }
         following.add(newFollowee);
-    }
+    }*/
 
-    public void removeFollower(User follower) {
-        followers.remove(follower);
-    }
+//    public void removeFollower(User follower) { followers.remove(follower); }
 
-    public void removeFollowee(User followee) {
-        following.remove(followee);
-    }
+//    public void removeFollowee(User followee) { following.remove(followee); }
 
-    public boolean checkFollowStatus(User potentialFollowee) {
-        return following.contains(potentialFollowee);
-    }
+//    public boolean checkFollowStatus(User potentialFollowee) { return following.contains(potentialFollowee); }
 
     public void setImageBytes(byte[] imageBytes) {
         this.imageBytes = imageBytes;
@@ -155,19 +141,19 @@ public class User implements Comparable<User>, Serializable {
         return this.getAlias().compareTo(user.getAlias());
     }
 
-    public StatusArray getFeed() {
-        return feed;
-    }
+//    public StatusArray getFeed() {
+//        return feed;
+//    }
 
-    public void updateFeed(Status newStatus) {
-        feed.addStatus(newStatus);
-    }
+//    public void updateFeed(Status newStatus) {
+//        feed.addStatus(newStatus);
+//    }
 
-    public StatusArray getStory() {
-        return story;
-    }
+//    public StatusArray getStory() {
+//        return story;
+//    }
 
-    public void postStatus(Status newStatus) {
-        story.addStatus(newStatus);
-    }
+//    public void postStatus(Status newStatus) {
+//        story.addStatus(newStatus);
+//    }
 }

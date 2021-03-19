@@ -3,24 +3,43 @@ package edu.byu.cs.client.view.main;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import com.example.shared.model.service.request.FollowStatusRequest;
+import com.example.shared.model.service.request.FollowerRequest;
+import com.example.shared.model.service.request.FollowingRequest;
+import com.example.shared.model.service.response.FollowStatusResponse;
+import com.example.shared.model.service.response.FollowerResponse;
+import com.example.shared.model.service.response.FollowingResponse;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import edu.byu.cs.client.R;
 import com.example.shared.model.domain.AuthToken;
 import com.example.shared.model.domain.User;
+
+import edu.byu.cs.client.presenter.FollowStatusPresenter;
+import edu.byu.cs.client.presenter.FollowerPresenter;
+import edu.byu.cs.client.presenter.FollowingPresenter;
+import edu.byu.cs.client.view.asyncTasks.GetFollowStatusTask;
+import edu.byu.cs.client.view.asyncTasks.GetFollowerTask;
+import edu.byu.cs.client.view.asyncTasks.GetFollowingTask;
 import edu.byu.cs.client.view.util.ImageUtils;
 
 /**
  * The main activity for the application. Contains tabs for feed, story, following, and followers.
  */
-public class UserPageActivity extends AppCompatActivity {
+public class UserPageActivity extends AppCompatActivity implements GetFollowingTask.Observer,
+        GetFollowerTask.Observer, GetFollowStatusTask.Observer {
+
+    private static final String LOG_TAG = "UserPageActivity";
 
     public static final String CURRENT_USER_KEY = "CurrentUser";
     public static final String AUTH_TOKEN_KEY = "AuthTokenKey";
@@ -29,6 +48,12 @@ public class UserPageActivity extends AppCompatActivity {
     private User user;
     private AuthToken authToken;
     private User targetUser;
+
+    private TextView followeeCount;
+    private TextView followerCount;
+
+    private FollowStatusPresenter followStatusPresenter;
+    private Button followButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,38 +83,71 @@ public class UserPageActivity extends AppCompatActivity {
         ImageView userImageView = findViewById(R.id.userImage);
         userImageView.setImageDrawable(ImageUtils.drawableFromByteArray(targetUser.getImageBytes()));
 
-        TextView followeeCount = findViewById(R.id.followeeCount1);
-        followeeCount.setText(getString(R.string.followeeCount, targetUser.getFolloweeCount()));
+        followeeCount = findViewById(R.id.followeeCount1);
+        GetFollowingTask followingTask = new GetFollowingTask(new FollowingPresenter(null),this);
+        followingTask.execute(new FollowingRequest());
 
-        TextView followerCount = findViewById(R.id.followerCount1);
-        followerCount.setText(getString(R.string.followerCount, targetUser.getFollowerCount()));
+        followerCount = findViewById(R.id.followerCount1);
+        GetFollowerTask followersTask = new GetFollowerTask(new FollowerPresenter(null), this);
+        followersTask.execute(new FollowerRequest());
 
-        TextView followButton = findViewById(R.id.followButton);
-        if(user.checkFollowStatus(targetUser)) {
-            followButton.setText(getString(R.string.followButtonText2));
-            followButton.setBackgroundColor(Color.GRAY);
-        }
-        else {
-            followButton.setText(getString(R.string.followButtonText));
-            followButton.setBackgroundColor(Color.RED);
-        }
+        followStatusPresenter = new FollowStatusPresenter(null);
+        followButton = findViewById(R.id.followButton);
+        setFollowButtonText();
 
         followButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(followButton.getText().toString().equals("Following")) {
-                    followButton.setText(getString(R.string.followButtonText));
-                    followButton.setBackgroundColor(Color.RED);
-                    user.removeFollowee(targetUser);
-                    targetUser.removeFollower(user);
-                }
-                else {
-                    followButton.setText(getString(R.string.followButtonText2));
-                    followButton.setBackgroundColor(Color.GRAY);
-                    targetUser.addFollower(user);
-                    user.addFollowing(targetUser);
-                }
-                followerCount.setText(getString(R.string.followerCount, targetUser.getFollowerCount()));
+                //Toast.makeText(OtherUserActivity.this,"Follow/Unfollow button pressed",Toast.LENGTH_SHORT).show();
+                FollowStatusRequest followStatusRequest;
+                if (followButton.getText().equals("Follow"))
+                    followStatusRequest = new FollowStatusRequest(targetUser, user, FollowStatusRequest.FOLLOW,authToken);
+                else
+                    followStatusRequest = new FollowStatusRequest(targetUser, user, FollowStatusRequest.UNFOLLOW,authToken);
+                GetFollowStatusTask getFollowStatusTask = new GetFollowStatusTask(followStatusPresenter,UserPageActivity.this);
+                getFollowStatusTask.execute(followStatusRequest);
             }
         });
+    }
+
+    /**
+     * Method for retrieving whether the logged-in user follows the displayed user
+     */
+    private void setFollowButtonText() {
+        //default is not following, we only make a change if there exists a relationship
+        FollowStatusRequest followStatusRequest = new FollowStatusRequest(targetUser, user, FollowStatusRequest.GET,authToken);
+        GetFollowStatusTask getFollowStatusTask = new GetFollowStatusTask(followStatusPresenter,UserPageActivity.this);
+        getFollowStatusTask.execute(followStatusRequest);
+    }
+
+    @Override
+    public void followStatusRequestSuccessful(FollowStatusResponse followStatusResponse) {
+        if (followStatusResponse.relationshipExists())
+            followButton.setText(R.string.followButtonText2);
+        else
+            followButton.setText(R.string.followButtonText);
+    }
+
+    @Override
+    public void handleFollowStatusException(Exception exception) {
+        Toast.makeText(this,"Could not process follow request",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void followersRetrieved(FollowerResponse followerResponse) {
+        followerCount.setText(getString(R.string.followerCount, followerResponse.getNumFollowers()));
+    }
+
+    @Override
+    public void followeesRetrieved(FollowingResponse followingResponse) {
+        followeeCount.setText(getString(R.string.followeeCount, followingResponse.getNumFollowing()));
+    }
+
+    @Override
+    public void handleException(Exception exception) {
+        if (exception.getMessage() != null)
+            Log.e(LOG_TAG, exception.getMessage());
+        Toast.makeText(this,
+                "Task failed because of exception: " + exception.getMessage(),
+                Toast.LENGTH_LONG).show();
     }
 }

@@ -7,8 +7,9 @@ package com.example.shared.model.service.request;
 public class FollowingRequest {
 
     private final String userAlias;
-    private final int limit;
+    private final Integer limit;
     private final String lastFolloweeAlias;
+    private final boolean isNumFollowingRequest;
 
     /**
      * Creates an instance.
@@ -23,6 +24,14 @@ public class FollowingRequest {
         this.userAlias = userAlias;
         this.limit = limit;
         this.lastFolloweeAlias = lastFolloweeAlias;
+        this.isNumFollowingRequest = false;
+    }
+
+    public FollowingRequest() {
+        this.userAlias = null;
+        this.limit = null;
+        this.lastFolloweeAlias = null;
+        this.isNumFollowingRequest = true;
     }
 
     /**
@@ -52,4 +61,6 @@ public class FollowingRequest {
     public String getLastFolloweeAlias() {
         return lastFolloweeAlias;
     }
+
+    public boolean isNumFollowingRequest() { return isNumFollowingRequest; }
 }

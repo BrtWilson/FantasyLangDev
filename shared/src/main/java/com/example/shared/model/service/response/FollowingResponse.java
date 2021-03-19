@@ -11,6 +11,7 @@ import com.example.shared.model.domain.User;
 public class FollowingResponse extends PagedResponse {
 
     private List<User> followees;
+    private final Integer numFollowing;
 
     /**
      * Creates a response indicating that the corresponding request was unsuccessful. Sets the
@@ -20,6 +21,7 @@ public class FollowingResponse extends PagedResponse {
      */
     public FollowingResponse(String message) {
         super(false, message, false);
+        this.numFollowing = null;
     }
 
     /**
@@ -31,6 +33,13 @@ public class FollowingResponse extends PagedResponse {
     public FollowingResponse(List<User> followees, boolean hasMorePages) {
         super(true, hasMorePages);
         this.followees = followees;
+        this.numFollowing = null;
+    }
+
+    public FollowingResponse(int numFollowing) {
+        super(true,false);
+        this.followees = null;
+        this.numFollowing = numFollowing;
     }
 
     /**
@@ -41,6 +50,8 @@ public class FollowingResponse extends PagedResponse {
     public List<User> getFollowees() {
         return followees;
     }
+
+    public Integer getNumFollowing() { return numFollowing; }
 
     @Override
     public boolean equals(Object param) {

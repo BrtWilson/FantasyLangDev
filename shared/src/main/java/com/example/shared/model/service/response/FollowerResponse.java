@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 
 import com.example.shared.model.domain.User;
+import com.example.shared.model.service.request.FollowingRequest;
 
 /**
  * A paged response for a {@link com.example.shared.model.service.request.FollowerRequest}.
@@ -11,6 +12,7 @@ import com.example.shared.model.domain.User;
 public class FollowerResponse extends PagedResponse {
 
     private List<User> followers;
+    private final Integer numFollowers;
 
     /**
      * Creates a response indicating that the corresponding request was unsuccessful. Sets the
@@ -20,6 +22,7 @@ public class FollowerResponse extends PagedResponse {
      */
     public FollowerResponse(String message) {
         super(false, message, false);
+        this.numFollowers = null;
     }
 
     /**
@@ -31,6 +34,17 @@ public class FollowerResponse extends PagedResponse {
     public FollowerResponse(List<User> followers, boolean hasMorePages) {
         super(true, hasMorePages);
         this.followers = followers;
+        this.numFollowers = null;
+    }
+
+    /**
+     * Constructor for sending responses corresponding to requests for the number of followees a user has
+     * @param numFollowers the number of the user's followees
+     */
+    public FollowerResponse(int numFollowers) {
+        super(true,false);
+        this.followers = null;
+        this.numFollowers = numFollowers;
     }
 
     /**
@@ -41,6 +55,8 @@ public class FollowerResponse extends PagedResponse {
     public List<User> getFollowers() {
         return followers;
     }
+
+    public Integer getNumFollowers() { return numFollowers; }
 
     @Override
     public boolean equals(Object param) {

@@ -3,6 +3,7 @@ package edu.byu.cs.client.model.net;
 import java.io.IOException;
 
 import com.example.shared.model.net.TweeterRemoteException;
+import com.example.shared.model.service.request.FollowStatusRequest;
 import com.example.shared.model.service.request.FollowingRequest;
 import com.example.shared.model.service.request.FollowerRequest;
 import com.example.shared.model.service.request.LoginRequest;
@@ -11,6 +12,7 @@ import com.example.shared.model.service.request.StatusArrayRequest;
 import com.example.shared.model.service.request.LogoutRequest;
 import com.example.shared.model.service.request.RegisterRequest;
 import com.example.shared.model.service.request.UserRequest;
+import com.example.shared.model.service.response.FollowStatusResponse;
 import com.example.shared.model.service.response.FollowingResponse;
 import com.example.shared.model.service.response.FollowerResponse;
 import com.example.shared.model.service.response.LoginResponse;
@@ -34,8 +36,13 @@ public class ServerFacade {
     static final String URL_PATH_LOGIN = "/login";
     static final String URL_PATH_LOGOUT = "/logout";
     static final String URL_PATH_REGISTER = "/register";
+    static final String URL_PATH_GETFOLLOWSTATUS = "/getfollowstatus";
+    static final String URL_PATH_FOLLOW = "/follow";
+    static final String URL_PATH_UNFOLLOW = "/unfollow";
     static final String URL_PATH_GETFOLLOWEES = "/getfollowees";
+    static final String URL_PATH_GETNUMFOLLOWEES = "/numfollowees";
     static final String URL_PATH_GETFOLLOWERS = "/getfollowers";
+    static final String URL_PATH_GETNUMFOLLOWERS = "/numfollowers";
     static final String URL_PATH_POSTSTATUS = "/poststatus";
     static final String URL_PATH_GETSTATUSARRAY = "/getstatusarray";
     static final String URL_PATH_GETUSERBYALIAS = "/getuserbyalias";
@@ -64,7 +71,6 @@ public class ServerFacade {
     public RegisterResponse register(RegisterRequest request) throws IOException, TweeterRemoteException {
         String Url_Path = URL_PATH_REGISTER;
         RegisterResponse response = clientCommunicator.doPost(Url_Path, request, null, RegisterResponse.class);
-
         if(response.isSuccess()) {
             return response;
         } else {
@@ -81,6 +87,36 @@ public class ServerFacade {
         } else {
             throw new RuntimeException(response.getMessage());
         }
+    }
+
+    public FollowStatusResponse getFollowStatus(FollowStatusRequest request) throws IOException, TweeterRemoteException {
+        String Url_Path = URL_PATH_GETFOLLOWSTATUS;
+        FollowStatusResponse response = clientCommunicator.doPost(Url_Path, request, null, FollowStatusResponse.class);
+
+        if (response.isSuccess())
+            return response;
+        else
+            throw new RuntimeException(response.getMessage());
+    }
+
+    public FollowStatusResponse follow(FollowStatusRequest request) throws IOException, TweeterRemoteException {
+        String Url_Path = URL_PATH_FOLLOW;
+        FollowStatusResponse response = clientCommunicator.doPost(Url_Path, request, null, FollowStatusResponse.class);
+
+        if (response.isSuccess())
+            return response;
+        else
+            throw new RuntimeException(response.getMessage());
+    }
+
+    public FollowStatusResponse unfollow(FollowStatusRequest request) throws IOException, TweeterRemoteException {
+        String Url_Path = URL_PATH_UNFOLLOW;
+        FollowStatusResponse response = clientCommunicator.doPost(Url_Path, request, null, FollowStatusResponse.class);
+
+        if (response.isSuccess())
+            return response;
+        else
+            throw new RuntimeException(response.getMessage());
     }
 
     /**
@@ -104,6 +140,16 @@ public class ServerFacade {
         }
     }
 
+    public FollowingResponse getNumFollowees(FollowingRequest request) throws IOException, TweeterRemoteException {
+        String Url_Path = URL_PATH_GETNUMFOLLOWEES;
+        FollowingResponse response = clientCommunicator.doPost(Url_Path,request,null,FollowingResponse.class);
+
+        if (response.isSuccess())
+            return response;
+        else
+            throw new RuntimeException(response.getMessage());
+    }
+
     /**
      * Returns the users that the user specified in the request is following. Uses information in
      * the request object to limit the number of followers returned and to return the next set of
@@ -123,6 +169,16 @@ public class ServerFacade {
         } else {
             throw new RuntimeException(response.getMessage());
         }
+    }
+
+    public FollowerResponse getNumFollowers(FollowerRequest request) throws IOException, TweeterRemoteException {
+        String Url_Path = URL_PATH_GETNUMFOLLOWERS;
+        FollowerResponse response = clientCommunicator.doPost(Url_Path,request,null,FollowerResponse.class);
+
+        if (response.isSuccess())
+            return response;
+        else
+            throw new RuntimeException(response.getMessage());
     }
 
     public NewStatusResponse pushNewStatus(NewStatusRequest request) throws IOException, TweeterRemoteException {
