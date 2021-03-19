@@ -8,6 +8,7 @@ import com.example.shared.model.service.response.FollowingResponse;
 import com.example.server.service.FollowingService;
 
 import java.io.IOException;
+
 //import edu.byu.cs.client.server.service.FollowingServiceImpl;
 
 /**
@@ -30,6 +31,7 @@ public class FollowingHandler implements RequestHandler<FollowingRequest, Follow
         try {
             return service.getFollowees(request);
         } catch (IOException e) {
+            System.out.println("Error: 400 ");
             e.printStackTrace();
         }
         return null;

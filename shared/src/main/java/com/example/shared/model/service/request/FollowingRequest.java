@@ -5,7 +5,7 @@ package com.example.shared.model.service.request;
  * followees for a specified user.
  */
 public class FollowingRequest {
-
+    
     private final String userAlias;
     private final Integer limit;
     private final String lastFolloweeAlias;
@@ -20,6 +20,10 @@ public class FollowingRequest {
      *                     there was no previous request or if no followees were returned in the
      *                     previous request).
      */
+
+
+
+
     public FollowingRequest(String userAlias, int limit, String lastFolloweeAlias) {
         this.userAlias = userAlias;
         this.limit = limit;

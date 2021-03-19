@@ -17,8 +17,8 @@ public class UserHandler implements RequestHandler<UserRequest, UserResponse> {
         try {
             userService.getUserByAlias(userRequest);
         } catch (IOException e) {
-            e.printStackTrace();
-        }
+            System.out.println("Error: 400 ");
+            e.printStackTrace();        }
         return null;
     }
 }
