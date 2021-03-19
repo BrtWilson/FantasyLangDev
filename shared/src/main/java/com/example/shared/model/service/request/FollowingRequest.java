@@ -6,9 +6,12 @@ package com.example.shared.model.service.request;
  */
 public class FollowingRequest {
 
-    private final String userAlias;
-    private final int limit;
-    private final String lastFolloweeAlias;
+    private  String userAlias = null;
+    private  int limit = 0;
+    private  String lastFolloweeAlias = null;
+
+    public FollowingRequest() {
+    }
 
     /**
      * Creates an instance.
@@ -19,6 +22,10 @@ public class FollowingRequest {
      *                     there was no previous request or if no followees were returned in the
      *                     previous request).
      */
+
+
+
+
     public FollowingRequest(String userAlias, int limit, String lastFolloweeAlias) {
         this.userAlias = userAlias;
         this.limit = limit;

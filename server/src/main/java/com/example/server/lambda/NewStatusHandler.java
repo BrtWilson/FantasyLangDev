@@ -15,8 +15,8 @@ public class NewStatusHandler implements RequestHandler<NewStatusRequest, NewSta
         try {
             return newStatusService.postNewStatus(newStatusRequest);
         } catch (IOException e) {
-            e.printStackTrace();
-        }
+            System.out.println("Error: 400 ");
+            e.printStackTrace();        }
         return null;
     }
 }

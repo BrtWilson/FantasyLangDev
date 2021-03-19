@@ -22,6 +22,7 @@ public class LoginHandler implements RequestHandler<LoginRequest, LoginResponse>
         try {
             return loginService.login(loginRequest);
         } catch (IOException e) {
+            System.out.println("Error: 400 ");
             e.printStackTrace();
         }
         return null;

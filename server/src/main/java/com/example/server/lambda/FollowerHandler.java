@@ -21,6 +21,7 @@ public class FollowerHandler implements RequestHandler<FollowerRequest, Follower
             try {
                 return followerService.getFollowers(followerRequest);
             } catch (IOException e) {
+                System.out.println("Error: 400 ");
                 e.printStackTrace();
             }
             return null;

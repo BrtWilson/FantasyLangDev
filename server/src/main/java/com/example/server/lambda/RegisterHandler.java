@@ -15,8 +15,8 @@ public class RegisterHandler implements RequestHandler<RegisterRequest, Register
         try {
             return registerService.register(registerRequest);
         } catch (IOException e) {
-            e.printStackTrace();
-        }
+            System.out.println("Error: 400 ");
+            e.printStackTrace();        }
         return null;
     }
 }
