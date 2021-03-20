@@ -10,15 +10,15 @@ import java.io.IOException;
 
 public class UserHandler implements RequestHandler<UserRequest, UserResponse> {
 
-
     @Override
     public UserResponse handleRequest(UserRequest userRequest, Context context) {
         UserService userService = new UserService();
         try {
             userService.getUserByAlias(userRequest);
-        } catch (IOException e) {
-            System.out.println("Error: 400 ");
-            e.printStackTrace();        }
+        } catch (RuntimeException | IOException e) {
+            String message = "[Bad Request]";
+            throw new RuntimeException(message, e);
+        }
         return null;
     }
 }
