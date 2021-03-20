@@ -80,7 +80,7 @@ public class FollowingServiceTest {
         FollowingResponse response = followingServiceSpy.getFollowees(validRequest);
 
         for(User user : response.getFollowees()) {
-            Assertions.assertNotNull(user.getImageBytes());
+            Assertions.assertNotNull(user.getImageUrl());
         }
     }
 

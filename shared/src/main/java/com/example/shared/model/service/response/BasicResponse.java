@@ -19,7 +19,7 @@ public class BasicResponse extends Response {
             return false;
         }
 
-        FollowStatusResponse that = (FollowStatusResponse) param;
+        BasicResponse that = (BasicResponse) param;
 
         return (Objects.equals(this.getMessage(), that.getMessage()) &&
                 this.isSuccess() == that.isSuccess());

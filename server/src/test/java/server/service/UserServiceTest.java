@@ -51,7 +51,7 @@ public class UserServiceTest {
     @Test
     public void testGetUser_validRequest_loadsProfileImage() throws IOException {
         UserResponse response = userService.getUserByAlias(validRequest);
-        Assertions.assertNotNull(response.getUser().getImageBytes());
+        Assertions.assertNotNull(response.getUser().getImageUrl());
     }
 
     @Test

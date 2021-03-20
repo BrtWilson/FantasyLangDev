@@ -37,6 +37,7 @@ public class LoginServiceTest {
         validLogoutRequest = new LogoutRequest(user);
 
         successResponse = new LoginResponse(user, new AuthToken());
+        logoutResponse = new BasicResponse(true, "Successfully logged out");
         UsersTableDAO mockDao = Mockito.mock(UsersTableDAO.class);
         Mockito.when(mockDao.login(validRequest)).thenReturn(successResponse);
         Mockito.when(mockDao.logout(validLogoutRequest)).thenReturn(logoutResponse);
@@ -44,7 +45,6 @@ public class LoginServiceTest {
         failureResponse = new LoginResponse("Password does not match.");
         Mockito.when(mockDao.login(invalidRequest)).thenReturn(failureResponse);
 
-        logoutResponse = new BasicResponse(true, "Successfully logged out");
 
         loginService = Mockito.spy(new LoginService());
         Mockito.when(loginService.getLoginDao()).thenReturn(mockDao);
@@ -59,7 +59,7 @@ public class LoginServiceTest {
     @Test
     public void testLogin_validRequest_loadsProfileImage() throws IOException {
         LoginResponse response = loginService.login(validRequest);
-        Assertions.assertNotNull(response.getUser().getImageBytes());
+        Assertions.assertNotNull(response.getUser().getImageUrl());
     }
 
     @Test

@@ -120,7 +120,7 @@ public class StatusDaoTest {
         StatusArrayResponse response = statusesDAO.getStatusArray(validArrayRequest);
 
         for(Status status : response.getStatuses()) {
-            Assertions.assertNotNull(status.getCorrespondingUser().getImageBytes());
+            Assertions.assertNotNull(status.getCorrespondingUser().getImageUrl());
         }
     }
 

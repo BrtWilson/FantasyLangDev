@@ -85,7 +85,7 @@ public class StatusArrayServiceTest {
         StatusArrayResponse response = statusArrayServiceSpy.requestStatusArray(validRequest);
 
         for(Status status : response.getStatuses()) {
-            Assertions.assertNotNull(status.getCorrespondingUser().getImageBytes());
+            Assertions.assertNotNull(status.getCorrespondingUser().getImageUrl());
         }
     }
 
