@@ -3,6 +3,7 @@ package server.dao;
 import com.example.server.dao.FollowsTableDAO;
 import com.example.server.dao.UsersTableDAO;
 import com.example.server.service.UserService;
+import com.example.shared.model.domain.AuthToken;
 import com.example.shared.model.domain.User;
 import com.example.shared.model.service.request.LoginRequest;
 import com.example.shared.model.service.request.LogoutRequest;
@@ -51,6 +52,19 @@ public class UserDaoTest {
 
         failureResponse = new UserResponse("Password does not match.");
         Mockito.when(mockDao.getUserByAlias(invalidRequest)).thenReturn(failureResponse);
+
+        validLoginRequest = new LoginRequest(user.getAlias(), user.getPassword());
+        invalidLoginRequest = new LoginRequest(user.getAlias(), "wrongPassword");
+        validLogoutRequest = new LogoutRequest(user);
+
+        loginSuccessResponse = new LoginResponse(user, new AuthToken());
+        Mockito.when(mockDao.login(validLoginRequest)).thenReturn(loginSuccessResponse);
+        Mockito.when(mockDao.logout(validLogoutRequest)).thenReturn(logoutResponse);
+
+        loginFailureResponse = new LoginResponse("Password does not match.");
+        Mockito.when(mockDao.login(invalidLoginRequest)).thenReturn(loginFailureResponse);
+
+        logoutResponse = new LogoutResponse(true, "Successfully logged out");
 
         userDaoSpy = Mockito.spy(new UsersTableDAO());
     }

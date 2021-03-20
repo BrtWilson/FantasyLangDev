@@ -44,6 +44,8 @@ public class LoginServiceTest {
         failureResponse = new LoginResponse("Password does not match.");
         Mockito.when(mockDao.login(invalidRequest)).thenReturn(failureResponse);
 
+        logoutResponse = new LogoutResponse(true, "Successfully logged out");
+
         loginService = Mockito.spy(new LoginService());
         Mockito.when(loginService.getLoginDao()).thenReturn(mockDao);
     }

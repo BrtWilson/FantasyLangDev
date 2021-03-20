@@ -38,6 +38,7 @@ public class RegisterServiceTest {
         invalidRequest = new RegisterRequest(user1.getFirstName(), user1.getLastName(), user1.getAlias(), user1.getPassword(), user1.getImageUrl());
 
         successResponse = new RegisterResponse(user1, new AuthToken(), true);
+        failureResponse = new RegisterResponse("Error error error", false);
         UsersTableDAO mockDao = Mockito.mock(UsersTableDAO.class);
         Mockito.when(mockDao.register(validRequest1)).thenReturn(successResponse);
 
