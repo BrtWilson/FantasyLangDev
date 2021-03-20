@@ -67,7 +67,7 @@ public class StatusDaoTest {
         invalidArrayRequest = new StatusArrayRequest(null, 0, null);
 
         // Setup a mock ServerFacade that will return known responses
-        successArrayResponse = new StatusArrayResponse(Arrays.asList(resultStatus1, resultStatus2, resultStatus3), false);
+        successArrayResponse = new StatusArrayResponse(Arrays.asList(resultStatus1, resultStatus2, resultStatus3), true);
         Mockito.when(mockDao.getStatusArray(validArrayRequest)).thenReturn(successArrayResponse);
 
         failureArrayResponse = new StatusArrayResponse("An exception occurred");
@@ -104,7 +104,9 @@ public class StatusDaoTest {
     @Test
     public void testGetStatusArray_validRequest_correctResponse() throws IOException {
         StatusArrayResponse response = statusesDAO.getStatusArray(validArrayRequest);
-        Assertions.assertEquals(successArrayResponse, response);
+        Assertions.assertEquals(successArrayResponse.getStatuses().size(), response.getStatuses().size());
+        Assertions.assertEquals(successArrayResponse.getMessage(), response.getMessage());
+        Assertions.assertEquals(successArrayResponse.getHasMorePages(), response.getHasMorePages());
     }
 
     /**
@@ -130,7 +132,8 @@ public class StatusDaoTest {
      */
     @Test
     public void testGetStatusArray_invalidRequest_returnsNoFollowers() throws IOException {
+        // Should throw error:
         StatusArrayResponse response = statusesDAO.getStatusArray(invalidArrayRequest);
-        Assertions.assertEquals(failureArrayResponse, response);
+        Assertions.assertEquals(failureArrayResponse.getStatuses(), response.getStatuses());
     }
 }

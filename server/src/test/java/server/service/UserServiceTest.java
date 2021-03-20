@@ -1,12 +1,9 @@
 package server.service;
 
 import com.example.server.dao.UsersTableDAO;
-import com.example.server.service.LoginService;
 import com.example.server.service.UserService;
 import com.example.shared.model.domain.User;
 import com.example.shared.model.service.request.UserRequest;
-import com.example.shared.model.service.response.LoginResponse;
-import com.example.shared.model.service.response.LogoutResponse;
 import com.example.shared.model.service.response.UserResponse;
 
 import org.junit.jupiter.api.Assertions;

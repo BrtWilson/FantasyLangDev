@@ -1,5 +1,7 @@
 package com.example.shared.model.service.response;
 
+import java.util.Objects;
+
 /**
  * A response that can indicate whether there is more data available from the server.
  */
@@ -26,5 +28,23 @@ public class PagedResponse extends Response {
      */
     public boolean getHasMorePages() {
         return hasMorePages;
+    }
+
+
+    @Override
+    public boolean equals(Object param) {
+        if (this == param) {
+            return true;
+        }
+
+        if (param == null || getClass() != param.getClass()) {
+            return false;
+        }
+
+        PagedResponse that = (PagedResponse) param;
+
+        return (Objects.equals(hasMorePages, that.hasMorePages) &&
+                Objects.equals(this.getMessage(), that.getMessage()) &&
+                this.isSuccess() == that.isSuccess());
     }
 }

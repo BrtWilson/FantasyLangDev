@@ -7,7 +7,7 @@ import com.example.shared.model.net.TweeterRemoteException;
 import com.example.shared.model.service.request.LoginRequest;
 import com.example.shared.model.service.request.LogoutRequest;
 import com.example.shared.model.service.response.LoginResponse;
-import com.example.shared.model.service.response.LogoutResponse;
+import com.example.shared.model.service.response.BasicResponse;
 
 /**
  * The presenter for the login functionality of the application.
@@ -28,7 +28,7 @@ public class LoginPresenter {
         return loginService.login(loginRequest);
     }
 
-    public LogoutResponse logout(LogoutRequest logoutRequest) throws IOException, TweeterRemoteException {
+    public BasicResponse logout(LogoutRequest logoutRequest) throws IOException, TweeterRemoteException {
         loginService = LoginService.getInstance();
         return loginService.logout(logoutRequest);
     }

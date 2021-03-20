@@ -14,7 +14,7 @@ import com.example.shared.model.service.request.UserRequest;
 import com.example.shared.model.service.response.FollowerResponse;
 import com.example.shared.model.service.response.FollowingResponse;
 import com.example.shared.model.service.response.LoginResponse;
-import com.example.shared.model.service.response.LogoutResponse;
+import com.example.shared.model.service.response.BasicResponse;
 import com.example.shared.model.service.response.NewStatusResponse;
 import com.example.shared.model.service.response.RegisterResponse;
 import com.example.shared.model.service.response.StatusArrayResponse;
@@ -268,17 +268,17 @@ public class DummyDataProvider {
         return new RegisterResponse("Username already taken. User different username.", false);
     }
 
-    public LogoutResponse logout(LogoutRequest request) {
+    public BasicResponse logout(LogoutRequest request) {
         if (usersMap != null) {
             if (request.getUser().getAlias().equals(loggedInUser.getAlias())) {
                 loggedInUser = null;
-                return new LogoutResponse(true, "Logout successful.");
+                return new BasicResponse(true, "Logout successful.");
             } else {
-                return new LogoutResponse(false, "Logout failed. Logged in user does not match.");
+                return new BasicResponse(false, "Logout failed. Logged in user does not match.");
             }
         }
 
-        return new LogoutResponse(false, "Logout failed. No user logged in.");
+        return new BasicResponse(false, "Logout failed. No user logged in.");
     }
 
     /**
@@ -519,7 +519,7 @@ public class DummyDataProvider {
         return new UserResponse(user8);
     }
 
-    static DummyDataProvider getInstance() {
+    public static DummyDataProvider getInstance() {
         return new DummyDataProvider();
     }
 

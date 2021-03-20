@@ -19,7 +19,7 @@ import com.example.shared.model.service.response.LoginResponse;
 import com.example.shared.model.service.response.NewStatusResponse;
 import com.example.shared.model.service.response.StatusArrayResponse;
 import com.example.shared.model.service.response.UserResponse;
-import com.example.shared.model.service.response.LogoutResponse;
+import com.example.shared.model.service.response.BasicResponse;
 import com.example.shared.model.service.response.RegisterResponse;
 
 /**
@@ -77,9 +77,9 @@ public class ServerFacade {
         }
     }
 
-    public LogoutResponse logout(LogoutRequest request) throws IOException, TweeterRemoteException {
+    public BasicResponse logout(LogoutRequest request) throws IOException, TweeterRemoteException {
         String Url_Path = URL_PATH_LOGOUT;
-        LogoutResponse response = clientCommunicator.doPost(Url_Path, request, null, LogoutResponse.class);
+        BasicResponse response = clientCommunicator.doPost(Url_Path, request, null, BasicResponse.class);
 
         if(response.isSuccess()) {
             return response;

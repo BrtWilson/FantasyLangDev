@@ -5,7 +5,7 @@ import com.example.shared.model.service.ILoginService;
 import com.example.shared.model.service.request.LoginRequest;
 import com.example.shared.model.service.request.LogoutRequest;
 import com.example.shared.model.service.response.LoginResponse;
-import com.example.shared.model.service.response.LogoutResponse;
+import com.example.shared.model.service.response.BasicResponse;
 
 import java.io.IOException;
 
@@ -26,8 +26,8 @@ public class LoginService implements ILoginService {
         return loginResponse;
     }
 
-    public LogoutResponse logout(LogoutRequest request) throws IOException {
-        LogoutResponse logoutResponse = getLoginDao().logout(request);
+    public BasicResponse logout(LogoutRequest request) throws IOException {
+        BasicResponse logoutResponse = getLoginDao().logout(request);
         System.out.println("logoutResponse: " + logoutResponse.getMessage());
         return logoutResponse;
     }

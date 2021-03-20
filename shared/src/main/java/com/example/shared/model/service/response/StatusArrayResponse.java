@@ -51,7 +51,9 @@ public class StatusArrayResponse extends PagedResponse implements IListResponse{
 
         StatusArrayResponse that = (StatusArrayResponse) param;
 
-        return (Objects.equals(statuses, that.statuses));
+        return (Objects.equals(statuses, that.statuses) &&
+                Objects.equals(this.getMessage(), that.getMessage()) &&
+                this.isSuccess() == that.isSuccess());
     }
 
     @Override

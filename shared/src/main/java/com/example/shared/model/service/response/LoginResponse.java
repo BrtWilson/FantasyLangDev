@@ -3,6 +3,8 @@ package com.example.shared.model.service.response;
 import com.example.shared.model.domain.AuthToken;
 import com.example.shared.model.domain.User;
 
+import java.util.Objects;
+
 /**
  * A response for a {@link com.example.shared.model.service.request.LoginRequest}.
  */
@@ -48,5 +50,23 @@ public class LoginResponse extends Response {
      */
     public AuthToken getAuthToken() {
         return authToken;
+    }
+
+    @Override
+    public boolean equals(Object param) {
+        if (this == param) {
+            return true;
+        }
+
+        if (param == null || getClass() != param.getClass()) {
+            return false;
+        }
+
+        LoginResponse that = (LoginResponse) param;
+
+        return (Objects.equals(user, that.user) &&
+                Objects.equals(authToken, that.authToken) &&
+                Objects.equals(this.getMessage(), that.getMessage()) &&
+                this.isSuccess() == that.isSuccess());
     }
 }

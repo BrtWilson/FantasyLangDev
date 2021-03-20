@@ -7,10 +7,7 @@ import com.example.shared.model.service.request.FollowerRequest;
 import com.example.shared.model.service.request.FollowingRequest;
 import com.example.shared.model.service.response.FollowerResponse;
 import com.example.shared.model.service.response.FollowingResponse;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.tabs.TabLayout;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.AppCompatActivity;
+
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,13 +16,19 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
+
 import edu.byu.cs.client.R;
 import com.example.shared.model.domain.AuthToken;
 import com.example.shared.model.domain.User;
 import com.example.shared.model.service.request.LogoutRequest;
 import com.example.shared.model.service.request.NewStatusRequest;
-import com.example.shared.model.service.response.LogoutResponse;
+import com.example.shared.model.service.response.BasicResponse;
 import com.example.shared.model.service.response.NewStatusResponse;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayout;
 
 import edu.byu.cs.client.presenter.FollowerPresenter;
 import edu.byu.cs.client.presenter.FollowingPresenter;
@@ -155,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements LoginPresenter.Vi
     }
 
     @Override
-    public void logoutSuccessful(LogoutResponse logoutResponse) {
+    public void logoutSuccessful(BasicResponse logoutResponse) {
         Intent intent = new Intent(this, LoginActivity.class);
         logoutToast = Toast.makeText(MainActivity.this, "Logging Out", Toast.LENGTH_LONG);
         logoutToast.show();
@@ -163,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements LoginPresenter.Vi
     }
 
     @Override
-    public void logoutUnsuccessful(LogoutResponse logoutResponse) {
+    public void logoutUnsuccessful(BasicResponse logoutResponse) {
         logoutToast.makeText(this, "Failed to logout. " + logoutResponse.getMessage(), Toast.LENGTH_LONG);
     }
 

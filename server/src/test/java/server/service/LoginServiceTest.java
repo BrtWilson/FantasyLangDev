@@ -13,7 +13,7 @@ import com.example.shared.model.domain.User;
 import com.example.shared.model.service.request.LoginRequest;
 import com.example.shared.model.service.request.LogoutRequest;
 import com.example.shared.model.service.response.LoginResponse;
-import com.example.shared.model.service.response.LogoutResponse;
+import com.example.shared.model.service.response.BasicResponse;
 
 
 public class LoginServiceTest {
@@ -23,7 +23,7 @@ public class LoginServiceTest {
 
     private LoginResponse successResponse;
     private LoginResponse failureResponse;
-    private LogoutResponse logoutResponse;
+    private BasicResponse logoutResponse;
 
     private LoginService loginService;
 
@@ -44,7 +44,7 @@ public class LoginServiceTest {
         failureResponse = new LoginResponse("Password does not match.");
         Mockito.when(mockDao.login(invalidRequest)).thenReturn(failureResponse);
 
-        logoutResponse = new LogoutResponse(true, "Successfully logged out");
+        logoutResponse = new BasicResponse(true, "Successfully logged out");
 
         loginService = Mockito.spy(new LoginService());
         Mockito.when(loginService.getLoginDao()).thenReturn(mockDao);
@@ -70,7 +70,7 @@ public class LoginServiceTest {
 
     @Test
     public void testLogout_validRequest_correctResponse() throws IOException {
-        LogoutResponse response = loginService.logout(validLogoutRequest);
-        Assertions.assertEquals(successResponse, response);
+        BasicResponse response = loginService.logout(validLogoutRequest);
+        Assertions.assertEquals(logoutResponse.getMessage(), response.getMessage());
     }
 }

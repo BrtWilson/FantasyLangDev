@@ -9,7 +9,7 @@ import com.example.shared.model.service.ILoginService;
 import com.example.shared.model.service.request.LoginRequest;
 import com.example.shared.model.service.request.LogoutRequest;
 import com.example.shared.model.service.response.LoginResponse;
-import com.example.shared.model.service.response.LogoutResponse;
+import com.example.shared.model.service.response.BasicResponse;
 import edu.byu.cs.client.util.ByteArrayUtils;
 
 public class LoginService implements ILoginService {
@@ -40,11 +40,11 @@ public class LoginService implements ILoginService {
         user.setImageBytes(bytes);
     }
 
-    public LogoutResponse logout(LogoutRequest request) throws IOException, TweeterRemoteException {
+    public BasicResponse logout(LogoutRequest request) throws IOException, TweeterRemoteException {
         if(serverFacade == null) {
             serverFacade = RegisterService.getServerFacade();
         }
-        LogoutResponse logoutResponse = serverFacade.logout(request);
+        BasicResponse logoutResponse = serverFacade.logout(request);
         System.out.println("logoutResponse: " + logoutResponse.getMessage());
         return logoutResponse;
     }

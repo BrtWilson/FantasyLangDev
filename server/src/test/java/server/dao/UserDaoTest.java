@@ -1,8 +1,6 @@
 package server.dao;
 
-import com.example.server.dao.FollowsTableDAO;
 import com.example.server.dao.UsersTableDAO;
-import com.example.server.service.UserService;
 import com.example.shared.model.domain.AuthToken;
 import com.example.shared.model.domain.User;
 import com.example.shared.model.service.request.LoginRequest;
@@ -10,8 +8,7 @@ import com.example.shared.model.service.request.LogoutRequest;
 import com.example.shared.model.service.request.UserRequest;
 import com.example.shared.model.service.response.LoginResponse;
 import com.example.shared.model.service.response.UserResponse;
-import com.example.shared.model.service.response.LogoutResponse;
-import com.example.shared.model.service.response.UserResponse;
+import com.example.shared.model.service.response.BasicResponse;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,7 +31,7 @@ public class UserDaoTest {
 
     private LoginResponse loginSuccessResponse;
     private LoginResponse loginFailureResponse;
-    private LogoutResponse logoutResponse;
+    private BasicResponse logoutResponse;
 
     private UsersTableDAO userDaoSpy;
 
@@ -64,7 +61,7 @@ public class UserDaoTest {
         loginFailureResponse = new LoginResponse("Password does not match.");
         Mockito.when(mockDao.login(invalidLoginRequest)).thenReturn(loginFailureResponse);
 
-        logoutResponse = new LogoutResponse(true, "Successfully logged out");
+        logoutResponse = new BasicResponse(true, "Successfully logged out");
 
         userDaoSpy = Mockito.spy(new UsersTableDAO());
     }
@@ -108,7 +105,7 @@ public class UserDaoTest {
 
     @Test
     public void testLogout_validRequest_correctResponse() throws IOException {
-        LogoutResponse response = userDaoSpy.logout(validLogoutRequest);
+        BasicResponse response = userDaoSpy.logout(validLogoutRequest);
         Assertions.assertEquals(successResponse, response);
     }
 }

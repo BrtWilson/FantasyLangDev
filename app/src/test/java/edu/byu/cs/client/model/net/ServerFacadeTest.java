@@ -16,7 +16,7 @@ import com.example.shared.model.service.request.LogoutRequest;
 import com.example.shared.model.service.request.RegisterRequest;
 import com.example.shared.model.service.response.FollowingResponse;
 import com.example.shared.model.service.response.LoginResponse;
-import com.example.shared.model.service.response.LogoutResponse;
+import com.example.shared.model.service.response.BasicResponse;
 import com.example.shared.model.service.response.RegisterResponse;
 
 class ServerFacadeTest {
@@ -69,7 +69,7 @@ class ServerFacadeTest {
         serverFacadeSpy.login(validRequest);
 
         LogoutRequest request = new LogoutRequest(loggedInUser);
-        LogoutResponse response = serverFacadeSpy.logout(request);
+        BasicResponse response = serverFacadeSpy.logout(request);
         Assertions.assertTrue(response.isSuccess());
     }
 

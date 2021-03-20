@@ -6,18 +6,18 @@ import java.io.IOException;
 
 import com.example.shared.model.net.TweeterRemoteException;
 import com.example.shared.model.service.request.LogoutRequest;
-import com.example.shared.model.service.response.LogoutResponse;
+import com.example.shared.model.service.response.BasicResponse;
 import edu.byu.cs.client.presenter.LoginPresenter;
 
-public class LogoutTask extends AsyncTask<LogoutRequest, Void, LogoutResponse> {
+public class LogoutTask extends AsyncTask<LogoutRequest, Void, BasicResponse> {
 
     private final LoginPresenter presenter;
     private final Observer observer;
     private Exception exception;
 
     public interface Observer {
-        void logoutSuccessful(LogoutResponse logoutResponse);
-        void logoutUnsuccessful(LogoutResponse logoutResponse);
+        void logoutSuccessful(BasicResponse logoutResponse);
+        void logoutUnsuccessful(BasicResponse logoutResponse);
         void handleException(Exception ex);
     }
 
@@ -30,15 +30,15 @@ public class LogoutTask extends AsyncTask<LogoutRequest, Void, LogoutResponse> {
     }
 
     @Override
-    protected LogoutResponse doInBackground(LogoutRequest... logoutRequests) {
-        LogoutResponse logoutResponse = null;
+    protected BasicResponse doInBackground(LogoutRequest... logoutRequests) {
+        BasicResponse logoutResponse = null;
         try {
             logoutResponse = presenter.logout(logoutRequests[0]);
             if(logoutResponse.isSuccess()) {
                 System.out.println("Logout successful");
             }
             else {
-                logoutResponse = new LogoutResponse(false, "Logout failed in LogoutTask - doInBackground.");
+                logoutResponse = new BasicResponse(false, "Logout failed in LogoutTask - doInBackground.");
             }
         } catch (IOException | TweeterRemoteException ex) {
             exception = ex;
@@ -47,7 +47,7 @@ public class LogoutTask extends AsyncTask<LogoutRequest, Void, LogoutResponse> {
     }
 
     @Override
-    protected void onPostExecute(LogoutResponse logoutResponse) {
+    protected void onPostExecute(BasicResponse logoutResponse) {
         if(exception != null) {
             observer.handleException(exception);
         } else if(logoutResponse.isSuccess()) {

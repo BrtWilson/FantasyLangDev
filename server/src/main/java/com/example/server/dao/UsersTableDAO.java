@@ -7,7 +7,7 @@ import com.example.shared.model.service.request.LogoutRequest;
 import com.example.shared.model.service.request.RegisterRequest;
 import com.example.shared.model.service.request.UserRequest;
 import com.example.shared.model.service.response.LoginResponse;
-import com.example.shared.model.service.response.LogoutResponse;
+import com.example.shared.model.service.response.BasicResponse;
 import com.example.shared.model.service.response.RegisterResponse;
 import com.example.shared.model.service.response.UserResponse;
 
@@ -38,10 +38,10 @@ public class UsersTableDAO {
         return new LoginResponse("User does not exist.");
     }
 
-    public LogoutResponse logout(LogoutRequest request) {
+    public BasicResponse logout(LogoutRequest request) {
         //return dataProvider.logout(request);
         //VERIFY: whether this needs additional checks. Is there really a service we need for this?
-        return new LogoutResponse(true, "Logout successful.");
+        return new BasicResponse(true, "Logout successful.");
     }
 
     public RegisterResponse register(RegisterRequest request) {
