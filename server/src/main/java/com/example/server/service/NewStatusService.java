@@ -14,7 +14,7 @@ public class NewStatusService implements INewStatusService {
 
     public NewStatusResponse postNewStatus(NewStatusRequest request) throws IOException {
         StatusesTableDAO postStatusDAO = getPostStatusDao();
-        return postStatusDAO.pushNewStatus(request);
+        return postStatusDAO.postNewStatus(request);
     }
 
     /**
@@ -24,7 +24,7 @@ public class NewStatusService implements INewStatusService {
      *
      * @return the instance.
      */
-    StatusesTableDAO getPostStatusDao() {
+    public StatusesTableDAO getPostStatusDao() {
         return new StatusesTableDAO();
     }
 }

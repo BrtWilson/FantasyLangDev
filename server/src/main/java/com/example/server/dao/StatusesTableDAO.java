@@ -12,7 +12,7 @@ public class StatusesTableDAO {
         return dataProvider.getStatusArray(request);
     }
 
-    public NewStatusResponse pushNewStatus(NewStatusRequest request) {
+    public NewStatusResponse postNewStatus(NewStatusRequest request) {
         return dataProvider.pushNewStatus(request);
     }
 }

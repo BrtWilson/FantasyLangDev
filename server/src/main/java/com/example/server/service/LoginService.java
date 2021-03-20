@@ -32,7 +32,7 @@ public class LoginService implements ILoginService {
         return logoutResponse;
     }
 
-    UsersTableDAO getLoginDao() {
+    public UsersTableDAO getLoginDao() {
         return new UsersTableDAO();
     }
 }

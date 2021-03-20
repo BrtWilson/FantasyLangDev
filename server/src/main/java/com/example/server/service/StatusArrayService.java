@@ -51,7 +51,7 @@ public class StatusArrayService implements IStatusArrayService {
      *
      * @return the instance.
      */
-    StatusesTableDAO getStatusArrayDao() {
+    public StatusesTableDAO getStatusArrayDao() {
         return new StatusesTableDAO();
     }
 

@@ -35,7 +35,7 @@ public class FollowerService implements IFollowerService {
      *
      * @return the instance.
      */
-    FollowsTableDAO getFollowersDao() {
+    public FollowsTableDAO getFollowersDao() {
         return new FollowsTableDAO();
     }
 }

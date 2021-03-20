@@ -1,6 +1,5 @@
 package com.example.shared.model.service;
 
-import com.example.shared.model.domain.User;
 import com.example.shared.model.net.TweeterRemoteException;
 import com.example.shared.model.service.request.FollowerRequest;
 import com.example.shared.model.service.response.FollowerResponse;

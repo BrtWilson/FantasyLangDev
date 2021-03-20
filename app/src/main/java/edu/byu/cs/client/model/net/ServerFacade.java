@@ -4,8 +4,8 @@ import java.io.IOException;
 
 import com.example.shared.model.net.TweeterRemoteException;
 import com.example.shared.model.service.request.FollowStatusRequest;
-import com.example.shared.model.service.request.FollowingRequest;
 import com.example.shared.model.service.request.FollowerRequest;
+import com.example.shared.model.service.request.FollowingRequest;
 import com.example.shared.model.service.request.LoginRequest;
 import com.example.shared.model.service.request.NewStatusRequest;
 import com.example.shared.model.service.request.StatusArrayRequest;

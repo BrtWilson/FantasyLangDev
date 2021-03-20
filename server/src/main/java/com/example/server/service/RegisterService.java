@@ -15,7 +15,7 @@ public class RegisterService implements IRegisterService {
         return registerResponse;
     }
 
-    static UsersTableDAO getRegisterDao() {
+    public static UsersTableDAO getRegisterDao() {
         return new UsersTableDAO();
     }
 }

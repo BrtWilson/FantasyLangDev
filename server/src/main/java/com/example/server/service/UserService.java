@@ -25,7 +25,7 @@ public class UserService implements IUserService {
      *
      * @return the instance.
      */
-    UsersTableDAO getUserDao() {
+    public UsersTableDAO getUserDao() {
         return new UsersTableDAO();
     }
 }
