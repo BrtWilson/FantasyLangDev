@@ -124,7 +124,7 @@ public class DummyDataProvider {
     private HashMap<String, User> usersMap;
     private User loggedInUser;
 
-    public void setUpUsers() {
+    public HashMap<String, User> setUpUsers() {
         if (usersMap == null) {
             usersMap = new HashMap<>();
         }
@@ -219,6 +219,8 @@ public class DummyDataProvider {
 
         usersMap.put(testUser1.getAlias(), testUser1);
         usersMap.put(testUser2.getAlias(), testUser2);
+
+        return usersMap;
     }
 
     /**
@@ -519,5 +521,9 @@ public class DummyDataProvider {
 
     static DummyDataProvider getInstance() {
         return new DummyDataProvider();
+    }
+
+    public User getSampleDummyUser() {
+        return user8;
     }
 }
