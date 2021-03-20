@@ -12,7 +12,6 @@ import com.example.shared.model.service.request.IListRequest;
 import com.example.shared.model.service.request.StatusArrayRequest;
 import com.example.shared.model.service.response.IListResponse;
 import com.example.shared.model.service.response.StatusArrayResponse;
-import com.example.shared.model.service.IStatuses_Observer;
 import edu.byu.cs.client.util.ByteArrayUtils;
 
 /**
@@ -30,14 +29,14 @@ public class StatusArrayService implements IStatusArrayService {
      * @param request contains the data required to fulfill the request.
      * @return the followees.
      */
-    public StatusArrayResponse requestStatusArray(IListRequest request, IStatuses_Observer statuses_observer) {
+    public StatusArrayResponse requestStatusArray(IListRequest request) {
         StatusArrayResponse response = new StatusArrayResponse("Statuses missing");
         try {
             if (request.getClass() != StatusArrayRequest.class) {
                 return response;
             }
             StatusArrayRequest req = (StatusArrayRequest) request;
-            response = getServerFacade().getStatusArray(req, statuses_observer);
+            response = getServerFacade().getStatusArray(req);
 
             if (response.isSuccess()) {
                 loadImages(response);
@@ -51,8 +50,8 @@ public class StatusArrayService implements IStatusArrayService {
     }
 
     @Override
-    public IListResponse getList(IListRequest listRequest, IStatuses_Observer statuses_observer) {
-        return requestStatusArray(listRequest, statuses_observer);
+    public IListResponse getList(IListRequest listRequest) {
+        return requestStatusArray(listRequest);
     }
 
     /**

@@ -19,7 +19,6 @@ import com.example.shared.model.service.response.LoginResponse;
 import com.example.shared.model.service.response.NewStatusResponse;
 import com.example.shared.model.service.response.StatusArrayResponse;
 import com.example.shared.model.service.response.UserResponse;
-import com.example.shared.model.service.IStatuses_Observer;
 import com.example.shared.model.service.response.LogoutResponse;
 import com.example.shared.model.service.response.RegisterResponse;
 
@@ -192,7 +191,7 @@ public class ServerFacade {
         }
     }
 
-    public StatusArrayResponse getStatusArray(StatusArrayRequest request, IStatuses_Observer statuses_observer) throws IOException, TweeterRemoteException {
+    public StatusArrayResponse getStatusArray(StatusArrayRequest request) throws IOException, TweeterRemoteException {
         String Url_Path = URL_PATH_GETSTATUSARRAY;
         StatusArrayResponse response = clientCommunicator.doPost(Url_Path, request, null, StatusArrayResponse.class);
 

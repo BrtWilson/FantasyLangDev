@@ -1,10 +1,8 @@
 package com.example.server.dao;
 
-import com.example.server.service.NewStatusNotifier_Subject;
 import com.example.shared.model.domain.AuthToken;
 import com.example.shared.model.domain.Status;
 import com.example.shared.model.domain.User;
-import com.example.shared.model.service.IStatuses_Observer;
 import com.example.shared.model.service.request.FollowerRequest;
 import com.example.shared.model.service.request.FollowingRequest;
 import com.example.shared.model.service.request.LoginRequest;
@@ -32,7 +30,7 @@ import java.util.List;
  * Acts as a Facade to the Tweeter server. All network requests to the server should go through
  * this class.
  */
-public class DummyDataProvider extends NewStatusNotifier_Subject {
+public class DummyDataProvider {
 
     // This is the hard coded following data returned by the 'getFollowees()' method
     private static final String MALE_IMAGE_URL = "https://i.pinimg.com/originals/e5/9b/e7/e59be7316543f2b7c94bcf693c2ad9f3.png";
@@ -446,14 +444,10 @@ public class DummyDataProvider extends NewStatusNotifier_Subject {
 
 
     public NewStatusResponse pushNewStatus(NewStatusRequest request) {
-        //Pretend to save Status
-        //Updates all status observers; we will need to figure observers properly to do this
-        updateObservers();
-        //if successful:
         return new NewStatusResponse(new Status(request.getMessage(), request.getDate(), user8));
     }
 
-    public StatusArrayResponse getStatusArray(StatusArrayRequest request, IStatuses_Observer statuses_observer) {
+    public StatusArrayResponse getStatusArray(StatusArrayRequest request) {
 
         // Used in place of assert statements because Android does not support them
         //if (BuildConfig.DEBUG) {
@@ -465,8 +459,6 @@ public class DummyDataProvider extends NewStatusNotifier_Subject {
                 throw new AssertionError();
             }
         //}
-
-        register(statuses_observer);
 
         List<Status> allStatuses = getDummyStatuses();
         if (request.getFeedInstead()) {
@@ -519,21 +511,6 @@ public class DummyDataProvider extends NewStatusNotifier_Subject {
     List<Status> getDummyFeed() {
         return Arrays.asList(status1b, status2b, status3b, status4b, status5b, status6b, status7b, status8b,
                 status9b, status10b, status11b, status12b, status13b, status14b, status15b);
-    }
-
-
-    //OBSERVER SETUP
-    //STATUSES OBSERVERS
-    List<IStatuses_Observer> statusObservers = new LinkedList<>();
-
-    public void register(IStatuses_Observer observer) {
-        statusObservers.add(observer);
-    }
-
-    public void updateObservers() {
-        for (IStatuses_Observer o : statusObservers) {
-            o.Update();
-        }
     }
 
     //GetUser for Status

@@ -7,7 +7,6 @@ import edu.byu.cs.client.model.service.UserService;
 
 import com.example.shared.model.net.TweeterRemoteException;
 import com.example.shared.model.service.IStatusArrayService;
-import com.example.shared.model.service.IStatuses_Observer;
 import com.example.shared.model.service.request.IListRequest;
 import com.example.shared.model.service.request.StatusArrayRequest;
 import com.example.shared.model.service.request.UserRequest;
@@ -18,7 +17,7 @@ import com.example.shared.model.service.response.UserResponse;
 /**
  * The presenter for the "following" functionality of the application.
  */
-public class StatusArrayPresenter implements IStatuses_Observer {
+public class StatusArrayPresenter {
     protected final View view;
 
     /**
@@ -37,9 +36,9 @@ public class StatusArrayPresenter implements IStatuses_Observer {
      * @param request contains the data required to fulfill the request.
      * @return the followees.
      */
-    public IListResponse getDataList(IListRequest request, IStatuses_Observer statuses_observer) throws IOException {
+    public IListResponse getDataList(IListRequest request) throws IOException {
         IStatusArrayService listService = getListService();
-        return listService.getList(request, statuses_observer);
+        return listService.getList(request);
     }
     /**
      * Creates an instance.
@@ -60,7 +59,7 @@ public class StatusArrayPresenter implements IStatuses_Observer {
      */
     public StatusArrayResponse getStatusArray(StatusArrayRequest request) throws IOException {
         StatusArrayService statusArrayService = getStatusArrayService();
-        return statusArrayService.requestStatusArray(request, this);
+        return statusArrayService.requestStatusArray(request);
     }
 
     /**
@@ -77,12 +76,6 @@ public class StatusArrayPresenter implements IStatuses_Observer {
     IStatusArrayService getListService() {
         return (IStatusArrayService) getStatusArrayService();
     }
-
-    @Override
-    public void Update() {
-        view.update();
-    }
-
 
     public UserResponse getUserByAlias(UserRequest request) throws IOException, TweeterRemoteException {
         UserService userService = getUserService();

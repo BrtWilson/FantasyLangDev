@@ -2,7 +2,6 @@ package com.example.server.service;
 
 import com.example.server.dao.StatusesTableDAO;
 import com.example.shared.model.service.IStatusArrayService;
-import com.example.shared.model.service.IStatuses_Observer;
 import com.example.shared.model.service.request.IListRequest;
 import com.example.shared.model.service.request.StatusArrayRequest;
 import com.example.shared.model.service.response.IListResponse;
@@ -22,14 +21,14 @@ public class StatusArrayService implements IStatusArrayService {
      * @param request contains the data required to fulfill the request.
      * @return the followees.
      */
-    public StatusArrayResponse requestStatusArray(IListRequest request, IStatuses_Observer statuses_observer) {
+    public StatusArrayResponse requestStatusArray(IListRequest request) {
         StatusArrayResponse response = new StatusArrayResponse("Statuses missing");
         //try {
             if (request.getClass() != StatusArrayRequest.class) {
                 return response;
             }
             StatusArrayRequest req = (StatusArrayRequest) request;
-            response = getStatusArrayDao().getStatusArray(req, statuses_observer);
+            response = getStatusArrayDao().getStatusArray(req);
 
         /*} catch (IOException e) {
             response = new StatusArrayResponse("Statuses missing error");
@@ -40,8 +39,8 @@ public class StatusArrayService implements IStatusArrayService {
     }
 
     @Override
-    public IListResponse getList(IListRequest listRequest, IStatuses_Observer statuses_observer) {
-        return requestStatusArray(listRequest, statuses_observer);
+    public IListResponse getList(IListRequest listRequest) {
+        return requestStatusArray(listRequest);
     }
 
 
