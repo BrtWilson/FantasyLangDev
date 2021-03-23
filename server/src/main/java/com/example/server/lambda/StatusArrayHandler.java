@@ -13,7 +13,6 @@ public class StatusArrayHandler implements RequestHandler<StatusArrayRequest, St
     @Override
     public StatusArrayResponse handleRequest(StatusArrayRequest input, Context context) {
         StatusArrayService statusArrayService = new StatusArrayService();
-        //return statusArrayService.getList(input, )
-        return null;
+        return (StatusArrayResponse) statusArrayService.getList(input);
     }
 }
