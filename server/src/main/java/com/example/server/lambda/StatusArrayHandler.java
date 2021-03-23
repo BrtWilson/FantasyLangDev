@@ -6,6 +6,8 @@ import com.example.server.service.StatusArrayService;
 import com.example.shared.model.service.request.StatusArrayRequest;
 import com.example.shared.model.service.response.StatusArrayResponse;
 
+import java.io.IOException;
+
 import sun.misc.Request;
 
 public class StatusArrayHandler implements RequestHandler<StatusArrayRequest, StatusArrayResponse> {
@@ -13,6 +15,12 @@ public class StatusArrayHandler implements RequestHandler<StatusArrayRequest, St
     @Override
     public StatusArrayResponse handleRequest(StatusArrayRequest input, Context context) {
         StatusArrayService statusArrayService = new StatusArrayService();
-        return (StatusArrayResponse) statusArrayService.getList(input);
+        try {
+            return (StatusArrayResponse) statusArrayService.getList(input);
+        } catch (RuntimeException e) {
+            String message = "[Bad Request]";
+            throw new RuntimeException(message, e);
+        }
+
     }
 }

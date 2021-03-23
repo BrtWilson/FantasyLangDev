@@ -10,6 +10,8 @@ import java.util.Arrays;
 
 import com.example.shared.model.domain.User;
 import edu.byu.cs.client.model.net.ServerFacade;
+
+import com.example.shared.model.net.TweeterRemoteException;
 import com.example.shared.model.service.request.FollowerRequest;
 import com.example.shared.model.service.response.FollowerResponse;
 
@@ -28,7 +30,7 @@ public class FollowerServiceTest {
      * requests.
      */
     @BeforeEach
-    public void setup() {
+    public void setup() throws IOException, TweeterRemoteException {
         User currentUser = new User("FirstName", "LastName", null);
 
         User resultUser1 = new User("FirstName1", "LastName1",
@@ -63,7 +65,7 @@ public class FollowerServiceTest {
      * @throws IOException if an IO error occurs.
      */
     @Test
-    public void testGetFollowers_validRequest_correctResponse() throws IOException {
+    public void testGetFollowers_validRequest_correctResponse() throws IOException, TweeterRemoteException {
         FollowerResponse response = followerServiceSpy.getFollowers(validRequest);
         Assertions.assertEquals(successResponse, response);
     }
@@ -75,7 +77,7 @@ public class FollowerServiceTest {
      * @throws IOException if an IO error occurs.
      */
     @Test
-    public void testGetFollowers_validRequest_loadsProfileImages() throws IOException {
+    public void testGetFollowers_validRequest_loadsProfileImages() throws IOException, TweeterRemoteException {
         FollowerResponse response = followerServiceSpy.getFollowers(validRequest);
 
         for(User user : response.getFollowers()) {
@@ -90,7 +92,7 @@ public class FollowerServiceTest {
      * @throws IOException if an IO error occurs.
      */
     @Test
-    public void testGetFollowers_invalidRequest_returnsNoFollowers() throws IOException {
+    public void testGetFollowers_invalidRequest_returnsNoFollowers() throws IOException, TweeterRemoteException {
         FollowerResponse response = followerServiceSpy.getFollowers(invalidRequest);
         Assertions.assertEquals(failureResponse, response);
     }

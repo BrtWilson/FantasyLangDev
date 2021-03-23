@@ -10,6 +10,8 @@ import java.util.Arrays;
 
 import com.example.shared.model.domain.User;
 import edu.byu.cs.client.model.net.ServerFacade;
+
+import com.example.shared.model.net.TweeterRemoteException;
 import com.example.shared.model.service.request.FollowingRequest;
 import com.example.shared.model.service.response.FollowingResponse;
 
@@ -28,7 +30,7 @@ public class FollowingServiceTest {
      * requests.
      */
     @BeforeEach
-    public void setup() {
+    public void setup() throws IOException, TweeterRemoteException {
         User currentUser = new User("FirstName", "LastName", null);
 
         User resultUser1 = new User("FirstName1", "LastName1",
@@ -63,7 +65,7 @@ public class FollowingServiceTest {
      * @throws IOException if an IO error occurs.
      */
     @Test
-    public void testGetFollowees_validRequest_correctResponse() throws IOException {
+    public void testGetFollowees_validRequest_correctResponse() throws IOException, TweeterRemoteException {
         FollowingResponse response = followingServiceSpy.getFollowees(validRequest);
         Assertions.assertEquals(successResponse, response);
     }
@@ -75,7 +77,7 @@ public class FollowingServiceTest {
      * @throws IOException if an IO error occurs.
      */
     @Test
-    public void testGetFollowees_validRequest_loadsProfileImages() throws IOException {
+    public void testGetFollowees_validRequest_loadsProfileImages() throws IOException, TweeterRemoteException {
         FollowingResponse response = followingServiceSpy.getFollowees(validRequest);
 
         for(User user : response.getFollowees()) {
@@ -90,7 +92,7 @@ public class FollowingServiceTest {
      * @throws IOException if an IO error occurs.
      */
     @Test
-    public void testGetFollowees_invalidRequest_returnsNoFollowees() throws IOException {
+    public void testGetFollowees_invalidRequest_returnsNoFollowees() throws IOException, TweeterRemoteException {
         FollowingResponse response = followingServiceSpy.getFollowees(invalidRequest);
         Assertions.assertEquals(failureResponse, response);
     }

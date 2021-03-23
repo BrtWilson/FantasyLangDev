@@ -9,6 +9,8 @@ import com.example.shared.model.domain.AuthToken;
 import com.example.shared.model.domain.User;
 import com.example.shared.model.domain.Status;
 import edu.byu.cs.client.model.net.ServerFacade;
+
+import com.example.shared.model.net.TweeterRemoteException;
 import com.example.shared.model.service.request.NewStatusRequest;
 import com.example.shared.model.service.response.NewStatusResponse;
 
@@ -24,7 +26,7 @@ public class PostStatusServiceTest {
     private NewStatusService newStatusService;
 
     @BeforeEach
-    public void setup() {
+    public void setup() throws IOException, TweeterRemoteException {
         User user1 = new User("First", "Last", "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
         user1.setPassword("password");
 
@@ -48,7 +50,7 @@ public class PostStatusServiceTest {
     }
 
     @Test
-    public void testPostStatus_validRequest_correctResponse() throws IOException {
+    public void testPostStatus_validRequest_correctResponse() throws IOException, TweeterRemoteException {
         NewStatusResponse response = newStatusService.postNewStatus(validRequest1);
         System.out.println(response.getNewStatus());
         Assertions.assertEquals(successResponse1.isSuccess(), response.isSuccess());
@@ -56,7 +58,7 @@ public class PostStatusServiceTest {
     }
 
     @Test
-    public void testPostStatus_validRequest_correct2() throws IOException {
+    public void testPostStatus_validRequest_correct2() throws IOException, TweeterRemoteException {
         NewStatusResponse response1 = newStatusService.postNewStatus(validRequest2);
         System.out.println(response1.getNewStatus());
         Assertions.assertEquals(successResponse2.isSuccess(), response1.isSuccess());

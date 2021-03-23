@@ -34,6 +34,5 @@ public class FollowingHandler implements RequestHandler<FollowingRequest, Follow
             String message = "[Bad Request]";
             throw new RuntimeException(message, e);
         }
-       // return null;
     }
 }
