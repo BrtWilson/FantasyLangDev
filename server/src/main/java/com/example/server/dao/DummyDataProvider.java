@@ -11,6 +11,7 @@ import com.example.shared.model.service.request.NewStatusRequest;
 import com.example.shared.model.service.request.RegisterRequest;
 import com.example.shared.model.service.request.StatusArrayRequest;
 import com.example.shared.model.service.request.UserRequest;
+import com.example.shared.model.service.response.FollowStatusResponse;
 import com.example.shared.model.service.response.FollowerResponse;
 import com.example.shared.model.service.response.FollowingResponse;
 import com.example.shared.model.service.response.LoginResponse;
@@ -525,5 +526,13 @@ public class DummyDataProvider {
 
     public User getSampleDummyUser() {
         return user8;
+    }
+
+    public FollowStatusResponse unfollowResponse() {
+        return new FollowStatusResponse(true);
+    }
+
+    public FollowStatusResponse followResponse() {
+        return new FollowStatusResponse(false);
     }
 }
