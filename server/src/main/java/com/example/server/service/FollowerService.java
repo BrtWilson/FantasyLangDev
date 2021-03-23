@@ -27,6 +27,11 @@ public class FollowerService implements IFollowerService {
         return response;
     }
 
+    public FollowerResponse getNumFollowers(FollowerRequest request) throws IOException {
+        FollowerResponse response = getFollowersDao().getNumFollowers(request);
+
+        return response;
+    }
 
     /**
      * Returns an instance of {@link}. Allows mocking of the ServerFacade class for

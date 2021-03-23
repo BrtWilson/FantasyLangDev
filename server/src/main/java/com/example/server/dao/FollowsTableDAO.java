@@ -37,6 +37,10 @@ public class FollowsTableDAO {
         return new FollowerResponse(responseFollowers, hasMorePages);
     }
 
+    public FollowerResponse getNumFollowers(FollowerRequest request) {
+        return new FollowerResponse(13);
+    }
+
     private void verifyRequestUserAlias(String requestAlias) {
         if (requestAlias == null) {
             throw new AssertionError();
@@ -73,6 +77,11 @@ public class FollowsTableDAO {
         }
 
         return new FollowingResponse(responseFollowees, hasMorePages);
+    }
+
+
+    public FollowingResponse getNumFollowing(FollowingRequest request) {
+        return new FollowingResponse(13);
     }
 
     /**

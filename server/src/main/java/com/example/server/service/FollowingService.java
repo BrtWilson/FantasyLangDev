@@ -2,7 +2,9 @@ package com.example.server.service;
 
 import com.example.server.dao.FollowsTableDAO;
 import com.example.shared.model.service.IFollowingService;
+import com.example.shared.model.service.request.FollowerRequest;
 import com.example.shared.model.service.request.FollowingRequest;
+import com.example.shared.model.service.response.FollowerResponse;
 import com.example.shared.model.service.response.FollowingResponse;
 
 import java.io.IOException;
@@ -27,6 +29,11 @@ public class FollowingService implements IFollowingService {
         return response;
     }
 
+    public FollowingResponse getNumFollowing(FollowingRequest request) throws IOException {
+        FollowingResponse response = getFolloweesDao().getNumFollowing(request);
+
+        return response;
+    }
 
     /**
      * Returns an instance of {@link}. Allows mocking of the ServerFacade class for
