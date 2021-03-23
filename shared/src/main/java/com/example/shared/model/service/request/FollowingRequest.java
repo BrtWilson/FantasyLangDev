@@ -5,7 +5,7 @@ package com.example.shared.model.service.request;
  * followees for a specified user.
  */
 public class FollowingRequest {
-    
+
     private final String userAlias;
     private final Integer limit;
     private final String lastFolloweeAlias;
