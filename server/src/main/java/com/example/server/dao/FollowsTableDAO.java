@@ -114,21 +114,4 @@ public class FollowsTableDAO {
         return dataProvider.getDummyFollowers();
     }
 
-    public boolean follow(String currentUser, String userToFollow){// we might be able to use STring to save some time all we need is username
-        List<String> followeesTable = Collections.singletonList(dataProvider.getDummyFollowees().toString());
-        try{
-            followeesTable.add(userToFollow);
-        } catch(Exception e){
-            throw new RuntimeException(e.getMessage());
-        }
-        return true;
-    }
-
-    /*public boolean unFollow(User loggedInUser, User userToUnfollow){
-        List<User> followeesTable = dataProvider.getDummyFollowees();
-
-        try{
-            followeesTable.
-        }
-    }*/
 }
