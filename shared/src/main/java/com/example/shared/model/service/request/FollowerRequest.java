@@ -6,10 +6,11 @@ package com.example.shared.model.service.request;
  */
 public class FollowerRequest {
 
-    private final String userAlias;
-    private final Integer limit;
-    private final String lastFollowerAlias;
-    private final boolean isNumFollowerRequest;
+    private  String userAlias;
+    private  Integer limit;
+    private  String lastFollowerAlias;
+    private  boolean isNumFollowerRequest;
+
 
     /**
      * Creates an instance.
@@ -28,10 +29,6 @@ public class FollowerRequest {
     }
 
     public FollowerRequest() {
-        this.userAlias = null;
-        this.limit = null;
-        this.lastFollowerAlias = null;
-        this.isNumFollowerRequest = true;
     }
 
     /**
@@ -63,4 +60,20 @@ public class FollowerRequest {
     }
 
     public boolean isNumFollowerRequest() { return isNumFollowerRequest; }
+
+    public void setUserAlias(String userAlias) {
+        this.userAlias = userAlias;
+    }
+
+    public void setLimit(Integer limit) {
+        this.limit = limit;
+    }
+
+    public void setLastFollowerAlias(String lastFollowerAlias) {
+        this.lastFollowerAlias = lastFollowerAlias;
+    }
+
+    public void setNumFollowerRequest(boolean numFollowerRequest) {
+        isNumFollowerRequest = numFollowerRequest;
+    }
 }

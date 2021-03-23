@@ -5,11 +5,11 @@ package com.example.shared.model.service.request;
  * followees for a specified user.
  */
 public class FollowingRequest {
-
-    private final String userAlias;
-    private final Integer limit;
-    private final String lastFolloweeAlias;
-    private final boolean isNumFollowingRequest;
+    
+    private  String userAlias;
+    private  Integer limit;
+    private  String lastFolloweeAlias;
+    private  boolean isNumFollowingRequest;
 
     /**
      * Creates an instance.
@@ -32,10 +32,7 @@ public class FollowingRequest {
     }
 
     public FollowingRequest() {
-        this.userAlias = null;
-        this.limit = null;
-        this.lastFolloweeAlias = null;
-        this.isNumFollowingRequest = true;
+
     }
 
     /**
@@ -53,7 +50,7 @@ public class FollowingRequest {
      * @return the limit.
      */
     public int getLimit() {
-        return limit;
+        return this.limit;
     }
 
     /**
@@ -67,4 +64,20 @@ public class FollowingRequest {
     }
 
     public boolean isNumFollowingRequest() { return isNumFollowingRequest; }
+
+    public void setUserAlias(String userAlias) {
+        this.userAlias = userAlias;
+    }
+
+    public void setLimit(Integer limit) {
+        this.limit = limit;
+    }
+
+    public void setLastFolloweeAlias(String lastFolloweeAlias) {
+        this.lastFolloweeAlias = lastFolloweeAlias;
+    }
+
+    public void setNumFollowingRequest(boolean numFollowingRequest) {
+        isNumFollowingRequest = numFollowingRequest;
+    }
 }

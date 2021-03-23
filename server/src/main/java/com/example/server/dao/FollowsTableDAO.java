@@ -7,6 +7,7 @@ import com.example.shared.model.service.response.FollowerResponse;
 import com.example.shared.model.service.response.FollowingResponse;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class FollowsTableDAO {
@@ -112,4 +113,5 @@ public class FollowsTableDAO {
     private List<User> retrieveFollowers() {
         return dataProvider.getDummyFollowers();
     }
+
 }

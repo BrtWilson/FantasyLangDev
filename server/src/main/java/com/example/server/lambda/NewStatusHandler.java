@@ -14,9 +14,9 @@ public class NewStatusHandler implements RequestHandler<NewStatusRequest, NewSta
         NewStatusService newStatusService = new NewStatusService();
         try {
             return newStatusService.postNewStatus(newStatusRequest);
-        } catch (IOException e) {
-            System.out.println("Error: 400 ");
-            e.printStackTrace();        }
-        return null;
+        } catch (RuntimeException | IOException e) {
+            String message = "[Bad Request]";
+            throw new RuntimeException(message, e);
+        }
     }
 }

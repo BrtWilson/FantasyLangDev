@@ -14,7 +14,7 @@ import java.io.IOException;
 /**
  * An AWS lambda function that returns the users a user is following.
  */
-public class FollowingHandler implements RequestHandler<FollowingRequest, FollowingResponse> {
+public class GetFolloweesHandler implements RequestHandler<FollowingRequest, FollowingResponse> {
 
     /**
      * Returns the users that the user specified in the request is following. Uses information in
@@ -34,6 +34,6 @@ public class FollowingHandler implements RequestHandler<FollowingRequest, Follow
             String message = "[Bad Request]";
             throw new RuntimeException(message, e);
         }
-       // return null;
+        // return null;
     }
 }

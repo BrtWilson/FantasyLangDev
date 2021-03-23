@@ -8,10 +8,10 @@ import java.util.List;
  */
 public class StatusArrayRequest extends ListRequest implements IListRequest{ //TODO
 
-    private final String userAlias;
-    private final int limit;
-    private final String lastStatusDate;
-    private final Boolean feedInstead;
+    private String userAlias;
+    private int limit;
+    private String lastStatusDate;
+    private Boolean feedInstead;
 
     /**
      * Creates an instance.
@@ -45,6 +45,8 @@ public class StatusArrayRequest extends ListRequest implements IListRequest{ //T
         this.feedInstead = feedInstead;
     }
 
+    public StatusArrayRequest(){}
+
     public Boolean getFeedInstead() {
         return feedInstead;
     }
@@ -76,5 +78,23 @@ public class StatusArrayRequest extends ListRequest implements IListRequest{ //T
      */
     public String getLastStatusDate() {
         return lastStatusDate;
+    }
+
+    @Override
+    public void setUserAlias(String userAlias) {
+        this.userAlias = userAlias;
+    }
+
+    @Override
+    public void setLimit(int limit) {
+        this.limit = limit;
+    }
+
+    public void setLastStatusDate(String lastStatusDate) {
+        this.lastStatusDate = lastStatusDate;
+    }
+
+    public void setFeedInstead(Boolean feedInstead) {
+        this.feedInstead = feedInstead;
     }
 }

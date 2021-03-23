@@ -14,9 +14,10 @@ public class RegisterHandler implements RequestHandler<RegisterRequest, Register
         RegisterService registerService = new RegisterService();
         try {
             return registerService.register(registerRequest);
-        } catch (IOException e) {
-            System.out.println("Error: 400 ");
-            e.printStackTrace();        }
-        return null;
+        } catch (RuntimeException | IOException e) {
+            String message = "[Bad Request]";
+            throw new RuntimeException(message, e);
+        }
+        //return null;
     }
 }

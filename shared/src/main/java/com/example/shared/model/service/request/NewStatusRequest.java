@@ -7,9 +7,9 @@ import com.example.shared.model.domain.User;
  */
 public class NewStatusRequest {
 
-    private final String userAlias;
-    private final String message;
-    private final String date;
+    private  String userAlias;
+    private  String message;
+    private  String date;
 
     /**
      * Creates an instance.
@@ -18,6 +18,9 @@ public class NewStatusRequest {
         this.userAlias = userAlias;
         this.message = message;
         this.date = date;
+    }
+
+    public NewStatusRequest() {
     }
 
     /**
@@ -40,5 +43,17 @@ public class NewStatusRequest {
 
     public String getDate() {
         return date;
+    }
+
+    public void setUserAlias(String userAlias) {
+        this.userAlias = userAlias;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }
