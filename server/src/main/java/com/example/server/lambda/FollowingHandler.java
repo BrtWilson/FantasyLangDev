@@ -30,10 +30,10 @@ public class FollowingHandler implements RequestHandler<FollowingRequest, Follow
         FollowingService service = new FollowingService();
         try {
             return service.getFollowees(request);
-        } catch (IOException e) {
-            System.out.println("Error: 400 ");
-            e.printStackTrace();
+        } catch (RuntimeException | IOException e) {
+            String message = "[Bad Request]";
+            throw new RuntimeException(message, e);
         }
-        return null;
+       // return null;
     }
 }

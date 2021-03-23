@@ -30,7 +30,7 @@ public class ServerFacade {
 
     // TODO: Set this to the invoke URL of your API. Find it by going to your API in AWS, clicking
     //  on stages in the right-side menu, and clicking on the stage you deployed your API to.
-    private static final String SERVER_URL = "Insert your API invoke URL here";
+    private static final String SERVER_URL = "https://ubfjbeee2b.execute-api.us-east-1.amazonaws.com/tweeterBeta";
 
     static final String URL_PATH_LOGIN = "/login";
     static final String URL_PATH_LOGOUT = "/logout";

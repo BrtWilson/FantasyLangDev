@@ -45,4 +45,8 @@ public class FollowingService implements IFollowingService {
     public FollowsTableDAO getFolloweesDao() {
         return new FollowsTableDAO();
     }
+
+    public void followUser(){
+        FollowsTableDAO followers = new FollowsTableDAO();
+    }
 }

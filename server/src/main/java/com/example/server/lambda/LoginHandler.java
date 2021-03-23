@@ -21,10 +21,9 @@ public class LoginHandler implements RequestHandler<LoginRequest, LoginResponse>
         LoginService loginService = new LoginService();
         try {
             return loginService.login(loginRequest);
-        } catch (IOException e) {
-            System.out.println("Error: 400 ");
-            e.printStackTrace();
+        } catch (RuntimeException | IOException e) {
+            String message = "[Bad Request]";
+            throw new RuntimeException(message, e);
         }
-        return null;
     }
 }

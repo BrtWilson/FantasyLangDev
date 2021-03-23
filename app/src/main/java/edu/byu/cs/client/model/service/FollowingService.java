@@ -30,7 +30,7 @@ public class FollowingService implements IFollowingService {
         if (request.isNumFollowingRequest())
             return getServerFacade().getNumFollowees(request);
 
-        FollowingResponse response = getFollowees(request);
+        FollowingResponse response = getServerFacade().getFollowees(request);
         if(response.isSuccess()) {
             loadImages(response);
         }

@@ -1,9 +1,9 @@
 package com.example.shared.model.service.request;
 
 abstract class ListRequest implements IListRequest{
-    private final String userAlias;
-    private final int limit;
-    private final String lastDataKey;
+    private  String userAlias;
+    private  int limit;
+    private  String lastDataKey;
 
     /**
      * Creates an instance.
@@ -18,6 +18,9 @@ abstract class ListRequest implements IListRequest{
         this.userAlias = userAlias;
         this.limit = limit;
         this.lastDataKey = lastDataKey;
+    }
+
+    public ListRequest() {
     }
 
     /**
@@ -46,5 +49,17 @@ abstract class ListRequest implements IListRequest{
      */
     public String getLastDataKey() {
         return lastDataKey;
+    }
+
+    public void setUserAlias(String userAlias) {
+        this.userAlias = userAlias;
+    }
+
+    public void setLimit(int limit) {
+        this.limit = limit;
+    }
+
+    public void setLastDataKey(String lastDataKey) {
+        this.lastDataKey = lastDataKey;
     }
 }

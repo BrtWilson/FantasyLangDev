@@ -5,7 +5,7 @@ package com.example.shared.model.service.request;
  */
 public class UserRequest {
 
-    private final String alias;
+    private  String alias;
 
     /**
      * Creates an instance.
@@ -25,4 +25,10 @@ public class UserRequest {
         return alias;
     }
 
+    public UserRequest() {
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
 }
