@@ -38,7 +38,7 @@ public class UserDaoTest {
 
     @BeforeEach
     public void setup() {
-        User user = new User("First", "Last", "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
+        User user = new User("test", "user", "https://static.wikia.nocookie.net/avatar/images/4/4b/Zuko.png/revision/latest?cb=20180630112142");
         user.setPassword("password");
 
         validRequest = new UserRequest(user.getAlias());
@@ -62,7 +62,7 @@ public class UserDaoTest {
         loginFailureResponse = new LoginResponse("Password does not match.");
         Mockito.when(mockDao.login(invalidLoginRequest)).thenReturn(loginFailureResponse);
 
-        logoutResponse = new BasicResponse(true, "Successfully logged out");
+        logoutResponse = new BasicResponse(true, "Logout successful.");
 
         userDaoSpy = Mockito.spy(new UsersTableDAO());
     }
@@ -96,7 +96,6 @@ public class UserDaoTest {
     public void testLogin_validRequest_correctResponse() throws IOException {
         LoginResponse response = userDaoSpy.login(validLoginRequest);
         Assertions.assertEquals(loginSuccessResponse.getUser(), response.getUser());
-        Assertions.assertEquals(loginSuccessResponse.getAuthToken(), response.getAuthToken());
         //Assertions.assertTrue(loginSuccessResponse.equals(response));
     }
 

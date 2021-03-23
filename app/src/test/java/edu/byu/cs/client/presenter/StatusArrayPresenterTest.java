@@ -1,14 +1,18 @@
 package edu.byu.cs.client.presenter;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 
 import com.example.shared.model.domain.User;
 import edu.byu.cs.client.model.service.StatusArrayService;
+
+import com.example.shared.model.net.TweeterRemoteException;
 import com.example.shared.model.service.request.StatusArrayRequest;
 import com.example.shared.model.service.response.StatusArrayResponse;
 import com.example.shared.model.domain.Status;
@@ -18,11 +22,32 @@ public class StatusArrayPresenterTest {
     private StatusArrayRequest request;
     private StatusArrayRequest request2;
     private StatusArrayResponse response;
+    private StatusArrayResponse invalidResponse;
     private StatusArrayService mockStatusArrayService;
     private StatusArrayPresenter presenter;
 
+    public class TweeterRemoteException extends Exception {
+
+        private final String remoteExceptionType;
+        private final List<String> remoteStakeTrace;
+
+        protected TweeterRemoteException(String message, String remoteExceptionType, List<String> remoteStakeTrace) {
+            super(message);
+            this.remoteExceptionType = remoteExceptionType;
+            this.remoteStakeTrace = remoteStakeTrace;
+        }
+
+        public String getRemoteExceptionType() {
+            return remoteExceptionType;
+        }
+
+        public List<String> getRemoteStackTrace() {
+            return remoteStakeTrace;
+        }
+    }
+
     @BeforeEach
-    public void setup() throws IOException {
+    public void setup() throws IOException, TweeterRemoteException {
         User currentUser = new User("FirstName", "LastName", null);
 
         User resultUser1 = new User("FirstName1", "LastName1",
@@ -38,10 +63,12 @@ public class StatusArrayPresenterTest {
 
         request = new StatusArrayRequest(resultUser1.getAlias(), 3, null);
         response = new StatusArrayResponse( Arrays.asList(resultStatus1, resultStatus2, resultStatus3), false);
+        invalidResponse = new StatusArrayResponse( "[Bad Request]" );
 
         // Create a mock StatusArrayService
         mockStatusArrayService = Mockito.mock(StatusArrayService.class);
-        Mockito.when(mockStatusArrayService.requestStatusArray(request,null)).thenReturn(response);
+        Mockito.when(mockStatusArrayService.requestStatusArray(request)).thenReturn(response);
+        Mockito.when(mockStatusArrayService.requestStatusArray(request2)).thenReturn(invalidResponse);
 
         // Wrap a StatusArrayPresenter in a spy that will use the mock service.
         presenter = Mockito.spy(new StatusArrayPresenter(null ));
@@ -50,21 +77,17 @@ public class StatusArrayPresenterTest {
 
     @Test
     public void testGetStatusArray_returnsServiceResult() throws IOException {
-        //do nothing, because its broken. The program works, but this doesn't.
-        /*Mockito.when(mockStatusArrayService.requestStatusArray(request,null)).thenReturn(response);
+        Mockito.when(mockStatusArrayService.requestStatusArray(request)).thenReturn(response);
 
         // Assert that the presenter returns the same response as the service (it doesn't do
         // anything else, so there's nothing else to test).
-        Assertions.assertEquals(response, presenter.getStatusArray(request));*/
+        Assertions.assertEquals(response, presenter.getStatusArray(request));
     }
 
     @Test
     public void testGetStatusArray_serviceThrowsIOException_presenterThrowsIOException() throws IOException {
-        //do nothing, because its broken. The program works, but this doesn't.
-        /*Mockito.when(mockStatusArrayService.requestStatusArray(request2,null)).thenThrow(new IOException());
+        Mockito.when(mockStatusArrayService.requestStatusArray(request2)).thenReturn(invalidResponse);
 
-        Assertions.assertThrows(IOException.class, () -> {
-            presenter.getStatusArray(request);
-        });*/
+        Assertions.assertEquals(invalidResponse, presenter.getStatusArray(request2));
     }
 }

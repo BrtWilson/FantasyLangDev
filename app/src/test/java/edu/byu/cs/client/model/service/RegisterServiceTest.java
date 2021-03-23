@@ -21,6 +21,7 @@ public class RegisterServiceTest {
     private RegisterRequest invalidRequest;
 
     private RegisterResponse successResponse;
+    private RegisterResponse successResponse2;
     private RegisterResponse failureResponse;
 
     private RegisterService registerService;
@@ -38,13 +39,17 @@ public class RegisterServiceTest {
         invalidRequest = new RegisterRequest(user1.getFirstName(), user1.getLastName(), user1.getAlias(), user1.getPassword(), user1.getImageUrl());
 
         successResponse = new RegisterResponse(user1, new AuthToken(), true);
+        successResponse2 = new RegisterResponse(user2, new AuthToken(), true);
         ServerFacade mockServerFacade = Mockito.mock(ServerFacade.class);
         Mockito.when(mockServerFacade.register(validRequest1)).thenReturn(successResponse);
+        Mockito.when(mockServerFacade.register(validRequest2)).thenReturn(successResponse2);
 
         failureResponse = new RegisterResponse("Username already taken. User different username.", false);
         Mockito.when(mockServerFacade.register(invalidRequest)).thenReturn(failureResponse);
 
         registerService = Mockito.spy(new RegisterService());
+        Mockito.when(registerService.getServerFacade()).thenReturn(mockServerFacade);
+       //Mockito.when(registerService.getServerFacade()).thenReturn(mockServerFacade);
 //        Mockito.when(registerService.getServerFacade()).thenReturn(mockServerFacade); // this is commented out because registerService uses static serverFacade
     }
 

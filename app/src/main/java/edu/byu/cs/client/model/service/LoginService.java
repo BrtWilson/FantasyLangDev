@@ -42,7 +42,7 @@ public class LoginService implements ILoginService {
 
     public BasicResponse logout(LogoutRequest request) throws IOException, TweeterRemoteException {
         if(serverFacade == null) {
-            serverFacade = RegisterService.getServerFacade();
+            serverFacade = getServerFacade();
         }
         BasicResponse logoutResponse = serverFacade.logout(request);
         System.out.println("logoutResponse: " + logoutResponse.getMessage());
