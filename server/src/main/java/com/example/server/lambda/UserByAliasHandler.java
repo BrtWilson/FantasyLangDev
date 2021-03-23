@@ -8,7 +8,7 @@ import com.example.shared.model.service.response.UserResponse;
 
 import java.io.IOException;
 
-public class UserHandler implements RequestHandler<UserRequest, UserResponse> {
+public class UserByAliasHandler implements RequestHandler<UserRequest, UserResponse> {
 
     @Override
     public UserResponse handleRequest(UserRequest userRequest, Context context) {
