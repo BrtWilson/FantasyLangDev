@@ -10,6 +10,8 @@ import java.util.Arrays;
 
 import com.example.shared.model.domain.User;
 import edu.byu.cs.client.model.net.ServerFacade;
+
+import com.example.shared.model.net.TweeterRemoteException;
 import com.example.shared.model.service.request.StatusArrayRequest;
 import com.example.shared.model.service.response.StatusArrayResponse;
 import com.example.shared.model.domain.Status;
@@ -29,7 +31,7 @@ public class StatusArrayServiceTest {
      * requests.
      */
     @BeforeEach
-    public void setup() {
+    public void setup() throws IOException, TweeterRemoteException {
         User currentUser = new User("FirstName", "LastName", null);
 
         User resultUser1 = new User("FirstName1", "LastName1",
@@ -50,10 +52,10 @@ public class StatusArrayServiceTest {
         // Setup a mock ServerFacade that will return known responses
         successResponse = new StatusArrayResponse(Arrays.asList(resultStatus1, resultStatus2, resultStatus3), false);
         ServerFacade mockServerFacade = Mockito.mock(ServerFacade.class);
-        Mockito.when(mockServerFacade.getStatusArray(validRequest, null)).thenReturn(successResponse);
+        Mockito.when(mockServerFacade.getStatusArray(validRequest)).thenReturn(successResponse);
 
         failureResponse = new StatusArrayResponse("An exception occurred");
-        Mockito.when(mockServerFacade.getStatusArray(invalidRequest, null)).thenReturn(failureResponse);
+        Mockito.when(mockServerFacade.getStatusArray(invalidRequest)).thenReturn(failureResponse);
 
         // Create a StatusArrayService instance and wrap it with a spy that will use the mock service
         statusArrayServiceSpy = Mockito.spy(new StatusArrayService());
@@ -61,7 +63,7 @@ public class StatusArrayServiceTest {
     }
 
     /**
-     * Verify that for successful requests the {@link StatusArrayService#getStatusArray(StatusArrayRequest)}
+     * Verify that for successful requests the {@link StatusArrayService #getStatusArray(StatusArrayRequest)}
      * method returns the same result as the {@link ServerFacade}.
      * .
      *
@@ -69,19 +71,19 @@ public class StatusArrayServiceTest {
      */
     @Test
     public void testGetStatusArray_validRequest_correctResponse() throws IOException {
-        StatusArrayResponse response = statusArrayServiceSpy.requestStatusArray(validRequest,null);
+        StatusArrayResponse response = statusArrayServiceSpy.requestStatusArray(validRequest);
         Assertions.assertEquals(successResponse, response);
     }
 
     /**
-     * Verify that the {@link StatusArrayService#getStatusArray(StatusArrayRequest)} method loads the
+     * Verify that the {@link StatusArrayService #getStatusArray(StatusArrayRequest)} method loads the
      * profile image of each user included in the result.
      *
      * @throws IOException if an IO error occurs.
      */
     @Test
     public void testGetStatusArray_validRequest_loadsProfileImages() throws IOException {
-        StatusArrayResponse response = statusArrayServiceSpy.requestStatusArray(validRequest,null);
+        StatusArrayResponse response = statusArrayServiceSpy.requestStatusArray(validRequest);
 
         for(Status status : response.getStatuses()) {
             Assertions.assertNotNull(status.getCorrespondingUser().getImageBytes());
@@ -89,14 +91,14 @@ public class StatusArrayServiceTest {
     }
 
     /**
-     * Verify that for failed requests the {@link StatusArrayService#requestStatusArray(StatusArrayRequest)}
+     * Verify that for failed requests the {@link StatusArrayService #requestStatusArray(StatusArrayRequest)}
      * method returns the same result as the {@link ServerFacade}.
      *
      * @throws IOException if an IO error occurs.
      */
     @Test
     public void testGetStatusArray_invalidRequest_returnsNoFollowers() throws IOException {
-        StatusArrayResponse response = statusArrayServiceSpy.requestStatusArray(invalidRequest,null);
+        StatusArrayResponse response = statusArrayServiceSpy.requestStatusArray(invalidRequest);
         Assertions.assertEquals(failureResponse, response);
     }
 }
