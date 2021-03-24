@@ -60,8 +60,8 @@ public class FollowStatusServiceTest {
 
         // Setup a mock ServerFacade that will return known responses
         Mockito.when(mockServerFacade.getFollowStatus(validGetRequest)).thenReturn(successGetResponse);
-        Mockito.when(mockServerFacade.getFollowStatus(validFollowRequest)).thenReturn(successFollowResponse);
-        Mockito.when(mockServerFacade.getFollowStatus(validUnfollowRequest)).thenReturn(successUnfollowResponse);
+        Mockito.when(mockServerFacade.follow(validFollowRequest)).thenReturn(successFollowResponse);
+        Mockito.when(mockServerFacade.unfollow(validUnfollowRequest)).thenReturn(successUnfollowResponse);
 
     }
 
