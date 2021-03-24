@@ -53,15 +53,16 @@ public class FollowStatusServiceTest {
         successFollowResponse =  new FollowStatusResponse(true);
         successUnfollowResponse =  new FollowStatusResponse(false);
 
-        // Setup a mock ServerFacade that will return known responses
+        // Create a FollowingService instance and wrap it with a spy that will use the mock service
         ServerFacade mockServerFacade = Mockito.mock(ServerFacade.class);
+        followStatusServiceSpy = Mockito.spy(new FollowStatusService());
+        Mockito.when(followStatusServiceSpy.getServerFacade()).thenReturn(mockServerFacade);
+
+        // Setup a mock ServerFacade that will return known responses
         Mockito.when(mockServerFacade.getFollowStatus(validGetRequest)).thenReturn(successGetResponse);
         Mockito.when(mockServerFacade.getFollowStatus(validFollowRequest)).thenReturn(successFollowResponse);
         Mockito.when(mockServerFacade.getFollowStatus(validUnfollowRequest)).thenReturn(successUnfollowResponse);
 
-        // Create a FollowingService instance and wrap it with a spy that will use the mock service
-        followStatusServiceSpy = Mockito.spy(new FollowStatusService());
-        Mockito.when(followStatusServiceSpy.getServerFacade()).thenReturn(mockServerFacade);
     }
 
     /**

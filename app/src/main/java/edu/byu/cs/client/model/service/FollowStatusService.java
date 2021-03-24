@@ -21,12 +21,14 @@ public class FollowStatusService implements IFollowStatusService {
      */
     @Override
     public FollowStatusResponse getFollowStatus(FollowStatusRequest request) throws IOException, TweeterRemoteException {
+        FollowStatusResponse response;
         if (request.getRequestType() == FollowStatusRequest.GET)
-            return getServerFacade().getFollowStatus(request);
+            response = getServerFacade().getFollowStatus(request);
         else if (request.getRequestType() == FollowStatusRequest.FOLLOW)
-            return getServerFacade().follow(request);
+            response = getServerFacade().follow(request);
         else
-            return getServerFacade().unfollow(request);
+            response = getServerFacade().unfollow(request);
+        return response;
     }
 
     /**
