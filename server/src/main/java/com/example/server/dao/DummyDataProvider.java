@@ -97,7 +97,7 @@ public class DummyDataProvider {
 
     // This is the hard coded followers data returned by the 'getFollowers()' method
     private static final String MALE_IMAGE_URL_1 = "https://static.wikia.nocookie.net/avatar/images/4/4b/Zuko.png/revision/latest?cb=20180630112142";
-    private static final String FEMALE_IMAGE_URL_1 = "https://c0.klipartz.com/pngpicture/250/535/sticker-png-katara-avatar-the-last-airbender-aang-korra-zuko-aang-child-face-black-hair-hand-head.png";
+    private static final String FEMALE_IMAGE_URL_1 = "https://www.seekpng.com/png/small/327-3273611_katara-vector-katara.png";
 
     private final User user21 = new User("Kin", "Jonahs", MALE_IMAGE_URL_1);
     private final User user22 = new User("Luke", "Skywalker", "https://www.vippng.com/png/detail/510-5106254_luke-skywalker-cliparts-luke-skywalker-star-wars-5.png");
