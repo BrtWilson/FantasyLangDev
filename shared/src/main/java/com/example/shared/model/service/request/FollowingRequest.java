@@ -32,6 +32,12 @@ public class FollowingRequest {
 
     }
 
+
+    public FollowingRequest(String userAlias, boolean isNumFollowingRequest) {
+        this.userAlias = userAlias;
+        this.isNumFollowingRequest = isNumFollowingRequest;
+    }
+
     /**
      * Returns the user whose followees are to be returned by this request.
      *
