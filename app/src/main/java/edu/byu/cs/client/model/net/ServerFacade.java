@@ -66,11 +66,11 @@ public class ServerFacade {
     public RegisterResponse register(RegisterRequest request) throws IOException, TweeterRemoteException {
         String Url_Path = URL_PATH_REGISTER;
         RegisterResponse response = clientCommunicator.doPost(Url_Path, request, null, RegisterResponse.class);
-        if(response.isSuccess()) {
+    //    if(response.isSuccess()) {
             return response;
-        } else {
-            throw new RuntimeException(response.getMessage());
-        }
+      //  } else {
+      //      throw new RuntimeException(response.getMessage());
+       // }
     }
 
     public BasicResponse logout(LogoutRequest request) throws IOException, TweeterRemoteException {
