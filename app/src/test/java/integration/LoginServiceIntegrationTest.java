@@ -17,7 +17,7 @@ import edu.byu.cs.client.model.net.ServerFacade;
 import edu.byu.cs.client.model.service.LoginService;
 
 
-public class LoginServiceTest {
+public class LoginServiceIntegrationTest {
     private LoginRequest validRequest;
     private LoginRequest invalidRequest;
 

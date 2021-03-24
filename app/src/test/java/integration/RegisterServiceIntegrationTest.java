@@ -17,7 +17,7 @@ import edu.byu.cs.client.model.net.ServerFacade;
 import edu.byu.cs.client.model.service.RegisterService;
 
 
-public class RegisterServiceTest {
+public class RegisterServiceIntegrationTest {
 
     private RegisterRequest validRequest1;
     private RegisterRequest validRequest2;

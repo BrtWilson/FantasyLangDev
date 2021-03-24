@@ -100,10 +100,8 @@ public class DummyDataProvider {
     private static final String FEMALE_IMAGE_URL_1 = "https://c0.klipartz.com/pngpicture/250/535/sticker-png-katara-avatar-the-last-airbender-aang-korra-zuko-aang-child-face-black-hair-hand-head.png";
 
     private final User user21 = new User("Kin", "Jonahs", MALE_IMAGE_URL_1);
-    // user21.addFollower(user1);
-    //user21.addFollowing(user2);
     private final User user22 = new User("Luke", "Skywalker", "https://www.vippng.com/png/detail/510-5106254_luke-skywalker-cliparts-luke-skywalker-star-wars-5.png");
-    private final User user23 = new User("Anakin", "Skywalker", "https://clipartstation.com/wp-content/uploads/2019/11/dictator-clipart-clear-background-3.jpg");
+    private final User user23 = new User("Anakin", "Skywalker", "https://images.immediate.co.uk/production/volatile/sites/3/2019/12/Episode_III_Revenge_Christensen07-8bbd9e4.jpg?quality=90&resize=620,413");
     private final User user24 = new User("Mace", "Windu", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXViPRNkk2tpSFPpyuGE6HoIz6SgMzhO27iA&usqp=CAU");
     private final User user25 = new User("Obi-wan", "Kenobi", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwIQVNGsBqqIYz6cMb3-xpBfurd2KXQr72kg&usqp=CAU");
     private final User user26 = new User("Sokka", "Sacapuntes", "https://oyster.ignimgs.com/mediawiki/apis.ign.com/avatar-the-last-airbender/a/ad/Sokka_img.jpg?width=325");
@@ -115,12 +113,12 @@ public class DummyDataProvider {
     private final User user32 = new User("The", "Senate", "https://pbs.twimg.com/profile_images/647662588457676800/S8-ME1Jb_400x400.png");
     private final User user33 = new User("Toph", "The Destroyer", "https://i.pinimg.com/474x/84/b2/9b/84b29be844e69ed288bd45a257a72579.jpg");
     private final User user34 = new User("Cairne", "Bloodhoof", "https://static.wikia.nocookie.net/wowpedia/images/8/8f/Cairne-WC3.jpg/revision/latest/scale-to-width-down/102?cb=20051026232729");
-    private final User user35 = new User("Prince", "Arthas", "https://wow.zamimg.com/uploads/screenshots/normal/969976.jpg?maxWidth=400");
+    private final User user35 = new User("Prince", "Arthas", "https://www.personality-database.com/profile_images/7946.png?id=18875");
     private final User user36 = new User("Opinionated Karen", "Smith", FEMALE_IMAGE_URL_1);
     private final User user37 = new User("Cleric", "Uther", "https://www.guiaswowtbc.com/wp-content/uploads/2020/08/uther.png");
     private final User user38 = new User("Frost", "The Undertaker", "https://static.wikia.nocookie.net/descent2e/images/3/36/SkeletonArcherHM.jpg/revision/latest?cb=20150201194421");
     private final User user39 = new User("Nope", "Sauce", MALE_IMAGE_URL_1);
-    private final User user40 = new User("Han", "Solo", "https://i.dlpng.com/static/png/514853_preview.png");
+    private final User user40 = new User("Han", "Solo", "https://i.pinimg.com/736x/43/0a/2e/430a2e07513e5fb3e1ee95417bad1719.jpg");
 
     private HashMap<String, User> usersMap;
     private User loggedInUser;

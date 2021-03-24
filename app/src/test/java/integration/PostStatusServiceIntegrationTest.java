@@ -17,7 +17,7 @@ import edu.byu.cs.client.model.net.ServerFacade;
 import edu.byu.cs.client.model.service.NewStatusService;
 
 
-public class PostStatusServiceTest {
+public class PostStatusServiceIntegrationTest {
 
     private NewStatusRequest validRequest1;
     private NewStatusRequest validRequest2;
