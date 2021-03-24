@@ -4,6 +4,7 @@ import com.example.shared.model.domain.Status;
 import com.example.shared.model.domain.User;
 import com.example.shared.model.net.TweeterRemoteException;
 import com.example.shared.model.service.request.StatusArrayRequest;
+import com.example.shared.model.service.response.FollowingResponse;
 import com.example.shared.model.service.response.StatusArrayResponse;
 
 import org.junit.jupiter.api.Assertions;
@@ -17,7 +18,7 @@ import java.util.Arrays;
 import edu.byu.cs.client.model.net.ServerFacade;
 import edu.byu.cs.client.model.service.StatusArrayService;
 
-public class StatusArrayServiceTest {
+public class StatusArrayServiceIntegrationTest {
 
     private StatusArrayRequest validRequest;
     private StatusArrayRequest invalidRequest;
@@ -41,17 +42,24 @@ public class StatusArrayServiceTest {
                 "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/daisy_duck.png");
         User resultUser3 = new User("FirstName3", "LastName3",
                 "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/daisy_duck.png");
+        User user1 = new User("Ash", "Ahketchum", "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pngitem.com%2Fmiddle%2FwomThJ_ash-ketchum-hd-png-download%2F&psig=AOvVaw2h43_Bi3x5gdd1y2tRmAhq&ust=1616605412770000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCJjVytTyxu8CFQAAAAAdAAAAABAL");
+        User user2 = new User("Amy", "Ames", "https://i.pinimg.com/originals/5f/79/d6/5f79d6d933f194dbcb74ec5e5ce7a759.jpg");
+        User user3 = new User("Bob", "Bross", "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.bobross.com%2F&psig=AOvVaw0aQWlEayotht6kNKp2WOPT&ust=1616605355172000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCKjex7Pyxu8CFQAAAAAdAAAAABAD");
 
         Status resultStatus1 = new Status("Message 1", "TimeStamp1", resultUser1);
         Status resultStatus2 = new Status("Message 2", "TimeStamp2", resultUser2);
         Status resultStatus3 = new Status("Message 3", "TimeStamp3", resultUser3);
+
+        Status status1 = new Status("I have a sister.", "8:00pm", user1);
+        Status status2 = new Status("@Luke, I am your father.", "8:01pm", user2);
+        Status status3 = new Status("No, I am your father", "8:02pm", user3);
 
         // Setup request objects to use in the tests
         validRequest = new StatusArrayRequest(resultUser1.getAlias(), 3, null);
         invalidRequest = new StatusArrayRequest(null, 0, null);
 
         // Setup a mock ServerFacade that will return known responses
-        successResponse = new StatusArrayResponse(Arrays.asList(resultStatus1, resultStatus2, resultStatus3), false);
+        successResponse = new StatusArrayResponse(Arrays.asList(status1, status2, status3), false);
         ServerFacade serverFacade = Mockito.spy(new ServerFacade());
         //Mockito.when(serverFacade.getStatusArray(validRequest)).thenReturn(successResponse);
 
@@ -73,7 +81,10 @@ public class StatusArrayServiceTest {
     @Test
     public void testGetStatusArray_validRequest_correctResponse() throws IOException {
         StatusArrayResponse response = statusArrayServiceSpy.requestStatusArray(validRequest);
-        Assertions.assertEquals(successResponse, response);
+        Assertions.assertEquals(successResponse.getStatuses().get(0).getMessage(), response.getStatuses().get(0).getMessage());
+        Assertions.assertEquals(successResponse.getStatuses().get(0).getDate(), response.getStatuses().get(0).getDate());
+        Assertions.assertEquals(successResponse.getStatuses().get(1).getMessage(), response.getStatuses().get(1).getMessage());
+        Assertions.assertEquals(successResponse.getStatuses().get(2), response.getStatuses().get(2));
     }
 
     /**
@@ -99,7 +110,11 @@ public class StatusArrayServiceTest {
      */
     @Test
     public void testGetStatusArray_invalidRequest_returnsNoFollowers() throws IOException {
-        StatusArrayResponse response = statusArrayServiceSpy.requestStatusArray(invalidRequest);
-        Assertions.assertEquals(failureResponse, response);
+        //Assertions.assertEquals(failureResponse, response);
+        try {
+            StatusArrayResponse response = statusArrayServiceSpy.requestStatusArray(invalidRequest);
+        } catch (RuntimeException e) {
+            Assertions.assertEquals(e.getClass(), new RuntimeException().getClass());
+        }
     }
 }

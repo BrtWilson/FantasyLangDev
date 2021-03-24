@@ -4,6 +4,7 @@ import com.example.shared.model.domain.User;
 import com.example.shared.model.net.TweeterRemoteException;
 import com.example.shared.model.service.request.FollowerRequest;
 import com.example.shared.model.service.response.FollowerResponse;
+import com.example.shared.model.service.response.RegisterResponse;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,11 +13,13 @@ import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 
 import edu.byu.cs.client.model.net.ServerFacade;
 import edu.byu.cs.client.model.service.FollowerService;
+import edu.byu.cs.client.util.ByteArrayUtils;
 
-public class FollowerServiceTest {
+public class FollowerServiceIntegrationTest {
 
     private FollowerRequest validRequest;
     private FollowerRequest invalidRequest;
@@ -41,12 +44,17 @@ public class FollowerServiceTest {
         User resultUser3 = new User("FirstName3", "LastName3",
                 "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/daisy_duck.png");
 
+        User user21 = new User("Kin", "Jonahs", "https://static.wikia.nocookie.net/avatar/images/4/4b/Zuko.png/revision/latest?cb=20180630112142");
+        User user22 = new User("Luke", "Skywalker", "https://www.vippng.com/png/detail/510-5106254_luke-skywalker-cliparts-luke-skywalker-star-wars-5.png");
+        User user23 = new User("Anakin", "Skywalker", "https://images.immediate.co.uk/production/volatile/sites/3/2019/12/Episode_III_Revenge_Christensen07-8bbd9e4.jpg?quality=90&resize=620,413");
+        User user24 = new User("Mace", "Windu", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXViPRNkk2tpSFPpyuGE6HoIz6SgMzhO27iA&usqp=CAU");
+
         // Setup request objects to use in the tests
         validRequest = new FollowerRequest(currentUser.getAlias(), 3, null);
         invalidRequest = new FollowerRequest(null, 0, null);
 
         // Setup a mock ServerFacade that will return known responses
-        successResponse = new FollowerResponse(Arrays.asList(resultUser1, resultUser2, resultUser3), false);
+        successResponse = new FollowerResponse(Arrays.asList(user21, user22, user23), false);
         ServerFacade serverFacade = Mockito.spy(new ServerFacade());
         //Mockito.when(serverFacade.getFollowers(validRequest)).thenReturn(successResponse);
 
@@ -65,10 +73,11 @@ public class FollowerServiceTest {
      *
      * @throws IOException if an IO error occurs.
      */
+
     @Test
     public void testGetFollowers_validRequest_correctResponse() throws IOException, TweeterRemoteException {
         FollowerResponse response = followerServiceSpy.getFollowers(validRequest);
-        Assertions.assertEquals(successResponse, response);
+        Assertions.assertEquals(successResponse.getFollowers(), response.getFollowers());
     }
 
     /**
@@ -94,7 +103,11 @@ public class FollowerServiceTest {
      */
     @Test
     public void testGetFollowers_invalidRequest_returnsNoFollowers() throws IOException, TweeterRemoteException {
-        FollowerResponse response = followerServiceSpy.getFollowers(invalidRequest);
-        Assertions.assertEquals(failureResponse, response);
+        //Assertions.assertEquals(failureResponse, response);
+        try {
+            FollowerResponse response = followerServiceSpy.getFollowers(invalidRequest);
+        } catch (RuntimeException e) {
+            Assertions.assertEquals(e.getClass(), RuntimeException.class);
+        }
     }
 }

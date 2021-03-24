@@ -17,7 +17,7 @@ import edu.byu.cs.client.model.net.ServerFacade;
 import edu.byu.cs.client.model.service.LoginService;
 
 
-public class LoginServiceTest {
+public class LoginServiceIntegrationTest {
     private LoginRequest validRequest;
     private LoginRequest invalidRequest;
 
@@ -30,11 +30,13 @@ public class LoginServiceTest {
     public void setup() throws IOException, TweeterRemoteException {
         User user = new User("First", "Last", "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
         user.setPassword("password");
+        User testUser2 = new User("test", "user2", "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
+        testUser2.setPassword("password");
 
-        validRequest = new LoginRequest(user.getAlias(), user.getPassword());
-        invalidRequest = new LoginRequest(user.getAlias(), "wrongPassword");
+        validRequest = new LoginRequest(testUser2.getAlias(), testUser2.getPassword());
+        invalidRequest = new LoginRequest(testUser2.getAlias(), "wrongPassword");
 
-        successResponse = new LoginResponse(user, new AuthToken());
+        successResponse = new LoginResponse(testUser2, new AuthToken());
         ServerFacade serverFacade = Mockito.spy(new ServerFacade());
         //Mockito.when(serverFacade.login(validRequest)).thenReturn(successResponse);
 
@@ -48,18 +50,19 @@ public class LoginServiceTest {
     @Test
     public void testLogin_validRequest_correctResponse() throws IOException, TweeterRemoteException {
         LoginResponse response = loginService.login(validRequest);
-        Assertions.assertEquals(successResponse, response);
+        Assertions.assertEquals(successResponse.getUser(), response.getUser());
     }
 
     @Test
     public void testLogin_validRequest_loadsProfileImage() throws IOException, TweeterRemoteException {
         LoginResponse response = loginService.login(validRequest);
-        Assertions.assertNotNull(response.getUser().getImageBytes());
+        Assertions.assertNotNull(response.getUser().getImageUrl());
     }
 
     @Test
     public void testLogin_invalidRequest_returnsFailedMessage() throws IOException, TweeterRemoteException {
         LoginResponse response = loginService.login(invalidRequest);
-        Assertions.assertEquals(failureResponse, response);
+        Assertions.assertEquals(failureResponse.isSuccess(), response.isSuccess());
+        Assertions.assertEquals(failureResponse.getMessage(), response.getMessage());
     }
 }
