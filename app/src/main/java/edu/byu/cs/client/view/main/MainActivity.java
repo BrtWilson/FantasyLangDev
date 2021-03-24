@@ -100,11 +100,11 @@ public class MainActivity extends AppCompatActivity implements LoginPresenter.Vi
 
         followeeCount = findViewById(R.id.followeeCount);
         GetFollowingTask followingTask = new GetFollowingTask(new FollowingPresenter(null),this);
-        followingTask.execute(new FollowingRequest());
+        followingTask.execute(new FollowingRequest(user.getAlias(), true));
 
         followerCount = findViewById(R.id.followerCount);
         GetFollowerTask followersTask = new GetFollowerTask(new FollowerPresenter(null), this);
-        followersTask.execute(new FollowerRequest());
+        followersTask.execute(new FollowerRequest(user.getAlias(), true));
     }
 
     public void openStatusDialogueBegin() {

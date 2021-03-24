@@ -85,11 +85,11 @@ public class UserPageActivity extends AppCompatActivity implements GetFollowingT
 
         followeeCount = findViewById(R.id.followeeCount1);
         GetFollowingTask followingTask = new GetFollowingTask(new FollowingPresenter(null),this);
-        followingTask.execute(new FollowingRequest());
+        followingTask.execute(new FollowingRequest(targetUser.getAlias(), true));
 
         followerCount = findViewById(R.id.followerCount1);
         GetFollowerTask followersTask = new GetFollowerTask(new FollowerPresenter(null), this);
-        followersTask.execute(new FollowerRequest());
+        followersTask.execute(new FollowerRequest(targetUser.getAlias(), true));
 
         followStatusPresenter = new FollowStatusPresenter(null);
         followButton = findViewById(R.id.followButton);
