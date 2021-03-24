@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity implements LoginPresenter.Vi
     public static final String AUTH_TOKEN_KEY = "AuthTokenKey";
 
     private LoginPresenter loginPresenter;
-    private Toast logoutToast;
     private User user;
 
     TextView followerCount;
@@ -157,27 +156,39 @@ public class MainActivity extends AppCompatActivity implements LoginPresenter.Vi
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Callback method invoked when the user presses the back button.
+     * Closes the app (default behavior overridden)
+     */
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
     @Override
     public void logoutSuccessful(BasicResponse logoutResponse) {
+        Toast.makeText(MainActivity.this, "Logging Out", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(this, LoginActivity.class);
-        logoutToast = Toast.makeText(MainActivity.this, "Logging Out", Toast.LENGTH_LONG);
-        logoutToast.show();
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
 
     @Override
     public void logoutUnsuccessful(BasicResponse logoutResponse) {
-        logoutToast.makeText(this, "Failed to logout. " + logoutResponse.getMessage(), Toast.LENGTH_LONG);
+        Toast.makeText(this, "Failed to logout. " + logoutResponse.getMessage(), Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void newStatusSuccessful(NewStatusResponse newStatusResponse) {
-        logoutToast.makeText(this, "Status posted.", Toast.LENGTH_LONG);
+        Toast.makeText(this, "Status posted.", Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void newStatusUnsuccessful(NewStatusResponse newStatusResponse) {
-        logoutToast.makeText(this, "Status failed to post. " + newStatusResponse.getMessage(), Toast.LENGTH_LONG);
+        Toast.makeText(this, "Status failed to post. " + newStatusResponse.getMessage(), Toast.LENGTH_LONG).show();
     }
 
     @Override

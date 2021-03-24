@@ -23,7 +23,7 @@ public class LoginPresenter {
         this.view = view;
     }
 
-    public LoginResponse login(LoginRequest loginRequest) throws IOException, TweeterRemoteException {
+    public LoginResponse login(LoginRequest loginRequest) throws IOException, TweeterRemoteException, RuntimeException {
         loginService = getLoginService();
         return loginService.login(loginRequest);
     }

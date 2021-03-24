@@ -41,6 +41,7 @@ public class UsersTableDAO {
     public BasicResponse logout(LogoutRequest request) {
         //return dataProvider.logout(request);
         //VERIFY: whether this needs additional checks. Is there really a service we need for this?
+
         return new BasicResponse(true, "Logout successful.");
     }
 

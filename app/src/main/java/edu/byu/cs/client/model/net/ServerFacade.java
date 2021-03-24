@@ -56,7 +56,7 @@ public class ServerFacade {
      * @param request contains all information needed to perform a login.
      * @return the login response.
      */
-    public LoginResponse login(LoginRequest request) throws IOException, TweeterRemoteException {
+    public LoginResponse login(LoginRequest request) throws IOException, TweeterRemoteException, RuntimeException {
         String Url_Path = URL_PATH_LOGIN;
         LoginResponse response = clientCommunicator.doPost(Url_Path, request, null, LoginResponse.class);
 
