@@ -33,12 +33,12 @@ public class FollowersDaoTest {
     public void setup() {
         User currentUser = new User("FirstName", "LastName", null);
 
-        User resultUser1 = new User("FirstName1", "LastName1",
-                "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
-        User resultUser2 = new User("FirstName2", "LastName2",
-                "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/daisy_duck.png");
-        User resultUser3 = new User("FirstName3", "LastName3",
-                "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/daisy_duck.png");
+        User resultUser1 = new User("Kin", "Jonahs",
+                "https://static.wikia.nocookie.net/avatar/images/4/4b/Zuko.png/revision/latest?cb=20180630112142");
+        User resultUser2 = new User("Luke", "Skywalker",
+                "https://c0.klipartz.com/pngpicture/250/535/sticker-png-katara-avatar-the-last-airbender-aang-korra-zuko-aang-child-face-black-hair-hand-head.png");
+        User resultUser3 = new User("Anakin", "Skywalker",
+                "https://static.wikia.nocookie.net/avatar/images/4/4b/Zuko.png/revision/latest?cb=20180630112142");
 
         // Setup request objects to use in the tests
         validRequest = new FollowerRequest(currentUser.getAlias(), 3, null);

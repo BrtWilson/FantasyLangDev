@@ -34,12 +34,12 @@ public class FolloweesDaoTest {
     public void setup() {
         User currentUser = new User("FirstName", "LastName", null);
 
-        User resultUser1 = new User("FirstName1", "LastName1",
-                "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
-        User resultUser2 = new User("FirstName2", "LastName2",
-                "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/daisy_duck.png");
-        User resultUser3 = new User("FirstName3", "LastName3",
-                "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/daisy_duck.png");
+        User resultUser1 = new User("Ash", "Ahketchum",
+                "https://i.pinimg.com/originals/e5/9b/e7/e59be7316543f2b7c94bcf693c2ad9f3.png");
+        User resultUser2 = new User("Amy", "Ames",
+                "https://i.pinimg.com/originals/5f/79/d6/5f79d6d933f194dbcb74ec5e5ce7a759.jpg");
+        User resultUser3 = new User("Bob", "Bross",
+                "https://i.pinimg.com/originals/e5/9b/e7/e59be7316543f2b7c94bcf693c2ad9f3.png");
 
         // Setup request objects to use in the tests
         validRequest = new FollowingRequest(currentUser.getAlias(), 3, null);
