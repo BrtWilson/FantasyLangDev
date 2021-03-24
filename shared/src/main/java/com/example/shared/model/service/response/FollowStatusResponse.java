@@ -9,7 +9,7 @@ public class FollowStatusResponse extends Response {
 
     private boolean relationship;
 
-    public FollowStatusResponse(String message) { super(false,message); }
+    public FollowStatusResponse(String message) { super(false, message); }
 
     public FollowStatusResponse(boolean relationship) {
         super(true,null);
@@ -17,6 +17,8 @@ public class FollowStatusResponse extends Response {
     }
 
     public boolean relationshipExists() { return relationship; }
+
+    public void setRelationship(boolean relationship) { this.relationship = relationship; }
 
     @Override
     public boolean equals(Object param) {
