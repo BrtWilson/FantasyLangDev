@@ -36,11 +36,11 @@ public class DummyDataProvider {
     private static final String MALE_IMAGE_URL = "https://i.pinimg.com/originals/e5/9b/e7/e59be7316543f2b7c94bcf693c2ad9f3.png";
     private static final String FEMALE_IMAGE_URL = "https://i.pinimg.com/originals/5f/79/d6/5f79d6d933f194dbcb74ec5e5ce7a759.jpg";
 
-    private final User user1 = new User("Ash", "Ahketchum", "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pngitem.com%2Fmiddle%2FwomThJ_ash-ketchum-hd-png-download%2F&psig=AOvVaw2h43_Bi3x5gdd1y2tRmAhq&ust=1616605412770000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCJjVytTyxu8CFQAAAAAdAAAAABAL");
+    private final User user1 = new User("Ash", "Ahketchum", MALE_IMAGE_URL_1);//"https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pngitem.com%2Fmiddle%2FwomThJ_ash-ketchum-hd-png-download%2F&psig=AOvVaw2h43_Bi3x5gdd1y2tRmAhq&ust=1616605412770000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCJjVytTyxu8CFQAAAAAdAAAAABAL");
     private final User user2 = new User("Amy", "Ames", FEMALE_IMAGE_URL);
-    private final User user3 = new User("Bob", "Bross", "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.bobross.com%2F&psig=AOvVaw0aQWlEayotht6kNKp2WOPT&ust=1616605355172000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCKjex7Pyxu8CFQAAAAAdAAAAABAD");
+    private final User user3 = new User("Bob", "Bross", MALE_IMAGE_URL_1);//"https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.bobross.com%2F&psig=AOvVaw0aQWlEayotht6kNKp2WOPT&ust=1616605355172000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCKjex7Pyxu8CFQAAAAAdAAAAABAD");
     private final User user4 = new User("Bonnie", "Betty", FEMALE_IMAGE_URL);
-    private final User user5 = new User("Captain", "Chris", "https://www.google.com/url?sa=i&url=https%3A%2F%2Fofficialpsds.com%2Fcaptain-america-psd-rn8w69&psig=AOvVaw0gijtq-0wEiaR3JqGpoxjg&ust=1616605627876000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCMj25LXzxu8CFQAAAAAdAAAAABAd");
+    private final User user5 = new User("Captain", "Chris", MALE_IMAGE_URL_1);//"https://www.google.com/url?sa=i&url=https%3A%2F%2Fofficialpsds.com%2Fcaptain-america-psd-rn8w69&psig=AOvVaw0gijtq-0wEiaR3JqGpoxjg&ust=1616605627876000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCMj25LXzxu8CFQAAAAAdAAAAABAd");
     private final User user6 = new User("Cindy", "Coats", FEMALE_IMAGE_URL);
     private final User user7 = new User("Dan", "Dumbledoor", MALE_IMAGE_URL);
     private final User user8 = new User("Dee", "Dempsey", FEMALE_IMAGE_URL);
@@ -50,12 +50,12 @@ public class DummyDataProvider {
     private final User user12 = new User("Fran", "Franklin", FEMALE_IMAGE_URL);
     private final User user13 = new User("Gary", "Giovanni", MALE_IMAGE_URL);
     private final User user14 = new User("Giovanna", "Giles", FEMALE_IMAGE_URL);
-    private final User user15 = new User("Hagrid", "Henderson", "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.kindpng.com%2Fimgv%2FhmmmRTo_harrypotter-harry-potter-hagrid-hagrid-harry%2F&psig=AOvVaw3qg8vyZscEHfeDkgtvRfpx&ust=1616605470020000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCPDYnOnyxu8CFQAAAAAdAAAAABAD");
+    private final User user15 = new User("Hagrid", "Henderson", MALE_IMAGE_URL_1);//"https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.kindpng.com%2Fimgv%2FhmmmRTo_harrypotter-harry-potter-hagrid-hagrid-harry%2F&psig=AOvVaw3qg8vyZscEHfeDkgtvRfpx&ust=1616605470020000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCPDYnOnyxu8CFQAAAAAdAAAAABAD");
     private final User user16 = new User("Helen", "Hopwell", FEMALE_IMAGE_URL);
     private final User user17 = new User("Igor", "Isaacson", MALE_IMAGE_URL);
-    private final User user18 = new User("Draco", "Malphoy", "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.seekpng.com%2Fipng%2Fu2t4y3i1q8q8u2a9_draco-malfoy-part-one-draco-malfoy%2F&psig=AOvVaw0TbOCVolKLAO-iRN02FPgq&ust=1616605740864000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCOig4O3zxu8CFQAAAAAdAAAAABAD");
-    private final User user19 = new User("Luna", "Lovegood", "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pinterest.com%2Fpin%2F173740498113704091%2F&psig=AOvVaw3ps5GGxj5mASJ6-Ozf1Zta&ust=1616605568363000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCOiU1J_zxu8CFQAAAAAdAAAAABAP");
-    private final User user20 = new User("Harry", "Potter", "https://www.google.com/url?sa=i&url=https%3A%2F%2Ffreepngimg.com%2Fpng%2F12537-harry-potter-png-file&psig=AOvVaw1ViZtnx2zrCGQNnZd6gpbh&ust=1616605493215000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCNDQ5Ibzxu8CFQAAAAAdAAAAABAg");
+    private final User user18 = new User("Draco", "Malphoy", MALE_IMAGE_URL_1);//"https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.seekpng.com%2Fipng%2Fu2t4y3i1q8q8u2a9_draco-malfoy-part-one-draco-malfoy%2F&psig=AOvVaw0TbOCVolKLAO-iRN02FPgq&ust=1616605740864000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCOig4O3zxu8CFQAAAAAdAAAAABAD");
+    private final User user19 = new User("Luna", "Lovegood", MALE_IMAGE_URL_1);//"https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pinterest.com%2Fpin%2F173740498113704091%2F&psig=AOvVaw3ps5GGxj5mASJ6-Ozf1Zta&ust=1616605568363000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCOiU1J_zxu8CFQAAAAAdAAAAABAP");
+    private final User user20 = new User("Harry", "Potter", MALE_IMAGE_URL_1);//"https://www.google.com/url?sa=i&url=https%3A%2F%2Ffreepngimg.com%2Fpng%2F12537-harry-potter-png-file&psig=AOvVaw1ViZtnx2zrCGQNnZd6gpbh&ust=1616605493215000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCNDQ5Ibzxu8CFQAAAAAdAAAAABAg");
 
     private final Status status1 = new Status("I have a sister.", "8:00pm", user1);
     private final Status status2 = new Status("@Luke, I am your father.", "8:01pm", user2);
@@ -100,25 +100,25 @@ public class DummyDataProvider {
     private static final String FEMALE_IMAGE_URL_1 = "https://www.seekpng.com/png/small/327-3273611_katara-vector-katara.png";
 
     private final User user21 = new User("Kin", "Jonahs", MALE_IMAGE_URL_1);
-    private final User user22 = new User("Luke", "Skywalker", "https://www.vippng.com/png/detail/510-5106254_luke-skywalker-cliparts-luke-skywalker-star-wars-5.png");
-    private final User user23 = new User("Anakin", "Skywalker", "https://images.immediate.co.uk/production/volatile/sites/3/2019/12/Episode_III_Revenge_Christensen07-8bbd9e4.jpg?quality=90&resize=620,413");
-    private final User user24 = new User("Mace", "Windu", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXViPRNkk2tpSFPpyuGE6HoIz6SgMzhO27iA&usqp=CAU");
-    private final User user25 = new User("Obi-wan", "Kenobi", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwIQVNGsBqqIYz6cMb3-xpBfurd2KXQr72kg&usqp=CAU");
-    private final User user26 = new User("Sokka", "Sacapuntes", "https://oyster.ignimgs.com/mediawiki/apis.ign.com/avatar-the-last-airbender/a/ad/Sokka_img.jpg?width=325");
-    private final User user27 = new User("Aang", "Jones", "https://www.kindpng.com/picc/m/25-251027_transparent-avatar-aang-png-avatar-aang-face-png.png");
-    private final User user28 = new User("The Fatherlord", "Smith", "https://static.wikia.nocookie.net/avatar/images/4/4a/Ozai.png/revision/latest/scale-to-width-down/333?cb=20130612170743");
-    private final User user29 = new User("Darth", "Vader", "https://static.wikia.nocookie.net/disney/images/8/80/Profile_-_Darth_Vader.png/revision/latest/scale-to-width-down/516?cb=20190314100842");
-    private final User user30 = new User("Darth", "Plagueis", "https://static.wikia.nocookie.net/from-the-crazy/images/6/67/Plagueis.png/revision/latest/scale-to-width-down/310?cb=20180609204346");
-    private final User user31 = new User("Chancellor", "Palpatine", "https://assets-jpcust.jwpsrv.com/thumbs/iko5Bilc-720.jpg");
-    private final User user32 = new User("The", "Senate", "https://pbs.twimg.com/profile_images/647662588457676800/S8-ME1Jb_400x400.png");
-    private final User user33 = new User("Toph", "The Destroyer", "https://i.pinimg.com/474x/84/b2/9b/84b29be844e69ed288bd45a257a72579.jpg");
-    private final User user34 = new User("Cairne", "Bloodhoof", "https://static.wikia.nocookie.net/wowpedia/images/8/8f/Cairne-WC3.jpg/revision/latest/scale-to-width-down/102?cb=20051026232729");
-    private final User user35 = new User("Prince", "Arthas", "https://www.personality-database.com/profile_images/7946.png?id=18875");
-    private final User user36 = new User("Opinionated Karen", "Smith", FEMALE_IMAGE_URL_1);
-    private final User user37 = new User("Cleric", "Uther", "https://www.guiaswowtbc.com/wp-content/uploads/2020/08/uther.png");
-    private final User user38 = new User("Frost", "The Undertaker", "https://static.wikia.nocookie.net/descent2e/images/3/36/SkeletonArcherHM.jpg/revision/latest?cb=20150201194421");
+    private final User user22 = new User("Luke", "Skywalker", MALE_IMAGE_URL_1);//"https://www.vippng.com/png/detail/510-5106254_luke-skywalker-cliparts-luke-skywalker-star-wars-5.png");
+    private final User user23 = new User("Anakin", "Skywalker", MALE_IMAGE_URL_1);//"https://images.immediate.co.uk/production/volatile/sites/3/2019/12/Episode_III_Revenge_Christensen07-8bbd9e4.jpg?quality=90&resize=620,413");
+    private final User user24 = new User("Mace", "Windu", MALE_IMAGE_URL_1);//"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXViPRNkk2tpSFPpyuGE6HoIz6SgMzhO27iA&usqp=CAU");
+    private final User user25 = new User("Obi-wan", "Kenobi", MALE_IMAGE_URL_1);//"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwIQVNGsBqqIYz6cMb3-xpBfurd2KXQr72kg&usqp=CAU");
+    private final User user26 = new User("Sokka", "Sacapuntes", MALE_IMAGE_URL_1);//"https://oyster.ignimgs.com/mediawiki/apis.ign.com/avatar-the-last-airbender/a/ad/Sokka_img.jpg?width=325");
+    private final User user27 = new User("Aang", "Jones", MALE_IMAGE_URL_1);//"https://www.kindpng.com/picc/m/25-251027_transparent-avatar-aang-png-avatar-aang-face-png.png");
+    private final User user28 = new User("The Fatherlord", "Smith", MALE_IMAGE_URL_1);//"https://static.wikia.nocookie.net/avatar/images/4/4a/Ozai.png/revision/latest/scale-to-width-down/333?cb=20130612170743");
+    private final User user29 = new User("Darth", "Vader", MALE_IMAGE_URL_1);//"https://static.wikia.nocookie.net/disney/images/8/80/Profile_-_Darth_Vader.png/revision/latest/scale-to-width-down/516?cb=20190314100842");
+    private final User user30 = new User("Darth", "Plagueis", MALE_IMAGE_URL_1);//"https://static.wikia.nocookie.net/from-the-crazy/images/6/67/Plagueis.png/revision/latest/scale-to-width-down/310?cb=20180609204346");
+    private final User user31 = new User("Chancellor", "Palpatine", MALE_IMAGE_URL_1);//"https://assets-jpcust.jwpsrv.com/thumbs/iko5Bilc-720.jpg");
+    private final User user32 = new User("The", "Senate", MALE_IMAGE_URL_1);//"https://pbs.twimg.com/profile_images/647662588457676800/S8-ME1Jb_400x400.png");
+    private final User user33 = new User("Toph", "The Destroyer", FEMALE_IMAGE_URL_1);//"https://i.pinimg.com/474x/84/b2/9b/84b29be844e69ed288bd45a257a72579.jpg");
+    private final User user34 = new User("Cairne", "Bloodhoof", MALE_IMAGE_URL_1);//"https://static.wikia.nocookie.net/wowpedia/images/8/8f/Cairne-WC3.jpg/revision/latest/scale-to-width-down/102?cb=20051026232729");
+    private final User user35 = new User("Prince", "Arthas", MALE_IMAGE_URL_1);//"https://www.personality-database.com/profile_images/7946.png?id=18875");
+    private final User user36 = new User("Katara", "Smith", FEMALE_IMAGE_URL_1);
+    private final User user37 = new User("Cleric", "Uther", MALE_IMAGE_URL_1);//"https://www.guiaswowtbc.com/wp-content/uploads/2020/08/uther.png");
+    private final User user38 = new User("Frost", "The Undertaker", MALE_IMAGE_URL_1);//"https://static.wikia.nocookie.net/descent2e/images/3/36/SkeletonArcherHM.jpg/revision/latest?cb=20150201194421");
     private final User user39 = new User("Nope", "Sauce", MALE_IMAGE_URL_1);
-    private final User user40 = new User("Han", "Solo", "https://i.pinimg.com/736x/43/0a/2e/430a2e07513e5fb3e1ee95417bad1719.jpg");
+    private final User user40 = new User("Han", "Solo", MALE_IMAGE_URL_1);//"https://i.pinimg.com/736x/43/0a/2e/430a2e07513e5fb3e1ee95417bad1719.jpg");
 
     private HashMap<String, User> usersMap;
     private User loggedInUser;
@@ -539,6 +539,6 @@ public class DummyDataProvider {
     }
 
     public FollowStatusResponse followStatusResponse() {
-        return new FollowStatusResponse(followingStatus);
+        return new FollowStatusResponse(true);//followingStatus);
     }
 }
