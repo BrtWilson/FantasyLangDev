@@ -17,7 +17,9 @@ public class FollowStatusResponse extends Response {
 
     public FollowStatusResponse(boolean relationship) {
         super(true,null);
-        this.relationship = relationship;
+        setRelationship(relationship);
+        //this.relationship = relationship;
+        System.out.println("THIS IS THE RELATIONSHIP: " + relationship);
     }
 
     public boolean relationshipExists() { return relationship; }

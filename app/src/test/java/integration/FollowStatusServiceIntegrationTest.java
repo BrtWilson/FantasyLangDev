@@ -51,8 +51,9 @@ public class FollowStatusServiceIntegrationTest {
         validUnfollowRequest = new FollowStatusRequest(resultUser1.getAlias(), currentUser.getAlias(), FollowStatusRequest.UNFOLLOW, authToken);
 
         successGetResponse =  new FollowStatusResponse(false);
-        successFollowResponse =  new FollowStatusResponse(true);
         successUnfollowResponse =  new FollowStatusResponse(false);
+        successFollowResponse =  new FollowStatusResponse(true);
+
 
         // Setup a mock ServerFacade that will return known responses
         //ServerFacade mockServerFacade = Mockito.mock(ServerFacade.class);
