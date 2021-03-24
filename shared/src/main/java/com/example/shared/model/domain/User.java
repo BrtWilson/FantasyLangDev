@@ -10,18 +10,14 @@ import java.util.List;
  */
 public class User implements Comparable<User>, Serializable {
 
-    private final String firstName;
-    private final String lastName;
-    private final String alias;
-    private final String imageUrl;
+    private String firstName;
+    private String lastName;
+    private String alias;
+    private String imageUrl;
     private String password;
     private byte [] imageBytes;
-    //Feed Array
-//    private StatusArray feed;
-    //Story Array
-//    private StatusArray story;
-    //private ArrayList<User> followers;
-    //private ArrayList<User> following;
+
+    public User() {}
 
     public User(String firstName, String lastName, String imageURL) {
         this(firstName, lastName, String.format("@%s%s", firstName, lastName), imageURL);

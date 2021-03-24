@@ -529,10 +529,10 @@ public class DummyDataProvider {
     }
 
     public FollowStatusResponse unfollowResponse() {
-        return new FollowStatusResponse(true);
+        return new FollowStatusResponse(false);
     }
 
     public FollowStatusResponse followResponse() {
-        return new FollowStatusResponse(false);
+        return new FollowStatusResponse(true);
     }
 }

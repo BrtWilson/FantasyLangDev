@@ -17,8 +17,7 @@ public class FollowStatusRequest {
     private  int requestType;
     private  AuthToken authToken;
 
-    public FollowStatusRequest() {
-    }
+    public FollowStatusRequest() {}
 
     /**
      * Constructor for FollowStatusRequest class
