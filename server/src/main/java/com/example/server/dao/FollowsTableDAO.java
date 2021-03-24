@@ -1,8 +1,10 @@
 package com.example.server.dao;
 
 import com.example.shared.model.domain.User;
+import com.example.shared.model.service.request.FollowStatusRequest;
 import com.example.shared.model.service.request.FollowerRequest;
 import com.example.shared.model.service.request.FollowingRequest;
+import com.example.shared.model.service.response.FollowStatusResponse;
 import com.example.shared.model.service.response.FollowerResponse;
 import com.example.shared.model.service.response.FollowingResponse;
 
@@ -122,5 +124,19 @@ public class FollowsTableDAO {
     private List<User> retrieveFollowers() {
         return dataProvider.getDummyFollowers();
     }
+
+    public FollowStatusResponse unfollow(FollowStatusRequest request) {
+        return dataProvider.followResponse();
+    }
+
+    public FollowStatusResponse follow(FollowStatusRequest request) {
+        return dataProvider.unfollowResponse();
+    }
+
+    public FollowStatusResponse getFollowStatus(FollowStatusRequest request) {
+        return dataProvider.unfollowResponse();
+    }
+
+    //Follows Status Methods
 
 }

@@ -15,7 +15,7 @@
 
     <string name="sampleAlias">"@UserAlias"</string>
     <string name="sampleUserName">The User</string>
-    <string name="title_activity_login">Sign in</string>
+    <string name="title_activity_login">Tweeter</string>
     <string name="followeeCount">Following: %d</string>
     <string name="followerCount">Followers: %d</string>
 

@@ -1,4 +1,22 @@
 package com.example.server.lambda;
 
-public class NumFollowersHandler {
+import com.amazonaws.services.lambda.runtime.Context;
+import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.example.server.service.FollowerService;
+import com.example.shared.model.service.request.FollowerRequest;
+import com.example.shared.model.service.response.FollowerResponse;
+
+import java.io.IOException;
+
+public class NumFollowersHandler implements RequestHandler<FollowerRequest, FollowerResponse> {
+    @Override
+    public FollowerResponse handleRequest(FollowerRequest followerRequest, Context context) {
+        FollowerService followerService = new FollowerService();
+        try {
+            return followerService.getNumFollowers(followerRequest);
+        } catch (RuntimeException | IOException e) {
+            String message = "[Bad Request]";
+            throw new RuntimeException(message, e);
+        }
+    }
 }
