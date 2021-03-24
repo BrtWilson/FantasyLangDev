@@ -24,7 +24,7 @@ public class LoginService implements ILoginService {
         return instance;
     }
 
-    public LoginResponse login(LoginRequest request) throws IOException, TweeterRemoteException, RuntimeException {
+    public LoginResponse login(LoginRequest request) throws IOException, TweeterRemoteException {
         serverFacade = getServerFacade();
         LoginResponse loginResponse = serverFacade.login(request);
 

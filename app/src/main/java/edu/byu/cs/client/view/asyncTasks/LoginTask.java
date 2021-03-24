@@ -60,7 +60,7 @@ public class LoginTask extends AsyncTask<LoginRequest, Void, LoginResponse> {
             if(loginResponse.isSuccess()) {
                 loadImage(loginResponse.getUser());
             }
-        } catch (IOException | TweeterRemoteException | RuntimeException ex) {
+        } catch (IOException | TweeterRemoteException ex) {
             exception = ex;
         }
 

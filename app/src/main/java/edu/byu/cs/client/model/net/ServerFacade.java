@@ -60,11 +60,7 @@ public class ServerFacade {
         String Url_Path = URL_PATH_LOGIN;
         LoginResponse response = clientCommunicator.doPost(Url_Path, request, null, LoginResponse.class);
 
-        if(response.isSuccess()) {
-            return response;
-        } else {
-            throw new RuntimeException(response.getMessage());
-        }
+        return response;
     }
 
     public RegisterResponse register(RegisterRequest request) throws IOException, TweeterRemoteException {
