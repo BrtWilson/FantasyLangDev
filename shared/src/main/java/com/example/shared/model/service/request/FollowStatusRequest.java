@@ -12,6 +12,7 @@ public class FollowStatusRequest {
     public static final int FOLLOW = 1;
     public static final int UNFOLLOW = 2;
 
+
     private String currentUser;
     private String otherUser;
     private  int requestType;
@@ -44,11 +45,9 @@ public class FollowStatusRequest {
     public void setOtherUser(String otherUser) {
         this.otherUser = otherUser;
     }
-
     public void setRequestType(int requestType) {
         this.requestType = requestType;
     }
-
     public void setAuthToken(AuthToken authToken) {
         this.authToken = authToken;
     }

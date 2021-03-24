@@ -126,15 +126,15 @@ public class FollowsTableDAO {
     }
 
     public FollowStatusResponse unfollow(FollowStatusRequest request) {
-        return dataProvider.followResponse();
+        return dataProvider.unfollowResponse();
     }
 
     public FollowStatusResponse follow(FollowStatusRequest request) {
-        return dataProvider.unfollowResponse();
+        return dataProvider.followResponse();
     }
 
     public FollowStatusResponse getFollowStatus(FollowStatusRequest request) {
-        return dataProvider.unfollowResponse();
+        return dataProvider.followStatusResponse();
     }
 
     //Follows Status Methods

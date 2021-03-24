@@ -528,11 +528,19 @@ public class DummyDataProvider {
         return user8;
     }
 
+    static boolean followingStatus = true;
+
     public FollowStatusResponse unfollowResponse() {
+        followingStatus = false;
         return new FollowStatusResponse(false);
     }
 
     public FollowStatusResponse followResponse() {
+        followingStatus = true;
         return new FollowStatusResponse(true);
+    }
+
+    public FollowStatusResponse followStatusResponse() {
+        return new FollowStatusResponse(followingStatus);
     }
 }
