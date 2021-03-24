@@ -1,17 +1,20 @@
-package edu.byu.cs.client.model.service;
+package integration;
+
+import com.example.shared.model.domain.AuthToken;
+import com.example.shared.model.domain.User;
+import com.example.shared.model.net.TweeterRemoteException;
+import com.example.shared.model.service.request.RegisterRequest;
+import com.example.shared.model.service.response.RegisterResponse;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import java.io.IOException;
-import com.example.shared.model.domain.AuthToken;
-import com.example.shared.model.domain.User;
-import edu.byu.cs.client.model.net.ServerFacade;
 
-import com.example.shared.model.net.TweeterRemoteException;
-import com.example.shared.model.service.request.RegisterRequest;
-import com.example.shared.model.service.response.RegisterResponse;
+import java.io.IOException;
+
+import edu.byu.cs.client.model.net.ServerFacade;
+import edu.byu.cs.client.model.service.RegisterService;
 
 
 public class RegisterServiceTest {
@@ -40,17 +43,16 @@ public class RegisterServiceTest {
 
         successResponse = new RegisterResponse(user1, new AuthToken(), true);
         successResponse2 = new RegisterResponse(user2, new AuthToken(), true);
-        ServerFacade mockServerFacade = Mockito.mock(ServerFacade.class);
-        Mockito.when(mockServerFacade.register(validRequest1)).thenReturn(successResponse);
-        Mockito.when(mockServerFacade.register(validRequest2)).thenReturn(successResponse2);
+        ServerFacade serverFacade = Mockito.spy(new ServerFacade());
+        Mockito.when(serverFacade.register(validRequest1)).thenReturn(successResponse);
+        Mockito.when(serverFacade.register(validRequest2)).thenReturn(successResponse2);
 
         failureResponse = new RegisterResponse("Username already taken. User different username.", false);
-        Mockito.when(mockServerFacade.register(invalidRequest)).thenReturn(failureResponse);
+        Mockito.when(serverFacade.register(invalidRequest)).thenReturn(failureResponse);
 
         registerService = Mockito.spy(new RegisterService());
-        Mockito.when(registerService.getServerFacade()).thenReturn(mockServerFacade);
-       //Mockito.when(registerService.getServerFacade()).thenReturn(mockServerFacade);
-//        Mockito.when(registerService.getServerFacade()).thenReturn(mockServerFacade); // this is commented out because registerService uses static serverFacade
+        //Mockito.when(registerService.getServerFacade()).thenReturn(serverFacade);
+//        Mockito.when(registerService.getServerFacade()).thenReturn(serverFacade); // this is commented out because registerService uses static serverFacade
     }
 
     @Test

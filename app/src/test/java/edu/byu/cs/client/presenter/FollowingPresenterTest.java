@@ -10,6 +10,8 @@ import java.util.Arrays;
 
 import com.example.shared.model.domain.User;
 import edu.byu.cs.client.model.service.FollowingService;
+
+import com.example.shared.model.net.TweeterRemoteException;
 import com.example.shared.model.service.request.FollowingRequest;
 import com.example.shared.model.service.response.FollowingResponse;
 
@@ -21,7 +23,7 @@ public class FollowingPresenterTest {
     private FollowingPresenter presenter;
 
     @BeforeEach
-    public void setup() throws IOException {
+    public void setup() throws IOException, TweeterRemoteException {
         User currentUser = new User("FirstName", "LastName", null);
 
         User resultUser1 = new User("FirstName1", "LastName1",
@@ -44,7 +46,7 @@ public class FollowingPresenterTest {
     }
 
     @Test
-    public void testGetFollowing_returnsServiceResult() throws IOException {
+    public void testGetFollowing_returnsServiceResult() throws IOException, TweeterRemoteException {
         Mockito.when(mockFollowingService.getFollowees(request)).thenReturn(response);
 
         // Assert that the presenter returns the same response as the service (it doesn't do
@@ -53,7 +55,7 @@ public class FollowingPresenterTest {
     }
 
     @Test
-    public void testGetFollowing_serviceThrowsIOException_presenterThrowsIOException() throws IOException {
+    public void testGetFollowing_serviceThrowsIOException_presenterThrowsIOException() throws IOException, TweeterRemoteException {
         Mockito.when(mockFollowingService.getFollowees(request)).thenThrow(new IOException());
 
         Assertions.assertThrows(IOException.class, () -> {

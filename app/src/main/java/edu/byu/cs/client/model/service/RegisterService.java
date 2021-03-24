@@ -30,7 +30,7 @@ public class RegisterService implements IRegisterService {
         user.setImageBytes(bytes);
     }
 
-    static ServerFacade getServerFacade() {
+    ServerFacade getServerFacade() {
         if(serverFacade == null) {
             serverFacade = new ServerFacade();
         }
