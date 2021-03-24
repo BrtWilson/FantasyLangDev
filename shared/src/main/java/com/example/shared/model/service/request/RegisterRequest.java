@@ -44,6 +44,23 @@ public class RegisterRequest {
     public String getEncodedImage() { return encodedImage; }
     //public byte[] getImageBytes() { return imageBytes; }
 
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public void setEncodedImage(String encodedImage) { this.encodedImage = encodedImage; }
     //public void setImageBytes(byte[] imageBytes) { this.imageBytes = imageBytes; }
 }
