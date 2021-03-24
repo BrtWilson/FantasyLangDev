@@ -36,7 +36,7 @@ public class DummyDataProvider {
     private static final String MALE_IMAGE_URL = "https://i.pinimg.com/originals/e5/9b/e7/e59be7316543f2b7c94bcf693c2ad9f3.png";
     private static final String FEMALE_IMAGE_URL = "https://i.pinimg.com/originals/5f/79/d6/5f79d6d933f194dbcb74ec5e5ce7a759.jpg";
 
-    private final User user1 = new User("Ash", "Ahketchum", "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pngitem.com%2Fmiddle%2FwomThJ_ash-ketchum-hd-png-download%2F&psig=AOvVaw2h43_Bi3x5gdd1y2tRmAhq&ust=1616605412770000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCJjVytTyxu8CFQAAAAAdAAAAABAL");
+    private final User user1 = new User("Ash", "Ahketchum", "@AshAhketchum", "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pngitem.com%2Fmiddle%2FwomThJ_ash-ketchum-hd-png-download%2F&psig=AOvVaw2h43_Bi3x5gdd1y2tRmAhq&ust=1616605412770000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCJjVytTyxu8CFQAAAAAdAAAAABAL");
     private final User user2 = new User("Amy", "Ames", FEMALE_IMAGE_URL);
     private final User user3 = new User("Bob", "Bross", "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.bobross.com%2F&psig=AOvVaw0aQWlEayotht6kNKp2WOPT&ust=1616605355172000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCKjex7Pyxu8CFQAAAAAdAAAAABAD");
     private final User user4 = new User("Bonnie", "Betty", FEMALE_IMAGE_URL);
@@ -133,6 +133,7 @@ public class DummyDataProvider {
         User testUser2 = new User("test", "user2", "https://static.wikia.nocookie.net/avatar/images/4/4b/Zuko.png/revision/latest?cb=20180630112142");
         testUser2.setPassword("password");
 
+
         /*testUser1.addFollowing(user1);
         user1.addFollower(testUser1);
         testUser1.addFollowing(user2);
@@ -216,6 +217,7 @@ public class DummyDataProvider {
         testUser2.addFollower(user22);
         user22.addFollowing(testUser2);*/
 
+        usersMap.put("@AshAhketchum", user1);
         usersMap.put(testUser1.getAlias(), testUser1);
         usersMap.put(testUser2.getAlias(), testUser2);
 
