@@ -79,4 +79,8 @@ public class FollowerResponse extends PagedResponse {
     public int hashCode() {
         return Objects.hash(followers);
     }
+
+    public void setFollowers(List<User> followers) {
+        this.followers = followers;
+    }
 }

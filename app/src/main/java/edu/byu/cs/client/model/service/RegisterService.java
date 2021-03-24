@@ -14,6 +14,9 @@ public class RegisterService implements IRegisterService {
 
     public static ServerFacade serverFacade;
 
+    public RegisterService() {
+    }
+
     public RegisterResponse register(RegisterRequest request) throws IOException, TweeterRemoteException {
         serverFacade = getServerFacade();
         RegisterResponse registerResponse = serverFacade.register(request);
