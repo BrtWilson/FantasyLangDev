@@ -9,6 +9,10 @@ public class FollowStatusResponse extends Response {
 
     private boolean relationship;
 
+    public FollowStatusResponse() {
+        super(true);
+    }
+
     public FollowStatusResponse(String message) { super(false,message); }
 
     public FollowStatusResponse(boolean relationship) {
@@ -33,6 +37,10 @@ public class FollowStatusResponse extends Response {
         return (Objects.equals(relationship, that.relationshipExists()) &&
                 Objects.equals(this.getMessage(), that.getMessage()) &&
                 this.isSuccess() == that.isSuccess());
+    }
+
+    public void setRelationship(boolean relationship) {
+        this.relationship = relationship;
     }
 }
 

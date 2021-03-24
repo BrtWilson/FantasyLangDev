@@ -12,8 +12,8 @@ public class FollowStatusRequest {
     public static final int FOLLOW = 1;
     public static final int UNFOLLOW = 2;
 
-    private  User currentUser;
-    private  User otherUser;
+    private  String currentUser;
+    private  String otherUser;
     private  int requestType;
     private  AuthToken authToken;
 
@@ -24,7 +24,7 @@ public class FollowStatusRequest {
      * @param otherUser the user to be followed/unfollowed
      * @param requestType a boolean set to true if the user desires to follow the specified user, false if the user desires to unfollow
      */
-    public FollowStatusRequest(User otherUser, User currentUser, int requestType, AuthToken authToken) {
+    public FollowStatusRequest(String otherUser, String currentUser, int requestType, AuthToken authToken) {
         this.otherUser = otherUser;
         this.currentUser = currentUser;
         this.requestType = requestType;
@@ -32,23 +32,20 @@ public class FollowStatusRequest {
     }
 
 
-    public User getOtherUser() { return otherUser; }
-    public User getCurrentUser() { return currentUser; }
+    public String getOtherUser() { return otherUser; }
+    public String getCurrentUser() { return currentUser; }
     public int getRequestType() { return requestType; }
     public AuthToken getAuthToken() { return authToken; }
 
-    public void setCurrentUser(User currentUser) {
+    public void setCurrentUser(String currentUser) {
         this.currentUser = currentUser;
     }
-
-    public void setOtherUser(User otherUser) {
+    public void setOtherUser(String otherUser) {
         this.otherUser = otherUser;
     }
-
     public void setRequestType(int requestType) {
         this.requestType = requestType;
     }
-
     public void setAuthToken(AuthToken authToken) {
         this.authToken = authToken;
     }

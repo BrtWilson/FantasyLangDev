@@ -100,9 +100,9 @@ public class UserPageActivity extends AppCompatActivity implements GetFollowingT
                 //Toast.makeText(OtherUserActivity.this,"Follow/Unfollow button pressed",Toast.LENGTH_SHORT).show();
                 FollowStatusRequest followStatusRequest;
                 if (followButton.getText().equals("Follow"))
-                    followStatusRequest = new FollowStatusRequest(targetUser, user, FollowStatusRequest.FOLLOW,authToken);
+                    followStatusRequest = new FollowStatusRequest(targetUser.getAlias(), user.getAlias(), FollowStatusRequest.FOLLOW,authToken);
                 else
-                    followStatusRequest = new FollowStatusRequest(targetUser, user, FollowStatusRequest.UNFOLLOW,authToken);
+                    followStatusRequest = new FollowStatusRequest(targetUser.getAlias(), user.getAlias(), FollowStatusRequest.UNFOLLOW,authToken);
                 GetFollowStatusTask getFollowStatusTask = new GetFollowStatusTask(followStatusPresenter,UserPageActivity.this);
                 getFollowStatusTask.execute(followStatusRequest);
             }
@@ -114,7 +114,7 @@ public class UserPageActivity extends AppCompatActivity implements GetFollowingT
      */
     private void setFollowButtonText() {
         //default is not following, we only make a change if there exists a relationship
-        FollowStatusRequest followStatusRequest = new FollowStatusRequest(targetUser, user, FollowStatusRequest.GET,authToken);
+        FollowStatusRequest followStatusRequest = new FollowStatusRequest(targetUser.getAlias(), user.getAlias(), FollowStatusRequest.GET,authToken);
         GetFollowStatusTask getFollowStatusTask = new GetFollowStatusTask(followStatusPresenter,UserPageActivity.this);
         getFollowStatusTask.execute(followStatusRequest);
     }
@@ -129,7 +129,7 @@ public class UserPageActivity extends AppCompatActivity implements GetFollowingT
 
     @Override
     public void handleFollowStatusException(Exception exception) {
-        Toast.makeText(this,"Could not process follow request",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,"Could not process follow request: " + exception.getMessage(),Toast.LENGTH_SHORT).show();
     }
 
     @Override
