@@ -8,8 +8,6 @@ import java.util.List;
  */
 public class StatusArrayRequest extends ListRequest implements IListRequest{ //TODO
 
-    private String userAlias;
-    private int limit;
     private String lastStatusDate;
     private Boolean feedInstead;
 
@@ -39,8 +37,6 @@ public class StatusArrayRequest extends ListRequest implements IListRequest{ //T
      */
     public StatusArrayRequest(String userAlias, int limit, String lastStatusDate, Boolean feedInstead) {
         super(userAlias, limit, lastStatusDate);
-        this.userAlias = userAlias;
-        this.limit = limit;
         this.lastStatusDate = lastStatusDate;
         this.feedInstead = feedInstead;
     }
@@ -51,25 +47,6 @@ public class StatusArrayRequest extends ListRequest implements IListRequest{ //T
         return feedInstead;
     }
 
-
-    /**
-     * Returns the follower whose followees are to be returned by this request.
-     *
-     * @return the follower.
-     */
-    public String getUserAlias() {
-        return userAlias;
-    }
-
-    /**
-     * Returns the number representing the maximum number of followees to be returned by this request.
-     *
-     * @return the limit.
-     */
-    public int getLimit() {
-        return limit;
-    }
-
     /**
      * Returns the last followee that was returned in the previous request or null if there was no
      * previous request or if no followees were returned in the previous request.
@@ -78,16 +55,6 @@ public class StatusArrayRequest extends ListRequest implements IListRequest{ //T
      */
     public String getLastStatusDate() {
         return lastStatusDate;
-    }
-
-    @Override
-    public void setUserAlias(String userAlias) {
-        this.userAlias = userAlias;
-    }
-
-    @Override
-    public void setLimit(int limit) {
-        this.limit = limit;
     }
 
     public void setLastStatusDate(String lastStatusDate) {
