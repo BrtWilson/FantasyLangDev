@@ -46,20 +46,7 @@ public class StatusArrayRequest extends ListRequest implements IListRequest{ //T
     public Boolean getFeedInstead() {
         return feedInstead;
     }
-
-
-    /**
-     * Returns the follower whose followees are to be returned by this request.
-     *
-     * @return the follower.
-     */
-
-    /**
-     * Returns the number representing the maximum number of followees to be returned by this request.
-     *
-     * @return the limit.
-     */
-
+    
     /**
      * Returns the last followee that was returned in the previous request or null if there was no
      * previous request or if no followees were returned in the previous request.

@@ -21,9 +21,6 @@ public class FollowingRequest {
      *                     previous request).
      */
 
-
-
-
     public FollowingRequest(String userAlias, int limit, String lastFolloweeAlias) {
         this.userAlias = userAlias;
         this.limit = limit;
