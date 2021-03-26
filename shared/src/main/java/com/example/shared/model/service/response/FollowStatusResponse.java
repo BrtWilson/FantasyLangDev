@@ -44,5 +44,9 @@ public class FollowStatusResponse extends Response {
     public void setRelationship(boolean relationship) {
         this.relationship = relationship;
     }
+
+    public boolean isRelationship() {
+        return relationship;
+    }
 }
 

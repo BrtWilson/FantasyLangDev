@@ -50,7 +50,7 @@ public class FollowStatusServiceIntegrationTest {
         validFollowRequest = new FollowStatusRequest(resultUser1.getAlias(), currentUser.getAlias(), FollowStatusRequest.FOLLOW, authToken);
         validUnfollowRequest = new FollowStatusRequest(resultUser1.getAlias(), currentUser.getAlias(), FollowStatusRequest.UNFOLLOW, authToken);
 
-        successGetResponse =  new FollowStatusResponse(false);
+        successGetResponse =  new FollowStatusResponse(true);
         successUnfollowResponse =  new FollowStatusResponse(false);
         successFollowResponse =  new FollowStatusResponse(true);
 
