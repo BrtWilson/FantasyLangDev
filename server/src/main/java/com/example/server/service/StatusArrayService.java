@@ -1,6 +1,8 @@
 package com.example.server.service;
 
+import com.example.server.dao.FeedTableDAO;
 import com.example.server.dao.StatusesTableDAO;
+import com.example.server.dao.StoryTableDAO;
 import com.example.shared.model.service.IStatusArrayService;
 import com.example.shared.model.service.request.IListRequest;
 import com.example.shared.model.service.request.StatusArrayRequest;
@@ -8,7 +10,7 @@ import com.example.shared.model.service.response.IListResponse;
 import com.example.shared.model.service.response.StatusArrayResponse;
 
 /**
- * Contains the business logic for getting the users a user is following.
+ * Contains the business logic for getting a user's feed or story
  */
 public class StatusArrayService implements IStatusArrayService {
 
@@ -22,20 +24,17 @@ public class StatusArrayService implements IStatusArrayService {
      * @return the followees.
      */
     public StatusArrayResponse requestStatusArray(IListRequest request) {
-        StatusArrayResponse response = new StatusArrayResponse("Statuses missing");
+//        StatusArrayResponse response = new StatusArrayResponse("Statuses missing");
         //try {
             if (request.getClass() != StatusArrayRequest.class) {
-                return response;
+                return new StatusArrayResponse("Statuses missing");
             }
             StatusArrayRequest req = (StatusArrayRequest) request;
-            response = getStatusArrayDao().getStatusArray(req);
-
-        /*} catch (IOException e) {
-            response = new StatusArrayResponse("Statuses missing error");
-            return response;
-        }*/
-
-        return response;
+            //response = getStatusArrayDao().getStatusArray(req);
+            if (req.getFeedInstead())
+               return getFeedTableDAO().getStatusArray(req);
+             else
+               return getStoryTableDAO().getStatusArray(req);
     }
 
     @Override
@@ -54,5 +53,8 @@ public class StatusArrayService implements IStatusArrayService {
     public StatusesTableDAO getStatusArrayDao() {
         return new StatusesTableDAO();
     }
+
+    public FeedTableDAO getFeedTableDAO() { return new FeedTableDAO(); }
+    public StoryTableDAO getStoryTableDAO() { return new StoryTableDAO(); }
 
 }

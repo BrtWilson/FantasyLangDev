@@ -25,9 +25,7 @@ public class LoginService implements ILoginService {
         String hashedPassword = passwordHasher.hashPassword(request.getPassword());
         request.setPassword(hashedPassword);
 
-        LoginResponse loginResponse = getLoginDao().login(request);
-
-        return loginResponse;
+        return getLoginDao().login(request);
     }
 
     public BasicResponse logout(LogoutRequest request) throws IOException {

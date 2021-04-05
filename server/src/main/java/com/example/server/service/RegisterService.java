@@ -19,9 +19,7 @@ public class RegisterService implements IRegisterService {
         String hashedPassword = passwordHasher.hashPassword(request.getPassword());
         request.setPassword(hashedPassword);
 
-        RegisterResponse registerResponse = getRegisterDao().register(request);
-
-        return registerResponse;
+        return getRegisterDao().register(request);
     }
 
     public static UsersTableDAO getRegisterDao() {
