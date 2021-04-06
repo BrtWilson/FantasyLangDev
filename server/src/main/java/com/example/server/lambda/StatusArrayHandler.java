@@ -6,10 +6,6 @@ import com.example.server.service.StatusArrayService;
 import com.example.shared.model.service.request.StatusArrayRequest;
 import com.example.shared.model.service.response.StatusArrayResponse;
 
-import java.io.IOException;
-
-import sun.misc.Request;
-
 public class StatusArrayHandler implements RequestHandler<StatusArrayRequest, StatusArrayResponse> {
 
     @Override

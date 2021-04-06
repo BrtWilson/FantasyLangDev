@@ -15,6 +15,8 @@ import java.util.List;
 public class FollowsTableDAO {
     DummyDataProvider dataProvider = DummyDataProvider.getInstance();
 
+    private static final String tableName = "Follows";
+
     public FollowerResponse getFollowers(FollowerRequest request) {
         //return dataProvider.getFollowers(request);
 

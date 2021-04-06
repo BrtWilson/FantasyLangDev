@@ -13,6 +13,8 @@ import java.util.List;
 public class StoryTableDAO {
     DummyDataProvider dataProvider = DummyDataProvider.getInstance();
 
+    private static final String tableName = "Stories";
+
     public StatusArrayResponse getStatusArray(StatusArrayRequest request) {
         verifyLimit(request.getLimit());
         verifyAlias(request.getUserAlias());

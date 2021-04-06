@@ -13,6 +13,8 @@ import java.util.List;
 public class FeedTableDAO {
     DummyDataProvider dataProvider = DummyDataProvider.getInstance();
 
+    private static final String tableName = "Feeds";
+
     public StatusArrayResponse getStatusArray(StatusArrayRequest request) {
         verifyLimit(request.getLimit());
         verifyAlias(request.getUserAlias());

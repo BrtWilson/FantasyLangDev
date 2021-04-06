@@ -81,7 +81,7 @@ public class DynamoDBStrategy {
      *
      * e.g. getListByString("Follows", "FollowerAlias", "LukeSkywalker", 10, "FolloweeAlias", null)
      */
-    public ResultsPage getListByString(String tableName, String targetAttribute, String attributeValue, int pageSize, String attributeToRetrieve, String lastRetrieved) {
+    public static ResultsPage getListByString(String tableName, String targetAttribute, String attributeValue, int pageSize, String attributeToRetrieve, String lastRetrieved) {
         ResultsPage result = new ResultsPage();
 
         Map<String, String> attrNames = new HashMap<String, String>();
@@ -137,7 +137,7 @@ public class DynamoDBStrategy {
      * @param indexKey The secondary or index key name of the match object
      * @param indexKeyValue The secondary or index key value of the match object
      */
-    public void deleteItemWithDualKey(String tableName, String key, String keyValue, String indexKey, Object indexKeyValue) {
+    public static void deleteItemWithDualKey(String tableName, String key, String keyValue, String indexKey, Object indexKeyValue) {
         Table table = dynamoDB.getTable(tableName);
         table.deleteItem(key, keyValue, indexKey, indexKeyValue);
     }
@@ -151,7 +151,7 @@ public class DynamoDBStrategy {
      * @param attribute Attribute name for additional item attribute
      * @param attributeValue Value of the additional attribute
      */
-    public void createItem(String tableName, String key, Object keyValue, String attribute, Object attributeValue) {
+    public static void createItem(String tableName, String key, Object keyValue, String attribute, Object attributeValue) {
         Table table = dynamoDB.getTable(tableName);
 
         final Map<String, Object> infoMap = new HashMap<String, Object>();
@@ -183,7 +183,7 @@ public class DynamoDBStrategy {
      * @param attribute Attribute name for additional item attribute
      * @param attributeValue Value of the additional attribute
      */
-    public void createItemWithDualKey(String tableName, String key, String keyValue, String indexKey, Object indexKeyValue, String attribute, String attributeValue) {
+    public static void createItemWithDualKey(String tableName, String key, String keyValue, String indexKey, Object indexKeyValue, String attribute, String attributeValue) {
         Table table = dynamoDB.getTable(tableName);
 
         final Map<String, Object> infoMap = new HashMap<String, Object>();
@@ -275,7 +275,7 @@ public class DynamoDBStrategy {
      * @return Requested string type attribute
      */
     //desiredAttribute specified
-    public String getBasicStringAttribute(String tableName, String key, String keyValue, String desiredAttribute) {
+    public static String getBasicStringAttribute(String tableName, String key, String keyValue, String desiredAttribute) {
         Table table = dynamoDB.getTable(tableName);
 
         Item item = table.getItem(key, keyValue);
@@ -291,15 +291,15 @@ public class DynamoDBStrategy {
     // PROBABLY NOT USED AS USES KEY/ATTRIBUTE SETUP (rather than single key)
     // ***
     //attribute == desiredAttribute
-    public String getBasicStringAttributeFromDualKey(String tableName, String key, String keyValue, String attribute, String attributeValue) {
-        return getBasicStringAttributeFromDualKey(tableName, key, keyValue, attribute, attributeValue, attribute);
+    public static String getBasicStringAttributeFromDualKey(String tableName, String key, String keyValue, String indexKey, String indexKeyValue) {
+        return getBasicStringAttributeFromDualKey(tableName, key, keyValue, indexKey, indexKeyValue, indexKey);
     }
 
     //desiredAttribute specified
-    public String getBasicStringAttributeFromDualKey(String tableName, String key, String keyValue, String attribute, String attributeValue, String desiredAttribute) {
+    public static String getBasicStringAttributeFromDualKey(String tableName, String key, String keyValue, String indexKey, String indexKeyValue, String desiredAttribute) {
         Table table = dynamoDB.getTable(tableName);
 
-        Item item = table.getItem(key, keyValue, attribute, attributeValue);
+        Item item = table.getItem(key, keyValue, indexKey, indexKeyValue);
         if (item == null) {
             return null;
         }

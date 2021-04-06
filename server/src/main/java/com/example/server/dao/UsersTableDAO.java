@@ -16,6 +16,8 @@ import java.util.HashMap;
 public class UsersTableDAO {
     DummyDataProvider dataProvider = DummyDataProvider.getInstance();
 
+    private static final String tableName = "Users";
+
     public UserResponse getUserByAlias(UserRequest userRequest) {
         return new UserResponse(getAUser());
     }
