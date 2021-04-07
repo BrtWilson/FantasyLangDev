@@ -309,7 +309,7 @@ public class StatusFragment extends Fragment implements StatusArrayPresenter.Vie
 
         private final List<Status> statuses = new ArrayList<>();
 
-        private Status lastStatus;
+        private String lastStatusDate;
 
         private boolean hasMorePages;
         private boolean isLoading = false;
@@ -425,7 +425,7 @@ public class StatusFragment extends Fragment implements StatusArrayPresenter.Vie
             addLoadingFooter();
 
             GetStatusArrayTask getStatusTask = new GetStatusArrayTask(presenter, this);
-            StatusArrayRequest request = new StatusArrayRequest(user.getAlias(), PAGE_SIZE, (lastStatus == null ? null : lastStatus.getDate()), isFeed);
+            StatusArrayRequest request = new StatusArrayRequest(user.getAlias(), PAGE_SIZE, (lastStatusDate == null ? null : lastStatusDate), isFeed);
             getStatusTask.execute(request);
         }
 
@@ -439,7 +439,7 @@ public class StatusFragment extends Fragment implements StatusArrayPresenter.Vie
         public void statusArrayRetrieved(StatusArrayResponse statusArrayResponse) {
             List<Status> statuses = statusArrayResponse.getStatuses();
 
-            lastStatus = (statuses.size() > 0) ? statuses.get(statuses.size() -1) : null;
+            lastStatusDate = statusArrayResponse.getLastDate();//(statuses.size() > 0) ? statuses.get(statuses.size() -1) : null;
             hasMorePages = statusArrayResponse.getHasMorePages();
 
             isLoading = false;

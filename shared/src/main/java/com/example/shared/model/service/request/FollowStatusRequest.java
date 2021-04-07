@@ -17,6 +17,7 @@ public class FollowStatusRequest {
     private String otherUser;
     private  int requestType;
     private  AuthToken authToken;
+    private String lastStatusDate;
 
     public FollowStatusRequest() {}
 

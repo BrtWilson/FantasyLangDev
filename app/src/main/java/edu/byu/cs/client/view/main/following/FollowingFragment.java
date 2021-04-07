@@ -165,7 +165,7 @@ public class FollowingFragment extends Fragment implements FollowingPresenter.Vi
 
         private final List<User> users = new ArrayList<>();
 
-        private com.example.shared.model.domain.User lastFollowee;
+        private String lastFolloweeAlias;
 
         private boolean hasMorePages;
         private boolean isLoading = false;
@@ -281,7 +281,7 @@ public class FollowingFragment extends Fragment implements FollowingPresenter.Vi
             addLoadingFooter();
 
             GetFollowingTask getFollowingTask = new GetFollowingTask(presenter, this);
-            FollowingRequest request = new FollowingRequest(user.getAlias(), PAGE_SIZE, (lastFollowee == null ? null : lastFollowee.getAlias()));
+            FollowingRequest request = new FollowingRequest(user.getAlias(), PAGE_SIZE, (lastFolloweeAlias == null ? null : lastFolloweeAlias));
             getFollowingTask.execute(request);
         }
 
@@ -295,7 +295,7 @@ public class FollowingFragment extends Fragment implements FollowingPresenter.Vi
         public void followeesRetrieved(FollowingResponse followingResponse) {
             List<User> followees = followingResponse.getFollowees();
 
-            lastFollowee = (followees.size() > 0) ? followees.get(followees.size() -1) : null;
+            lastFolloweeAlias = followingResponse.getLastFolloweeAlias();//(followees.size() > 0) ? followees.get(followees.size() -1) : null;
             hasMorePages = followingResponse.getHasMorePages();
 
             isLoading = false;

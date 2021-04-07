@@ -13,6 +13,7 @@ public class FollowerResponse extends PagedResponse {
 
     private List<User> followers;
     private final Integer numFollowers;
+    private String lastFollowerAlias;
 
     /**
      * Creates a response indicating that the corresponding request was unsuccessful. Sets the
@@ -31,10 +32,11 @@ public class FollowerResponse extends PagedResponse {
      * @param followers the followers to be included in the result.
      * @param hasMorePages an indicator of whether more data is available for the request.
      */
-    public FollowerResponse(List<User> followers, boolean hasMorePages) {
+    public FollowerResponse(List<User> followers, boolean hasMorePages, String lastFollowerAlias) {
         super(true, hasMorePages);
         this.followers = followers;
         this.numFollowers = null;
+        this.lastFollowerAlias = lastFollowerAlias;
     }
 
     /**
@@ -82,5 +84,13 @@ public class FollowerResponse extends PagedResponse {
 
     public void setFollowers(List<User> followers) {
         this.followers = followers;
+    }
+
+    public String getLastFollowerAlias() {
+        return lastFollowerAlias;
+    }
+
+    public void setLastFollowerAlias(String lastFollowerAlias) {
+        this.lastFollowerAlias = lastFollowerAlias;
     }
 }
