@@ -15,7 +15,7 @@ import java.io.IOException;
 public class NewStatusService implements INewStatusService {
 
     public NewStatusResponse postNewStatus(NewStatusRequest request) throws IOException {
-        StatusesTableDAO postStatusDAO = getPostStatusDao();
+//        StatusesTableDAO postStatusDAO = getPostStatusDao();
 
         NewStatusResponse feedResponse = getFeedTableDAO().postNewStatus(request);
         NewStatusResponse storyResponse = getStoryTableDAO().postNewStatus(request);
