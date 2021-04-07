@@ -12,6 +12,7 @@ public class FollowingResponse extends PagedResponse {
 
     private List<User> followees;
     private final Integer numFollowing;
+    private String lastFolloweeAlias;
 
     /**
      * Creates a response indicating that the corresponding request was unsuccessful. Sets the
@@ -34,6 +35,13 @@ public class FollowingResponse extends PagedResponse {
         super(true, hasMorePages);
         this.followees = followees;
         this.numFollowing = null;
+    }
+
+    public FollowingResponse(List<User> followees, boolean hasMorePages, String lastFolloweeAlias) {
+        super(true, hasMorePages);
+        this.followees = followees;
+        this.numFollowing = null;
+        this.lastFolloweeAlias = lastFolloweeAlias;
     }
 
     public FollowingResponse(int numFollowing) {
@@ -73,5 +81,17 @@ public class FollowingResponse extends PagedResponse {
     @Override
     public int hashCode() {
         return Objects.hash(followees);
+    }
+
+    public void setFollowees(List<User> followees) {
+        this.followees = followees;
+    }
+
+    public String getLastFolloweeAlias() {
+        return lastFolloweeAlias;
+    }
+
+    public void setLastFolloweeAlias(String lastFolloweeAlias) {
+        this.lastFolloweeAlias = lastFolloweeAlias;
     }
 }

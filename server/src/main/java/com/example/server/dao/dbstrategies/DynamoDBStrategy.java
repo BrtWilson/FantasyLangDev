@@ -105,8 +105,12 @@ public class DynamoDBStrategy {
         }
     }*/
 
+    public static ResultsPage getListByString(String tableName, String targetAttribute, String attributeValue, int pageSize, String attributeToRetrieve, String lastRetrieved) {
+        return getListByString(tableName, targetAttribute, attributeValue, pageSize, attributeToRetrieve, lastRetrieved, false, null);
+    }
+
     /**
-     * TODO: Paged Response! Use this or the one above
+     *
      * Fetch the next page of visitors who have visited location
      *
      * @param tableName The Database Table being targeted
@@ -119,7 +123,7 @@ public class DynamoDBStrategy {
      *
      * e.g. getListByString("Follows", "FollowerAlias", "LukeSkywalker", 10, "FolloweeAlias", null)
      */
-    public static ResultsPage getListByString(String tableName, String targetAttribute, String attributeValue, int pageSize, String attributeToRetrieve, String lastRetrieved) {
+    public static ResultsPage getListByString(String tableName, String targetAttribute, String attributeValue, int pageSize, String attributeToRetrieve, String lastRetrieved, Boolean byIndex, String indexName) {
         ResultsPage result = new ResultsPage();
 
         Map<String, String> attrNames = new HashMap<String, String>();
@@ -130,12 +134,15 @@ public class DynamoDBStrategy {
 
         QueryRequest queryRequest = new QueryRequest()
                 .withTableName(tableName)
-                //.withIndexName(IndexName)
+                //.withSortName(SortName)
                 .withKeyConditionExpression("#att = :match_attribute")
                 .withExpressionAttributeNames(attrNames)
                 .withExpressionAttributeValues(attrValues)
                 .withLimit(pageSize);
 
+        if (byIndex){  // use for FOLLOWS search by index :: USED FOR FOLLOWING
+                queryRequest = queryRequest.withIndexName(indexName);
+        }
         if (isNonEmptyString(lastRetrieved)) {
             Map<String, AttributeValue> lastKey = new HashMap<>();
             lastKey.put(targetAttribute, new AttributeValue().withS(attributeValue));
@@ -148,8 +155,8 @@ public class DynamoDBStrategy {
         List<Map<String, AttributeValue>> items = queryResult.getItems();
         if (items != null) {
             for (Map<String, AttributeValue> item : items){
-                String visitor = item.get(attributeToRetrieve).getS();
-                result.addValue(visitor);
+                Object returnedObject = item.get(attributeToRetrieve);
+                result.addValue(returnedObject);
             }
         }
 
@@ -172,45 +179,13 @@ public class DynamoDBStrategy {
      * @param tableName The Database Table being targeted
      * @param key The key that is used in the corresponding table. E.g. "Alias"
      * @param keyValue The value for the key to match in the query. E.g. for "Alias" could be "LukeSkywalker"
-     * @param indexKey The secondary or index key name of the match object
-     * @param indexKeyValue The secondary or index key value of the match object
+     * @param sortKey The secondary or sort key name of the match object
+     * @param sortKeyValue The secondary or sort key value of the match object
      */
-    public static void deleteItemWithDualKey(String tableName, String key, String keyValue, String indexKey, Object indexKeyValue) {
+    public static void deleteItemWithDualKey(String tableName, String key, String keyValue, String sortKey, Object sortKeyValue) {
         Table table = dynamoDB.getTable(tableName);
-        table.deleteItem(key, keyValue, indexKey, indexKeyValue);
+        table.deleteItem(key, keyValue, sortKey, sortKeyValue);
     }
-
-    //Use for Creating a Status object?
-    /**
-     * Creates a basic object with a single additional attribute
-     * @param tableName The Database Table being targeted
-     * @param key The key that is used in the corresponding table. E.g. "Alias"
-     * @param keyValue The value for the key to match in the query. E.g. for "Alias" could be "LukeSkywalker"
-     * @param attribute Attribute name for additional item attribute
-     * @param attributeValue Value of the additional attribute
-     */
-    public static boolean createItem(String tableName, String key, Object keyValue, String attribute, Object attributeValue) {
-        Table table = dynamoDB.getTable(tableName);
-
-        final Map<String, Object> infoMap = new HashMap<String, Object>();
-        infoMap.put(key, keyValue);
-        infoMap.put(attribute, attributeValue);
-
-        try {
-            System.out.println("Adding a new item...");
-            PutItemOutcome outcome = table
-                    .putItem(new Item().withPrimaryKey(key, keyValue, attribute, attributeValue).withMap("info", infoMap));
-
-            System.out.println("PutItem succeeded:\n" + outcome.getPutItemResult());
-            return true;
-        }
-        catch (Exception e) {
-            System.err.println("Unable to add item: " + keyValue + " " + attributeValue);
-            System.err.println(e.getMessage());
-            return false;
-        }
-    }
-
 
     /**
      * Creates a basic object with a single additional attribute
@@ -234,7 +209,7 @@ public class DynamoDBStrategy {
 
         System.out.println("Adding a new item...");
 
-        PutItemOutcome outcome = table // TODO: DETERMINE USER OF INFOMAPS
+        PutItemOutcome outcome = table
                 .putItem(new Item().withPrimaryKey(key, keyValue).withMap("info", infoMap));
 
         System.out.println("PutItem succeeded:\n" + outcome.getPutItemResult());
@@ -247,29 +222,28 @@ public class DynamoDBStrategy {
      * @param tableName The Database Table being targeted
      * @param key The key that is used in the corresponding table. E.g. "Alias"
      * @param keyValue The value for the key to match in the query. E.g. for "Alias" could be "LukeSkywalker"
-     * @param indexKey The secondary or index key name of the match object
-     * @param indexKeyValue The secondary or index key value of the match object
-     * @param attribute Attribute name for additional item attribute
-     * @param attributeValue Value of the additional attribute
+     * @param sortKey The secondary or sort key name of the match object
+     * @param sortKeyValue The secondary or sort key value of the match object
      */
-    public static void createItemWithDualKey(String tableName, String key, String keyValue, String indexKey, Object indexKeyValue, String attribute, String attributeValue) {
+    public static void createItemWithDualKey(String tableName, String key, String keyValue, String sortKey, Object sortKeyValue) {
         Table table = dynamoDB.getTable(tableName);
 
+        /*
         final Map<String, Object> infoMap = new HashMap<String, Object>();
         infoMap.put(key, keyValue);
-        infoMap.put(indexKey, indexKeyValue);
-        infoMap.put(attribute, attributeValue);
+        infoMap.put(sortKey, sortKeyValue);
+        infoMap.put(attribute, attributeValue);*/
 
         try {
             System.out.println("Adding a new item...");
             PutItemOutcome outcome = table
-                    .putItem(new Item().withPrimaryKey(key, keyValue, attribute, attributeValue).withMap("info", infoMap));
+                    .putItem(new Item().withPrimaryKey(key, keyValue, sortKey, sortKeyValue));
 
             System.out.println("PutItem succeeded:\n" + outcome.getPutItemResult());
 
         }
         catch (Exception e) {
-            System.err.println("Unable to add item: " + keyValue + " " + attributeValue);
+            System.err.println("Unable to add item: " + keyValue + " " + sortKeyValue);
             System.err.println(e.getMessage());
         }
     }
@@ -283,23 +257,27 @@ public class DynamoDBStrategy {
      * returns the desired object
      */
     //Use for GetUserByAlias
-    public static Object basicGetItem(String tableName, String key, String keyValue) throws Exception {
+    public static Object basicGetItem(String tableName, String key, String keyValue) {
         Table table = dynamoDB.getTable(tableName);
 
         GetItemSpec spec = new GetItemSpec().withPrimaryKey(key, keyValue);
 
-        try {
-            System.out.println("Attempting to read the item...");
-            Item outcome = table.getItem(spec);
-            System.out.println("GetItem succeeded: " + outcome);
-            return outcome;
+        System.out.println("Attempting to read the item...");
+        Item outcome = table.getItem(spec);
+        System.out.println("GetItem succeeded: " + outcome);
+        return outcome;
 
-        }
-        catch (Exception e) {
-            System.err.println("Unable to read item: " + keyValue);
-            System.err.println(e.getMessage());
-            return e;
-        }
+    }
+
+    public static Object basicGetItemWithDualKey(String tableName, String primaryKey, String pkeyValue, String sortKey, String sortValue) {
+        Table table = dynamoDB.getTable(tableName);
+
+        GetItemSpec spec = new GetItemSpec().withPrimaryKey(primaryKey, pkeyValue, sortKey, sortValue);
+
+        System.out.println("Attempting to read the item...");
+        Item outcome = table.getItem(spec);
+        System.out.println("GetItem succeeded: " + outcome);
+        return outcome;
     }
 
     /**
@@ -307,17 +285,17 @@ public class DynamoDBStrategy {
      * @param tableName The Database Table being targeted
      * @param key The key that is used in the corresponding table. E.g. "Alias"
      * @param keyValue The value for the key to match in the query. E.g. for "Alias" could be "LukeSkywalker"
-     * @param indexKey The secondary or index key name of the match object
-     * @param indexKeyValue The secondary or index key value of the match object
+     * @param sortKey The secondary or sort key name of the match object
+     * @param sortKeyValue The secondary or sort key value of the match object
      * @param attribute The attribute name to be targeted for update
      * @param newAttributeValue The new value for the targeted attribute (a String)
      * @throws Exception
      */
     //Use for update Authorization
-    public static void updateItemStringAttributeFromDualKey(String tableName, String key, String keyValue, String indexKey, Object indexKeyValue, String attribute, String newAttributeValue) throws Exception {
+    public static void updateItemStringAttributeFromDualKey(String tableName, String key, String keyValue, String sortKey, Object sortKeyValue, String attribute, String newAttributeValue) throws Exception {
         Table table = dynamoDB.getTable("Movies");
 
-        UpdateItemSpec updateItemSpec = new UpdateItemSpec().withPrimaryKey(key, keyValue, indexKey, indexKeyValue)
+        UpdateItemSpec updateItemSpec = new UpdateItemSpec().withPrimaryKey(key, keyValue, sortKey, sortKeyValue)
                 .withUpdateExpression("set info." + attribute + " = :a")
                 .withValueMap(new ValueMap().withString(":a", newAttributeValue))
                 .withReturnValues(ReturnValue.UPDATED_NEW);
@@ -329,7 +307,7 @@ public class DynamoDBStrategy {
 
         }
         catch (Exception e) {
-            System.err.println("Unable to update item: " + keyValue + " " + indexKeyValue);
+            System.err.println("Unable to update item: " + keyValue + " " + sortKeyValue);
             System.err.println(e.getMessage());
         }
     }
@@ -360,15 +338,15 @@ public class DynamoDBStrategy {
     // PROBABLY NOT USED AS USES KEY/ATTRIBUTE SETUP (rather than single key)
     // ***
     //attribute == desiredAttribute
-    public static String getBasicStringAttributeFromDualKey(String tableName, String key, String keyValue, String indexKey, String indexKeyValue) {
-        return getBasicStringAttributeFromDualKey(tableName, key, keyValue, indexKey, indexKeyValue, indexKey);
+    public static String getBasicStringAttributeFromDualKey(String tableName, String key, String keyValue, String sortKey, String sortKeyValue) {
+        return getBasicStringAttributeFromDualKey(tableName, key, keyValue, sortKey, sortKeyValue, sortKey);
     }
 
     //desiredAttribute specified
-    public static String getBasicStringAttributeFromDualKey(String tableName, String key, String keyValue, String indexKey, String indexKeyValue, String desiredAttribute) {
+    public static String getBasicStringAttributeFromDualKey(String tableName, String key, String keyValue, String sortKey, String sortKeyValue, String desiredAttribute) {
         Table table = dynamoDB.getTable(tableName);
 
-        Item item = table.getItem(key, keyValue, indexKey, indexKeyValue);
+        Item item = table.getItem(key, keyValue, sortKey, sortKeyValue);
         if (item == null) {
             return null;
         }

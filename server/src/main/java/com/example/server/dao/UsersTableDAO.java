@@ -27,8 +27,8 @@ public class UsersTableDAO {
     private static final String attributePassword = "Password";
     private static final String attributeImageUrl = "ImageUrl";
 
-    private static final String FAULTY_USER_REQUEST = "Invalid_Request"; // Todo: check this to match 400/500 page
-    private static final String SERVER_SIDE_ERROR = "Server_Error";
+    private static final String FAULTY_USER_REQUEST = "[Bad Request]";
+    private static final String SERVER_SIDE_ERROR = "[Server Error]";
 
     public UserResponse getUserByAlias(UserRequest userRequest) {
         try {
@@ -40,9 +40,7 @@ public class UsersTableDAO {
     }
 
     public LoginResponse login(LoginRequest request) {
-        //return dataProvider.login(request);
         try {
-            //TODO
             User retrievedUser = (User) DynamoDBStrategy.basicGetItem(tableName, keyAttribute, request.getUsername());
             if (retrievedUser != null) {
                 if (retrievedUser.getPassword() == request.getPassword()) { // Note that hashing has already happened in the Services
@@ -69,7 +67,7 @@ public class UsersTableDAO {
 
     public RegisterResponse register(RegisterRequest request) {
         try {
-            Object userTableMatch = DynamoDBStrategy.basicQueryWithKey(tableName, keyAttribute, request.getUserName());
+            Object userTableMatch = DynamoDBStrategy.basicGetItem(tableName, keyAttribute, request.getUserName());
             if (userTableMatch != null) {
                 return new RegisterResponse(FAULTY_USER_REQUEST + ": User already exists.", false);
             } else {
@@ -91,7 +89,7 @@ public class UsersTableDAO {
         String imageUrl = request.getEncodedImage();
         User user = new User(firstName, lastName, alias, imageUrl);
         user.setPassword(password);
-        //TODO: UPLOAD WITH DYNAMO
+
         ArrayList<String> attributes = new ArrayList<>();
         attributes.add(attributeFirstName);
         attributes.add(attributeLastName);
@@ -107,7 +105,7 @@ public class UsersTableDAO {
         if (DynamoDBStrategy.createItemWithAttributes(tableName, keyAttribute, alias, attributes, attributeValues)) {
             return user;
         }
-        throw new Exception("Failed to complete user upload");
+        throw new Exception(SERVER_SIDE_ERROR + ": Failed to complete user upload");
     }
 
     /*

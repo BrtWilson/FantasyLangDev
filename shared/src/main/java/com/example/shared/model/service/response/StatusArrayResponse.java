@@ -8,6 +8,20 @@ import com.example.shared.model.domain.Status;
 public class StatusArrayResponse extends PagedResponse implements IListResponse{
 
     private List<Status> statuses;
+    private String lastDate;
+
+    public void setStatuses(List<Status> statuses) {
+        this.statuses = statuses;
+    }
+
+    public String getLastDate() {
+        return lastDate;
+    }
+
+    public void setLastDate(String lastDate) {
+        this.lastDate = lastDate;
+    }
+
 
     /**
      * Creates a response indicating that the corresponding request was unsuccessful. Sets the

@@ -6,7 +6,7 @@ import java.util.List;
  * Contains all the information needed to make a request to have the server return the next page of
  * followees for a specified follower.
  */
-public class StatusArrayRequest extends ListRequest implements IListRequest{ //TODO
+public class StatusArrayRequest extends ListRequest implements IListRequest{
 
     private String lastStatusDate;
     private Boolean feedInstead;

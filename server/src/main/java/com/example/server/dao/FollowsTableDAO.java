@@ -1,5 +1,8 @@
 package com.example.server.dao;
 
+import com.example.server.dao.dbstrategies.DynamoDBStrategy;
+import com.example.server.dao.dbstrategies.ResultsPage;
+import com.example.server.dao.util.ListTypeTransformer;
 import com.example.shared.model.domain.User;
 import com.example.shared.model.service.request.FollowStatusRequest;
 import com.example.shared.model.service.request.FollowerRequest;
@@ -12,36 +15,26 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static com.sun.xml.internal.ws.addressing.EndpointReferenceUtil.transform;
+
 public class FollowsTableDAO {
-    DummyDataProvider dataProvider = DummyDataProvider.getInstance();
+    //DummyDataProvider dataProvider = DummyDataProvider.getInstance();
 
     private static final String tableName = "Follows";
+    private static final String partionKey = "FollowerAlias";
+    private static final String sortKey = "FollowerAlias";
+    private static final Integer pageSize = 10;
+
+    private static final String SERVER_SIDE_ERROR = "[Server Error]";
 
     public FollowerResponse getFollowers(FollowerRequest request) {
-        //return dataProvider.getFollowers(request);
-
-        // Used in place of assert statements because Android does not support them
         verifyRequestLimit(request.getLimit());
         verifyRequestUserAlias(request.getUserAlias());
 
-        List<User> allFollowers = retrieveFollowers();
-        List<User> responseFollowers = new ArrayList<>(request.getLimit());
-
-        boolean hasMorePages = false;
-
-        if (request.getLimit() > 0) {
-            int followersIndex = getFollowsStartingIndex(request.getLastFollowerAlias(), allFollowers);
-
-            for (int limitCounter = 0; followersIndex < allFollowers.size() && limitCounter < request.getLimit(); followersIndex++, limitCounter++) {
-                responseFollowers.add(allFollowers.get(followersIndex));
-            }
-
-            hasMorePages = followersIndex < allFollowers.size();
-        }
-
-        return new FollowerResponse(responseFollowers, hasMorePages);
+        return retrieveFollowers(request.getUserAlias(), request.getLastFollowerAlias());
     }
 
+    //TODO: DEPRACATE
     public FollowerResponse getNumFollowers(FollowerRequest request) {
         return new FollowerResponse(13);
     }
@@ -59,29 +52,10 @@ public class FollowsTableDAO {
     }
 
     public FollowingResponse getFollowees(FollowingRequest request) {
-        //return dataProvider.getFollowees(request);
-
-        // Used in place of assert statements because Android does not support them
-        //if (BuildConfig.DEBUG) {
         verifyRequestLimit(request.getLimit());
         verifyRequestUserAlias(request.getFollowingAlias());
 
-        List<User> allFollowees = retrieveFollowees();
-        List<User> responseFollowees = new ArrayList<>(request.getLimit());
-
-        boolean hasMorePages = false;
-
-        if (request.getLimit() > 0) {
-            int followeesIndex = getFollowsStartingIndex(request.getLastFolloweeAlias(), allFollowees);
-
-            for (int limitCounter = 0; followeesIndex < allFollowees.size() && limitCounter < request.getLimit(); followeesIndex++, limitCounter++) {
-                responseFollowees.add(allFollowees.get(followeesIndex));
-            }
-
-            hasMorePages = followeesIndex < allFollowees.size();
-        }
-
-        return new FollowingResponse(responseFollowees, hasMorePages);
+        return retrieveFollowees(request.getFollowingAlias(), request.getLastFolloweeAlias());
     }
 
 
@@ -89,7 +63,56 @@ public class FollowsTableDAO {
         return new FollowingResponse(13);
     }
 
-    /**
+    private FollowingResponse retrieveFollowees(String targetAlias, String lastRetrieved) {
+        ResultsPage resultsPage = DynamoDBStrategy.getListByString(tableName, partionKey, targetAlias, pageSize, sortKey, lastRetrieved);
+        boolean hasMorePages = (resultsPage.hasLastKey());
+        String newLastRetrieved = resultsPage.getLastKey();
+        List<User> usersList = ListTypeTransformer.transform(resultsPage.getValues(), User.class);
+        FollowingResponse response = new FollowerResponse(usersList, hasMorePages, newLastRetrieved);
+        return response;
+    }
+
+    private FollowerResponse retrieveFollowers(String targetAlias, String lastRetrieved) {
+        //TODO: verify whether this works, or if sortKey and partitionKey should stay normal
+        ResultsPage resultsPage = DynamoDBStrategy.getListByString(tableName, sortKey, targetAlias, pageSize, partionKey, lastRetrieved, true, sortKey);
+        boolean hasMorePages = (resultsPage.hasLastKey());
+        String newLastRetrieved = resultsPage.getLastKey();
+        List<User> usersList = ListTypeTransformer.transform(resultsPage.getValues(), User.class);
+        FollowerResponse response = new FollowerResponse(usersList, hasMorePages, newLastRetrieved);
+        return response;
+    }
+
+    public FollowStatusResponse unfollow(FollowStatusRequest request) {
+        try {
+            DynamoDBStrategy.deleteItemWithDualKey(tableName, partionKey, request.getCurrentUser(), sortKey, request.getOtherUser());
+            return new FollowStatusResponse(false);
+        } catch (Exception e) {
+            return new FollowStatusResponse(SERVER_SIDE_ERROR + ": " + e.getMessage());
+        }
+    }
+
+    public FollowStatusResponse follow(FollowStatusRequest request) {
+        try {
+            DynamoDBStrategy.createItemWithDualKey(tableName, partionKey, request.getCurrentUser(), sortKey, request.getOtherUser());
+            return new FollowStatusResponse(true);
+        } catch (Exception e) {
+            return new FollowStatusResponse(SERVER_SIDE_ERROR + ": " + e.getMessage());
+        }
+    }
+
+    public FollowStatusResponse getFollowStatus(FollowStatusRequest request) {
+        try {
+            Object followTableMatch = DynamoDBStrategy.basicGetItemWithDualKey(tableName, partionKey, request.getCurrentUser(), sortKey, request.getOtherUser());
+            return new FollowStatusResponse((followTableMatch != null));
+        } catch (Exception e) {
+            return new FollowStatusResponse(SERVER_SIDE_ERROR + ": " + e.getMessage());
+        }
+    }
+
+
+
+
+    /** DEPRACATED: AS DYNAMODB WILL HANDLE THIS, I BELIEVE
      * Determines the index for the first follower in the specified 'allFollowers' list that should
      * be returned in the current request. This will be the index of the next follower after the
      * specified 'lastFollower'.
@@ -99,7 +122,7 @@ public class FollowsTableDAO {
      * @param allFollows      the generated list of followees from which we are returning paged results.
      * @return the index of the first followee to be returned.
      */
-    private int getFollowsStartingIndex(String lastFollowAlias, List<User> allFollows) {
+   /* private int getFollowsStartingIndex(String lastFollowAlias, List<User> allFollows) {
 
         int followsIndex = 0;
 
@@ -117,28 +140,5 @@ public class FollowsTableDAO {
         }
 
         return followsIndex;
-    }
-
-    private List<User> retrieveFollowees() {
-        return dataProvider.getDummyFollowees();
-    }
-
-    private List<User> retrieveFollowers() {
-        return dataProvider.getDummyFollowers();
-    }
-
-    public FollowStatusResponse unfollow(FollowStatusRequest request) {
-        return dataProvider.unfollowResponse();
-    }
-
-    public FollowStatusResponse follow(FollowStatusRequest request) {
-        return dataProvider.followResponse();
-    }
-
-    public FollowStatusResponse getFollowStatus(FollowStatusRequest request) {
-        return dataProvider.followStatusResponse();
-    }
-
-    //Follows Status Methods
-
+    }*/
 }
