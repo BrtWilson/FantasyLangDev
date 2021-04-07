@@ -1,6 +1,8 @@
 package com.example.server.service;
 
+import com.example.server.dao.FeedTableDAO;
 import com.example.server.dao.StatusesTableDAO;
+import com.example.server.dao.StoryTableDAO;
 import com.example.shared.model.service.INewStatusService;
 import com.example.shared.model.service.request.NewStatusRequest;
 import com.example.shared.model.service.response.NewStatusResponse;
@@ -8,13 +10,20 @@ import com.example.shared.model.service.response.NewStatusResponse;
 import java.io.IOException;
 
 /**
- * Contains the business logic to support the login operation.
+ * Contains the business logic to support posting a new status
  */
 public class NewStatusService implements INewStatusService {
 
     public NewStatusResponse postNewStatus(NewStatusRequest request) throws IOException {
         StatusesTableDAO postStatusDAO = getPostStatusDao();
-        return postStatusDAO.postNewStatus(request);
+
+        NewStatusResponse feedResponse = getFeedTableDAO().postNewStatus(request);
+        NewStatusResponse storyResponse = getStoryTableDAO().postNewStatus(request);
+
+        if (feedResponse.isSuccess() && storyResponse.isSuccess())
+            return feedResponse;
+        else
+            return new NewStatusResponse("Could not post new status");
     }
 
     /**
@@ -27,4 +36,8 @@ public class NewStatusService implements INewStatusService {
     public StatusesTableDAO getPostStatusDao() {
         return new StatusesTableDAO();
     }
+
+    public FeedTableDAO getFeedTableDAO() { return new FeedTableDAO(); }
+
+    public StoryTableDAO getStoryTableDAO() { return new StoryTableDAO(); }
 }
