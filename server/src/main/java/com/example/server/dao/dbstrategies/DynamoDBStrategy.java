@@ -20,6 +20,7 @@ import com.amazonaws.services.dynamodbv2.model.QueryRequest;
 import com.amazonaws.services.dynamodbv2.model.QueryResult;
 import com.amazonaws.services.dynamodbv2.model.ReturnValue;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -29,9 +30,45 @@ public class DynamoDBStrategy {
 
     private static AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard().withRegion("us-east-1").build();
     private static DynamoDB dynamoDB = new DynamoDB(client);
+    private static final String SERVER_SIDE_ERROR = "Server_Error";
 
-    //Needs to be updated to Paginated Query
-    public static void basicQuery(String targetTable, String primaryKeyName, String keyQueryContent) throws Exception {
+    public static Item basicQueryWithKey(String targetTable, String key, String keyValue) throws Exception {
+
+        Table table = dynamoDB.getTable(targetTable);
+
+       /* These seem unnecessary with the .withHashKey() method
+        HashMap<String, String> nameMap = new NameMap();
+        nameMap.put("#key", primaryKeyName); // e.g. "#fr", "follower_handle");
+
+        HashMap<String, Object> valueMap = new ValueMap();
+        valueMap.put(":" + primaryKeyName, keyQueryContent); // e.g. ":follower_handle", "Jerry");
+*/
+
+        QuerySpec querySpec = new QuerySpec().withHashKey(key, keyValue);
+
+        ItemCollection<QueryOutcome> items = null;
+        Iterator<Item> iterator = null;
+        //Item item = null;
+
+        System.out.println("Performing query");
+        items = table.query(querySpec);
+        iterator = items.iterator();
+        return iterator.next();
+    }
+            /*while (iterator.hasNext()) {
+                item = iterator.next();
+                System.out.println(item.getString("follower_handle") + ": " + item.getString("followee_handle"));
+            }
+
+        }
+        catch (Exception e) {
+            System.err.println("Unable to complete query for key: " + primaryKeyName + "; and content: " + keyQueryContent);
+            System.err.println(e.getMessage());
+            return null;
+        }
+    }
+
+    /*public static ItemCollection<QueryOutcome> basicQueryWithKey(String targetTable, String primaryKeyName, String keyQueryContent) throws Exception {
 
         Table table = dynamoDB.getTable(targetTable);
 
@@ -46,15 +83,15 @@ public class DynamoDBStrategy {
                 .withNameMap(nameMap)
                 .withValueMap(valueMap);
 
-        ItemCollection<QueryOutcome> items = null;
-        Iterator<Item> iterator = null;
-        Item item = null;
+        //ItemCollection<QueryOutcome> items = null;
+        //Iterator<Item> iterator = null;
+        //Item item = null;
 
         try {
             System.out.println("Performing query");
-            items = table.query(querySpec);
+            return table.query(querySpec);
 
-            iterator = items.iterator();
+            /*iterator = items.iterator();
             while (iterator.hasNext()) {
                 item = iterator.next();
                 System.out.println(item.getString("follower_handle") + ": " + item.getString("followee_handle"));
@@ -64,8 +101,9 @@ public class DynamoDBStrategy {
         catch (Exception e) {
             System.err.println("Unable to complete query for key: " + primaryKeyName + "; and content: " + keyQueryContent);
             System.err.println(e.getMessage());
+            return null;
         }
-    }
+    }*/
 
     /**
      * TODO: Paged Response! Use this or the one above
@@ -151,7 +189,7 @@ public class DynamoDBStrategy {
      * @param attribute Attribute name for additional item attribute
      * @param attributeValue Value of the additional attribute
      */
-    public static void createItem(String tableName, String key, Object keyValue, String attribute, Object attributeValue) {
+    public static boolean createItem(String tableName, String key, Object keyValue, String attribute, Object attributeValue) {
         Table table = dynamoDB.getTable(tableName);
 
         final Map<String, Object> infoMap = new HashMap<String, Object>();
@@ -164,12 +202,43 @@ public class DynamoDBStrategy {
                     .putItem(new Item().withPrimaryKey(key, keyValue, attribute, attributeValue).withMap("info", infoMap));
 
             System.out.println("PutItem succeeded:\n" + outcome.getPutItemResult());
-
+            return true;
         }
         catch (Exception e) {
             System.err.println("Unable to add item: " + keyValue + " " + attributeValue);
             System.err.println(e.getMessage());
+            return false;
         }
+    }
+
+
+    /**
+     * Creates a basic object with a single additional attribute
+     * @param tableName The Database Table being targeted
+     * @param key The key that is used in the corresponding table. E.g. "Alias"
+     * @param keyValue The value for the key to match in the query. E.g. for "Alias" could be "LukeSkywalker"
+     * @param attributes Attribute names for all additional item attributes
+     * @param attributeValues Values for each additional attribute
+     */
+    public static boolean createItemWithAttributes(String tableName, String key, Object keyValue, ArrayList<String> attributes, ArrayList<Object> attributeValues) {
+        Table table = dynamoDB.getTable(tableName);
+
+        final Map<String, Object> infoMap = new HashMap<String, Object>();
+        infoMap.put(key, keyValue);
+        int attValueListSize = attributeValues.size();
+        for (int i = 0; i < attributes.size(); i++) {
+            if (i < attValueListSize) {
+                infoMap.put(attributes.get(i), attributeValues.get(i));
+            }
+        }
+
+        System.out.println("Adding a new item...");
+
+        PutItemOutcome outcome = table // TODO: DETERMINE USER OF INFOMAPS
+                .putItem(new Item().withPrimaryKey(key, keyValue).withMap("info", infoMap));
+
+        System.out.println("PutItem succeeded:\n" + outcome.getPutItemResult());
+        return true;
     }
 
     //Use for creating AuthToken

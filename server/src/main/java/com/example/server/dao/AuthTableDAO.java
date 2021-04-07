@@ -60,7 +60,16 @@ public class AuthTableDAO {
         }
     }
 
-    public AuthToken loginAuth(LoginRequest request /*or AuthToken*/) {
+    public AuthToken startingAuth(String userAlias) {
+        //create AuthToken in table
+        AuthToken token = new AuthToken(userAlias);
+        String date = new Timestamp(System.currentTimeMillis()).toString();
+
+        DynamoDBStrategy.createItemWithDualKey(tableName, keyAttribute, userAlias, secondaryKey, token, additionalAttribute, date);
+        return token;
+    }
+
+/*    public AuthToken loginAuth(LoginRequest request) {
         //create AuthToken in table
         AuthToken token = new AuthToken(request.getUsername());
         String userAlias = request.getUsername();
@@ -68,7 +77,7 @@ public class AuthTableDAO {
 
         DynamoDBStrategy.createItemWithDualKey(tableName, keyAttribute, userAlias, secondaryKey, token, additionalAttribute, date);
         return token;
-    }
+    }*/
 
     public Boolean logoutToken(LogoutRequest request) {
         //delete AuthToken
@@ -76,7 +85,8 @@ public class AuthTableDAO {
         return true;
     }
 
-    public AuthToken registerAuth(RegisterRequest request /*or AuthToken*/) {
+    /*
+    public AuthToken registerAuth(RegisterRequest request ) {
         //create AuthToken in table
         AuthToken token = new AuthToken(request.getUserName());
         String userAlias = request.getUserName();
@@ -84,8 +94,6 @@ public class AuthTableDAO {
 
         DynamoDBStrategy.createItemWithDualKey(tableName, keyAttribute, userAlias, secondaryKey, token, additionalAttribute, date);
         return token;
-    }
-
-    //TODO: Add authorization functions for other services
+    }*/
 
 }
