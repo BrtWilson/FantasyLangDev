@@ -1,12 +1,7 @@
 package com.example.server.lambda.statusUpdateLambdas;
 
-import com.amazonaws.services.lambda.runtime.Context;
 import com.example.server.service.FollowerService;
-import com.example.server.service.NewStatusService;
 import com.example.shared.model.service.request.NewStatusRequest;
-import com.example.shared.model.service.response.NewStatusResponse;
-
-import java.io.IOException;
 
 public class BatchFeedUpdater  {
     //Uses FollowerService(?) to get batches of followers whose feeds are to be updated
@@ -23,5 +18,28 @@ public class BatchFeedUpdater  {
             String message = "[Bad Request]";
             throw new RuntimeException(message, e);
         }*/
+    }
+
+    public static void main(String[] args) {
+
+        for(int i =0 ; i < 10000; i ++){
+            String userName = "@user"+ i;
+            String firstName = "@user";
+            String lastName = String.valueOf(i);
+            String profileImage = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pngitem.com%2Fmiddle%2FwomThJ_ash-ketchum-hd-png-download%2F&psig=AOvVaw2h43_Bi3x5gdd1y2tRmAhq&ust=1616605412770000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCJjVytTyxu8CFQAAAAAdAAAAABAL";
+            //later add this with BatchAdd
+            if(i - 1 % 25 == 0){
+                //then add a list for the Batch
+            }
+        }
+
+        for(int i =0; i < 10000; i++){
+            //create a test user have 100000 followers
+            String userName = "@user"+ i;
+
+            if(i - 1 % 25 == 0){
+                //then add a list for the Batch
+            }
+        }
     }
 }
