@@ -57,42 +57,42 @@ public class DummyDataProvider {
     private final User user19 = new User("Luna", "Lovegood", MALE_IMAGE_URL_1);//"https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pinterest.com%2Fpin%2F173740498113704091%2F&psig=AOvVaw3ps5GGxj5mASJ6-Ozf1Zta&ust=1616605568363000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCOiU1J_zxu8CFQAAAAAdAAAAABAP");
     private final User user20 = new User("Harry", "Potter", MALE_IMAGE_URL_1);//"https://www.google.com/url?sa=i&url=https%3A%2F%2Ffreepngimg.com%2Fpng%2F12537-harry-potter-png-file&psig=AOvVaw1ViZtnx2zrCGQNnZd6gpbh&ust=1616605493215000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCNDQ5Ibzxu8CFQAAAAAdAAAAABAg");
 
-    private final Status status1 = new Status("I have a sister.", "8:00pm", user1);
-    private final Status status2 = new Status("@Luke, I am your father.", "8:01pm", user2);
-    private final Status status3 = new Status("No, I am your father", "8:02pm", user3);
-    private final Status status4 = new Status("Oh, I am my daddy.", "8:03pm", user4);
-    private final Status status5 = new Status("Wait, what?", "8:04pm", user5);
-    private final Status status6 = new Status("No tomatoes \n https://youtu.be/yRw1onpgFJA", "8:05pm", user6);
-    private final Status status7 = new Status("It's over @Anakin.", "8:06pm", user7);
-    private final Status status8 = new Status("I have the high ground.", "8:07pm", user8);
-    private final Status status9 = new Status("You underestimate my power.", "8:08pm", user9);
-    private final Status status10 = new Status("Don't try it.", "8:09pm", user10);
-    private final Status status11 = new Status("You were my brother, @Anakin!", "8:10pm", user11);
-    private final Status status12 = new Status("You were supposed to bring balance to the Force!", "8:20pm", user12);
-    private final Status status13 = new Status("You were to destroy the Sith, not join them!", "8:30pm", user13);
-    private final Status status14 = new Status("I loved you like a brother.", "8:40pm", user14);
-    private final Status status15 = new Status("Barbeque accident. \n https://youtu.be/_MHusGl9BeM", "8:50pm", user15);
-    private final Status status16 = new Status("Hello there.", "9:00pm", user16);
-    private final Status status17 = new Status("General Kenobi.", "7:00pm", user17);
-    private final Status status18 = new Status("Come closer, my little friend.", "6:00pm", user18);
-    private final Status status19 = new Status("These are not the droids you are looking for.", "5:00pm", user19);
-    private final Status status20 = new Status("He's not worth anything to me dead.", "4:00pm", user20);
+    private final Status status1 = new Status("I have a sister.", "8:00pm", user1.getAlias());
+    private final Status status2 = new Status("@Luke, I am your father.", "8:01pm", user2.getAlias());
+    private final Status status3 = new Status("No, I am your father", "8:02pm", user3.getAlias());
+    private final Status status4 = new Status("Oh, I am my daddy.", "8:03pm", user4.getAlias());
+    private final Status status5 = new Status("Wait, what?", "8:04pm", user5.getAlias());
+    private final Status status6 = new Status("No tomatoes \n https://youtu.be/yRw1onpgFJA", "8:05pm", user6.getAlias());
+    private final Status status7 = new Status("It's over @Anakin.", "8:06pm", user7.getAlias());
+    private final Status status8 = new Status("I have the high ground.", "8:07pm", user8.getAlias());
+    private final Status status9 = new Status("You underestimate my power.", "8:08pm", user9.getAlias());
+    private final Status status10 = new Status("Don't try it.", "8:09pm", user10.getAlias());
+    private final Status status11 = new Status("You were my brother, @Anakin!", "8:10pm", user11.getAlias());
+    private final Status status12 = new Status("You were supposed to bring balance to the Force!", "8:20pm", user12.getAlias());
+    private final Status status13 = new Status("You were to destroy the Sith, not join them!", "8:30pm", user13.getAlias());
+    private final Status status14 = new Status("I loved you like a brother.", "8:40pm", user14.getAlias());
+    private final Status status15 = new Status("Barbeque accident. \n https://youtu.be/_MHusGl9BeM", "8:50pm", user15.getAlias());
+    private final Status status16 = new Status("Hello there.", "9:00pm", user16.getAlias());
+    private final Status status17 = new Status("General Kenobi.", "7:00pm", user17.getAlias());
+    private final Status status18 = new Status("Come closer, my little friend.", "6:00pm", user18.getAlias());
+    private final Status status19 = new Status("These are not the droids you are looking for.", "5:00pm", user19.getAlias());
+    private final Status status20 = new Status("He's not worth anything to me dead.", "4:00pm", user20.getAlias());
 
-    private final Status status1b = new Status("Avatar state, yip, yip!.", "8:00pm", user11);
-    private final Status status2b = new Status("That's rough, buddy.", "8:01pm", user11);
-    private final Status status3b = new Status("Maybe it's friendly!", "8:02pm", user11);
-    private final Status status4b = new Status("It's the quenchiest!", "8:03pm", user11);
-    private final Status status5b = new Status("The Boulder feels conflicted.", "8:04pm", user11);
-    private final Status status6b = new Status("My cabbages! \n https://youtu.be/dQw4w9WgXcQ", "8:05pm", user11);
-    private final Status status7b = new Status("No, I am Melon Lord.", "8:06pm", user11);
-    private final Status status8b = new Status("@SparkySparkyBoomMan", "8:07pm", user11);
-    private final Status status9b = new Status("https://youtu.be/vYud9sZ91Mc", "8:08pm", user11);
-    private final Status status10b = new Status("But I don't want to cure cancer. I want to turn people into dinosaurs. \n https://youtu.be/HfoVqap3ar4", "8:09pm", user11);
-    private final Status status11b = new Status("Tactical buttcheeks", "8:10pm", user11);
-    private final Status status12b = new Status("Pocket sand!", "8:20pm", user11);
-    private final Status status13b = new Status("In self defense \n A knife protects \n I bring my lunch \n No one suspects", "8:30pm", user11);
-    private final Status status14b = new Status("And when it's time \n To end a life \n Deceptive fruit \n Banana knife.", "8:40pm", user11);
-    private final Status status15b = new Status("I would like to see the baby.", "8:50pm", user11);
+    private final Status status1b = new Status("Avatar state, yip, yip!.", "8:00pm", user11.getAlias());
+    private final Status status2b = new Status("That's rough, buddy.", "8:01pm", user11.getAlias());
+    private final Status status3b = new Status("Maybe it's friendly!", "8:02pm", user11.getAlias());
+    private final Status status4b = new Status("It's the quenchiest!", "8:03pm", user11.getAlias());
+    private final Status status5b = new Status("The Boulder feels conflicted.", "8:04pm", user11.getAlias());
+    private final Status status6b = new Status("My cabbages! \n https://youtu.be/dQw4w9WgXcQ", "8:05pm", user11.getAlias());
+    private final Status status7b = new Status("No, I am Melon Lord.", "8:06pm", user11.getAlias());
+    private final Status status8b = new Status("@SparkySparkyBoomMan", "8:07pm", user11.getAlias());
+    private final Status status9b = new Status("https://youtu.be/vYud9sZ91Mc", "8:08pm", user11.getAlias());
+    private final Status status10b = new Status("But I don't want to cure cancer. I want to turn people into dinosaurs. \n https://youtu.be/HfoVqap3ar4", "8:09pm", user11.getAlias());
+    private final Status status11b = new Status("Tactical buttcheeks", "8:10pm", user11.getAlias());
+    private final Status status12b = new Status("Pocket sand!", "8:20pm", user11.getAlias());
+    private final Status status13b = new Status("In self defense \n A knife protects \n I bring my lunch \n No one suspects", "8:30pm", user11.getAlias());
+    private final Status status14b = new Status("And when it's time \n To end a life \n Deceptive fruit \n Banana knife.", "8:40pm", user11.getAlias());
+    private final Status status15b = new Status("I would like to see the baby.", "8:50pm", user11.getAlias());
 
 
     // This is the hard coded followers data returned by the 'getFollowers()' method
@@ -445,7 +445,7 @@ public class DummyDataProvider {
 
 
     public NewStatusResponse pushNewStatus(NewStatusRequest request) {
-        return new NewStatusResponse(new Status(request.getMessage(), request.getDate(), user8));
+        return new NewStatusResponse(new Status(request.getMessage(), request.getDate(), user8.getAlias()));
     }
 
     public StatusArrayResponse getStatusArray(StatusArrayRequest request) {

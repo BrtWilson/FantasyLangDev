@@ -18,6 +18,7 @@ public class StoryTableDAO {
     private static final String tableName = "Stories";
     private static final String partitionKey = "Alias";
     private static final String sortKey = "TimeStamp";
+    private static final String attributeMessage = "Message";
     private static final Integer pageSize = 10;
 
     public StatusArrayResponse getStatusArray(StatusArrayRequest request) {
@@ -39,6 +40,7 @@ public class StoryTableDAO {
         }
     }
 
+    /*
     private int getStatusesStartingIndex(String lastStatusAlias, List<Status> allStatuses) {
 
         int statusesIndex = 0;
@@ -57,17 +59,23 @@ public class StoryTableDAO {
         }
 
         return statusesIndex;
-    }
+    }*/
 
-    //need this????
+    /**
+     *  // * * * => THIS WILL BE USED WITH THE SQS QUEUES. It will need the inclusion of the Status's correspondingUserAlias, as well as the Feed's owner userAlias
+     *
+     * @param request
+     * @return
+     */
     public NewStatusResponse postNewStatus(NewStatusRequest request) {
-        return new NewStatusResponse(new Status(request.getMessage(), request.getDate(), getAUser()));
+        DynamoDBStrategy.createItemWithDualKey(tableName, partitionKey, request.getUserAlias(), sortKey, request.getDate(), true, attributeMessage, request.getMessage());
+        return new NewStatusResponse(new Status(request.getMessage(), request.getDate(), request.getUserAlias()));
         //return dataProvider.pushNewStatus(request);
     }
 
-    private User getAUser() {
-        return null;// dataProvider.getSampleDummyUser();
-    }
+    //private User getAUser() {
+      //  return null;// dataProvider.getSampleDummyUser();
+    //}
 
     private StatusArrayResponse retrieveStory(String targetAlias, String lastRetrieved) {
         ResultsPage resultsPage = DynamoDBStrategy.getListByString(tableName, partitionKey, targetAlias, pageSize, sortKey, lastRetrieved);

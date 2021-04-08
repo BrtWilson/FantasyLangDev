@@ -88,7 +88,7 @@ public class StatusesTableDAO {
     }
 
     public NewStatusResponse postNewStatus(NewStatusRequest request) {
-        return new NewStatusResponse(new Status(request.getMessage(), request.getDate(), getAUser()));
+        return new NewStatusResponse(new Status(request.getMessage(), request.getDate(), request.getUserAlias()));
         //return dataProvider.pushNewStatus(request);
     }
 

@@ -33,8 +33,8 @@ public class PostStatusServiceTest {
         User user2 = new User("User", "Name", "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
         user1.setPassword("password");
 
-        Status resultStatus1 = new Status("Message 1", "TimeStamp1", user1);
-        Status resultStatus2 = new Status("Message 2", "TimeStamp2", user2);
+        Status resultStatus1 = new Status("Message 1", "TimeStamp1", user1.getAlias());
+        Status resultStatus2 = new Status("Message 2", "TimeStamp2", user2.getAlias());
 
         validRequest1 = new NewStatusRequest( user1.getAlias(), "Message 1", "TimeStamp1");
         validRequest2 = new NewStatusRequest( user2.getAlias(), "Message 2", "TimeStamp2");

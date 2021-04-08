@@ -6,10 +6,12 @@ import com.example.server.dao.util.ListTypeTransformer;
 import com.example.shared.model.domain.Status;
 import com.example.shared.model.domain.User;
 import com.example.shared.model.service.request.NewStatusRequest;
+import com.example.shared.model.service.request.RegisterRequest;
 import com.example.shared.model.service.request.StatusArrayRequest;
 import com.example.shared.model.service.response.NewStatusResponse;
 import com.example.shared.model.service.response.StatusArrayResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FeedTableDAO {
@@ -18,6 +20,8 @@ public class FeedTableDAO {
     private static final String tableName = "Feeds";
     private static final String partitionKey = "Alias";
     private static final String sortKey = "TimeStamp";
+    private static final String attributeMessage = "Message";
+
     private static final Integer pageSize = 10;
 
 
@@ -40,6 +44,7 @@ public class FeedTableDAO {
         }
     }
 
+    /* UNNEEDED: DEPRACATED
     private int getStatusesStartingIndex(String lastStatusAlias, List<Status> allStatuses) {
 
         int statusesIndex = 0;
@@ -58,11 +63,12 @@ public class FeedTableDAO {
         }
 
         return statusesIndex;
-    }
+    }*/
 
     //need this????
     public NewStatusResponse postNewStatus(NewStatusRequest request) {
-        return new NewStatusResponse(new Status(request.getMessage(), request.getDate(), getAUser()));
+        DynamoDBStrategy.createItemWithDualKey(tableName, partitionKey, request.getUserAlias(), sortKey, request.getDate(), true, attributeMessage, request.getMessage());
+        return new NewStatusResponse(new Status(request.getMessage(), request.getDate(), request.getUserAlias()));
         //return dataProvider.pushNewStatus(request);
     }
 

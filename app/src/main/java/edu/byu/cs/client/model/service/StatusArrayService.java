@@ -10,6 +10,7 @@ import com.example.shared.model.net.TweeterRemoteException;
 import com.example.shared.model.service.IStatusArrayService;
 import com.example.shared.model.service.request.IListRequest;
 import com.example.shared.model.service.request.StatusArrayRequest;
+import com.example.shared.model.service.request.UserRequest;
 import com.example.shared.model.service.response.IListResponse;
 import com.example.shared.model.service.response.StatusArrayResponse;
 import edu.byu.cs.client.util.ByteArrayUtils;
@@ -59,12 +60,17 @@ public class StatusArrayService implements IStatusArrayService {
      *
      * @param response the response from the followee request.
      */
-    private void loadImages(StatusArrayResponse response) throws IOException {
+    private void loadImages(StatusArrayResponse response) throws IOException, TweeterRemoteException {
         for(Status status : response.getStatuses()) {
-            User user = status.getCorrespondingUser();
+            User user = getUser(status.getCorrespondingUserAlias());
             byte [] bytes = ByteArrayUtils.bytesFromUrl(user.getImageUrl());
             user.setImageBytes(bytes);
         }
+    }
+
+    private User getUser(String correspondingUserAlias) throws IOException, TweeterRemoteException {
+        UserService userService = new UserService();
+        return userService.getUserByAlias(new UserRequest(correspondingUserAlias)).getUser();
     }
 
     /**

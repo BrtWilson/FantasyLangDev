@@ -128,6 +128,7 @@ public class StatusFragment extends Fragment implements StatusArrayPresenter.Vie
         private final TextView statusMessage;
         private User targetUser;
         private String statusMessageContent;
+        private Boolean goToUser = false;
 
         /**
          * Creates an instance and sets an OnClickListener for the user's row.
@@ -244,14 +245,15 @@ public class StatusFragment extends Fragment implements StatusArrayPresenter.Vie
                         startActivity(intent);
                     }
                     else {
-                        goToAliasUser(alias);
+                        goToUser = true;
+                        getAliasUser(alias);
                     }
                 }
             };
             strBuilder.setSpan(clickable, start, end, flags);
         }
 
-        private void goToAliasUser(String alias) {
+        private void getAliasUser(String alias) {
             GetUserTask getAliasUser = new GetUserTask(presenter, this);
             UserRequest userRequest = new UserRequest(alias);
             getAliasUser.execute(userRequest);
@@ -260,14 +262,22 @@ public class StatusFragment extends Fragment implements StatusArrayPresenter.Vie
         @Override
         public void userRetrieved(UserResponse userResponse) {
             if (userResponse.isSuccess()) {
-                Intent intent = new Intent(getActivity(), UserPageActivity.class);
-                intent.putExtra(UserPageActivity.TARGET_USER_KEY, userResponse.getUser());
-                intent.putExtra(UserPageActivity.CURRENT_USER_KEY, user);
-                intent.putExtra(UserPageActivity.AUTH_TOKEN_KEY, authToken);
-                startActivity(intent);
+                if (goToUser) {
+                    startNewUserPageActivity(userResponse);
+                } else {
+                    completeBinding(userResponse.getUser());
+                }
             } else {
                 noUserFound();
             }
+        }
+
+        private void startNewUserPageActivity(UserResponse userResponse) {
+            Intent intent = new Intent(getActivity(), UserPageActivity.class);
+            intent.putExtra(UserPageActivity.TARGET_USER_KEY, userResponse.getUser());
+            intent.putExtra(UserPageActivity.CURRENT_USER_KEY, user);
+            intent.putExtra(UserPageActivity.AUTH_TOKEN_KEY, authToken);
+            startActivity(intent);
         }
 
         @Override
@@ -289,16 +299,21 @@ public class StatusFragment extends Fragment implements StatusArrayPresenter.Vie
          * @param status the status.
          */
         void bindStatus(Status status) {
-            userImage.setImageDrawable(ImageUtils.drawableFromByteArray(status.getCorrespondingUser().getImageBytes()));
-            userAlias.setText(status.getCorrespondingUser().getAlias());
-            userName.setText(status.getCorrespondingUser().getName());
+            goToUser = false;
+            getAliasUser(status.getCorrespondingUserAlias());
             statusTimeStamp.setText(status.getDate());
             statusMessageContent = status.getMessage();
             statusMessage.setText(statusMessageContent);
-            targetUser = status.getCorrespondingUser();
+            userAlias.setText(status.getCorrespondingUserAlias());
 
            // setTextViewHTML(statusMessage, statusMessageContent);
             setTextViewAtAlias(statusMessage, statusMessageContent);
+        }
+
+        private void completeBinding(User correspondingUser) {
+            userImage.setImageDrawable(ImageUtils.drawableFromByteArray(correspondingUser.getImageBytes()));
+            userName.setText(correspondingUser.getName());
+            targetUser = correspondingUser;
         }
     }
 
@@ -465,7 +480,7 @@ public class StatusFragment extends Fragment implements StatusArrayPresenter.Vie
          */
         private void addLoadingFooter() {
             User tempUser = new User("Dummy", "User", "");
-            addItem(new Status("Dummy status. You underestimate my power.", "A long time ago at 9:30pm", tempUser));
+            addItem(new Status("Dummy status. You underestimate my power.", "A long time ago at 9:30pm", tempUser.getAlias()));
         }
 
         /**

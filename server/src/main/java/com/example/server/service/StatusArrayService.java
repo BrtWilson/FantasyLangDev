@@ -1,7 +1,6 @@
 package com.example.server.service;
 
 import com.example.server.dao.FeedTableDAO;
-import com.example.server.dao.StatusesTableDAO;
 import com.example.server.dao.StoryTableDAO;
 import com.example.shared.model.service.IStatusArrayService;
 import com.example.shared.model.service.request.IListRequest;
@@ -50,9 +49,9 @@ public class StatusArrayService implements IStatusArrayService {
      *
      * @return the instance.
      */
-    public StatusesTableDAO getStatusArrayDao() {
-        return new StatusesTableDAO();
-    }
+    //public StatusesTableDAO getStatusArrayDao() {
+      //  return new StatusesTableDAO();
+    //}
 
     public FeedTableDAO getFeedTableDAO() { return new FeedTableDAO(); }
     public StoryTableDAO getStoryTableDAO() { return new StoryTableDAO(); }
