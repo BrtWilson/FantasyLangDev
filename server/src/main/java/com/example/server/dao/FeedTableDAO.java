@@ -1,5 +1,8 @@
 package com.example.server.dao;
 
+import com.example.server.dao.dbstrategies.DynamoDBStrategy;
+import com.example.server.dao.dbstrategies.ResultsPage;
+import com.example.server.dao.util.ListTypeTransformer;
 import com.example.shared.model.domain.Status;
 import com.example.shared.model.domain.User;
 import com.example.shared.model.service.request.NewStatusRequest;
@@ -11,30 +14,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FeedTableDAO {
-    DummyDataProvider dataProvider = DummyDataProvider.getInstance();
+    //DummyDataProvider dataProvider = DummyDataProvider.getInstance();
 
     private static final String tableName = "Feeds";
+    private static final String partionKey = "Alias";
+    private static final String sortKey = "Date";
+    private static final Integer pageSize = 10;
+
 
     public StatusArrayResponse getStatusArray(StatusArrayRequest request) {
         verifyLimit(request.getLimit());
         verifyAlias(request.getUserAlias());
 
-        List<Status> allStatuses = dataProvider.getDummyFeed();
-        List<Status> responseStatuses = new ArrayList<>(request.getLimit());
-
-        boolean hasMorePages = false;
-
-        if (request.getLimit() > 0) {
-            int statusesIndex = getStatusesStartingIndex(request.getLastStatusDate(), allStatuses);
-
-            for (int limitCounter = 0; statusesIndex < allStatuses.size() && limitCounter < request.getLimit(); statusesIndex++, limitCounter++) {
-                responseStatuses.add(allStatuses.get(statusesIndex));
-            }
-
-            hasMorePages = statusesIndex < allStatuses.size();
-        }
-
-        return new StatusArrayResponse(responseStatuses, hasMorePages);
+        return retrieveStory(request.getUserAlias(), request.getLastStatusDate());
     }
 
     private void verifyLimit(int limit) {
@@ -76,6 +68,15 @@ public class FeedTableDAO {
     }
 
     private User getAUser() {
-        return dataProvider.getSampleDummyUser();
+        return null;// dataProvider.getSampleDummyUser();
+    }
+
+    private StatusArrayResponse retrieveFeed(String targetAlias, String lastRetrieved) {
+        ResultsPage resultsPage = DynamoDBStrategy.getListByString(tableName, partionKey, targetAlias, pageSize, sortKey, lastRetrieved);
+        boolean hasMorePages = (resultsPage.hasLastKey());
+        String newLastRetrieved = resultsPage.getLastKey();
+        List<Status> statusList = ListTypeTransformer.transform(resultsPage.getValues(), Status.class);
+        StatusArrayResponse response = new StatusArrayResponse(statusList, hasMorePages, newLastRetrieved);
+        return response;
     }
 }

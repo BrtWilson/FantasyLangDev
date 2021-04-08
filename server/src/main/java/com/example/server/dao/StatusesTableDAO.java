@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StatusesTableDAO {
-    DummyDataProvider dataProvider = DummyDataProvider.getInstance();
+    //DummyDataProvider dataProvider = DummyDataProvider.getInstance();
 
     public StatusArrayResponse getStatusArray(StatusArrayRequest request) {
         //return dataProvider.getStatusArray(request);
@@ -80,11 +80,11 @@ public class StatusesTableDAO {
     }
 
     private List<Status> retrieveFeed() {
-        return dataProvider.getDummyFeed();
+        return null;//dataProvider.getDummyFeed();
     }
 
     private List<Status> retrieveStory() {
-        return dataProvider.getDummyStatuses();
+        return null;//dataProvider.getDummyStatuses();
     }
 
     public NewStatusResponse postNewStatus(NewStatusRequest request) {
@@ -93,6 +93,6 @@ public class StatusesTableDAO {
     }
 
     private User getAUser() {
-        return dataProvider.getSampleDummyUser();
+        return null;//dataProvider.getSampleDummyUser();
     }
 }

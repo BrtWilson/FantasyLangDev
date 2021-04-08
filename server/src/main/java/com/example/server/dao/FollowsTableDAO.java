@@ -30,7 +30,6 @@ public class FollowsTableDAO {
     public FollowerResponse getFollowers(FollowerRequest request) {
         verifyRequestLimit(request.getLimit());
         verifyRequestUserAlias(request.getUserAlias());
-
         return retrieveFollowers(request.getUserAlias(), request.getLastFollowerAlias());
     }
 
@@ -68,7 +67,7 @@ public class FollowsTableDAO {
         boolean hasMorePages = (resultsPage.hasLastKey());
         String newLastRetrieved = resultsPage.getLastKey();
         List<User> usersList = ListTypeTransformer.transform(resultsPage.getValues(), User.class);
-        FollowingResponse response = new FollowerResponse(usersList, hasMorePages, newLastRetrieved);
+        FollowingResponse response = new FollowingResponse(usersList, hasMorePages, newLastRetrieved);
         return response;
     }
 

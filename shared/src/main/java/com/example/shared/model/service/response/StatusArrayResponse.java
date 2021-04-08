@@ -39,9 +39,10 @@ public class StatusArrayResponse extends PagedResponse implements IListResponse{
      * @param statuses the followees to be included in the result.
      * @param hasMorePages an indicator of whether more data is available for the request.
      */
-    public StatusArrayResponse(List<Status> statuses, boolean hasMorePages) {
+    public StatusArrayResponse(List<Status> statuses, boolean hasMorePages, String lastDate) {
         super(true, hasMorePages);
         this.statuses = statuses;
+        this.lastDate = lastDate;
     }
 
     /**

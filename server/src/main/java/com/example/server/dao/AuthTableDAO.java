@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 public class AuthTableDAO {
-    DummyDataProvider dataProvider = DummyDataProvider.getInstance();
+    //DummyDataProvider dataProvider = DummyDataProvider.getInstance();
 
     private static final String tableName = "AuthTokens";
     private static final String keyAttribute = "Alias";
@@ -34,7 +34,7 @@ public class AuthTableDAO {
      * @return boolean of whether the authToken is still valid
      */
     public Boolean getAuthorized(AuthToken authToken) {
-        String formerTimeStamp = DynamoDBStrategy.getBasicStringAttributeFromDualKey(tableName, keyAttribute, ,secondaryKey, authToken.getToken(), additionalAttribute);
+        String formerTimeStamp = DynamoDBStrategy.getBasicStringAttributeFromDualKey(tableName, keyAttribute, authToken.getUsername(),secondaryKey, authToken.getToken(), additionalAttribute);
         if (checkTimePassedValid(formerTimeStamp)) {
             //update time
             Timestamp currentTime = new Timestamp(System.currentTimeMillis());
