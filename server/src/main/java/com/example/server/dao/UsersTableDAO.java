@@ -7,14 +7,12 @@ import com.example.shared.model.service.request.LoginRequest;
 import com.example.shared.model.service.request.LogoutRequest;
 import com.example.shared.model.service.request.RegisterRequest;
 import com.example.shared.model.service.request.UserRequest;
-import com.example.shared.model.service.response.LoginResponse;
 import com.example.shared.model.service.response.BasicResponse;
+import com.example.shared.model.service.response.LoginResponse;
 import com.example.shared.model.service.response.RegisterResponse;
 import com.example.shared.model.service.response.UserResponse;
-import com.sun.xml.internal.ws.api.message.ExceptionHasMessage;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class UsersTableDAO {
     //DummyDataProvider dataProvider = DummyDataProvider.getInstance();

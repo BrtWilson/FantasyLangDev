@@ -404,7 +404,7 @@ public class DummyDataProvider {
             hasMorePages = followersIndex < allFollowers.size();
         }
 
-        return new FollowerResponse(responseFollowers, hasMorePages);
+        return new FollowerResponse(responseFollowers, hasMorePages, null);
     }
 
     /**

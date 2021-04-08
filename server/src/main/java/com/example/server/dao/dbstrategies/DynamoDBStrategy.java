@@ -1,6 +1,5 @@
 package com.example.server.dao.dbstrategies;
 
-import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
@@ -13,7 +12,6 @@ import com.amazonaws.services.dynamodbv2.document.UpdateItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.spec.GetItemSpec;
 import com.amazonaws.services.dynamodbv2.document.spec.QuerySpec;
 import com.amazonaws.services.dynamodbv2.document.spec.UpdateItemSpec;
-import com.amazonaws.services.dynamodbv2.document.utils.NameMap;
 import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.QueryRequest;
@@ -217,7 +215,7 @@ public class DynamoDBStrategy {
     }
 
     public static void createItemWithDualKey(String tableName, String key, String keyValue, String sortKey, Object sortKeyValue) {
-        return createItemWithDualKey(tableName, key, keyValue, sortKey, sortKeyValue, false, null, null);
+        createItemWithDualKey(tableName, key, keyValue, sortKey, sortKeyValue, false, null, null);
     }
         //Use for creating AuthToken
     /**

@@ -1,5 +1,11 @@
 package server.service;
 
+import com.example.server.dao.FollowsTableDAO;
+import com.example.server.service.FollowerService;
+import com.example.shared.model.domain.User;
+import com.example.shared.model.service.request.FollowerRequest;
+import com.example.shared.model.service.response.FollowerResponse;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -7,12 +13,6 @@ import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.util.Arrays;
-
-import com.example.server.dao.FollowsTableDAO;
-import com.example.server.service.FollowerService;
-import com.example.shared.model.domain.User;
-import com.example.shared.model.service.request.FollowerRequest;
-import com.example.shared.model.service.response.FollowerResponse;
 
 public class FollowerServiceTest {
 
@@ -44,7 +44,7 @@ public class FollowerServiceTest {
         invalidRequest = new FollowerRequest(null, 0, null);
 
         // Setup a mock ServerFacade that will return known responses
-        successResponse = new FollowerResponse(Arrays.asList(resultUser1, resultUser2, resultUser3), false);
+        successResponse = new FollowerResponse(Arrays.asList(resultUser1, resultUser2, resultUser3), false, null);
         FollowsTableDAO mockFollowsDao = Mockito.mock(FollowsTableDAO.class);
         Mockito.when(mockFollowsDao.getFollowers(validRequest)).thenReturn(successResponse);
 
