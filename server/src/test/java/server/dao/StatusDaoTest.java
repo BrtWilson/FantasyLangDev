@@ -1,7 +1,6 @@
 package server.dao;
 
 import com.example.server.dao.StatusesTableDAO;
-import com.example.server.service.NewStatusService;
 import com.example.server.service.StatusArrayService;
 import com.example.shared.model.domain.Status;
 import com.example.shared.model.domain.User;
@@ -49,9 +48,9 @@ public class StatusDaoTest {
         User resultUser3 = new User("FirstName3", "LastName3",
                 "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/daisy_duck.png");
 
-        Status resultStatus1 = new Status("Message 1", "TimeStamp1", user1);
-        Status resultStatus2 = new Status("Message 2", "TimeStamp2", user2);
-        Status resultStatus3 = new Status("Message 3", "TimeStamp3", resultUser3);
+        Status resultStatus1 = new Status("Message 1", "TimeStamp1", user1.getAlias());
+        Status resultStatus2 = new Status("Message 2", "TimeStamp2", user2.getAlias());
+        Status resultStatus3 = new Status("Message 3", "TimeStamp3", resultUser3.getAlias());
 
         validRequest1 = new NewStatusRequest( user1.getAlias(), "Message 1", "TimeStamp1");
         validRequest2 = new NewStatusRequest( user2.getAlias(), "Message 2", "TimeStamp2");
@@ -67,7 +66,7 @@ public class StatusDaoTest {
         invalidArrayRequest = new StatusArrayRequest(null, 0, null);
 
         // Setup a mock ServerFacade that will return known responses
-        successArrayResponse = new StatusArrayResponse(Arrays.asList(resultStatus1, resultStatus2, resultStatus3), true);
+        successArrayResponse = new StatusArrayResponse(Arrays.asList(resultStatus1, resultStatus2, resultStatus3), true, null);
         Mockito.when(mockDao.getStatusArray(validArrayRequest)).thenReturn(successArrayResponse);
 
         failureArrayResponse = new StatusArrayResponse("An exception occurred");
@@ -120,7 +119,7 @@ public class StatusDaoTest {
         StatusArrayResponse response = statusesDAO.getStatusArray(validArrayRequest);
 
         for(Status status : response.getStatuses()) {
-            Assertions.assertNotNull(status.getCorrespondingUser().getImageUrl());
+            Assertions.assertNotNull(status.getCorrespondingUserAlias());
         }
     }
 

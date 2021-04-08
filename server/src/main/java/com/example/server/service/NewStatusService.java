@@ -1,7 +1,6 @@
 package com.example.server.service;
 
 import com.example.server.dao.FeedTableDAO;
-import com.example.server.dao.StatusesTableDAO;
 import com.example.server.dao.StoryTableDAO;
 import com.example.shared.model.service.INewStatusService;
 import com.example.shared.model.service.request.NewStatusRequest;
@@ -33,9 +32,9 @@ public class NewStatusService implements INewStatusService {
      *
      * @return the instance.
      */
-    public StatusesTableDAO getPostStatusDao() {
-        return new StatusesTableDAO();
-    }
+    //public StatusesTableDAO getPostStatusDao() {
+     //   return new StatusesTableDAO();
+    //}
 
     public FeedTableDAO getFeedTableDAO() { return new FeedTableDAO(); }
 

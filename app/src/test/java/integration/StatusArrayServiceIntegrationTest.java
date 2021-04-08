@@ -4,7 +4,6 @@ import com.example.shared.model.domain.Status;
 import com.example.shared.model.domain.User;
 import com.example.shared.model.net.TweeterRemoteException;
 import com.example.shared.model.service.request.StatusArrayRequest;
-import com.example.shared.model.service.response.FollowingResponse;
 import com.example.shared.model.service.response.StatusArrayResponse;
 
 import org.junit.jupiter.api.Assertions;
@@ -46,20 +45,20 @@ public class StatusArrayServiceIntegrationTest {
         User user2 = new User("Amy", "Ames", "https://i.pinimg.com/originals/5f/79/d6/5f79d6d933f194dbcb74ec5e5ce7a759.jpg");
         User user3 = new User("Bob", "Bross", "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.bobross.com%2F&psig=AOvVaw0aQWlEayotht6kNKp2WOPT&ust=1616605355172000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCKjex7Pyxu8CFQAAAAAdAAAAABAD");
 
-        Status resultStatus1 = new Status("Message 1", "TimeStamp1", resultUser1);
-        Status resultStatus2 = new Status("Message 2", "TimeStamp2", resultUser2);
-        Status resultStatus3 = new Status("Message 3", "TimeStamp3", resultUser3);
+        Status resultStatus1 = new Status("Message 1", "TimeStamp1", resultUser1.getAlias());
+        Status resultStatus2 = new Status("Message 2", "TimeStamp2", resultUser2.getAlias());
+        Status resultStatus3 = new Status("Message 3", "TimeStamp3", resultUser3.getAlias());
 
-        Status status1 = new Status("I have a sister.", "8:00pm", user1);
-        Status status2 = new Status("@Luke, I am your father.", "8:01pm", user2);
-        Status status3 = new Status("No, I am your father", "8:02pm", user3);
+        Status status1 = new Status("I have a sister.", "8:00pm", user1.getAlias());
+        Status status2 = new Status("@Luke, I am your father.", "8:01pm", user2.getAlias());
+        Status status3 = new Status("No, I am your father", "8:02pm", user3.getAlias());
 
         // Setup request objects to use in the tests
         validRequest = new StatusArrayRequest(resultUser1.getAlias(), 3, null);
         invalidRequest = new StatusArrayRequest(null, 0, null);
 
         // Setup a mock ServerFacade that will return known responses
-        successResponse = new StatusArrayResponse(Arrays.asList(status1, status2, status3), false);
+        successResponse = new StatusArrayResponse(Arrays.asList(status1, status2, status3), false, null);
         ServerFacade serverFacade = Mockito.spy(new ServerFacade());
         //Mockito.when(serverFacade.getStatusArray(validRequest)).thenReturn(successResponse);
 
@@ -98,7 +97,7 @@ public class StatusArrayServiceIntegrationTest {
         StatusArrayResponse response = statusArrayServiceSpy.requestStatusArray(validRequest);
 
         for(Status status : response.getStatuses()) {
-            Assertions.assertNotNull(status.getCorrespondingUser().getImageBytes());
+            Assertions.assertNotNull(status.getCorrespondingUserAlias());
         }
     }
 

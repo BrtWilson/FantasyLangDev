@@ -239,8 +239,39 @@ public class DynamoDBStrategy {
 
         try {
             System.out.println("Adding a new item...");
+            Item itemToPut = new Item().withPrimaryKey(key, keyValue, sortKey, sortKeyValue);
+            if (withAttributes) {
+                itemToPut = itemToPut.with(attributeName, attributeValue);
+            }
             PutItemOutcome outcome = table
-                    .putItem(new Item().withPrimaryKey(key, keyValue, sortKey, sortKeyValue));
+                    .putItem(itemToPut);
+
+            System.out.println("PutItem succeeded:\n" + outcome.getPutItemResult());
+
+        }
+        catch (Exception e) {
+            System.err.println("Unable to add item: " + keyValue + " " + sortKeyValue);
+            System.err.println(e.getMessage());
+        }
+    }
+
+    //Probably not needed
+    public static void createItemWithDualKeyAndAttributes(String tableName, String key, String keyValue, String sortKey, Object sortKeyValue, List<String> attributeNames, List<Object> attributeValues) {
+        Table table = dynamoDB.getTable(tableName);
+
+        final Map<String, Object> infoMap = new HashMap<String, Object>();
+        infoMap.put(key, keyValue);
+        int attValueListSize = attributeValues.size();
+        for (int i = 0; i < attributeNames.size(); i++) {
+            if (i < attValueListSize) {
+                infoMap.put(attributeNames.get(i), attributeValues.get(i));
+            }
+        }
+
+        try {
+            System.out.println("Adding a new item...");
+            PutItemOutcome outcome = table
+                    .putItem(new Item().withPrimaryKey(key, keyValue, sortKey, sortKeyValue).withMap("info", infoMap));
 
             System.out.println("PutItem succeeded:\n" + outcome.getPutItemResult());
 

@@ -1,23 +1,21 @@
 package com.example.shared.model.domain;
 
 
-import com.example.shared.model.service.response.StatusArrayResponse;
-
 import java.util.Objects;
 
 public class Status {
     private String message;
     private String date;
-    private User correspondingUser;
+    private String correspondingUserAlias;
 
     public Status(String message) {
         this.message = message;
     }
 
-    public Status(String s, String s1, User user1) {
+    public Status(String s, String s1, String user1) {
         message = s;
         date = s1;
-        correspondingUser = user1;
+        correspondingUserAlias = user1;
     }
 
     public String getMessage() {
@@ -28,8 +26,8 @@ public class Status {
         return date;
     }
 
-    public User getCorrespondingUser() {
-        return correspondingUser;
+    public String getCorrespondingUserAlias() {
+        return correspondingUserAlias;
     }
 
     @Override
@@ -46,6 +44,6 @@ public class Status {
 
         return (Objects.equals(message, that.message) &&
                 Objects.equals(date, that.date) &&
-                Objects.equals(correspondingUser, that.correspondingUser));
+                Objects.equals(correspondingUserAlias, that.correspondingUserAlias));
     }
 }

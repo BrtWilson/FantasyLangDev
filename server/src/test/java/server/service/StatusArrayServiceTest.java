@@ -40,16 +40,16 @@ public class StatusArrayServiceTest {
         User resultUser3 = new User("FirstName3", "LastName3",
                 "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/daisy_duck.png");
 
-        Status resultStatus1 = new Status("Message 1", "TimeStamp1", resultUser1);
-        Status resultStatus2 = new Status("Message 2", "TimeStamp2", resultUser2);
-        Status resultStatus3 = new Status("Message 3", "TimeStamp3", resultUser3);
+        Status resultStatus1 = new Status("Message 1", "TimeStamp1", resultUser1.getAlias());
+        Status resultStatus2 = new Status("Message 2", "TimeStamp2", resultUser2.getAlias());
+        Status resultStatus3 = new Status("Message 3", "TimeStamp3", resultUser3.getAlias());
 
         // Setup request objects to use in the tests
         validRequest = new StatusArrayRequest(resultUser1.getAlias(), 3, null);
         invalidRequest = new StatusArrayRequest(null, 0, null);
 
         // Setup a mock ServerFacade that will return known responses
-        successResponse = new StatusArrayResponse(Arrays.asList(resultStatus1, resultStatus2, resultStatus3), false);
+        successResponse = new StatusArrayResponse(Arrays.asList(resultStatus1, resultStatus2, resultStatus3), false, null);
         StatusesTableDAO mockDao = Mockito.mock(StatusesTableDAO.class);
         Mockito.when(mockDao.getStatusArray(validRequest)).thenReturn(successResponse);
 
@@ -58,7 +58,7 @@ public class StatusArrayServiceTest {
 
         // Create a StatusArrayService instance and wrap it with a spy that will use the mock service
         statusArrayServiceSpy = Mockito.spy(new StatusArrayService());
-        Mockito.when(statusArrayServiceSpy.getStatusArrayDao()).thenReturn(mockDao);
+        //Mockito.when(statusArrayServiceSpy.getStatusArrayDao()).thenReturn(mockDao);
     }
 
     /**
@@ -85,7 +85,7 @@ public class StatusArrayServiceTest {
         StatusArrayResponse response = statusArrayServiceSpy.requestStatusArray(validRequest);
 
         for(Status status : response.getStatuses()) {
-            Assertions.assertNotNull(status.getCorrespondingUser().getImageUrl());
+            Assertions.assertNotNull(status.getCorrespondingUserAlias());
         }
     }
 
