@@ -16,6 +16,9 @@ public class AuthToken implements Serializable {
         token = UUID.randomUUID().toString();
     }
 
+    public AuthToken() {
+    }
+
     public String getToken() {
         return token;
     }

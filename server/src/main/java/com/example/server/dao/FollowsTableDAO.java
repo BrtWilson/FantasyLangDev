@@ -11,11 +11,7 @@ import com.example.shared.model.service.response.FollowStatusResponse;
 import com.example.shared.model.service.response.FollowerResponse;
 import com.example.shared.model.service.response.FollowingResponse;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-
-import static com.sun.xml.internal.ws.addressing.EndpointReferenceUtil.transform;
 
 public class FollowsTableDAO {
     //DummyDataProvider dataProvider = DummyDataProvider.getInstance();

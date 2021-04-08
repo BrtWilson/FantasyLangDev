@@ -1,17 +1,19 @@
 package server.service;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import java.io.IOException;
-
 import com.example.server.dao.StatusesTableDAO;
 import com.example.server.service.NewStatusStoryService;
 import com.example.shared.model.domain.User;
 import com.example.shared.model.domain.Status;
+import com.example.shared.model.domain.User;
 import com.example.shared.model.service.request.NewStatusRequest;
 import com.example.shared.model.service.response.NewStatusResponse;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+
+import java.io.IOException;
 
 
 public class PostStatusServiceTest {
