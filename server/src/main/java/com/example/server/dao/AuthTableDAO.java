@@ -32,11 +32,15 @@ public class AuthTableDAO {
      * @return boolean of whether the authToken is still valid
      */
     public Boolean getAuthorized(AuthToken authToken) {
-        String formerTimeStamp = DynamoDBStrategy.getBasicStringAttributeFromDualKey(tableName, keyAttribute, authToken.getUsername(),secondaryKey, authToken.getToken(), additionalAttribute);
+        String formerTimeStamp = DynamoDBStrategy.getBasicStringAttributeFromDualKey(tableName, keyAttribute, authToken.getUserName(),secondaryKey, authToken.getToken(), additionalAttribute);
         if (checkTimePassedValid(formerTimeStamp)) {
             //update time
             Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-            DynamoDBStrategy.updateItemStringAttributeFromDualKey(tableName, keyAttribute, authToken.getUsername(), secondaryKey, authToken.getToken(), additionalAttribute, currentTime.toString() );
+            try {
+                DynamoDBStrategy.updateItemStringAttributeFromDualKey(tableName, keyAttribute, authToken.getUserName(), secondaryKey, authToken.getToken(), additionalAttribute, currentTime.toString() );
+            } catch (Exception e) {
+                return false;
+            }
             return true;
         } else {
             // log out, but at use (not here)
