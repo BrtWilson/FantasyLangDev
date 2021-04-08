@@ -19,9 +19,13 @@ public class StoryTableDAO {
     private static final String partitionKey = "Alias";
     private static final String sortKey = "TimeStamp";
     private static final String attributeMessage = "Message";
-    private static final Integer pageSize = 10;
+
+    private static final Integer PAGE_SIZE_DEFAULT = 10;
+
+    private static Integer pageSize;
 
     public StatusArrayResponse getStatusArray(StatusArrayRequest request) {
+        pageSize = request.getLimit();
         verifyLimit(request.getLimit());
         verifyAlias(request.getUserAlias());
 
@@ -30,7 +34,7 @@ public class StoryTableDAO {
 
     private void verifyLimit(int limit) {
         if (limit < 0) {
-            throw new AssertionError();
+            pageSize = PAGE_SIZE_DEFAULT;
         }
     }
 
@@ -38,6 +42,25 @@ public class StoryTableDAO {
         if (userAlias == null) {
             throw new AssertionError();
         }
+    }
+
+    //STANDARD ADD TO STORY
+    public NewStatusResponse postNewStatus(NewStatusRequest request) {
+        DynamoDBStrategy.createItemWithDualKey(tableName, partitionKey, request.getUserAlias(), sortKey, request.getDate(), true, attributeMessage, request.getMessage());
+        return new NewStatusResponse(new Status(request.getMessage(), request.getDate(), request.getUserAlias()));
+    }
+
+    //private User getAUser() {
+      //  return null;// dataProvider.getSampleDummyUser();
+    //}
+
+    private StatusArrayResponse retrieveStory(String targetAlias, String lastRetrieved) {
+        ResultsPage resultsPage = DynamoDBStrategy.getListByString(tableName, partitionKey, targetAlias, pageSize, sortKey, lastRetrieved);
+        boolean hasMorePages = (resultsPage.hasLastKey());
+        String newLastRetrieved = resultsPage.getLastKey();
+        List<Status> statusList = ListTypeTransformer.transform(resultsPage.getValues(), Status.class);
+        StatusArrayResponse response = new StatusArrayResponse(statusList, hasMorePages, newLastRetrieved);
+        return response;
     }
 
     /*
@@ -60,29 +83,4 @@ public class StoryTableDAO {
 
         return statusesIndex;
     }*/
-
-    /**
-     *  // * * * => THIS WILL BE USED WITH THE SQS QUEUES. It will need the inclusion of the Status's correspondingUserAlias, as well as the Feed's owner userAlias
-     *
-     * @param request
-     * @return
-     */
-    public NewStatusResponse postNewStatus(NewStatusRequest request) {
-        DynamoDBStrategy.createItemWithDualKey(tableName, partitionKey, request.getUserAlias(), sortKey, request.getDate(), true, attributeMessage, request.getMessage());
-        return new NewStatusResponse(new Status(request.getMessage(), request.getDate(), request.getUserAlias()));
-        //return dataProvider.pushNewStatus(request);
-    }
-
-    //private User getAUser() {
-      //  return null;// dataProvider.getSampleDummyUser();
-    //}
-
-    private StatusArrayResponse retrieveStory(String targetAlias, String lastRetrieved) {
-        ResultsPage resultsPage = DynamoDBStrategy.getListByString(tableName, partitionKey, targetAlias, pageSize, sortKey, lastRetrieved);
-        boolean hasMorePages = (resultsPage.hasLastKey());
-        String newLastRetrieved = resultsPage.getLastKey();
-        List<Status> statusList = ListTypeTransformer.transform(resultsPage.getValues(), Status.class);
-        StatusArrayResponse response = new StatusArrayResponse(statusList, hasMorePages, newLastRetrieved);
-        return response;
-    }
 }

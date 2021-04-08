@@ -23,11 +23,14 @@ public class FollowsTableDAO {
     private static final String tableName = "Follows";
     private static final String partionKey = "FollowerAlias";
     private static final String sortKey = "FolloweeAlias";
-    private static final Integer pageSize = 10;
+
+    private static final Integer PAGE_SIZE_DEFAULT = 10;
+    private static Integer pageSize;
 
     private static final String SERVER_SIDE_ERROR = "[Server Error]";
 
     public FollowerResponse getFollowers(FollowerRequest request) {
+        pageSize = request.getLimit();
         verifyRequestLimit(request.getLimit());
         verifyRequestUserAlias(request.getUserAlias());
         return retrieveFollowers(request.getUserAlias(), request.getLastFollowerAlias());
@@ -46,7 +49,7 @@ public class FollowsTableDAO {
 
     private void verifyRequestLimit(int requestLimit) {
         if (requestLimit < 0) {
-            throw new AssertionError();
+            pageSize = PAGE_SIZE_DEFAULT;
         }
     }
 

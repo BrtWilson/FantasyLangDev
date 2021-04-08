@@ -11,18 +11,23 @@ import java.io.IOException;
 /**
  * Contains the business logic to support posting a new status
  */
-public class NewStatusService implements INewStatusService {
+public class NewStatusStoryService implements INewStatusService {
+
+    private static final String SERVER_SIDE_ERROR = "[Server Error]";
 
     public NewStatusResponse postNewStatus(NewStatusRequest request) throws IOException {
-//        StatusesTableDAO postStatusDAO = getPostStatusDao();
 
-        NewStatusResponse feedResponse = getFeedTableDAO().postNewStatus(request);
-        NewStatusResponse storyResponse = getStoryTableDAO().postNewStatus(request);
-
-        if (feedResponse.isSuccess() && storyResponse.isSuccess())
-            return feedResponse;
-        else
-            return new NewStatusResponse("Could not post new status");
+        //NewStatusResponse feedResponse = getFeedTableDAO().postNewStatus(request);
+        try {
+            NewStatusResponse storyResponse = getStoryTableDAO().postNewStatus(request);
+            return storyResponse;
+        } catch (Exception e) {
+            return new NewStatusResponse(SERVER_SIDE_ERROR + ": " + e.getMessage());
+        }
+        //if (feedResponse.isSuccess() && storyResponse.isSuccess())
+         //   return feedResponse;
+        //else
+          //  return new NewStatusResponse("Could not post new status");
     }
 
     /**

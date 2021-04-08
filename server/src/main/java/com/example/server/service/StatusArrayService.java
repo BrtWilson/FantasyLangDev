@@ -23,17 +23,16 @@ public class StatusArrayService implements IStatusArrayService {
      * @return the followees.
      */
     public StatusArrayResponse requestStatusArray(IListRequest request) {
-//        StatusArrayResponse response = new StatusArrayResponse("Statuses missing");
-        //try {
-            if (request.getClass() != StatusArrayRequest.class) {
-                return new StatusArrayResponse("Statuses missing");
-            }
-            StatusArrayRequest req = (StatusArrayRequest) request;
-            //response = getStatusArrayDao().getStatusArray(req);
-            if (req.getFeedInstead())
-               return getFeedTableDAO().getStatusArray(req);
-             else
-               return getStoryTableDAO().getStatusArray(req);
+        if (request.getClass() != StatusArrayRequest.class) {
+            return new StatusArrayResponse("Statuses missing");
+        }
+        StatusArrayRequest req = (StatusArrayRequest) request;
+        //response = getStatusArrayDao().getStatusArray(req);
+
+        if (req.getFeedInstead())
+           return getFeedTableDAO().getStatusArray(req);
+        else
+           return getStoryTableDAO().getStatusArray(req);
     }
 
     @Override
