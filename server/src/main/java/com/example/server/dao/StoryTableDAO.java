@@ -7,19 +7,17 @@ import com.example.shared.model.domain.Status;
 import com.example.shared.model.domain.User;
 import com.example.shared.model.service.request.NewStatusRequest;
 import com.example.shared.model.service.request.StatusArrayRequest;
-import com.example.shared.model.service.response.FollowingResponse;
 import com.example.shared.model.service.response.NewStatusResponse;
 import com.example.shared.model.service.response.StatusArrayResponse;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class StoryTableDAO {
     //DummyDataProvider dataProvider = DummyDataProvider.getInstance();
 
     private static final String tableName = "Stories";
-    private static final String partionKey = "Alias";
-    private static final String sortKey = "Date";
+    private static final String partitionKey = "Alias";
+    private static final String sortKey = "TimeStamp";
     private static final Integer pageSize = 10;
 
     public StatusArrayResponse getStatusArray(StatusArrayRequest request) {
@@ -72,7 +70,7 @@ public class StoryTableDAO {
     }
 
     private StatusArrayResponse retrieveStory(String targetAlias, String lastRetrieved) {
-        ResultsPage resultsPage = DynamoDBStrategy.getListByString(tableName, partionKey, targetAlias, pageSize, sortKey, lastRetrieved);
+        ResultsPage resultsPage = DynamoDBStrategy.getListByString(tableName, partitionKey, targetAlias, pageSize, sortKey, lastRetrieved);
         boolean hasMorePages = (resultsPage.hasLastKey());
         String newLastRetrieved = resultsPage.getLastKey();
         List<Status> statusList = ListTypeTransformer.transform(resultsPage.getValues(), Status.class);

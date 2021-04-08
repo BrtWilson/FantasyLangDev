@@ -217,7 +217,7 @@ public class DynamoDBStrategy {
     }
 
     public static void createItemWithDualKey(String tableName, String key, String keyValue, String sortKey, Object sortKeyValue) {
-        return createItemWithDualKey(tableName, key, keyValue, sortKey, sortKeyValue, false, null, null);
+        createItemWithDualKey(tableName, key, keyValue, sortKey, sortKeyValue, false, null, null);
     }
         //Use for creating AuthToken
     /**

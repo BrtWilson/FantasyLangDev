@@ -22,7 +22,7 @@ public class FollowsTableDAO {
 
     private static final String tableName = "Follows";
     private static final String partionKey = "FollowerAlias";
-    private static final String sortKey = "FollowerAlias";
+    private static final String sortKey = "FolloweeAlias";
     private static final Integer pageSize = 10;
 
     private static final String SERVER_SIDE_ERROR = "[Server Error]";

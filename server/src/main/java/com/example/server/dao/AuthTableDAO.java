@@ -2,8 +2,6 @@ package com.example.server.dao;
 
 import com.example.server.dao.dbstrategies.DynamoDBStrategy;
 import com.example.shared.model.domain.AuthToken;
-import com.example.shared.model.domain.User;
-import com.example.shared.model.service.request.LoginRequest;
 import com.example.shared.model.service.request.LogoutRequest;
 import com.example.shared.model.service.request.RegisterRequest;
 import com.example.shared.model.service.request.UserRequest;
@@ -65,7 +63,7 @@ public class AuthTableDAO {
         AuthToken token = new AuthToken(userAlias);
         String date = new Timestamp(System.currentTimeMillis()).toString();
 
-        DynamoDBStrategy.createItemWithDualKey(tableName, keyAttribute, userAlias, secondaryKey, token, additionalAttribute, date);
+        DynamoDBStrategy.createItemWithDualKey(tableName, keyAttribute, userAlias, secondaryKey,  token, true, additionalAttribute, date);
         return token;
     }
 

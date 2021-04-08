@@ -36,7 +36,7 @@ public class StatusesTableDAO {
             hasMorePages = statusesIndex < allStatuses.size();
         }
 
-        return new StatusArrayResponse(responseStatuses, hasMorePages);
+        return null; //new StatusArrayResponse(responseStatuses, hasMorePages);
     }
 
     private void verifyLimit(int limit) {

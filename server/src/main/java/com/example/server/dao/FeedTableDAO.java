@@ -10,15 +10,14 @@ import com.example.shared.model.service.request.StatusArrayRequest;
 import com.example.shared.model.service.response.NewStatusResponse;
 import com.example.shared.model.service.response.StatusArrayResponse;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class FeedTableDAO {
     //DummyDataProvider dataProvider = DummyDataProvider.getInstance();
 
     private static final String tableName = "Feeds";
-    private static final String partionKey = "Alias";
-    private static final String sortKey = "Date";
+    private static final String partitionKey = "Alias";
+    private static final String sortKey = "TimeStamp";
     private static final Integer pageSize = 10;
 
 
@@ -26,7 +25,7 @@ public class FeedTableDAO {
         verifyLimit(request.getLimit());
         verifyAlias(request.getUserAlias());
 
-        return retrieveStory(request.getUserAlias(), request.getLastStatusDate());
+        return retrieveFeed(request.getUserAlias(), request.getLastStatusDate());
     }
 
     private void verifyLimit(int limit) {
@@ -72,7 +71,7 @@ public class FeedTableDAO {
     }
 
     private StatusArrayResponse retrieveFeed(String targetAlias, String lastRetrieved) {
-        ResultsPage resultsPage = DynamoDBStrategy.getListByString(tableName, partionKey, targetAlias, pageSize, sortKey, lastRetrieved);
+        ResultsPage resultsPage = DynamoDBStrategy.getListByString(tableName, partitionKey, targetAlias, pageSize, sortKey, lastRetrieved);
         boolean hasMorePages = (resultsPage.hasLastKey());
         String newLastRetrieved = resultsPage.getLastKey();
         List<Status> statusList = ListTypeTransformer.transform(resultsPage.getValues(), Status.class);
