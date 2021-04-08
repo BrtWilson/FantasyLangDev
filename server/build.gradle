@@ -17,4 +17,13 @@ dependencies {
     implementation group: 'com.amazonaws', name: 'aws-java-sdk-s3', version: '1.11.993'
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.5.2'
     testImplementation group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
+
+    implementation 'com.amazonaws:aws-android-sdk-core:2.2.+'
+    implementation 'com.amazonaws:aws-android-sdk-cognito:2.2.+'
+    implementation 'com.amazonaws:aws-android-sdk-cognitoidentityprovider:2.2.+'
+    implementation 'com.amazonaws:aws-android-sdk-ddb:2.2.+'
+    implementation 'com.amazonaws:aws-android-sdk-ddb-mapper:2.2.+'
+
+    implementation 'com.amazonaws:aws-java-sdk-dynamodb:1.11.547'
+    implementation 'com.amazonaws:aws-java-sdk-core:1.11.547'
 }
