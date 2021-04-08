@@ -1,5 +1,12 @@
 package server.service;
 
+import com.example.server.dao.StatusesTableDAO;
+import com.example.server.service.StatusArrayService;
+import com.example.shared.model.domain.Status;
+import com.example.shared.model.domain.User;
+import com.example.shared.model.service.request.StatusArrayRequest;
+import com.example.shared.model.service.response.StatusArrayResponse;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -7,13 +14,6 @@ import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.util.Arrays;
-
-import com.example.server.dao.StatusesTableDAO;
-import com.example.server.service.StatusArrayService;
-import com.example.shared.model.domain.User;
-import com.example.shared.model.service.request.StatusArrayRequest;
-import com.example.shared.model.service.response.StatusArrayResponse;
-import com.example.shared.model.domain.Status;
 
 public class StatusArrayServiceTest {
 
@@ -49,7 +49,7 @@ public class StatusArrayServiceTest {
         invalidRequest = new StatusArrayRequest(null, 0, null);
 
         // Setup a mock ServerFacade that will return known responses
-        successResponse = new StatusArrayResponse(Arrays.asList(resultStatus1, resultStatus2, resultStatus3), false);
+        successResponse = new StatusArrayResponse(Arrays.asList(resultStatus1, resultStatus2, resultStatus3), false, null); //added null for last date
         StatusesTableDAO mockDao = Mockito.mock(StatusesTableDAO.class);
         Mockito.when(mockDao.getStatusArray(validRequest)).thenReturn(successResponse);
 

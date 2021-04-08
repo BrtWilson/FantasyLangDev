@@ -1,7 +1,6 @@
 package server.dao;
 
 import com.example.server.dao.StatusesTableDAO;
-import com.example.server.service.NewStatusService;
 import com.example.server.service.StatusArrayService;
 import com.example.shared.model.domain.Status;
 import com.example.shared.model.domain.User;
@@ -67,7 +66,7 @@ public class StatusDaoTest {
         invalidArrayRequest = new StatusArrayRequest(null, 0, null);
 
         // Setup a mock ServerFacade that will return known responses
-        successArrayResponse = new StatusArrayResponse(Arrays.asList(resultStatus1, resultStatus2, resultStatus3), true);
+        successArrayResponse = new StatusArrayResponse(Arrays.asList(resultStatus1, resultStatus2, resultStatus3), true, null); //added null
         Mockito.when(mockDao.getStatusArray(validArrayRequest)).thenReturn(successArrayResponse);
 
         failureArrayResponse = new StatusArrayResponse("An exception occurred");

@@ -1,5 +1,6 @@
 package com.example.server.lambda.statusUpdateLambdas;
 
+import com.example.server.dao.dbstrategies.DynamoDBStrategy;
 import com.example.server.service.FollowerService;
 import com.example.shared.model.service.request.NewStatusRequest;
 
@@ -23,6 +24,9 @@ public class BatchFeedUpdater  {
 
     //Generating Data to DB
     public static void main(String[] args) {
+
+        DynamoDBStrategy dynamoDBStrategy = new DynamoDBStrategy();
+        String dbPrimaryKey = "Alias";
 
         for(int i =0 ; i < 10000; i ++){
             String userName = "@user"+ i;
