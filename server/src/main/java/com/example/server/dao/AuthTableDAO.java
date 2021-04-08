@@ -3,12 +3,19 @@ package com.example.server.dao;
 import com.example.server.dao.dbstrategies.DynamoDBStrategy;
 import com.example.shared.model.domain.AuthToken;
 import com.example.shared.model.service.request.LogoutRequest;
+import com.example.shared.model.service.request.RegisterRequest;
+import com.example.shared.model.service.request.UserRequest;
+import com.example.shared.model.service.response.BasicResponse;
+import com.example.shared.model.service.response.LoginResponse;
+import com.example.shared.model.service.response.RegisterResponse;
+import com.example.shared.model.service.response.UserResponse;
 
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 public class AuthTableDAO {
-    DummyDataProvider dataProvider = DummyDataProvider.getInstance();
+    //DummyDataProvider dataProvider = DummyDataProvider.getInstance();
 
     private static final String tableName = "AuthTokens";
     private static final String keyAttribute = "Alias";
@@ -17,19 +24,21 @@ public class AuthTableDAO {
 
     private static final long inactivityTimeCap = TimeUnit.MINUTES.toMillis(5);
 
-    //TODO: Add to logging in and logging out these authorization mechanisms
-
     /**
      * Checks the AuthTokens table for whether an AuthToken is still valid or not
      * @param authToken Used to identify corresponding item in Database
      * @return boolean of whether the authToken is still valid
      */
     public Boolean getAuthorized(AuthToken authToken) {
-        String formerTimeStamp = DynamoDBStrategy.getBasicStringAttributeFromDualKey(tableName, keyAttribute, authToken.getUserName() ,secondaryKey, authToken.getToken(), additionalAttribute);
+        String formerTimeStamp = DynamoDBStrategy.getBasicStringAttributeFromDualKey(tableName, keyAttribute, authToken.getUserName(),secondaryKey, authToken.getToken(), additionalAttribute);
         if (checkTimePassedValid(formerTimeStamp)) {
             //update time
             Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-            //DynamoDBStrategy.updateItemStringAttributeFromDualKey(tableName, keyAttribute, authToken.getUserName(), secondaryKey, authToken.getToken(), additionalAttribute, currentTime.toString() );
+            try {
+                DynamoDBStrategy.updateItemStringAttributeFromDualKey(tableName, keyAttribute, authToken.getUserName(), secondaryKey, authToken.getToken(), additionalAttribute, currentTime.toString() );
+            } catch (Exception e) {
+                return false;
+            }
             return true;
         } else {
             // log out, but at use (not here)
@@ -56,7 +65,7 @@ public class AuthTableDAO {
         AuthToken token = new AuthToken(userAlias);
         String date = new Timestamp(System.currentTimeMillis()).toString();
 
-      //  DynamoDBStrategy.createItemWithDualKey(tableName, keyAttribute, userAlias, secondaryKey, token, additionalAttribute, date);
+        DynamoDBStrategy.createItemWithDualKey(tableName, keyAttribute, userAlias, secondaryKey,  token, true, additionalAttribute, date);
         return token;
     }
 

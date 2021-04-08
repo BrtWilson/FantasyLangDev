@@ -16,6 +16,8 @@ public class User implements Comparable<User>, Serializable {
     private String imageUrl;
     private String password;
     private byte [] imageBytes;
+    private String followerCount;
+    private String followeeCount;
 
     public User() {}
 
@@ -137,7 +139,39 @@ public class User implements Comparable<User>, Serializable {
         return this.getAlias().compareTo(user.getAlias());
     }
 
-//    public StatusArray getFeed() {
+    public String getFollowerCount() {
+        return followerCount;
+    }
+
+    public String getFolloweeCount() {
+        return followeeCount;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public void setFollowerCount(String followerCount) {
+        this.followerCount = followerCount;
+    }
+
+    public void setFolloweeCount(String followeeCount) {
+        this.followeeCount = followeeCount;
+    }
+
+    //    public StatusArray getFeed() {
 //        return feed;
 //    }
 

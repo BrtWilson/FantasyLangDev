@@ -1,9 +1,11 @@
 package com.example.server.service;
 
 import com.example.server.dao.FollowsTableDAO;
+import com.example.server.dao.UsersTableDAO;
 import com.example.shared.model.service.IFollowerService;
 import com.example.shared.model.service.request.FollowerRequest;
 import com.example.shared.model.service.response.FollowerResponse;
+import com.example.shared.model.service.response.FollowingResponse;
 
 import java.io.IOException;
 
@@ -28,7 +30,7 @@ public class FollowerService implements IFollowerService {
     }
 
     public FollowerResponse getNumFollowers(FollowerRequest request) throws IOException {
-        FollowerResponse response = getFollowersDao().getNumFollowers(request);
+        FollowerResponse response = new FollowerResponse(getFollowCountDao().getNumFollower(request));
 
         return response;
     }
@@ -42,5 +44,9 @@ public class FollowerService implements IFollowerService {
      */
     public FollowsTableDAO getFollowersDao() {
         return new FollowsTableDAO();
+    }
+
+    public UsersTableDAO getFollowCountDao() {
+        return new UsersTableDAO();
     }
 }

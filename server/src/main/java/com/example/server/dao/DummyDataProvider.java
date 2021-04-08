@@ -239,7 +239,7 @@ public class DummyDataProvider {
                 User user = usersMap.get(request.getUsername());
                 if (user.getPassword().equals(request.getPassword())) {
                     loggedInUser = user;
-                    return new LoginResponse(loggedInUser, new AuthToken());
+                    return new LoginResponse(loggedInUser, new AuthToken(user.getName()));
                 }
                 return new LoginResponse("Password does not match.");
             }
@@ -263,7 +263,7 @@ public class DummyDataProvider {
             user.setPassword(password);
             usersMap.put(user.getAlias(), user);
             loggedInUser = user;
-            return new RegisterResponse(user, new AuthToken(), true);
+            return new RegisterResponse(user, new AuthToken(user.getName()), true);
         }
         return new RegisterResponse("Username already taken. User different username.", false);
     }
@@ -404,7 +404,7 @@ public class DummyDataProvider {
             hasMorePages = followersIndex < allFollowers.size();
         }
 
-        return new FollowerResponse(responseFollowers, hasMorePages, null);
+        return new FollowerResponse(responseFollowers, hasMorePages,null);
     }
 
     /**
@@ -480,7 +480,7 @@ public class DummyDataProvider {
             hasMorePages = statusesIndex < allStatuses.size();
         }
 
-        return new StatusArrayResponse(responseStatuses, hasMorePages);
+        return new StatusArrayResponse(responseStatuses, hasMorePages,null);
     }
 
     private int getStatusesStartingIndex(String lastStatusAlias, List<Status> allStatuses) {

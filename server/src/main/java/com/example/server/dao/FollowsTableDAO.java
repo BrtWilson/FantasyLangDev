@@ -18,7 +18,7 @@ public class FollowsTableDAO {
 
     private static final String tableName = "Follows";
     private static final String partionKey = "FollowerAlias";
-    private static final String sortKey = "FollowerAlias";
+    private static final String sortKey = "FolloweeAlias";
     private static final Integer pageSize = 10;
 
     private static final String SERVER_SIDE_ERROR = "[Server Error]";
@@ -26,14 +26,13 @@ public class FollowsTableDAO {
     public FollowerResponse getFollowers(FollowerRequest request) {
         verifyRequestLimit(request.getLimit());
         verifyRequestUserAlias(request.getUserAlias());
-
         return retrieveFollowers(request.getUserAlias(), request.getLastFollowerAlias());
     }
 
-    //TODO: DEPRACATE
-    public FollowerResponse getNumFollowers(FollowerRequest request) {
-        return new FollowerResponse(13);
-    }
+    //
+    //public FollowerResponse getNumFollowers(FollowerRequest request) {
+      //  return new FollowerResponse(13);
+    //}
 
     private void verifyRequestUserAlias(String requestAlias) {
         if (requestAlias == null) {
@@ -54,10 +53,10 @@ public class FollowsTableDAO {
         return retrieveFollowees(request.getFollowingAlias(), request.getLastFolloweeAlias());
     }
 
-
-    public FollowingResponse getNumFollowing(FollowingRequest request) {
-        return new FollowingResponse(13);
-    }
+    //DEPRACATE
+    //public FollowingResponse getNumFollowing(FollowingRequest request) {
+      //  return new FollowingResponse(13);
+    //}
 
     private FollowingResponse retrieveFollowees(String targetAlias, String lastRetrieved) {
         ResultsPage resultsPage = DynamoDBStrategy.getListByString(tableName, partionKey, targetAlias, pageSize, sortKey, lastRetrieved);
@@ -81,6 +80,9 @@ public class FollowsTableDAO {
     public FollowStatusResponse unfollow(FollowStatusRequest request) {
         try {
             DynamoDBStrategy.deleteItemWithDualKey(tableName, partionKey, request.getCurrentUser(), sortKey, request.getOtherUser());
+
+            UsersTableDAO usersTableDAO = new UsersTableDAO();
+            usersTableDAO.unfollow(request);
             return new FollowStatusResponse(false);
         } catch (Exception e) {
             return new FollowStatusResponse(SERVER_SIDE_ERROR + ": " + e.getMessage());
@@ -90,6 +92,9 @@ public class FollowsTableDAO {
     public FollowStatusResponse follow(FollowStatusRequest request) {
         try {
             DynamoDBStrategy.createItemWithDualKey(tableName, partionKey, request.getCurrentUser(), sortKey, request.getOtherUser());
+
+            UsersTableDAO usersTableDAO = new UsersTableDAO();
+            usersTableDAO.follow(request);
             return new FollowStatusResponse(true);
         } catch (Exception e) {
             return new FollowStatusResponse(SERVER_SIDE_ERROR + ": " + e.getMessage());
