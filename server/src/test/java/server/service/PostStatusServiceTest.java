@@ -1,17 +1,18 @@
 package server.service;
 
+import com.example.server.dao.StatusesTableDAO;
+import com.example.server.service.NewStatusService;
+import com.example.shared.model.domain.Status;
+import com.example.shared.model.domain.User;
+import com.example.shared.model.service.request.NewStatusRequest;
+import com.example.shared.model.service.response.NewStatusResponse;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import java.io.IOException;
 
-import com.example.server.dao.StatusesTableDAO;
-import com.example.server.service.NewStatusService;
-import com.example.shared.model.domain.User;
-import com.example.shared.model.domain.Status;
-import com.example.shared.model.service.request.NewStatusRequest;
-import com.example.shared.model.service.response.NewStatusResponse;
+import java.io.IOException;
 
 
 public class PostStatusServiceTest {
@@ -32,8 +33,8 @@ public class PostStatusServiceTest {
         User user2 = new User("User", "Name", "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
         user1.setPassword("password");
 
-        Status resultStatus1 = new Status("Message 1", "TimeStamp1", user1);
-        Status resultStatus2 = new Status("Message 2", "TimeStamp2", user2);
+        Status resultStatus1 = new Status("Message 1", "TimeStamp1", user1.toString());
+        Status resultStatus2 = new Status("Message 2", "TimeStamp2", user2.toString());
 
         validRequest1 = new NewStatusRequest( user1.getAlias(), "Message 1", "TimeStamp1");
         validRequest2 = new NewStatusRequest( user2.getAlias(), "Message 2", "TimeStamp2");
