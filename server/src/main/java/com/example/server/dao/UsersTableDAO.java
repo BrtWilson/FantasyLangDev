@@ -3,10 +3,12 @@ package com.example.server.dao;
 import com.example.server.dao.dbstrategies.DynamoDBStrategy;
 import com.example.shared.model.domain.AuthToken;
 import com.example.shared.model.domain.User;
+import com.example.shared.model.service.request.FollowStatusRequest;
 import com.example.shared.model.service.request.LoginRequest;
 import com.example.shared.model.service.request.LogoutRequest;
 import com.example.shared.model.service.request.RegisterRequest;
 import com.example.shared.model.service.request.UserRequest;
+import com.example.shared.model.service.response.FollowStatusResponse;
 import com.example.shared.model.service.response.LoginResponse;
 import com.example.shared.model.service.response.BasicResponse;
 import com.example.shared.model.service.response.RegisterResponse;
@@ -26,6 +28,8 @@ public class UsersTableDAO {
     private static final String attributeLastName = "LastName";
     private static final String attributePassword = "Password";
     private static final String attributeImageUrl = "ImageUrl";
+    private static final String attributeFollowerCount = "FollowerCount";
+    private static final String attributeFolloweeCount = "FolloweeCount";
 
     private static final String FAULTY_USER_REQUEST = "[Bad Request]";
     private static final String SERVER_SIDE_ERROR = "[Server Error]";
@@ -95,17 +99,48 @@ public class UsersTableDAO {
         attributes.add(attributeLastName);
         attributes.add(attributePassword);
         attributes.add(attributeImageUrl);
+        attributes.add(attributeFollowerCount);
+        attributes.add(attributeFolloweeCount);
 
         ArrayList<Object> attributeValues = new ArrayList<>();
         attributeValues.add(firstName);
         attributeValues.add(lastName);
         attributeValues.add(password);
         attributeValues.add(imageUrl);
+        attributeValues.add(0);
+        attributeValues.add(0);
 
         if (DynamoDBStrategy.createItemWithAttributes(tableName, keyAttribute, alias, attributes, attributeValues)) {
             return user;
         }
         throw new Exception(SERVER_SIDE_ERROR + ": Failed to complete user upload");
+    }
+
+
+    public boolean unfollow(FollowStatusRequest request) throws Exception {
+        Integer followerCount = Integer.valueOf(getUserFollowerCount(request.getOtherUser())) + 1;
+        Integer followeeCount = Integer.valueOf(getUserFolloweeCount(request.getCurrentUser())) + 1;
+        DynamoDBStrategy.updateItemStringAttribute(tableName, keyAttribute, request.getOtherUser(), attributeFollowerCount, followerCount.toString());
+        DynamoDBStrategy.updateItemStringAttribute(tableName, keyAttribute, request.getOtherUser(), attributeFolloweeCount, followeeCount.toString());
+        return true;
+    }
+
+    private String getUserFollowerCount(String usarAlias) {
+        User currentUser = (User) DynamoDBStrategy.basicGetItem(tableName,keyAttribute,usarAlias);
+        return currentUser.getFollowerCount();
+    }
+
+    private String getUserFolloweeCount(String usarAlias) {
+        User currentUser = (User) DynamoDBStrategy.basicGetItem(tableName,keyAttribute,usarAlias);
+        return currentUser.getFolloweeCount();
+    }
+
+    public boolean follow(FollowStatusRequest request) throws Exception {
+        Integer followerCount = Integer.valueOf(getUserFollowerCount(request.getOtherUser())) + 1;
+        Integer followeeCount = Integer.valueOf(getUserFolloweeCount(request.getCurrentUser())) + 1;
+        DynamoDBStrategy.updateItemStringAttribute(tableName, keyAttribute, request.getOtherUser(), attributeFollowerCount, followerCount.toString());
+        DynamoDBStrategy.updateItemStringAttribute(tableName, keyAttribute, request.getOtherUser(), attributeFolloweeCount, followeeCount.toString());
+        return true;
     }
 
     /*

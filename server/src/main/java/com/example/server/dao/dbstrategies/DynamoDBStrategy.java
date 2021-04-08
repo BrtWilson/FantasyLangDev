@@ -315,6 +315,26 @@ public class DynamoDBStrategy {
         }
     }
 
+    //Use for update Authorization
+    public static void updateItemStringAttribute(String tableName, String key, String keyValue,  String attribute, String newAttributeValue) throws Exception {
+        Table table = dynamoDB.getTable("Movies");
+
+        UpdateItemSpec updateItemSpec = new UpdateItemSpec().withPrimaryKey(key, keyValue)
+                .withUpdateExpression("set info." + attribute + " = :a")
+                .withValueMap(new ValueMap().withString(":a", newAttributeValue))
+                .withReturnValues(ReturnValue.UPDATED_NEW);
+
+        try {
+            System.out.println("Updating the item...");
+            UpdateItemOutcome outcome = table.updateItem(updateItemSpec);
+            System.out.println("UpdateItem succeeded:\n" + outcome.getItem().toJSONPretty());
+
+        }
+        catch (Exception e) {
+            System.err.println("Unable to update item: " + keyValue);
+            System.err.println(e.getMessage());
+        }
+    }
 
     /**
      * Retrieves a single String-type value from an object matching a specified key

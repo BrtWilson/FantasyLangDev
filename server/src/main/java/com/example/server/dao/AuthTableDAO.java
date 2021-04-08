@@ -24,8 +24,6 @@ public class AuthTableDAO {
 
     private static final long inactivityTimeCap = TimeUnit.MINUTES.toMillis(5);
 
-    //TODO: Add to logging in and logging out these authorization mechanisms
-
     /**
      * Checks the AuthTokens table for whether an AuthToken is still valid or not
      * @param authToken Used to identify corresponding item in Database

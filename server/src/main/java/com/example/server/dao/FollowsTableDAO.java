@@ -84,6 +84,9 @@ public class FollowsTableDAO {
     public FollowStatusResponse unfollow(FollowStatusRequest request) {
         try {
             DynamoDBStrategy.deleteItemWithDualKey(tableName, partionKey, request.getCurrentUser(), sortKey, request.getOtherUser());
+
+            UsersTableDAO usersTableDAO = new UsersTableDAO();
+            usersTableDAO.unfollow(request);
             return new FollowStatusResponse(false);
         } catch (Exception e) {
             return new FollowStatusResponse(SERVER_SIDE_ERROR + ": " + e.getMessage());
@@ -93,6 +96,9 @@ public class FollowsTableDAO {
     public FollowStatusResponse follow(FollowStatusRequest request) {
         try {
             DynamoDBStrategy.createItemWithDualKey(tableName, partionKey, request.getCurrentUser(), sortKey, request.getOtherUser());
+
+            UsersTableDAO usersTableDAO = new UsersTableDAO();
+            usersTableDAO.follow(request);
             return new FollowStatusResponse(true);
         } catch (Exception e) {
             return new FollowStatusResponse(SERVER_SIDE_ERROR + ": " + e.getMessage());
