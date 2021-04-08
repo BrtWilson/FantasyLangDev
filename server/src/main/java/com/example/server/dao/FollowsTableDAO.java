@@ -33,10 +33,10 @@ public class FollowsTableDAO {
         return retrieveFollowers(request.getUserAlias(), request.getLastFollowerAlias());
     }
 
-    //TODO: DEPRACATE
-    public FollowerResponse getNumFollowers(FollowerRequest request) {
-        return new FollowerResponse(13);
-    }
+    //
+    //public FollowerResponse getNumFollowers(FollowerRequest request) {
+      //  return new FollowerResponse(13);
+    //}
 
     private void verifyRequestUserAlias(String requestAlias) {
         if (requestAlias == null) {
@@ -57,10 +57,10 @@ public class FollowsTableDAO {
         return retrieveFollowees(request.getFollowingAlias(), request.getLastFolloweeAlias());
     }
 
-
-    public FollowingResponse getNumFollowing(FollowingRequest request) {
-        return new FollowingResponse(13);
-    }
+    //DEPRACATE
+    //public FollowingResponse getNumFollowing(FollowingRequest request) {
+      //  return new FollowingResponse(13);
+    //}
 
     private FollowingResponse retrieveFollowees(String targetAlias, String lastRetrieved) {
         ResultsPage resultsPage = DynamoDBStrategy.getListByString(tableName, partionKey, targetAlias, pageSize, sortKey, lastRetrieved);

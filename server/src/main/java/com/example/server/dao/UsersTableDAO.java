@@ -4,11 +4,14 @@ import com.example.server.dao.dbstrategies.DynamoDBStrategy;
 import com.example.shared.model.domain.AuthToken;
 import com.example.shared.model.domain.User;
 import com.example.shared.model.service.request.FollowStatusRequest;
+import com.example.shared.model.service.request.FollowerRequest;
+import com.example.shared.model.service.request.FollowingRequest;
 import com.example.shared.model.service.request.LoginRequest;
 import com.example.shared.model.service.request.LogoutRequest;
 import com.example.shared.model.service.request.RegisterRequest;
 import com.example.shared.model.service.request.UserRequest;
 import com.example.shared.model.service.response.FollowStatusResponse;
+import com.example.shared.model.service.response.FollowingResponse;
 import com.example.shared.model.service.response.LoginResponse;
 import com.example.shared.model.service.response.BasicResponse;
 import com.example.shared.model.service.response.RegisterResponse;
@@ -136,11 +139,19 @@ public class UsersTableDAO {
     }
 
     public boolean follow(FollowStatusRequest request) throws Exception {
-        Integer followerCount = Integer.valueOf(getUserFollowerCount(request.getOtherUser())) + 1;
-        Integer followeeCount = Integer.valueOf(getUserFolloweeCount(request.getCurrentUser())) + 1;
+        Integer followerCount = Integer.parseInt(getUserFollowerCount(request.getOtherUser())) + 1;
+        Integer followeeCount = Integer.parseInt(getUserFolloweeCount(request.getCurrentUser())) + 1;
         DynamoDBStrategy.updateItemStringAttribute(tableName, keyAttribute, request.getOtherUser(), attributeFollowerCount, followerCount.toString());
         DynamoDBStrategy.updateItemStringAttribute(tableName, keyAttribute, request.getOtherUser(), attributeFolloweeCount, followeeCount.toString());
         return true;
+    }
+
+    public int getNumFollowing(FollowingRequest request) {
+        return Integer.parseInt(getUserFolloweeCount(request.getFollowingAlias()));
+    }
+
+    public int getNumFollower(FollowerRequest request) {
+        return Integer.parseInt(getUserFollowerCount(request.getUserAlias()));
     }
 
     /*
