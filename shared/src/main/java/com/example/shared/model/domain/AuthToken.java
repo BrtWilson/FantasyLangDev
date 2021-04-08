@@ -10,6 +10,7 @@ public class AuthToken implements Serializable {
     private String userName;
     private String token;
 
+    //This needs to commit now!
     public AuthToken(String userName) {
         this.userName = userName;
         token = UUID.randomUUID().toString();

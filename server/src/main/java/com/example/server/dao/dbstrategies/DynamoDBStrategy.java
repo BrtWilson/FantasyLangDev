@@ -216,7 +216,10 @@ public class DynamoDBStrategy {
         return true;
     }
 
-    //Use for creating AuthToken
+    public static void createItemWithDualKey(String tableName, String key, String keyValue, String sortKey, Object sortKeyValue) {
+        return createItemWithDualKey(tableName, key, keyValue, sortKey, sortKeyValue, false, null, null);
+    }
+        //Use for creating AuthToken
     /**
      * Creates an object for a table that requires secondary keys, and has one additional attribute
      * @param tableName The Database Table being targeted
@@ -225,7 +228,7 @@ public class DynamoDBStrategy {
      * @param sortKey The secondary or sort key name of the match object
      * @param sortKeyValue The secondary or sort key value of the match object
      */
-    public static void createItemWithDualKey(String tableName, String key, String keyValue, String sortKey, Object sortKeyValue) {
+    public static void createItemWithDualKey(String tableName, String key, String keyValue, String sortKey, Object sortKeyValue, boolean withAttributes, String attributeName, String attributeValue) {
         Table table = dynamoDB.getTable(tableName);
 
         /*

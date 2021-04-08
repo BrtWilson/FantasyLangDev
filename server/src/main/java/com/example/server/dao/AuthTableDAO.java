@@ -34,7 +34,7 @@ public class AuthTableDAO {
      * @return boolean of whether the authToken is still valid
      */
     public Boolean getAuthorized(AuthToken authToken) {
-        String formerTimeStamp = DynamoDBStrategy.getBasicStringAttributeFromDualKey(tableName, keyAttribute, ,secondaryKey, AuthToken.getToken(), additionalAttribute);
+        String formerTimeStamp = DynamoDBStrategy.getBasicStringAttributeFromDualKey(tableName, keyAttribute, ,secondaryKey, authToken.getToken(), additionalAttribute);
         if (checkTimePassedValid(formerTimeStamp)) {
             //update time
             Timestamp currentTime = new Timestamp(System.currentTimeMillis());
