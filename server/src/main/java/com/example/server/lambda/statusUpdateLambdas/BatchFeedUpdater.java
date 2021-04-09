@@ -7,21 +7,53 @@ import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Item;
 import com.amazonaws.services.dynamodbv2.document.TableWriteItems;
 import com.amazonaws.services.dynamodbv2.model.WriteRequest;
+import com.amazonaws.services.lambda.runtime.Context;
+import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.amazonaws.services.lambda.runtime.events.SQSEvent;
+import com.amazonaws.services.sqs.model.MessageAttributeValue;
+import com.example.server.dao.dbstrategies.DynamoDBStrategy;
 import com.example.server.service.FollowerService;
 import com.example.shared.model.service.request.NewStatusRequest;
+import com.example.shared.model.service.response.FollowerResponse;
 
-import java.util.List;
 import java.util.Map;
 
-public class BatchFeedUpdater  {
-    //Uses FollowerService(?) to get batches of followers whose feeds are to be updated
+public class BatchFeedUpdater implements RequestHandler<SQSEvent, Void> {
 
-    public void handleNewStatusMessage(NewStatusRequest newStatusRequest) { // Uses an input Status or an input NewStatusRequest
+    private static final String followerAliasesAttribute = "FollowerAliases";
+    private static final String postedStatusAttribute = "PostedStatus";
+
+    @Override
+    public Void handleRequest(SQSEvent input, Context context) {
+        for (SQSEvent.SQSMessage msg : input.getRecords()) {
+            Map attributes = msg.getAttributes();
+            String followerResponseStr = extractAttribute(attributes.get(followerAliasesAttribute));
+            String newStatusRequestStr = extractAttribute(attributes.get(postedStatusAttribute));
+            FollowerResponse followerResponse = convertToRequestObject(followerResponseStr, FollowerResponse.class);
+            NewStatusRequest newStatusRequest = convertToRequestObject(newStatusRequestStr, NewStatusRequest.class);
+            handleBatch(newStatusRequest, followerResponse);
+        }
+
+        //Uses FollowerService(?) to get batches of followers whose feeds are to be updated
+        return null;
+    }
+
+    private <T> T convertToRequestObject(String objectString, Class<T> toClass) {
+        return JsonSerializer.deserialize(objectString, toClass);
+    }
+
+    private String extractAttribute(Object tempMessageObject) {
+        MessageAttributeValue tempMessageAttributeValue = (MessageAttributeValue) tempMessageObject;
+        return tempMessageAttributeValue.getStringValue();
+    }
+
+    public void handleBatch(NewStatusRequest newStatusRequest, FollowerResponse followerResponse) { // Uses an input Status or an input NewStatusRequest
         //From parameter info, discerns user
         String correspondingUserAlias = newStatusRequest.getUserAlias();
 
         FollowerService followerService = new FollowerService();
-        // TODO: get each batch of followers, send request to queue with corresponding info (batch of followers (25) and the status)
+        // TODO: follow along what Blake did below to
+        //  get each batch of followers, send request to queue with corresponding info (batch of followers (25) and the status)
        /* try {
             //return followerService.gets(newStatusRequest);
         } catch (RuntimeException | IOException e) {
@@ -35,6 +67,8 @@ public class BatchFeedUpdater  {
             .withRegion("us-east-1")
             .build();
     private static DynamoDB dynamoDB = new DynamoDB(client);
+
+
 
     //Generating Data to DB
     public static void main(String[] args) {
@@ -75,16 +109,4 @@ public class BatchFeedUpdater  {
             }
         }
     }
-
-    private static void loopBatchWriter(TableWriteItems items){
-        BatchWriteItemOutcome outcome = dynamoDB.batchWriteItem(items);
-        //logger.log("Wrote User Batch");
-
-        while (outcome.getUnprocessedItems().size() > 0) {
-            Map<String, List<WriteRequest>> unprocessedItems = outcome.getUnprocessedItems();
-            outcome = dynamoDB.batchWriteItemUnprocessed(unprocessedItems);
-            //   logger.log("Wrote more Users");
-        }
-    }
 }
-
