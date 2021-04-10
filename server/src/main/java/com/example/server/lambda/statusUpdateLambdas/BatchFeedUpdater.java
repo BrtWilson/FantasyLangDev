@@ -16,6 +16,7 @@ import com.example.server.service.FollowerService;
 import com.example.shared.model.service.request.NewStatusRequest;
 import com.example.shared.model.service.response.FollowerResponse;
 
+import java.util.List;
 import java.util.Map;
 
 public class BatchFeedUpdater implements RequestHandler<SQSEvent, Void> {
@@ -74,39 +75,40 @@ public class BatchFeedUpdater implements RequestHandler<SQSEvent, Void> {
     public static void main(String[] args) {
 
         String dbPrimaryKey = "Alias";
+
         TableWriteItems items = new TableWriteItems("Users");
 
         for(int i =0 ; i < 10000; i ++){
-            String userName = "@user"+ i;
+            String userName = "@testUser"+ i;
             String firstName = "@user";
             String lastName = String.valueOf(i);
             String profileImage = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pngitem.com%2Fmiddle%2FwomThJ_ash-ketchum-hd-png-download%2F&psig=AOvVaw2h43_Bi3x5gdd1y2tRmAhq&ust=1616605412770000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCJjVytTyxu8CFQAAAAAdAAAAABAL";
+            //later add this with BatchAdd
             Item item = new Item().withPrimaryKey(dbPrimaryKey, userName).withString("FirstName", firstName).withString("ImageUrl", profileImage).withString("LastName", lastName);
+
+            //table.putItem(item);
+
             items.addItemToPut(item);
-
-             if(i - 1 % 25 == 0){
-            //then add a list for the Batch
-                 loopBatchWriter(items);
-                 items = new TableWriteItems("Users");
-             }
+            if(items.getItemsToPut() != null && items.getItemsToPut().size() == 25){
+                //then add a list for the Batch
+                loopBatchWriter(items);
+                items = new TableWriteItems("Users");
+            }
         }
 
-        if(items.getItemsToPut() !=null && items.getItemsToPut().size() == 25){
-            loopBatchWriter(items);
-            items = new TableWriteItems("Users");
-        }
         if (items.getItemsToPut() != null && items.getItemsToPut().size() > 0) {
             loopBatchWriter(items);
         }
+    }
 
-        //Thgis will be for Followers
-        for(int i =0; i < 10000; i++){
-            //create a test user have 100000 followers
-            String userName = "@user"+ i;
+    private static void loopBatchWriter(TableWriteItems items){
+        BatchWriteItemOutcome outcome = dynamoDB.batchWriteItem(items);
+        //logger.log("Wrote User Batch");
 
-            if(i - 1 % 25 == 0){
-                //then add a list for the Batch
-            }
+        while (outcome.getUnprocessedItems().size() > 0) {
+            Map<String, List<WriteRequest>> unprocessedItems = outcome.getUnprocessedItems();
+            outcome = dynamoDB.batchWriteItemUnprocessed(unprocessedItems);
+            //   logger.log("Wrote more Users");
         }
     }
 }
