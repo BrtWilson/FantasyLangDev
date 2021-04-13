@@ -11,7 +11,6 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.SQSEvent;
 import com.amazonaws.services.sqs.model.MessageAttributeValue;
-import com.example.server.dao.dbstrategies.DynamoDBStrategy;
 import com.example.server.service.FollowerService;
 import com.example.shared.model.service.request.NewStatusRequest;
 import com.example.shared.model.service.response.FollowerResponse;
@@ -65,21 +64,20 @@ public class BatchFeedUpdater implements RequestHandler<SQSEvent, Void> {
 
 
     private static AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard()
-            .withRegion("us-east-1")
+            .withRegion("us-west-2")
             .build();
     private static DynamoDB dynamoDB = new DynamoDB(client);
 
-
-
     //Generating Data to DB
     public static void main(String[] args) {
+
 
         String dbPrimaryKey = "Alias";
 
         TableWriteItems items = new TableWriteItems("Users");
 
-        for(int i =0 ; i < 10000; i ++){
-            String userName = "@testUser"+ i;
+        for(int i =0 ; i < 2; i ++){
+            String userName = "@blakeJ"+ i;
             String firstName = "@user";
             String lastName = String.valueOf(i);
             String profileImage = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pngitem.com%2Fmiddle%2FwomThJ_ash-ketchum-hd-png-download%2F&psig=AOvVaw2h43_Bi3x5gdd1y2tRmAhq&ust=1616605412770000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCJjVytTyxu8CFQAAAAAdAAAAABAL";
