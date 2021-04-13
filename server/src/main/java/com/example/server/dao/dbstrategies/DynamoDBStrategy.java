@@ -2,12 +2,14 @@ package com.example.server.dao.dbstrategies;
 
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
+import com.amazonaws.services.dynamodbv2.document.BatchWriteItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Item;
 import com.amazonaws.services.dynamodbv2.document.ItemCollection;
 import com.amazonaws.services.dynamodbv2.document.PutItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.QueryOutcome;
 import com.amazonaws.services.dynamodbv2.document.Table;
+import com.amazonaws.services.dynamodbv2.document.TableWriteItems;
 import com.amazonaws.services.dynamodbv2.document.UpdateItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.spec.GetItemSpec;
 import com.amazonaws.services.dynamodbv2.document.spec.QuerySpec;
@@ -17,6 +19,7 @@ import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.QueryRequest;
 import com.amazonaws.services.dynamodbv2.model.QueryResult;
 import com.amazonaws.services.dynamodbv2.model.ReturnValue;
+import com.amazonaws.services.dynamodbv2.model.WriteRequest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,6 +32,64 @@ public class DynamoDBStrategy {
     private static AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard().withRegion("us-east-1").build();
     private static DynamoDB dynamoDB = new DynamoDB(client);
     private static final String SERVER_SIDE_ERROR = "Server_Error";
+
+    /**
+     * Uploads a batch of items sharing attributes to a given table
+     * Note that the only thing differing from item to item is the Partition Key
+     * @param tableName table to which the items are being sent
+     * @param key name of the table's Partition Key
+     * @param partitionKeyList the list of partition key values that distinguish the items
+     * @param sortKey the sort key name for this table
+     * @param sortKeyValue the value of the common sort key
+     * @param attributeNames the list of attribute names for these items
+     * @param attributeValues the values for each attribute
+     * @param batchSize the to upload each batch as
+     */
+
+    public static void batchUploadWithDualKey(String tableName, String key, List<String> partitionKeyList, String sortKey, String sortKeyValue, List<String> attributeNames, List<String> attributeValues, int batchSize) {
+        TableWriteItems items = new TableWriteItems(tableName);
+        for(int i = 0 ; i < partitionKeyList.size(); i ++){
+            String timeStamp;
+            String message;
+            String statusCorrespondingUser;
+            String profileImage = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pngitem.com%2Fmiddle%2FwomThJ_ash-ketchum-hd-png-download%2F&psig=AOvVaw2h43_Bi3x5gdd1y2tRmAhq&ust=1616605412770000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCJjVytTyxu8CFQAAAAAdAAAAABAL";
+            //later add this with BatchAdd
+            /*
+            if (sortKey == null) {
+                Item item = new Item().withPrimaryKey(key, partitionKeyList.get(i));
+            } else {
+             */
+            Item item = new Item().withPrimaryKey(key, partitionKeyList.get(i), sortKey, sortKeyValue);
+            for (int j = 0; j < attributeValues.size(); j++) {
+                //Note that these will be the same for each item
+                if (j < attributeNames.size()) {
+                    item.withString(attributeNames.get(j), attributeValues.get(j));
+                }
+            }
+            items = new TableWriteItems(tableName);
+            items.addItemToPut(item);
+            if(items.getItemsToPut() != null && items.getItemsToPut().size() == batchSize){
+                //then add a list for the Batch
+                loopBatchWriter(items);
+            }
+        }
+
+        if (items.getItemsToPut() != null && items.getItemsToPut().size() > 0) {
+            loopBatchWriter(items);
+        }
+    }
+
+    private static void loopBatchWriter(TableWriteItems items){
+        BatchWriteItemOutcome outcome = dynamoDB.batchWriteItem(items);
+        //logger.log("Wrote User Batch");
+
+        while (outcome.getUnprocessedItems().size() > 0) {
+            Map<String, List<WriteRequest>> unprocessedItems = outcome.getUnprocessedItems();
+            outcome = dynamoDB.batchWriteItemUnprocessed(unprocessedItems);
+            //   logger.log("Wrote more Users");
+        }
+    }
+
 
     public static Item basicQueryWithKey(String targetTable, String key, String keyValue) throws Exception {
 
