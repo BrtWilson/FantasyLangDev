@@ -16,6 +16,7 @@ import com.example.shared.model.service.response.RegisterResponse;
 import com.example.shared.model.service.response.UserResponse;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class UsersTableDAO {
     //DummyDataProvider dataProvider = DummyDataProvider.getInstance();
@@ -80,7 +81,7 @@ public class UsersTableDAO {
                 return new RegisterResponse(registeredUser, token, true);
             }
         } catch (Exception e) {
-            return new RegisterResponse(SERVER_SIDE_ERROR + ": " + e.getMessage() + "\nStack: " + e.getStackTrace(), false);
+            return new RegisterResponse(SERVER_SIDE_ERROR + ": " + e.getMessage() + "\nStack: " + Arrays.toString(e.getStackTrace()), false);
         }
     }
 
