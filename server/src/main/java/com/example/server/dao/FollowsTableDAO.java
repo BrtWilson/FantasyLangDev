@@ -80,7 +80,7 @@ public class FollowsTableDAO {
         //TODO: verify whether this works, or if sortKey and partitionKey should stay normal
         System.out.println("Followers targetAlias: " + targetAlias + " and " + lastRetrieved);
 
-        ResultsPage resultsPage = getDatabaseInteractor().getListByString(tableName, sortKey, lastRetrieved, pageSize, partionKey, targetAlias, true, "FolloweeAlias-FollowerAlias-index");
+        ResultsPage resultsPage = getDatabaseInteractor().getListByString(tableName, sortKey, targetAlias, pageSize, partionKey, lastRetrieved, true, "FolloweeAlias-FollowerAlias-index");
         boolean hasMorePages = (resultsPage.hasLastKey());
         String newLastRetrieved = resultsPage.getLastKey();
         List<User> usersList = ListTypeItemTransformer.transformToUser(resultsPage.getValues());

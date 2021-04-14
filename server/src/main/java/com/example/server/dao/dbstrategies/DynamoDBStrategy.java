@@ -244,7 +244,7 @@ public class DynamoDBStrategy {
      */
     public static ResultsPage getListByString(String tableName, String targetAttribute, String attributeValue, int pageSize, String attributeToRetrieve, String lastRetrieved, Boolean byIndex, String indexName) {
         ResultsPage result = new ResultsPage();
-        System.out.println("Table " + tableName + " Partion Key" + targetAttribute  + " P Value" + attributeValue  + " Sort" + attributeToRetrieve  + " S Value" + lastRetrieved);
+        System.out.println("Table " + tableName + " Partion Key " + targetAttribute  + " P Value " + attributeValue  + " Sort " + attributeToRetrieve  + " Sort Value " + lastRetrieved);
 
         Map<String, String> attrNames = new HashMap<String, String>();
         attrNames.put("#att", targetAttribute);
