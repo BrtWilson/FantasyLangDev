@@ -141,6 +141,9 @@ public class DynamoDBStrategy {
     }
 
 
+    public DynamoDBStrategy() {
+    }
+
     public static Item basicQueryWithKey(String targetTable, String key, String keyValue) throws Exception {
 
         Table table = dynamoDB.getTable(targetTable);
