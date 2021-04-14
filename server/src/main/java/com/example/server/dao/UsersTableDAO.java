@@ -1,5 +1,6 @@
 package com.example.server.dao;
 
+import com.amazonaws.services.dynamodbv2.document.Item;
 import com.example.server.dao.dbstrategies.DynamoDBStrategy;
 import com.example.shared.model.domain.AuthToken;
 import com.example.shared.model.domain.User;
@@ -37,6 +38,7 @@ public class UsersTableDAO {
     public UserResponse getUserByAlias(UserRequest userRequest) {
         try {
             User retrievedUser = (User) DynamoDBStrategy.basicGetItem(tableName, keyAttribute, userRequest.getAlias());
+
             return new UserResponse(retrievedUser);
         } catch (Exception e) {
             return new UserResponse(SERVER_SIDE_ERROR + ": " + e.getMessage() + "\nStack: " + Arrays.toString(e.getStackTrace()));
@@ -45,8 +47,17 @@ public class UsersTableDAO {
 
     public LoginResponse login(LoginRequest request) {
         try {
-            User retrievedUser = (User) DynamoDBStrategy.basicGetItem(tableName, keyAttribute, request.getUsername());
+            Item retrievedUser = DynamoDBStrategy.basicGetItem(tableName,keyAttribute,request.getUsername());
+
             if (retrievedUser != null) {
+
+                User tempUser = new User();
+                tempUser.setAlias(retrievedUser.getString(keyAttribute));
+                tempUser.setFirstName(retrievedUser.getString(attributeFirstName));
+                tempUser.setLastName(retrievedUser.getString(attributeLastName));
+                tempUser.setFolloweeCount(retrievedUser.getString(attributeFolloweeCount));
+
+
                 if (retrievedUser.getPassword() == request.getPassword()) { // Note that hashing has already happened in the Services
                     AuthTableDAO authTableDAO = new AuthTableDAO();
                     AuthToken token = authTableDAO.startingAuth(request.getUsername());
@@ -125,20 +136,20 @@ public class UsersTableDAO {
         return true;
     }
 
-    private String getUserFollowerCount(String usarAlias) {
-        User currentUser = (User) DynamoDBStrategy.basicGetItem(tableName,keyAttribute,usarAlias);
-        return currentUser.getFollowerCount();
+    private String getUserFollowerCount(String userAlias) {
+        Item currentUser = DynamoDBStrategy.basicGetItem(tableName,keyAttribute,userAlias);
+        return currentUser.getString(attributeFollowerCount);
     }
 
-    private String getUserFolloweeCount(String usarAlias) {
-        User currentUser = (User) DynamoDBStrategy.basicGetItem(tableName,keyAttribute,usarAlias);
-        return currentUser.getFolloweeCount();
+    private String getUserFolloweeCount(String userAlias) {
+        Item currentUser = DynamoDBStrategy.basicGetItem(tableName,keyAttribute,userAlias);
+        return currentUser.getString(attributeFolloweeCount);
     }
 
     public boolean follow(FollowStatusRequest request) throws Exception {
         Integer followerCount = Integer.parseInt(getUserFollowerCount(request.getOtherUser())) + 1;
         Integer followeeCount = Integer.parseInt(getUserFolloweeCount(request.getCurrentUser())) + 1;
-        DynamoDBStrategy.updateItemStringAttribute(tableName, keyAttribute, request.getOtherUser(), attributeFollowerCount, followerCount.toString());
+        DynamoDBStrategy.updateItemStringAttribute(tableName, keyAttribute, request.getCurrentUser(), attributeFollowerCount, followerCount.toString());
         DynamoDBStrategy.updateItemStringAttribute(tableName, keyAttribute, request.getOtherUser(), attributeFolloweeCount, followeeCount.toString());
         return true;
     }

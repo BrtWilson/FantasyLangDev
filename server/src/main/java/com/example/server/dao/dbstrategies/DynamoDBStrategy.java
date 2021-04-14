@@ -414,7 +414,7 @@ public class DynamoDBStrategy {
      * returns the desired object
      */
     //Use for GetUserByAlias
-    public static Object basicGetItem(String tableName, String key, String keyValue) {
+    public static Item basicGetItem(String tableName, String key, String keyValue) {
         Table table = dynamoDB.getTable(tableName);
 
         GetItemSpec spec = new GetItemSpec().withPrimaryKey(key, keyValue);
