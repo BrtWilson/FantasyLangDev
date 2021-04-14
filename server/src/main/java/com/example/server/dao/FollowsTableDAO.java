@@ -29,6 +29,7 @@ public class FollowsTableDAO {
         pageSize = request.getLimit();
         verifyRequestLimit(request.getLimit());
         verifyRequestUserAlias(request.getUserAlias());
+        System.out.println("User: " + request.getUserAlias() + " LastFollower: " +request.getLastFollowerAlias());
         return retrieveFollowers(request.getUserAlias(), request.getLastFollowerAlias());
     }
 
@@ -53,6 +54,8 @@ public class FollowsTableDAO {
         verifyRequestLimit(request.getLimit());
         verifyRequestUserAlias(request.getFollowingAlias());
 
+        System.out.println("User: " + request.getFollowingAlias() + " LastFollower: " +request.getLastFolloweeAlias());
+
         return retrieveFollowees(request.getFollowingAlias(), request.getLastFolloweeAlias());
     }
 
@@ -62,7 +65,9 @@ public class FollowsTableDAO {
     //}
 
     private FollowingResponse retrieveFollowees(String targetAlias, String lastRetrieved) {
-        ResultsPage resultsPage = getDatabaseInteractor().getListByString(tableName, partionKey, targetAlias, pageSize, sortKey, lastRetrieved);
+        System.out.println("Followees targetAlias: " + targetAlias + " and " + lastRetrieved);
+
+        ResultsPage resultsPage = getDatabaseInteractor().getListByString(tableName, partionKey, targetAlias, pageSize, sortKey, lastRetrieved, false, null);
         boolean hasMorePages = (resultsPage.hasLastKey());
         String newLastRetrieved = resultsPage.getLastKey();
         List<User> usersList = ListTypeItemTransformer.transformToUser(resultsPage.getValues());
@@ -72,7 +77,9 @@ public class FollowsTableDAO {
 
     private FollowerResponse retrieveFollowers(String targetAlias, String lastRetrieved) {
         //TODO: verify whether this works, or if sortKey and partitionKey should stay normal
-        ResultsPage resultsPage = getDatabaseInteractor().getListByString(tableName, sortKey, targetAlias, pageSize, partionKey, lastRetrieved, true, sortKey);
+        System.out.println("Followers targetAlias: " + targetAlias + " and " + lastRetrieved);
+
+        ResultsPage resultsPage = getDatabaseInteractor().getListByString(tableName, sortKey, lastRetrieved, pageSize, partionKey, targetAlias, true, "FolloweeAlias-FollowerAlias-index");
         boolean hasMorePages = (resultsPage.hasLastKey());
         String newLastRetrieved = resultsPage.getLastKey();
         List<User> usersList = ListTypeItemTransformer.transformToUser(resultsPage.getValues());

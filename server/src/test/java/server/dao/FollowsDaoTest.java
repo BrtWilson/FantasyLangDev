@@ -70,10 +70,10 @@ public class FollowsDaoTest {
 
         // Setup a mock ServerFacade that will return known responses
         successFollowerResponse = new FollowerResponse(Arrays.asList(resultUser1, resultUser2, resultUser3), false, null);
-        FollowsTableDAO mockFollowsDao = Mockito.mock(FollowsTableDAO.class);
+        //FollowsTableDAO mockFollowsDao = Mockito.mock(FollowsTableDAO.class);
 //        DynamoDBStrategy mockDatabaseInteractor = Mockito.mock(DynamoDBStrategy.class);
 //        Mockito.when(mockFollowsDao.getDatabaseInteractor()).thenReturn(mockDatabaseInteractor);
-        Mockito.when(mockFollowsDao.getFollowers(validFollowerRequest)).thenReturn(successFollowerResponse);
+        //Mockito.when(mockFollowsDao.getFollowers(validFollowerRequest)).thenReturn(successFollowerResponse);
 
 
         // Setup request objects to use in the tests
@@ -82,17 +82,17 @@ public class FollowsDaoTest {
 
         // Setup a mock ServerFacade that will return known responses
         successFollowingResponse = new FollowingResponse(Arrays.asList(resultUser1, resultUser2, resultUser3), false);
-        Mockito.when(mockFollowsDao.getFollowees(validFollowingRequest)).thenReturn(successFollowingResponse);
+        //Mockito.when(mockFollowsDao.getFollowees(validFollowingRequest)).thenReturn(successFollowingResponse);
 
         failureFollowingResponse = new FollowingResponse("An exception occurred");
-        Mockito.when(mockFollowsDao.getFollowees(invalidFollowingRequest)).thenReturn(failureFollowingResponse);
+        //Mockito.when(mockFollowsDao.getFollowees(invalidFollowingRequest)).thenReturn(failureFollowingResponse);
 
         followStatusRequest1 = new FollowStatusRequest(currentUser.getAlias(), currentUser2.getAlias(), FollowStatusRequest.GET, new AuthToken(currentUser.getAlias()));
         followStatusRequest2 = new FollowStatusRequest(currentUser2.getAlias(), currentUser.getAlias(), FollowStatusRequest.GET, new AuthToken(currentUser2.getAlias()));
         followStatusResponse1 = new FollowStatusResponse(true);
-        Mockito.when(mockFollowsDao.getFollowStatus(followStatusRequest1)).thenReturn(followStatusResponse1);
+        //Mockito.when(mockFollowsDao.getFollowStatus(followStatusRequest1)).thenReturn(followStatusResponse1);
         followStatusResponse1 = new FollowStatusResponse(false);
-        Mockito.when(mockFollowsDao.getFollowStatus(followStatusRequest2)).thenReturn(followStatusResponse2);
+        //Mockito.when(mockFollowsDao.getFollowStatus(followStatusRequest2)).thenReturn(followStatusResponse2);
 
         // Create a FollowerService instance and wrap it with a spy that will use the mock service
         followsDaoSpy = Mockito.spy(new FollowsTableDAO());

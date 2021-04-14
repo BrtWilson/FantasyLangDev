@@ -63,8 +63,8 @@ public class StoryDaoTest {
         StoryTableDAO mockDao = Mockito.mock(StoryTableDAO.class);
 //        mockDatabaseInteractor = Mockito.mock(DynamoDBStrategy.class);
 //        Mockito.when(mockDao.getDatabaseInteractor()).thenReturn(mockDatabaseInteractor);
-        Mockito.when(mockDao.postNewStatus(validRequest1)).thenReturn(successResponse1);
-        Mockito.when(mockDao.postNewStatus(validRequest2)).thenReturn(successResponse2);
+      //  Mockito.when(mockDao.postNewStatus(validRequest1)).thenReturn(successResponse1);
+      //  Mockito.when(mockDao.postNewStatus(validRequest2)).thenReturn(successResponse2);
 
         // Setup request objects to use in the tests
         validArrayRequest = new StatusArrayRequest(resultUser1.getAlias(), 3, null);
@@ -72,10 +72,10 @@ public class StoryDaoTest {
 
         // Setup a mock ServerFacade that will return known responses
         successArrayResponse = new StatusArrayResponse(Arrays.asList(resultStatus1, resultStatus2, resultStatus3), true, null);
-        Mockito.when(mockDao.getStatusArray(validArrayRequest)).thenReturn(successArrayResponse);
+        //Mockito.when(mockDao.getStatusArray(validArrayRequest)).thenReturn(successArrayResponse);
 
         failureArrayResponse = new StatusArrayResponse("An exception occurred");
-        Mockito.when(mockDao.getStatusArray(invalidArrayRequest)).thenReturn(failureArrayResponse);
+        //Mockito.when(mockDao.getStatusArray(invalidArrayRequest)).thenReturn(failureArrayResponse);
 
         statusesDAO = Mockito.spy(new StoryTableDAO());
 

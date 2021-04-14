@@ -81,10 +81,10 @@ public class FeedDaoTest {
 
         // Setup a mock ServerFacade that will return known responses
         successArrayResponse = new StatusArrayResponse(Arrays.asList(resultStatus1, resultStatus2, resultStatus3), true, null);
-        Mockito.when(mockDao.getStatusArray(validArrayRequest)).thenReturn(successArrayResponse);
+       // Mockito.when(mockDao.getStatusArray(validArrayRequest)).thenReturn(successArrayResponse);
 
         failureArrayResponse = new StatusArrayResponse("An exception occurred");
-        Mockito.when(mockDao.getStatusArray(invalidArrayRequest)).thenReturn(failureArrayResponse);
+        //Mockito.when(mockDao.getStatusArray(invalidArrayRequest)).thenReturn(failureArrayResponse);
 
         statusesDAO = Mockito.spy(new FeedTableDAO());
     }

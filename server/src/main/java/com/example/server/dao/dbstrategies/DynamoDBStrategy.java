@@ -219,6 +219,8 @@ public class DynamoDBStrategy {
     }*/
 
     public static ResultsPage getListByString(String tableName, String targetAttribute, String attributeValue, int pageSize, String attributeToRetrieve, String lastRetrieved) {
+        System.out.println("Table #2 " + tableName + " Partion Key" + targetAttribute  + " P Value" + attributeValue  + " Sort" + attributeToRetrieve  + " S Value" + lastRetrieved);
+
         return getListByString(tableName, targetAttribute, attributeValue, pageSize, attributeToRetrieve, lastRetrieved, false, null);
     }
 
@@ -238,6 +240,7 @@ public class DynamoDBStrategy {
      */
     public static ResultsPage getListByString(String tableName, String targetAttribute, String attributeValue, int pageSize, String attributeToRetrieve, String lastRetrieved, Boolean byIndex, String indexName) {
         ResultsPage result = new ResultsPage();
+        System.out.println("Table " + tableName + " Partion Key" + targetAttribute  + " P Value" + attributeValue  + " Sort" + attributeToRetrieve  + " S Value" + lastRetrieved);
 
         Map<String, String> attrNames = new HashMap<String, String>();
         attrNames.put("#att", targetAttribute);
@@ -281,6 +284,10 @@ public class DynamoDBStrategy {
 
         return result;
     }
+
+    //Table followTable = dynamoDB.getTable("follows");
+    //Index index = followTable.getIndex("follows_index");
+
 
     private static Map<String, String> convertMap_to_WithStrings(Map<String, AttributeValue> item) {
         Map<String, String> newMap = new HashMap<>();
