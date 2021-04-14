@@ -1,5 +1,6 @@
 package com.example.server.dao;
 
+import com.amazonaws.services.dynamodbv2.document.Item;
 import com.example.server.dao.dbstrategies.DynamoDBStrategy;
 import com.example.shared.model.domain.AuthToken;
 import com.example.shared.model.domain.User;
@@ -35,8 +36,18 @@ public class UsersTableDAO {
 
     public UserResponse getUserByAlias(UserRequest userRequest) {
         try {
-            User retrievedUser = (User) DynamoDBStrategy.basicGetItem(tableName, keyAttribute, userRequest.getAlias());
-            return new UserResponse(retrievedUser);
+            Item retrievedUser = (Item) DynamoDBStrategy.basicGetItem(tableName, keyAttribute, userRequest.getAlias());
+            User tempUser = new User();
+
+            tempUser.setAlias(retrievedUser.getString(keyAttribute));
+            tempUser.setFirstName(retrievedUser.getString(attributeFirstName));
+            tempUser.setLastName(retrievedUser.getString(attributeLastName));
+            tempUser.setPassword(retrievedUser.getString(attributePassword));
+            tempUser.setFolloweeCount(retrievedUser.getString(attributeFolloweeCount));
+            tempUser.setFollowerCount(retrievedUser.getString(attributeFollowerCount));
+            tempUser.setImageUrl(retrievedUser.getString(attributeImageUrl));
+
+            return new UserResponse(tempUser);
         } catch (Exception e) {
             return new UserResponse(e.getMessage());
         }
@@ -44,12 +55,21 @@ public class UsersTableDAO {
 
     public LoginResponse login(LoginRequest request) {
         try {
-            User retrievedUser = (User) DynamoDBStrategy.basicGetItem(tableName, keyAttribute, request.getUsername());
+            Item retrievedUser = (Item) DynamoDBStrategy.basicGetItem(tableName, keyAttribute, request.getUsername());
             if (retrievedUser != null) {
-                if (retrievedUser.getPassword() == request.getPassword()) { // Note that hashing has already happened in the Services
+                User tempUser = new User();
+                tempUser.setAlias(retrievedUser.getString(keyAttribute));
+                tempUser.setFirstName(retrievedUser.getString(attributeFirstName));
+                tempUser.setLastName(retrievedUser.getString(attributeLastName));
+                tempUser.setPassword(retrievedUser.getString(attributePassword));
+                tempUser.setFolloweeCount(retrievedUser.getString(attributeFolloweeCount));
+                tempUser.setFollowerCount(retrievedUser.getString(attributeFollowerCount));
+                tempUser.setImageUrl(retrievedUser.getString(attributeImageUrl));
+
+                if (tempUser.getPassword() == request.getPassword()) { // Note that hashing has already happened in the Services
                     AuthTableDAO authTableDAO = new AuthTableDAO();
                     AuthToken token = authTableDAO.startingAuth(request.getUsername());
-                    return new LoginResponse(retrievedUser, token);
+                    return new LoginResponse(tempUser, token);
                 } else { return new LoginResponse(FAULTY_USER_REQUEST + ": Password does not match."); }
             } else { return new LoginResponse(FAULTY_USER_REQUEST + ": User does not exist."); }
 
