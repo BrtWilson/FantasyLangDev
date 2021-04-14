@@ -16,6 +16,7 @@ import com.example.shared.model.service.response.RegisterResponse;
 import com.example.shared.model.service.response.UserResponse;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class UsersTableDAO {
     //DummyDataProvider dataProvider = DummyDataProvider.getInstance();
@@ -38,7 +39,7 @@ public class UsersTableDAO {
             User retrievedUser = (User) DynamoDBStrategy.basicGetItem(tableName, keyAttribute, userRequest.getAlias());
             return new UserResponse(retrievedUser);
         } catch (Exception e) {
-            return new UserResponse(SERVER_SIDE_ERROR + ": " + e.getMessage() + "\nStack: " + e.getStackTrace());
+            return new UserResponse(SERVER_SIDE_ERROR + ": " + e.getMessage() + "\nStack: " + Arrays.toString(e.getStackTrace()));
         }
     }
 
@@ -54,7 +55,7 @@ public class UsersTableDAO {
             } else { return new LoginResponse(FAULTY_USER_REQUEST + ": User does not exist."); }
 
         } catch (Exception e) {
-            return new LoginResponse(SERVER_SIDE_ERROR + ": " + e.getMessage() + "\nStack: " + e.getStackTrace());
+            return new LoginResponse(SERVER_SIDE_ERROR + ": " + e.getMessage() + "\nStack: " + Arrays.toString(e.getStackTrace()));
         }
     }
 
@@ -80,7 +81,7 @@ public class UsersTableDAO {
                 return new RegisterResponse(registeredUser, token, true);
             }
         } catch (Exception e) {
-            return new RegisterResponse(SERVER_SIDE_ERROR + ": " + e.getMessage() + "\nStack: " + e.getStackTrace(), false);
+            return new RegisterResponse(SERVER_SIDE_ERROR + ": " + e.getMessage() + "\nStack: " + Arrays.toString(e.getStackTrace()), false);
         }
     }
 
