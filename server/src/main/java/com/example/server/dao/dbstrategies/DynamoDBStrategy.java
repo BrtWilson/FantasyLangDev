@@ -54,7 +54,7 @@ public class DynamoDBStrategy {
             if (sortKeyList != null) {
                 sortKeyValue = sortKeyList.get(i);
             }
-            bacthUpload(items, tableName, key, partitionKeyList.get(i), sortKey, sortKeyValue, attributeNames, attributeValuesList.get(i), batchSize);
+            items = bacthUpload(items, tableName, key, partitionKeyList.get(i), sortKey, sortKeyValue, attributeNames, attributeValuesList.get(i), batchSize);
         }
 
         if (items.getItemsToPut() != null && items.getItemsToPut().size() > 0) {
@@ -79,7 +79,7 @@ public class DynamoDBStrategy {
         TableWriteItems items = new TableWriteItems(tableName);
         for(int i = 0 ; i < sortKeyList.size(); i ++){
             //later add this with BatchAdd
-            bacthUpload(items, tableName, key, partitionValue, sortKey, sortKeyList.get(i), attributeNames, attributeValues, batchSize);
+            items = bacthUpload(items, tableName, key, partitionValue, sortKey, sortKeyList.get(i), attributeNames, attributeValues, batchSize);
         }
 
         if (items.getItemsToPut() != null && items.getItemsToPut().size() > 0) {
@@ -104,7 +104,7 @@ public class DynamoDBStrategy {
         TableWriteItems items = new TableWriteItems(tableName);
         for(int i = 0 ; i < partitionKeyList.size(); i ++){
             //later add this with BatchAdd
-            bacthUpload(items, tableName, key, partitionKeyList.get(i), sortKey, sortKeyValue, attributeNames, attributeValues, batchSize);
+            items = bacthUpload(items, tableName, key, partitionKeyList.get(i), sortKey, sortKeyValue, attributeNames, attributeValues, batchSize);
         }
 
         if (items.getItemsToPut() != null && items.getItemsToPut().size() > 0) {
@@ -125,7 +125,7 @@ public class DynamoDBStrategy {
                 item.withString(attributeNames.get(j), attributeValues.get(j));
             }
         }
-        items = new TableWriteItems(tableName);
+        //items = new TableWriteItems(tableName);
         items.addItemToPut(item);
         if(items.getItemsToPut() != null && items.getItemsToPut().size() == batchSize){
             //then add a list for the Batch
@@ -336,7 +336,7 @@ public class DynamoDBStrategy {
         return true;
     }
 
-    public static void createItemWithDualKey(String tableName, String key, String keyValue, String sortKey, Object sortKeyValue) {
+    public static void createItemWithDualKey(String tableName, String key, String keyValue, String sortKey, String sortKeyValue) {
         createItemWithDualKey(tableName, key, keyValue, sortKey, sortKeyValue, false, null, null);
     }
         //Use for creating AuthToken
@@ -348,7 +348,7 @@ public class DynamoDBStrategy {
      * @param sortKey The secondary or sort key name of the match object
      * @param sortKeyValue The secondary or sort key value of the match object
      */
-    public static void createItemWithDualKey(String tableName, String key, String keyValue, String sortKey, Object sortKeyValue, boolean withAttributes, String attributeName, String attributeValue) {
+    public static void createItemWithDualKey(String tableName, String key, String keyValue, String sortKey, String sortKeyValue, boolean withAttributes, String attributeName, String attributeValue) {
         Table table = dynamoDB.getTable(tableName);
 
         /*
@@ -376,7 +376,7 @@ public class DynamoDBStrategy {
     }
 
     //Probably not needed
-    public static void createItemWithDualKeyAndAttributes(String tableName, String key, String keyValue, String sortKey, Object sortKeyValue, List<String> attributeNames, List<String> attributeValues) {
+    public static void createItemWithDualKeyAndAttributes(String tableName, String key, String keyValue, String sortKey, String sortKeyValue, List<String> attributeNames, List<String> attributeValues) {
         Table table = dynamoDB.getTable(tableName);
         int attValueListSize = attributeValues.size();
 
@@ -423,7 +423,7 @@ public class DynamoDBStrategy {
 
     }
 
-    public static Object basicGetItemWithDualKey(String tableName, String primaryKey, String pkeyValue, String sortKey, String sortValue) {
+    public static Item basicGetItemWithDualKey(String tableName, String primaryKey, String pkeyValue, String sortKey, String sortValue) {
         Table table = dynamoDB.getTable(tableName);
 
         GetItemSpec spec = new GetItemSpec().withPrimaryKey(primaryKey, pkeyValue, sortKey, sortValue);

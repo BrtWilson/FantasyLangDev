@@ -48,10 +48,10 @@ public class SetupBatchUploader {
 
     //Generating Data to DB
     public static void main(String[] args) throws Exception {
-       // uploadOurUsers();
-       // uploadOurFeeds();
-       // uploadOurStory(standardUserAlias);
-        updateImages();
+        //uploadOurUsers();
+        uploadOurFeeds();
+        uploadOurStory(standardUserAlias);
+        //updateImages();
     }
 
     private static void updateImages() throws Exception {
@@ -401,7 +401,7 @@ public class SetupBatchUploader {
         ourStory.add(status6b);
         Status status7b = new Status("No, I am Melon Lord.", "1349339576",userAlias);
         ourStory.add(status7b);
-        Status status8b = new Status("@SparkySparkyBoomMan", "1349334576",userAlias);
+        Status status8b = new Status("@SparkySparkyBoomMan", "1349343576",userAlias);
         ourStory.add(status8b);
         Status status9b = new Status("https://youtu.be/vYud9sZ91Mc", "1349353576",userAlias);
         ourStory.add(status9b);
