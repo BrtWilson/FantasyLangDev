@@ -8,6 +8,7 @@ import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.util.Base64;
 import com.example.server.dao.UsersTableDAO;
 import com.example.shared.model.service.IRegisterService;
 import com.example.shared.model.service.request.RegisterRequest;
@@ -15,11 +16,8 @@ import com.example.shared.model.service.response.RegisterResponse;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.Base64;
 import java.util.Map;
 import java.util.TreeMap;
-
-import sun.misc.BASE64Decoder;
 
 public class RegisterService implements IRegisterService {
 
@@ -42,17 +40,18 @@ public class RegisterService implements IRegisterService {
      */
     private String sendPhotoToS3(RegisterRequest request) {
 
+        if (request.getEncodedImage().equals(""))
+            return "";
         try {
             //decode image into byte array stream
             String encodedImage = request.getEncodedImage();
-            BASE64Decoder decoder = new BASE64Decoder();
-            byte[] imageBytes = decoder.decodeBuffer(encodedImage);
+            byte[] imageBytes = Base64.decode(encodedImage);
             ByteArrayInputStream byteStream = new ByteArrayInputStream(imageBytes);
 
             //set photo metadata
             ObjectMetadata metadata = new ObjectMetadata();
             Map<String,String> map = new TreeMap<>();
-            map.put("ImageType","PNG");
+            map.put("ImageType","JPG");
             metadata.setUserMetadata(map);
             metadata.setContentLength(imageBytes.length);
 
@@ -61,7 +60,7 @@ public class RegisterService implements IRegisterService {
 
             //set putObjectRequest params
             String bucketName = "jamesblakebrytontweeterimages";
-            String objKeyName = request.getUserName() + ".png";
+            String objKeyName = request.getUserName() + ".jpg";
             PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName,objKeyName,byteStream,metadata).withCannedAcl(CannedAccessControlList.PublicRead);
 
             //store photo in bucket
@@ -71,7 +70,7 @@ public class RegisterService implements IRegisterService {
 
             return  "https://jamesblakebrytontweeterimages.s3.amazonaws.com/%40" + objKeyName.substring(1);
         } catch (IOException e) {
-            return null;
+            return "";
         }
     }
 
