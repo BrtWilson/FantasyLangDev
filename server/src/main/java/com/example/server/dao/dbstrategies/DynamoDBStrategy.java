@@ -270,7 +270,8 @@ public class DynamoDBStrategy {
         if (items != null) {
             for (Map<String, AttributeValue> item : items){
                 AttributeValue returnedObject = item.get(attributeToRetrieve);
-                result.addValue(returnedObject.getS());
+                Map<String, String> newItem = convertMap_to_WithStrings(item);
+                result.addValue(newItem);
             }
         }
 
@@ -280,6 +281,14 @@ public class DynamoDBStrategy {
         }
 
         return result;
+    }
+
+    private static Map<String, String> convertMap_to_WithStrings(Map<String, AttributeValue> item) {
+        Map<String, String> newMap = new HashMap<>();
+        for (Map.Entry<String, AttributeValue> entry : item.entrySet()){
+            newMap.put(entry.getKey(), entry.getValue().toString());
+        }
+        return newMap;
     }
 
     private static boolean isNonEmptyString(String value) {

@@ -6,6 +6,7 @@ import com.example.shared.model.domain.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ListTypeItemTransformer {
 
@@ -20,7 +21,7 @@ public class ListTypeItemTransformer {
     private static final String attributeFollowerCount = "FollowerCount";
     private static final String attributeFolloweeCount = "FolloweeCount";
 
-    public static List<User> transformToUser(List<Object> values) {
+    public static List<User> transformToUser(List<Map<String, String>> values) {
         List<User> newList = new ArrayList();
         for (int i = 0; i < values.size(); i++) {
             newList.add( toUser(values.get(i)) );
@@ -28,18 +29,18 @@ public class ListTypeItemTransformer {
         return newList;
     }
 
-    private static User toUser(Item retrievedUser) {
+    private static User toUser(Map<String, String> retrievedUser) {
         User tempUser = new User();
-        tempUser.setAlias(retrievedUser.getString(partitionKey));
-        tempUser.setFirstName(retrievedUser.getString(attributeFirstName));
-        tempUser.setLastName(retrievedUser.getString(attributeLastName));
-        tempUser.setFolloweeCount(retrievedUser.getString(attributeFolloweeCount));
-        tempUser.setFollowerCount(retrievedUser.getString(attributeFollowerCount));
-        tempUser.setImageUrl(retrievedUser.getString(attributeImageUrl));
+        tempUser.setAlias(retrievedUser.get(partitionKey));
+        tempUser.setFirstName(retrievedUser.get(attributeFirstName));
+        tempUser.setLastName(retrievedUser.get(attributeLastName));
+        tempUser.setFolloweeCount(retrievedUser.get(attributeFolloweeCount));
+        tempUser.setFollowerCount(retrievedUser.get(attributeFollowerCount));
+        tempUser.setImageUrl(retrievedUser.get(attributeImageUrl));
         return tempUser;
     }
 
-    public static  List<Status> transformToStatus(List<Object> values) {
+    public static  List<Status> transformToStatus(List<Map<String, String>> values) {
         List<Status> newList = new ArrayList();
         for (int i = 0; i < values.size(); i++) {
             newList.add( toStatus(values.get(i) ));
@@ -47,7 +48,7 @@ public class ListTypeItemTransformer {
         return newList;
     }
 
-    private static Status toStatus(Item item) {
-        return new Status(item.getString(sortKey), item.getString(attributeMessage), item.getString(partitionKey));
+    private static Status toStatus(Map<String, String> item) {
+        return new Status(item.get(sortKey), item.get(attributeMessage), item.get(partitionKey));
     }
 }
