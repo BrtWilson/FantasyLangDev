@@ -1,4 +1,6 @@
 package com.example.server.dao.dbstrategies;
+import com.amazonaws.services.dynamodbv2.document.Item;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +32,7 @@ public class ResultsPage {
         return (values != null && values.size() > 0);
     }
 
-    public List<Object> getValues() {
+    public List<Item> getValues() {
         return values;
     }
 

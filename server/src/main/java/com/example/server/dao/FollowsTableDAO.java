@@ -2,7 +2,7 @@ package com.example.server.dao;
 
 import com.example.server.dao.dbstrategies.DynamoDBStrategy;
 import com.example.server.dao.dbstrategies.ResultsPage;
-import com.example.server.dao.util.ListTypeTransformer;
+import com.example.server.dao.util.ListTypeItemTransformer;
 import com.example.shared.model.domain.User;
 import com.example.shared.model.service.request.FollowStatusRequest;
 import com.example.shared.model.service.request.FollowerRequest;
@@ -65,7 +65,7 @@ public class FollowsTableDAO {
         ResultsPage resultsPage = DynamoDBStrategy.getListByString(tableName, partionKey, targetAlias, pageSize, sortKey, lastRetrieved);
         boolean hasMorePages = (resultsPage.hasLastKey());
         String newLastRetrieved = resultsPage.getLastKey();
-        List<User> usersList = ListTypeTransformer.transform(resultsPage.getValues(), User.class);
+        List<User> usersList = ListTypeItemTransformer.transformToUser(resultsPage.getValues());
         FollowingResponse response = new FollowingResponse(usersList, hasMorePages, newLastRetrieved);
         return response;
     }
@@ -75,7 +75,7 @@ public class FollowsTableDAO {
         ResultsPage resultsPage = DynamoDBStrategy.getListByString(tableName, sortKey, targetAlias, pageSize, partionKey, lastRetrieved, true, sortKey);
         boolean hasMorePages = (resultsPage.hasLastKey());
         String newLastRetrieved = resultsPage.getLastKey();
-        List<User> usersList = ListTypeTransformer.transform(resultsPage.getValues(), User.class);
+        List<User> usersList = ListTypeItemTransformer.transformToUser(resultsPage.getValues());
         FollowerResponse response = new FollowerResponse(usersList, hasMorePages, newLastRetrieved);
         return response;
     }

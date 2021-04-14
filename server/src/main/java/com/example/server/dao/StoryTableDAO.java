@@ -2,9 +2,8 @@ package com.example.server.dao;
 
 import com.example.server.dao.dbstrategies.DynamoDBStrategy;
 import com.example.server.dao.dbstrategies.ResultsPage;
-import com.example.server.dao.util.ListTypeTransformer;
+import com.example.server.dao.util.ListTypeItemTransformer;
 import com.example.shared.model.domain.Status;
-import com.example.shared.model.domain.User;
 import com.example.shared.model.service.request.NewStatusRequest;
 import com.example.shared.model.service.request.StatusArrayRequest;
 import com.example.shared.model.service.response.NewStatusResponse;
@@ -58,7 +57,7 @@ public class StoryTableDAO {
         ResultsPage resultsPage = DynamoDBStrategy.getListByString(tableName, partitionKey, targetAlias, pageSize, sortKey, lastRetrieved);
         boolean hasMorePages = (resultsPage.hasLastKey());
         String newLastRetrieved = resultsPage.getLastKey();
-        List<Status> statusList = ListTypeTransformer.transform(resultsPage.getValues(), Status.class);
+        List<Status> statusList = ListTypeItemTransformer.transformToStatus(resultsPage.getValues());
         StatusArrayResponse response = new StatusArrayResponse(statusList, hasMorePages, newLastRetrieved);
         return response;
     }
