@@ -56,21 +56,21 @@ public class UserDaoTest {
         UsersTableDAO mockDao = Mockito.mock(UsersTableDAO.class);
 //        DynamoDBStrategy mockDatabaseInteractor = Mockito.mock(DynamoDBStrategy.class);
 //        Mockito.when(mockDao.getDatabaseInteractor()).thenReturn(mockDatabaseInteractor);
-        Mockito.when(mockDao.getUserByAlias(validRequest)).thenReturn(successResponse);
+        //Mockito.when(mockDao.getUserByAlias(validRequest)).thenReturn(successResponse);
 
         failureResponse = new UserResponse("Password does not match.");
-        Mockito.when(mockDao.getUserByAlias(invalidRequest)).thenReturn(failureResponse);
+        //Mockito.when(mockDao.getUserByAlias(invalidRequest)).thenReturn(failureResponse);
 
         validLoginRequest = new LoginRequest(user.getAlias(), user.getPassword());
         invalidLoginRequest = new LoginRequest(user.getAlias(), "wrongPassword");
         validLogoutRequest = new LogoutRequest(user);
 
         loginSuccessResponse = new LoginResponse(user, new AuthToken());
-        Mockito.when(mockDao.login(validLoginRequest)).thenReturn(loginSuccessResponse);
-        Mockito.when(mockDao.logout(validLogoutRequest)).thenReturn(logoutResponse);
+        //Mockito.when(mockDao.login(validLoginRequest)).thenReturn(loginSuccessResponse);
+       // Mockito.when(mockDao.logout(validLogoutRequest)).thenReturn(logoutResponse);
 
         loginFailureResponse = new LoginResponse("Password does not match.");
-        Mockito.when(mockDao.login(invalidLoginRequest)).thenReturn(loginFailureResponse);
+        //Mockito.when(mockDao.login(invalidLoginRequest)).thenReturn(loginFailureResponse);
 
         logoutResponse = new BasicResponse(true, "Logout successful.");
 

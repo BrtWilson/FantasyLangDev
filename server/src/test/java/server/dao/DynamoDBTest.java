@@ -135,9 +135,12 @@ public class DynamoDBTest {
 
         deleteItemWithDualKey_Follows();
         deleteItemWithDualKey_Auth(date);
-        DynamoDBStrategy.deleteItem(usersTableName, partitionKey, tempAlias);
+        deleteItem(usersTableName, partitionKey, tempAlias);
     }
 
+    public void deleteItem(String tableName, String partitionKey_, String partitionKeyValue) {
+        DynamoDBStrategy.deleteItem(tableName, partitionKey_, partitionKeyValue);
+    }
 
     /*
     String tableName,
