@@ -36,7 +36,7 @@ public class RegisterService implements IRegisterService {
         if (response.isSuccess())
             sendPhotoToS3(encodedImage, request);
 
-        return getRegisterDao().register(request);
+        return response;
     }
 
     private String setImageURL(RegisterRequest registerRequest) {
@@ -46,7 +46,7 @@ public class RegisterService implements IRegisterService {
     /**
      * Decode and store the new user's profile image in the s3 bucket
      * @param request the register request object
-     * @return the URL for the new user's profile photo
+     * @param encodedImage a saved copy of the encoded string to be used if the register was successful
      */
     private void sendPhotoToS3(String encodedImage, RegisterRequest request) {
 
