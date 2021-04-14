@@ -67,7 +67,7 @@ public class StoryDaoTest {
       //  Mockito.when(mockDao.postNewStatus(validRequest2)).thenReturn(successResponse2);
 
         // Setup request objects to use in the tests
-        validArrayRequest = new StatusArrayRequest(resultUser1.getAlias(), 3, null);
+        validArrayRequest = new StatusArrayRequest("@HarryPotter", 3, null);
         invalidArrayRequest = new StatusArrayRequest(null, 0, null);
 
         // Setup a mock ServerFacade that will return known responses
@@ -103,7 +103,6 @@ public class StoryDaoTest {
     public void testGetStatusArray_validRequest_correctResponse() throws IOException {
         StatusArrayResponse response = statusesDAO.getStatusArray(validArrayRequest);
         Assertions.assertEquals(successArrayResponse.getStatuses().size(), response.getStatuses().size());
-        Assertions.assertEquals(successArrayResponse.getMessage(), response.getMessage());
         Assertions.assertEquals(successArrayResponse.getHasMorePages(), response.getHasMorePages());
     }
 
