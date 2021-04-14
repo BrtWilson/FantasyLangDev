@@ -2,8 +2,10 @@ package com.example.server.service;
 
 
 
+import com.amazonaws.services.dynamodbv2.xspec.B;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.example.server.dao.UsersTableDAO;
@@ -16,6 +18,8 @@ import java.io.IOException;
 import java.util.Base64;
 import java.util.Map;
 import java.util.TreeMap;
+
+import sun.misc.BASE64Decoder;
 
 public class RegisterService implements IRegisterService {
 
@@ -37,30 +41,38 @@ public class RegisterService implements IRegisterService {
      * @return the URL for the new user's profile photo
      */
     private String sendPhotoToS3(RegisterRequest request) {
-        //decode image into byte array stream
-        String encodedImage = request.getEncodedImage();
-        byte[] imageBytes = Base64.getDecoder().decode(encodedImage);
-        ByteArrayInputStream byteStream = new ByteArrayInputStream(imageBytes);
 
-        //set photo metadata
-        ObjectMetadata metadata = new ObjectMetadata();
-        Map<String,String> map = new TreeMap<>();
-        map.put("ImageType","PNG");
-        metadata.setUserMetadata(map);
-        metadata.setContentLength(imageBytes.length);
+        try {
+            //decode image into byte array stream
+            String encodedImage = request.getEncodedImage();
+            BASE64Decoder decoder = new BASE64Decoder();
+            byte[] imageBytes = decoder.decodeBuffer(encodedImage);
+            ByteArrayInputStream byteStream = new ByteArrayInputStream(imageBytes);
 
-        //create s3 bucket client
-        AmazonS3 s3Client = AmazonS3ClientBuilder.standard().withRegion("us-east-1").build();
+            //set photo metadata
+            ObjectMetadata metadata = new ObjectMetadata();
+            Map<String,String> map = new TreeMap<>();
+            map.put("ImageType","PNG");
+            metadata.setUserMetadata(map);
+            metadata.setContentLength(imageBytes.length);
 
-        //set putObjectRequest params
-        String bucketName = "jamesblakebrytontweeterimages";
-        String objKeyName = request.getUserName() + ".png";
-        PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName,objKeyName,byteStream,metadata);
+            //create s3 bucket client
+            AmazonS3 s3Client = AmazonS3ClientBuilder.standard().withRegion("us-east-1").build();
 
-        //store photo in bucket
-        s3Client.putObject(putObjectRequest);
+            //set putObjectRequest params
+            String bucketName = "jamesblakebrytontweeterimages";
+            String objKeyName = request.getUserName() + ".png";
+            PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName,objKeyName,byteStream,metadata).withCannedAcl(CannedAccessControlList.PublicRead);
 
-        return  "https://jamesblakebrytontweeterimages.s3.us-east-1.amazonaws.com/" + objKeyName;
+            //store photo in bucket
+            s3Client.putObject(putObjectRequest);
+
+            byteStream.close();
+
+            return  "https://jamesblakebrytontweeterimages.s3.amazonaws.com/%40" + objKeyName.substring(1);
+        } catch (IOException e) {
+            return null;
+        }
     }
 
     public static UsersTableDAO getRegisterDao() {

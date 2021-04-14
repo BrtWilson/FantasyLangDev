@@ -72,7 +72,7 @@ public class UsersTableDAO {
                     AuthTableDAO authTableDAO = new AuthTableDAO();
                     AuthToken token = authTableDAO.startingAuth(request.getUsername());
                     return new LoginResponse(tempUser, token);
-                } else { return new LoginResponse(FAULTY_USER_REQUEST + ": Password does not match: " + tempUser.getPassword()); }
+                } else { return new LoginResponse(FAULTY_USER_REQUEST + ": Password does not match: " + request.getPassword() +" " + tempUser.getPassword()); }
             } else { return new LoginResponse(FAULTY_USER_REQUEST + ": User does not exist."); }
 
         } catch (Exception e) {
