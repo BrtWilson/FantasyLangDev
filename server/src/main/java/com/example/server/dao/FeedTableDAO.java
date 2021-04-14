@@ -61,7 +61,7 @@ public class FeedTableDAO {
         List<String> attributeNames = new ArrayList<>();
         attributeNames.add(attributeStatusUser);
         attributeNames.add(attributeMessage);
-        List<Object> attributeValues = new ArrayList<>();
+        List<String> attributeValues = new ArrayList<>();
         attributeValues.add(request.getUserAlias());
         attributeValues.add(request.getMessage());
 

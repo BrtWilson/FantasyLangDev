@@ -101,13 +101,13 @@ public class UsersTableDAO {
         attributes.add(attributeFollowerCount);
         attributes.add(attributeFolloweeCount);
 
-        ArrayList<Object> attributeValues = new ArrayList<>();
+        ArrayList<String> attributeValues = new ArrayList<>();
         attributeValues.add(firstName);
         attributeValues.add(lastName);
         attributeValues.add(password);
         attributeValues.add(imageUrl);
-        attributeValues.add(0);
-        attributeValues.add(0);
+        attributeValues.add("0");
+        attributeValues.add("0");
 
         if (DynamoDBStrategy.createItemWithAttributes(tableName, keyAttribute, alias, attributes, attributeValues)) {
             return user;

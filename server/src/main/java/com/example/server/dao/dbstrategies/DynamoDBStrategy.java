@@ -311,22 +311,29 @@ public class DynamoDBStrategy {
      * @param attributes Attribute names for all additional item attributes
      * @param attributeValues Values for each additional attribute
      */
-    public static boolean createItemWithAttributes(String tableName, String key, Object keyValue, ArrayList<String> attributes, ArrayList<Object> attributeValues) {
+    public static boolean createItemWithAttributes(String tableName, String key, Object keyValue, ArrayList<String> attributes, ArrayList<String> attributeValues) {
         Table table = dynamoDB.getTable(tableName);
 
-        final Map<String, Object> infoMap = new HashMap<String, Object>();
-        infoMap.put(key, keyValue);
+        //final Map<String, Object> infoMap = new HashMap<String, Object>();
+        //infoMap.put(key, keyValue);
         int attValueListSize = attributeValues.size();
-        for (int i = 0; i < attributes.size(); i++) {
-            if (i < attValueListSize) {
-                infoMap.put(attributes.get(i), attributeValues.get(i));
-            }
-        }
+        //for (int i = 0; i < attributes.size(); i++) {
+            //if (i < attValueListSize) {
+            //    infoMap.put(attributes.get(i), attributeValues.get(i));
+          //  }
+        //}
 
         System.out.println("Adding a new item...");
 
-        PutItemOutcome outcome = table
-                .putItem(new Item().withPrimaryKey(key, keyValue).withMap("info", infoMap));
+        Item itemToPut = new Item().withPrimaryKey(key, keyValue);
+        for (int i = 0; i < attributes.size(); i++) {
+            if (i < attValueListSize) {
+                itemToPut.withString(attributes.get(i), attributeValues.get(i));
+            }
+        }
+
+        PutItemOutcome outcome = table.putItem(itemToPut);
+                                 //.withMap("info", infoMap));
 
         System.out.println("PutItem succeeded:\n" + outcome.getPutItemResult());
         return true;
@@ -372,22 +379,22 @@ public class DynamoDBStrategy {
     }
 
     //Probably not needed
-    public static void createItemWithDualKeyAndAttributes(String tableName, String key, String keyValue, String sortKey, Object sortKeyValue, List<String> attributeNames, List<Object> attributeValues) {
+    public static void createItemWithDualKeyAndAttributes(String tableName, String key, String keyValue, String sortKey, Object sortKeyValue, List<String> attributeNames, List<String> attributeValues) {
         Table table = dynamoDB.getTable(tableName);
-
-        final Map<String, Object> infoMap = new HashMap<String, Object>();
-        infoMap.put(key, keyValue);
         int attValueListSize = attributeValues.size();
-        for (int i = 0; i < attributeNames.size(); i++) {
-            if (i < attValueListSize) {
-                infoMap.put(attributeNames.get(i), attributeValues.get(i));
-            }
-        }
 
         try {
             System.out.println("Adding a new item...");
+
+            Item itemToPut = new Item().withPrimaryKey(key, keyValue, sortKey, sortKeyValue);
+            for (int i = 0; i < attributeNames.size(); i++) {
+                if (i < attValueListSize) {
+                    itemToPut.withString(attributeNames.get(i), attributeValues.get(i));
+                }
+            }
+
             PutItemOutcome outcome = table
-                    .putItem(new Item().withPrimaryKey(key, keyValue, sortKey, sortKeyValue).withMap("info", infoMap));
+                    .putItem(itemToPut);
 
             System.out.println("PutItem succeeded:\n" + outcome.getPutItemResult());
 
