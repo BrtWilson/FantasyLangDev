@@ -28,7 +28,7 @@ public class ListTypeItemTransformer {
         return newList;
     }
 
-    private static User toUser(Item retrievedUser) {
+    private static User toUser(Object retrievedUser) {
         User tempUser = new User();
         tempUser.setAlias(retrievedUser.getString(partitionKey));
         tempUser.setFirstName(retrievedUser.getString(attributeFirstName));

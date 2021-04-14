@@ -1,15 +1,17 @@
 package com.example.server.dao.dbstrategies;
 import com.amazonaws.services.dynamodbv2.document.Item;
+import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ResultsPage {
 
     /**
      * The data values returned in this page of results
      */
-    private List<Object> values;
+    private List<Map<String, String>> values;
 
     /**
      * The last value returned in this page of results
@@ -24,7 +26,7 @@ public class ResultsPage {
 
     // Values property
 
-    public void addValue(String v) {
+    public void addValue(Map<String, AttributeValue> v) {
         values.add(v);
     }
 
