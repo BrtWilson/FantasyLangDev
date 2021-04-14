@@ -26,7 +26,7 @@ public class ResultsPage {
 
     // Values property
 
-    public void addValue(Map<String, AttributeValue> v) {
+    public void addValue(Map<String, String> v) {
         values.add(v);
     }
 
