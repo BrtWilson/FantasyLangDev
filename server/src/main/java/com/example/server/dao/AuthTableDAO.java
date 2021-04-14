@@ -19,8 +19,8 @@ public class AuthTableDAO {
 
     private static final String tableName = "AuthTokens";
     private static final String keyAttribute = "Alias";
-    private static final String secondaryKey = "AuthToken";
-    private static final String additionalAttribute = "Date";
+    private static final String secondaryKey = "Token";
+    private static final String additionalAttribute = "TimeStamp";
 
     private static final long inactivityTimeCap = TimeUnit.MINUTES.toMillis(5);
 
@@ -65,7 +65,7 @@ public class AuthTableDAO {
         AuthToken token = new AuthToken(userAlias);
         String date = new Timestamp(System.currentTimeMillis()).toString();
 
-        getDatabaseInteractor().createItemWithDualKey(tableName, keyAttribute, userAlias, secondaryKey,  token, true, additionalAttribute, date);
+        getDatabaseInteractor().createItemWithDualKey(tableName, keyAttribute, userAlias, secondaryKey,  token.getToken(), true, additionalAttribute, date);
         return token;
     }
 

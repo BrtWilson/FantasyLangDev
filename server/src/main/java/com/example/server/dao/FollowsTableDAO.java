@@ -121,9 +121,9 @@ public class FollowsTableDAO {
      * be returned in the current request. This will be the index of the next follower after the
      * specified 'lastFollower'.
      *
-     * @param lastFollowAlias the alias of the last followee that was returned in the previous
+     * @/param lastFollowAlias the alias of the last followee that was returned in the previous
      *                          request or null if there was no previous request.
-     * @param allFollows      the generated list of followees from which we are returning paged results.
+     * @/param allFollows      the generated list of followees from which we are returning paged results.
      * @return the index of the first followee to be returned.
      */
    /* private int getFollowsStartingIndex(String lastFollowAlias, List<User> allFollows) {

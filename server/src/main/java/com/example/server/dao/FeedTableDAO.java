@@ -50,24 +50,24 @@ public class FeedTableDAO {
         }
     }
 
-    /**
+    /** DEPRACATED FOR SQS POSTING
      *  // * * * => THIS TO BE USED WITH THE SQS QUEUES BY THE BATCH_FEED_UPDATER.
      *  It will need the inclusion of the Status's correspondingUserAlias, as well as the Feed's owner userAlias
      *
      * @param request Contains the Status info: CorrespondingUser, Date, Message
      * @return
      */
-    public NewStatusResponse postNewStatus(NewStatusRequest request, String followerAlias) {
-        List<String> attributeNames = new ArrayList<>();
-        attributeNames.add(attributeStatusUser);
-        attributeNames.add(attributeMessage);
-        List<String> attributeValues = new ArrayList<>();
-        attributeValues.add(request.getUserAlias());
-        attributeValues.add(request.getMessage());
-
-        getDatabaseInteractor().createItemWithDualKeyAndAttributes(tableName, partitionKey, followerAlias, sortKey, request.getDate(), attributeNames, attributeValues);
-        return new NewStatusResponse(new Status(request.getMessage(), request.getDate(), request.getUserAlias()));
-    }
+//    public NewStatusResponse postNewStatus(NewStatusRequest request, String followerAlias) {
+//        List<String> attributeNames = new ArrayList<>();
+//        attributeNames.add(attributeStatusUser);
+//        attributeNames.add(attributeMessage);
+//        List<String> attributeValues = new ArrayList<>();
+//        attributeValues.add(request.getUserAlias());
+//        attributeValues.add(request.getMessage());
+//
+//        getDatabaseInteractor().createItemWithDualKeyAndAttributes(tableName, partitionKey, followerAlias, sortKey, request.getDate(), attributeNames, attributeValues);
+//        return new NewStatusResponse(new Status(request.getMessage(), request.getDate(), request.getUserAlias()));
+//    }
 
     //private User getAUser() {
       //  return null;// dataProvider.getSampleDummyUser();
