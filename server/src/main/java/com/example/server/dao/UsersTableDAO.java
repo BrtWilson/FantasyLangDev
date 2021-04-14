@@ -37,9 +37,18 @@ public class UsersTableDAO {
 
     public UserResponse getUserByAlias(UserRequest userRequest) {
         try {
-            User retrievedUser = (User) DynamoDBStrategy.basicGetItem(tableName, keyAttribute, userRequest.getAlias());
+            Item retrievedUser = (Item) DynamoDBStrategy.basicGetItem(tableName, keyAttribute, userRequest.getAlias());
+            User tempUser = new User();
 
-            return new UserResponse(retrievedUser);
+            tempUser.setAlias(retrievedUser.getString(keyAttribute));
+            tempUser.setFirstName(retrievedUser.getString(attributeFirstName));
+            tempUser.setLastName(retrievedUser.getString(attributeLastName));
+            tempUser.setPassword(retrievedUser.getString(attributePassword));
+            tempUser.setFolloweeCount(retrievedUser.getString(attributeFolloweeCount));
+            tempUser.setFollowerCount(retrievedUser.getString(attributeFollowerCount));
+            tempUser.setImageUrl(retrievedUser.getString(attributeImageUrl));
+
+            return new UserResponse(tempUser);
         } catch (Exception e) {
             return new UserResponse(SERVER_SIDE_ERROR + ": " + e.getMessage() + "\nStack: " + Arrays.toString(e.getStackTrace()));
         }
@@ -50,18 +59,19 @@ public class UsersTableDAO {
             Item retrievedUser = DynamoDBStrategy.basicGetItem(tableName,keyAttribute,request.getUsername());
 
             if (retrievedUser != null) {
-
                 User tempUser = new User();
                 tempUser.setAlias(retrievedUser.getString(keyAttribute));
                 tempUser.setFirstName(retrievedUser.getString(attributeFirstName));
                 tempUser.setLastName(retrievedUser.getString(attributeLastName));
+                tempUser.setPassword(retrievedUser.getString(attributePassword));
                 tempUser.setFolloweeCount(retrievedUser.getString(attributeFolloweeCount));
+                tempUser.setFollowerCount(retrievedUser.getString(attributeFollowerCount));
+                tempUser.setImageUrl(retrievedUser.getString(attributeImageUrl));
 
-
-                if (retrievedUser.getPassword() == request.getPassword()) { // Note that hashing has already happened in the Services
+                if (tempUser.getPassword() == request.getPassword()) { // Note that hashing has already happened in the Services
                     AuthTableDAO authTableDAO = new AuthTableDAO();
                     AuthToken token = authTableDAO.startingAuth(request.getUsername());
-                    return new LoginResponse(retrievedUser, token);
+                    return new LoginResponse(tempUser, token);
                 } else { return new LoginResponse(FAULTY_USER_REQUEST + ": Password does not match."); }
             } else { return new LoginResponse(FAULTY_USER_REQUEST + ": User does not exist."); }
 

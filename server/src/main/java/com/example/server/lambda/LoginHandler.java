@@ -2,10 +2,9 @@ package com.example.server.lambda;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-
+import com.example.server.service.LoginService;
 import com.example.shared.model.service.request.LoginRequest;
 import com.example.shared.model.service.response.LoginResponse;
-import com.example.server.service.LoginService;
 
 import java.io.IOException;
 
