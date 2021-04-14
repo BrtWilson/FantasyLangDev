@@ -68,11 +68,11 @@ public class UsersTableDAO {
                 tempUser.setFollowerCount(retrievedUser.getString(attributeFollowerCount));
                 tempUser.setImageUrl(retrievedUser.getString(attributeImageUrl));
 
-                if (tempUser.getPassword() == request.getPassword()) { // Note that hashing has already happened in the Services
+                if (tempUser.getPassword().equals(request.getPassword())) { // Note that hashing has already happened in the Services
                     AuthTableDAO authTableDAO = new AuthTableDAO();
                     AuthToken token = authTableDAO.startingAuth(request.getUsername());
                     return new LoginResponse(tempUser, token);
-                } else { return new LoginResponse(FAULTY_USER_REQUEST + ": Password does not match."); }
+                } else { return new LoginResponse(FAULTY_USER_REQUEST + ": Password does not match: " + request.getPassword()); }
             } else { return new LoginResponse(FAULTY_USER_REQUEST + ": User does not exist."); }
 
         } catch (Exception e) {
