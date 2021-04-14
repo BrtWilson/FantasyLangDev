@@ -38,7 +38,7 @@ public class UsersTableDAO {
             User retrievedUser = (User) DynamoDBStrategy.basicGetItem(tableName, keyAttribute, userRequest.getAlias());
             return new UserResponse(retrievedUser);
         } catch (Exception e) {
-            return new UserResponse(e.getMessage());
+            return new UserResponse(SERVER_SIDE_ERROR + ": " + e.getMessage() + "\nStack: " + e.getStackTrace());
         }
     }
 
@@ -54,7 +54,7 @@ public class UsersTableDAO {
             } else { return new LoginResponse(FAULTY_USER_REQUEST + ": User does not exist."); }
 
         } catch (Exception e) {
-            return new LoginResponse(FAULTY_USER_REQUEST + ": " + e.getMessage());
+            return new LoginResponse(SERVER_SIDE_ERROR + ": " + e.getMessage() + "\nStack: " + e.getStackTrace());
         }
     }
 
@@ -80,7 +80,7 @@ public class UsersTableDAO {
                 return new RegisterResponse(registeredUser, token, true);
             }
         } catch (Exception e) {
-            return new RegisterResponse(SERVER_SIDE_ERROR + ": " + e.getMessage(), false);
+            return new RegisterResponse(SERVER_SIDE_ERROR + ": " + e.getMessage() + "\nStack: " + e.getStackTrace(), false);
         }
     }
 
