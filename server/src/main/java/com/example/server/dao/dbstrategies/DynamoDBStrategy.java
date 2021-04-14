@@ -471,7 +471,7 @@ public class DynamoDBStrategy {
         Table table = dynamoDB.getTable("Movies");
 
         UpdateItemSpec updateItemSpec = new UpdateItemSpec().withPrimaryKey(key, keyValue)
-                .withUpdateExpression("set info." + attribute + " = :a")
+                .withUpdateExpression("set " + attribute + " = :a")
                 .withValueMap(new ValueMap().withString(":a", newAttributeValue))
                 .withReturnValues(ReturnValue.UPDATED_NEW);
 

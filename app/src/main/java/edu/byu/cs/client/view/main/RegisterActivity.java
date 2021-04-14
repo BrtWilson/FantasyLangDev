@@ -40,7 +40,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterPrese
     private Button registerConfirm;
 
     //private byte [] imageBytes = null;
-    private String encodedImage = null;
+    private String encodedImage = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
