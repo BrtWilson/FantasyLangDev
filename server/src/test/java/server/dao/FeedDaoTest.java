@@ -102,13 +102,13 @@ public class FeedDaoTest {
         StatusArrayResponse arrayResponse = statusesDAO.getStatusArray(validArrayRequest);
         //System.out.println(arrayResponse.getStatuses());
         Assertions.assertEquals(successArrayResponse.isSuccess(), arrayResponse.isSuccess());
-        Assertions.assertEquals(successArrayResponse.getStatuses(), arrayResponse.getStatuses());
+        Assertions.assertEquals(successArrayResponse.getStatuses().size(), arrayResponse.getStatuses().size());
     }
 
     /**
      * Verify that for successful requests the {@link StatusArrayService #getStatusArray(StatusArrayRequest)}
      * method returns the same result as the {@link StoryTableDAO}.
-     * .
+     *
      *
      * @throws IOException if an IO error occurs.
      */

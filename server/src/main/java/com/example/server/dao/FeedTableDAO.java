@@ -3,6 +3,7 @@ package com.example.server.dao;
 import com.example.server.dao.dbstrategies.DynamoDBStrategy;
 import com.example.server.dao.dbstrategies.ResultsPage;
 import com.example.server.dao.util.ListTypeItemTransformer;
+import com.example.server.service.UserService;
 import com.example.shared.model.domain.Status;
 import com.example.shared.model.domain.User;
 import com.example.shared.model.service.request.NewStatusRequest;
@@ -50,29 +51,6 @@ public class FeedTableDAO {
         }
     }
 
-    /** DEPRACATED FOR SQS POSTING
-     *  // * * * => THIS TO BE USED WITH THE SQS QUEUES BY THE BATCH_FEED_UPDATER.
-     *  It will need the inclusion of the Status's correspondingUserAlias, as well as the Feed's owner userAlias
-     *
-     * @param request Contains the Status info: CorrespondingUser, Date, Message
-     * @return
-     */
-//    public NewStatusResponse postNewStatus(NewStatusRequest request, String followerAlias) {
-//        List<String> attributeNames = new ArrayList<>();
-//        attributeNames.add(attributeStatusUser);
-//        attributeNames.add(attributeMessage);
-//        List<String> attributeValues = new ArrayList<>();
-//        attributeValues.add(request.getUserAlias());
-//        attributeValues.add(request.getMessage());
-//
-//        getDatabaseInteractor().createItemWithDualKeyAndAttributes(tableName, partitionKey, followerAlias, sortKey, request.getDate(), attributeNames, attributeValues);
-//        return new NewStatusResponse(new Status(request.getMessage(), request.getDate(), request.getUserAlias()));
-//    }
-
-    //private User getAUser() {
-      //  return null;// dataProvider.getSampleDummyUser();
-    //}
-
     //NOPE: Probably will need refactoring with having the additional userAlias --> Should work as is
     private StatusArrayResponse retrieveFeed(String targetAlias, String lastRetrieved) {
         ResultsPage resultsPage = getDatabaseInteractor().getListByString(tableName, partitionKey, targetAlias, pageSize, sortKey, lastRetrieved);
@@ -104,7 +82,11 @@ public class FeedTableDAO {
     }
 
     private List<String> getUserAliases(List<User> followersList) {
-        return null;
+        List<String> aliases = new ArrayList<>();
+        for (User u : followersList) {
+            aliases.add(u.getAlias());
+        }
+        return aliases;
     }
 
 
