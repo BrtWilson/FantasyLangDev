@@ -1,7 +1,6 @@
 package server.dao;
 
 import com.example.server.dao.FollowsTableDAO;
-import com.example.server.dao.dbstrategies.DynamoDBStrategy;
 import com.example.server.service.FollowerService;
 import com.example.server.service.FollowingService;
 import com.example.shared.model.domain.AuthToken;
@@ -47,7 +46,7 @@ public class FollowsDaoTest {
      */
     @BeforeEach
     public void setup() {
-        User currentUser = new User("FirstName", "LastName", null);
+        User currentUser = new User("Harry", "Potter", null);
 
         User resultUser1 = new User("Kin", "Jonahs",
                 "https://static.wikia.nocookie.net/avatar/images/4/4b/Zuko.png/revision/latest?cb=20180630112142");

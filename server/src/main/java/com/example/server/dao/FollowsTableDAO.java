@@ -51,6 +51,7 @@ public class FollowsTableDAO {
     }
 
     public FollowingResponse getFollowees(FollowingRequest request) {
+        pageSize = request.getLimit();
         verifyRequestLimit(request.getLimit());
         verifyRequestUserAlias(request.getFollowingAlias());
 
