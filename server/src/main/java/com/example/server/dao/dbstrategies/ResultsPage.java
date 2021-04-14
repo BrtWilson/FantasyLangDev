@@ -34,7 +34,7 @@ public class ResultsPage {
         return (values != null && values.size() > 0);
     }
 
-    public List<Object> getValues() {
+    public List<Map<String, String>> getValues() {
         return values;
     }
 
