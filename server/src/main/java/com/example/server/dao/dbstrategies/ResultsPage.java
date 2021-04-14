@@ -26,7 +26,7 @@ public class ResultsPage {
 
     // Values property
 
-    public void addValue(Map<String, AttributeValue> v) {
+    public void addValue(Map<String, String> v) {
         values.add(v);
     }
 
@@ -34,7 +34,7 @@ public class ResultsPage {
         return (values != null && values.size() > 0);
     }
 
-    public List<Object> getValues() {
+    public List<Map<String, String>> getValues() {
         return values;
     }
 
