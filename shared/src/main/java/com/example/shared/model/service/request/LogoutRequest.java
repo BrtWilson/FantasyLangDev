@@ -5,27 +5,27 @@ import com.example.shared.model.domain.User;
 
 public class LogoutRequest {
 
-    private  User user;
+    private String user;
     private AuthToken token;
 
     //TODO:  Add AuthToken to logout
-    public LogoutRequest(User user, AuthToken token) {
+    public LogoutRequest(String user, AuthToken token) {
         this.user = user;
         this.token = token;
     }
 
-    public LogoutRequest(User user) {
+    public LogoutRequest(String user) {
         this.user = user;
     }
 
     public LogoutRequest() {
     }
 
-    public User getUser() {
+    public String getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(String user) {
         this.user = user;
     }
 

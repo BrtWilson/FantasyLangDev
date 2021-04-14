@@ -270,7 +270,7 @@ public class DummyDataProvider {
 
     public BasicResponse logout(LogoutRequest request) {
         if (usersMap != null) {
-            if (request.getUser().getAlias().equals(loggedInUser.getAlias())) {
+            if (request.getUser().equals(loggedInUser.getAlias())) {
                 loggedInUser = null;
                 return new BasicResponse(true, "Logout successful.");
             } else {

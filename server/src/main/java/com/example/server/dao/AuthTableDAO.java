@@ -81,7 +81,7 @@ public class AuthTableDAO {
 
     public Boolean logoutToken(LogoutRequest request) {
         //delete AuthToken
-        getDatabaseInteractor().deleteItemWithDualKey(tableName, keyAttribute, request.getUser().getAlias(), secondaryKey, request.getToken());
+        getDatabaseInteractor().deleteItemWithDualKey(tableName, keyAttribute, request.getUser(), secondaryKey, request.getToken());
         return true;
     }
 

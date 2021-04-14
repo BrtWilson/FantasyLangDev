@@ -23,9 +23,9 @@ public class RegisterService implements IRegisterService {
 
     public RegisterResponse register(RegisterRequest request) throws IOException {
         /*HASH PASSWORD*/
-        PasswordHasher passwordHasher = new PasswordHasher();
-        String hashedPassword = passwordHasher.hashPassword(request.getPassword());
-        request.setPassword(hashedPassword);
+//        PasswordHasher passwordHasher = new PasswordHasher();
+//        String hashedPassword = passwordHasher.hashPassword(request.getPassword());
+//        request.setPassword(hashedPassword);
 
         /*STORE PROFILE IMAGE IN S3 BUCKET AND STORE URL IN REQUEST*/
         String encodedImage = request.getEncodedImage();
