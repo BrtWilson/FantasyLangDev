@@ -219,6 +219,8 @@ public class DynamoDBStrategy {
     }*/
 
     public static ResultsPage getListByString(String tableName, String targetAttribute, String attributeValue, int pageSize, String attributeToRetrieve, String lastRetrieved) {
+        System.out.println("Table #2 " + tableName + " Partion Key" + targetAttribute  + " P Value" + attributeValue  + " Sort" + attributeToRetrieve  + " S Value" + lastRetrieved);
+
         return getListByString(tableName, targetAttribute, attributeValue, pageSize, attributeToRetrieve, lastRetrieved, false, null);
     }
 
