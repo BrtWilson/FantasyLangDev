@@ -11,6 +11,11 @@ import org.junit.jupiter.api.Test;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.crypto.Data;
+
+import server.dao.util.DatabaseInfoProvider;
 
 public class DynamoDBTest {
 
@@ -51,6 +56,7 @@ public class DynamoDBTest {
     private static final String followeeInTable = "@HarryPotter";
     private static final String aliasWithToken = "@CairneBloodhoof";
     private static final String tokenInTable = "abcdefghijkm";
+    private static final String tempStatusMessage = "This is for your mother.";
 
 
     @BeforeEach
@@ -81,7 +87,19 @@ public class DynamoDBTest {
      */
     @Test //like above test, but SortKeys are consistent -- E.G. Post to multiple Feeds
     public void batchUploadByPartition() {
-        //DynamoDBStrategy.batchUploadByPartition(feedTableName, partitionKey, followersAliases, sortKeyTime, timeStamp, attributeNames, attributeValues, uploadBatchSize);
+        List<User> followers = DatabaseInfoProvider.getOurDefaultUsers();
+        List<String> followersAliases = DatabaseInfoProvider.getStatusAliases(followers);
+        String date = new Timestamp(System.currentTimeMillis()).toString();
+
+        ArrayList<String> attributesNames = new ArrayList<>();
+        attributesNames.add(attributeMessage);
+        attributesNames.add(attributeStatusUser);
+
+        ArrayList<String> attributesValues = new ArrayList<>();
+        attributesValues.add(tempStatusMessage);
+        attributesValues.add(tempAlias);
+
+        DynamoDBStrategy.batchUploadByPartition(feedTableName, partitionKey, followersAliases, sortKeyTime, date, attributesNames, attributesValues, uploadBatchSize);
     }
 
     /*String tableName,

@@ -126,7 +126,7 @@ public class DatabaseInfoProvider {
         return userAliases;
     }
 
-    private static List<String> getStatusAliases(List<User> ourUsers) {
+    public static List<String> getStatusAliases(List<User> ourUsers) {
         List<String> userAliases = new ArrayList<>();
         for (int i = 0; i < ourUsers.size(); i++) {
             userAliases.add(ourUsers.get(i).getAlias());

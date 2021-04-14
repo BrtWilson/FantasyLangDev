@@ -59,6 +59,7 @@ public class DynamoDBStrategy {
 
         if (items.getItemsToPut() != null && items.getItemsToPut().size() > 0) {
             loopBatchWriter(items);
+            items = new TableWriteItems(tableName);
         }
     }
 
@@ -84,6 +85,7 @@ public class DynamoDBStrategy {
 
         if (items.getItemsToPut() != null && items.getItemsToPut().size() > 0) {
             loopBatchWriter(items);
+            items = new TableWriteItems(tableName);
         }
     }
 
@@ -109,6 +111,7 @@ public class DynamoDBStrategy {
 
         if (items.getItemsToPut() != null && items.getItemsToPut().size() > 0) {
             loopBatchWriter(items);
+            items = new TableWriteItems(tableName);
         }
     }
 
@@ -130,6 +133,7 @@ public class DynamoDBStrategy {
         if(items.getItemsToPut() != null && items.getItemsToPut().size() == batchSize){
             //then add a list for the Batch
             loopBatchWriter(items);
+            items = new TableWriteItems(tableName);
         }
         return items;
     }
