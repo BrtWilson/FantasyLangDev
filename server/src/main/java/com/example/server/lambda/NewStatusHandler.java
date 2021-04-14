@@ -2,14 +2,11 @@ package com.example.server.lambda;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-import com.amazonaws.services.lambda.runtime.events.SQSEvent;
 import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
-import com.amazonaws.services.sqs.model.MessageAttributeValue;
 import com.amazonaws.services.sqs.model.SendMessageRequest;
 import com.amazonaws.services.sqs.model.SendMessageResult;
-import com.example.server.lambda.statusUpdateLambdas.JsonSerializer;
-import com.example.server.lambda.statusUpdateLambdas.NewStatusUpdateFeedMessages;
+import com.example.server.lambda.statusUpdateLambdas.util.JsonSerializer;
 import com.example.server.service.NewStatusStoryService;
 import com.example.shared.model.service.request.NewStatusRequest;
 import com.example.shared.model.service.response.NewStatusResponse;

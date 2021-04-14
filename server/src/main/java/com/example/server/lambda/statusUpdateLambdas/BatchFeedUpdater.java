@@ -1,12 +1,10 @@
 package com.example.server.lambda.statusUpdateLambdas;
 
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
-import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.SQSEvent;
 import com.amazonaws.services.sqs.model.MessageAttributeValue;
+import com.example.server.lambda.statusUpdateLambdas.util.JsonSerializer;
 import com.example.server.service.NewStatusFeedService;
 import com.example.shared.model.service.request.NewStatusRequest;
 import com.example.shared.model.service.response.FollowerResponse;

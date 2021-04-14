@@ -1,4 +1,4 @@
-package com.example.server.lambda.statusUpdateLambdas;
+package com.example.server.lambda.statusUpdateLambdas.util;
 
 import com.google.gson.Gson;
 

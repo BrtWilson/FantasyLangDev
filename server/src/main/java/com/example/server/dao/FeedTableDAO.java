@@ -1,16 +1,11 @@
 package com.example.server.dao;
 
-import com.amazonaws.services.dynamodbv2.document.BatchWriteItemOutcome;
-import com.amazonaws.services.dynamodbv2.document.Item;
-import com.amazonaws.services.dynamodbv2.document.TableWriteItems;
-import com.amazonaws.services.dynamodbv2.model.WriteRequest;
 import com.example.server.dao.dbstrategies.DynamoDBStrategy;
 import com.example.server.dao.dbstrategies.ResultsPage;
 import com.example.server.dao.util.ListTypeTransformer;
 import com.example.shared.model.domain.Status;
 import com.example.shared.model.domain.User;
 import com.example.shared.model.service.request.NewStatusRequest;
-import com.example.shared.model.service.request.RegisterRequest;
 import com.example.shared.model.service.request.StatusArrayRequest;
 import com.example.shared.model.service.response.FollowerResponse;
 import com.example.shared.model.service.response.NewStatusResponse;
@@ -18,7 +13,6 @@ import com.example.shared.model.service.response.StatusArrayResponse;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class FeedTableDAO {
     //DummyDataProvider dataProvider = DummyDataProvider.getInstance();
@@ -104,7 +98,7 @@ public class FeedTableDAO {
         List<User> followersList = followerResponse.getFollowers();
         List<String> followersAliases = getUserAliases(followersList);
 
-        DynamoDBStrategy.batchUploadWithDualKey(tableName, partitionKey, followersAliases, sortKey, timeStamp, attributeNames, attributeValues, uploadBatchSize);
+        DynamoDBStrategy.batchUploadByPartition(tableName, partitionKey, followersAliases, sortKey, timeStamp, attributeNames, attributeValues, uploadBatchSize);
 
         return new NewStatusResponse(new Status(request.getMessage(),timeStamp, request.getUserAlias()));
     }

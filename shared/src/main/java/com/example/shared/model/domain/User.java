@@ -34,6 +34,13 @@ public class User implements Comparable<User>, Serializable {
         //this.following = new ArrayList<>();
     }
 
+    public User(String alias, String firstName, String imageUrl, String lastName, int i) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.alias = formatAlias(alias);
+        this.imageUrl = imageUrl;
+    }
+
     public String formatAlias(String alias) {
         String correctAlias;
 

@@ -8,7 +8,7 @@ import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
 import com.amazonaws.services.sqs.model.MessageAttributeValue;
 import com.amazonaws.services.sqs.model.SendMessageRequest;
 import com.amazonaws.services.sqs.model.SendMessageResult;
-import com.example.server.dao.FollowsTableDAO;
+import com.example.server.lambda.statusUpdateLambdas.util.JsonSerializer;
 import com.example.server.service.FollowerService;
 import com.example.shared.model.service.request.FollowerRequest;
 import com.example.shared.model.service.request.NewStatusRequest;

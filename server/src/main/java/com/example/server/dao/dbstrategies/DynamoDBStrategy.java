@@ -36,6 +36,57 @@ public class DynamoDBStrategy {
     /**
      * Uploads a batch of items sharing attributes to a given table
      * Note that the only thing differing from item to item is the Partition Key
+     * Allows for Dual Key or single key table entries. Enter "null" for both sort key parameters if it is for single ket entries.
+     * @param tableName table to which the items are being sent
+     * @param key name of the table's Partition Key
+     * @param partitionKeyList the list of partition key values that distinguish the items
+     * @param sortKey the sort key name for this table
+     * @param sortKeyList the list of sort keys corresponding to each item
+     * @param attributeNames the list of attribute names for these items
+     * @param attributeValuesList a list of the values for each attribute, unique to each item
+     * @param batchSize the to upload each batch as
+     */
+    public static void batchUploadVaryingAttributes(String tableName, String key, List<String> partitionKeyList, String sortKey, List<String> sortKeyList, List<String> attributeNames, List<List<String>> attributeValuesList, int batchSize) {
+        TableWriteItems items = new TableWriteItems(tableName);
+        for(int i = 0 ; i < partitionKeyList.size(); i ++){
+            //later add this with BatchAdd
+            bacthUpload(items, tableName, key, partitionKeyList.get(i), sortKey, sortKeyList.get(i), attributeNames, attributeValuesList.get(i), batchSize);
+        }
+
+        if (items.getItemsToPut() != null && items.getItemsToPut().size() > 0) {
+            loopBatchWriter(items);
+        }
+    }
+
+    /**
+     * Uploads a batch of items sharing attributes to a given table
+     * Note that the only thing differing from item to item is the Partition Key
+     * Allows for Dual Key or single key table entries. Enter "null" for both sort key parameters if it is for single ket entries.
+     * @param tableName table to which the items are being sent
+     * @param key name of the table's Partition Key
+     * @param partitionValue the value of the common partition key
+     * @param sortKey the sort key name for this table
+     * @param sortKeyList  the list of partition key values that distinguish the items
+     * @param attributeNames the list of attribute names for these items
+     * @param attributeValues the values for each attribute
+     * @param batchSize the to upload each batch as
+     */
+    public static void batchUploadBySortKey(String tableName, String key, String partitionValue, String sortKey, List<String> sortKeyList, List<String> attributeNames, List<String> attributeValues, int batchSize) {
+        TableWriteItems items = new TableWriteItems(tableName);
+        for(int i = 0 ; i < sortKeyList.size(); i ++){
+            //later add this with BatchAdd
+            bacthUpload(items, tableName, key, partitionValue, sortKey, sortKeyList.get(i), attributeNames, attributeValues, batchSize);
+        }
+
+        if (items.getItemsToPut() != null && items.getItemsToPut().size() > 0) {
+            loopBatchWriter(items);
+        }
+    }
+
+    /**
+     * Uploads a batch of items sharing attributes to a given table
+     * Note that the only thing differing from item to item is the Partition Key
+     * Allows for Dual Key or single key table entries. Enter "null" for both sort key parameters if it is for single ket entries.
      * @param tableName table to which the items are being sent
      * @param key name of the table's Partition Key
      * @param partitionKeyList the list of partition key values that distinguish the items
@@ -45,36 +96,35 @@ public class DynamoDBStrategy {
      * @param attributeValues the values for each attribute
      * @param batchSize the to upload each batch as
      */
-
-    public static void batchUploadWithDualKey(String tableName, String key, List<String> partitionKeyList, String sortKey, String sortKeyValue, List<String> attributeNames, List<String> attributeValues, int batchSize) {
+    public static void batchUploadByPartition(String tableName, String key, List<String> partitionKeyList, String sortKey, String sortKeyValue, List<String> attributeNames, List<String> attributeValues, int batchSize) {
         TableWriteItems items = new TableWriteItems(tableName);
         for(int i = 0 ; i < partitionKeyList.size(); i ++){
-            String timeStamp;
-            String message;
-            String statusCorrespondingUser;
-            String profileImage = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pngitem.com%2Fmiddle%2FwomThJ_ash-ketchum-hd-png-download%2F&psig=AOvVaw2h43_Bi3x5gdd1y2tRmAhq&ust=1616605412770000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCJjVytTyxu8CFQAAAAAdAAAAABAL";
             //later add this with BatchAdd
-            /*
-            if (sortKey == null) {
-                Item item = new Item().withPrimaryKey(key, partitionKeyList.get(i));
-            } else {
-             */
-            Item item = new Item().withPrimaryKey(key, partitionKeyList.get(i), sortKey, sortKeyValue);
-            for (int j = 0; j < attributeValues.size(); j++) {
-                //Note that these will be the same for each item
-                if (j < attributeNames.size()) {
-                    item.withString(attributeNames.get(j), attributeValues.get(j));
-                }
-            }
-            items = new TableWriteItems(tableName);
-            items.addItemToPut(item);
-            if(items.getItemsToPut() != null && items.getItemsToPut().size() == batchSize){
-                //then add a list for the Batch
-                loopBatchWriter(items);
-            }
+            bacthUpload(items, tableName, key, partitionKeyList.get(i), sortKey, sortKeyValue, attributeNames, attributeValues, batchSize);
         }
 
         if (items.getItemsToPut() != null && items.getItemsToPut().size() > 0) {
+            loopBatchWriter(items);
+        }
+    }
+
+    private static void bacthUpload(TableWriteItems items, String tableName, String key, String partitionValue, String sortKey, String sortKeyValue, List<String> attributeNames, List<String> attributeValues, int batchSize) {
+        Item item;
+        if (sortKey == null) {
+            item = new Item().withPrimaryKey(key, partitionValue);
+        } else {
+            item = new Item().withPrimaryKey(key, partitionValue, sortKey, sortKeyValue);
+        }
+        for (int j = 0; j < attributeValues.size(); j++) {
+            //Note that these will be the same for each item
+            if (j < attributeNames.size()) {
+                item.withString(attributeNames.get(j), attributeValues.get(j));
+            }
+        }
+        items = new TableWriteItems(tableName);
+        items.addItemToPut(item);
+        if(items.getItemsToPut() != null && items.getItemsToPut().size() == batchSize){
+            //then add a list for the Batch
             loopBatchWriter(items);
         }
     }
