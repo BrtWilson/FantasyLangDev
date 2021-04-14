@@ -116,25 +116,28 @@ public class UsersTableDAO {
         user.setPassword(password);
 
         ArrayList<String> attributes = new ArrayList<>();
-        attributes.add(attributeFirstName);
-        attributes.add(attributeLastName);
-        attributes.add(attributePassword);
-        attributes.add(attributeImageUrl);
-        attributes.add(attributeFollowerCount);
-        attributes.add(attributeFolloweeCount);
 
         ArrayList<String> attributeValues = new ArrayList<>();
-        attributeValues.add(firstName);
-        attributeValues.add(lastName);
-        attributeValues.add(password);
-        attributeValues.add(imageUrl);
+        addIfNotNull(attributes, attributeValues, attributeFirstName, firstName);
+        addIfNotNull(attributes, attributeValues, attributeLastName, lastName);
+        addIfNotNull(attributes, attributeValues, attributePassword, password);
+        addIfNotNull(attributes, attributeValues, attributeImageUrl, imageUrl);
+        attributes.add(attributeFollowerCount);
         attributeValues.add("0");
+        attributes.add(attributeFolloweeCount);
         attributeValues.add("0");
 
         if (getDatabaseInteractor().createItemWithAttributes(tableName, keyAttribute, alias, attributes, attributeValues)) {
             return user;
         }
         throw new Exception(SERVER_SIDE_ERROR + ": Failed to complete user upload");
+    }
+
+    private void addIfNotNull(ArrayList<String> attributes, ArrayList<String> attributeValues, String thisAttribute, String thisValue) {
+        if (thisValue != null) {
+            attributes.add(thisAttribute);
+            attributeValues.add(thisValue);
+        }
     }
 
 
