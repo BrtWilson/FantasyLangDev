@@ -24,6 +24,7 @@ public class FollowsTableDAO {
     private static Integer pageSize;
 
     private static final String SERVER_SIDE_ERROR = "[Server Error]";
+    private static final String indexTableName = "FolloweeAlias-FollowerAlias-index";
 
     public FollowerResponse getFollowers(FollowerRequest request) {
         pageSize = request.getLimit();
@@ -72,7 +73,7 @@ public class FollowsTableDAO {
 
     private FollowerResponse retrieveFollowers(String targetAlias, String lastRetrieved) {
         //TODO: verify whether this works, or if sortKey and partitionKey should stay normal
-        ResultsPage resultsPage = getDatabaseInteractor().getListByString(tableName, sortKey, targetAlias, pageSize, partionKey, lastRetrieved, true, sortKey);
+        ResultsPage resultsPage = getDatabaseInteractor().getListByString(tableName, sortKey, targetAlias, pageSize, partionKey, lastRetrieved, true, indexTableName);
         boolean hasMorePages = (resultsPage.hasLastKey());
         String newLastRetrieved = resultsPage.getLastKey();
         List<User> usersList = ListTypeItemTransformer.transformToUser(resultsPage.getValues());

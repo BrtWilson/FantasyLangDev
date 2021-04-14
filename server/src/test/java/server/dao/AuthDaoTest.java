@@ -47,11 +47,11 @@ public class AuthDaoTest {
         //startingAuth
         successStartingResponse = new AuthToken(userAlias);
         AuthTableDAO mockDao = Mockito.mock(AuthTableDAO.class);
-        Mockito.when(mockDao.startingAuth(userAlias)).thenReturn(validAuthToken);
+        //Mockito.when(mockDao.startingAuth(userAlias)).thenReturn(validAuthToken);
 
         //getAuthorized
-        Mockito.when(mockDao.getAuthorized(validAuthToken)).thenReturn(true);
-        Mockito.when(mockDao.getAuthorized(invalidAuthToken)).thenReturn(false);
+        //Mockito.when(mockDao.getAuthorized(validAuthToken)).thenReturn(true);
+        //Mockito.when(mockDao.getAuthorized(invalidAuthToken)).thenReturn(false);
 
         //logoutToken
         validLogoutRequest = new LogoutRequest(user);
