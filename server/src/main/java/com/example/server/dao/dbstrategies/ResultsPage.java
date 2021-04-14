@@ -9,7 +9,7 @@ public class ResultsPage {
     /**
      * The data values returned in this page of results
      */
-    private List<Item> values;
+    private List<Object> values;
 
     /**
      * The last value returned in this page of results
@@ -24,7 +24,7 @@ public class ResultsPage {
 
     // Values property
 
-    public void addValue(Item v) {
+    public void addValue(String v) {
         values.add(v);
     }
 
@@ -32,7 +32,7 @@ public class ResultsPage {
         return (values != null && values.size() > 0);
     }
 
-    public List<Item> getValues() {
+    public List<Object> getValues() {
         return values;
     }
 

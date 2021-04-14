@@ -20,7 +20,7 @@ public class ListTypeItemTransformer {
     private static final String attributeFollowerCount = "FollowerCount";
     private static final String attributeFolloweeCount = "FolloweeCount";
 
-    public static List<User> transformToUser(List<Item> values) {
+    public static List<User> transformToUser(List<Object> values) {
         List<User> newList = new ArrayList();
         for (int i = 0; i < values.size(); i++) {
             newList.add( toUser(values.get(i)) );
@@ -39,7 +39,7 @@ public class ListTypeItemTransformer {
         return tempUser;
     }
 
-    public static  List<Status> transformToStatus(List<Item> values) {
+    public static  List<Status> transformToStatus(List<Object> values) {
         List<Status> newList = new ArrayList();
         for (int i = 0; i < values.size(); i++) {
             newList.add( toStatus(values.get(i) ));

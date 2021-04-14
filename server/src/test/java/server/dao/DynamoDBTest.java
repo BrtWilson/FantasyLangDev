@@ -34,7 +34,6 @@ public class DynamoDBTest {
     private static final String sortKeyFollows = "FolloweeAlias";
 
     private static final Integer PAGE_SIZE_DEFAULT = 10;
-    private static Integer pageSize;
 
     private static final int uploadBatchSize = 25;
 
@@ -93,7 +92,7 @@ public class DynamoDBTest {
      */
     @Test
     public void getListByString() {
-        ResultsPage resultsPage = DynamoDBStrategy.getListByString(feedTableName, partitionKey, aliasWithFeed, pageSize, sortKeyTime, "");
+        ResultsPage resultsPage = DynamoDBStrategy.getListByString(feedTableName, partitionKey, aliasWithFeed, PAGE_SIZE_DEFAULT, sortKeyTime, "");
     }
 
     /*
@@ -108,7 +107,7 @@ public class DynamoDBTest {
      */
     @Test
     public void getListByString_WithIndex() { // RETRIEVE FOLLOWERS
-        ResultsPage resultsPage = DynamoDBStrategy.getListByString(followsTableName, sortKeyFollows, aliasWithFollowers, pageSize, partionKeyFollows, "", true, sortKeyFollows);
+        ResultsPage resultsPage = DynamoDBStrategy.getListByString(followsTableName, sortKeyFollows, aliasWithFollowers, PAGE_SIZE_DEFAULT, partionKeyFollows, "", true, sortKeyFollows);
     }
 
     /*
