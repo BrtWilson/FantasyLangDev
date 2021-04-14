@@ -23,7 +23,7 @@ public class RegisterService implements IRegisterService {
         /*HASH PASSWORD*/
         PasswordHasher passwordHasher = new PasswordHasher();
         String hashedPassword = passwordHasher.hashPassword(request.getPassword());
-        request.setPassword(hashedPassword);
+        //request.setPassword(hashedPassword);
 
         /*STORE PROFILE IMAGE IN S3 BUCKET AND STORE URL IN REQUEST*/
         request.setEncodedImage(sendPhotoToS3(request));
