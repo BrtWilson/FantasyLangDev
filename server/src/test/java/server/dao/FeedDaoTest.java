@@ -70,8 +70,8 @@ public class FeedDaoTest {
         FeedTableDAO mockDao = Mockito.mock(FeedTableDAO.class);
 //        DynamoDBStrategy mockDatabaseInteractor = Mockito.mock(DynamoDBStrategy.class);
 //        Mockito.when(mockDao.getDatabaseInteractor()).thenReturn(mockDatabaseInteractor);
-        Mockito.when(mockDao.postNewStatus(validRequest1, followerAlias)).thenReturn(successResponse1);
-        Mockito.when(mockDao.postNewStatus(validRequest2, followerAlias)).thenReturn(successResponse2);
+//        Mockito.when(mockDao.postNewStatus(validRequest1, followerAlias)).thenReturn(successResponse1);
+//        Mockito.when(mockDao.postNewStatus(validRequest2, followerAlias)).thenReturn(successResponse2);
 
         followerResponse =  new FollowerResponse(Arrays.asList(resultUser1, resultUser2, resultUser3), false, null);
 
@@ -89,13 +89,13 @@ public class FeedDaoTest {
         statusesDAO = Mockito.spy(new FeedTableDAO());
     }
 
-    @Test
-    public void testPostStatus_validRequest_correctResponse() throws IOException {
-        NewStatusResponse response = statusesDAO.postNewStatus(validRequest1, followerAlias);
-        System.out.println(response.getNewStatus());
-        Assertions.assertEquals(successResponse1.isSuccess(), response.isSuccess());
-        Assertions.assertEquals(successResponse1.getNewStatus().getMessage(), response.getNewStatus().getMessage());
-    }
+//    @Test
+//    public void testPostStatus_validRequest_correctResponse() throws IOException {
+//        NewStatusResponse response = statusesDAO.postNewStatus(validRequest1, followerAlias);
+//        System.out.println(response.getNewStatus());
+//        Assertions.assertEquals(successResponse1.isSuccess(), response.isSuccess());
+//        Assertions.assertEquals(successResponse1.getNewStatus().getMessage(), response.getNewStatus().getMessage());
+//    }
 
     @Test
     public void testGetFeed_validRequest_correct2() throws IOException {

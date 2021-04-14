@@ -301,6 +301,17 @@ public class DynamoDBStrategy {
     }
 
     /**
+     * Deletes an item of a specified dual key
+     * @param tableName The Database Table being targeted
+     * @param key The key that is used in the corresponding table. E.g. "Alias"
+     * @param keyValue The value for the key to match in the query. E.g. for "Alias" could be "LukeSkywalker"
+     */
+    public static void deleteItem(String tableName, String key, String keyValue) {
+        Table table = dynamoDB.getTable(tableName);
+        table.deleteItem(key, keyValue);
+    }
+
+    /**
      * Creates a basic object with a single additional attribute
      * @param tableName The Database Table being targeted
      * @param key The key that is used in the corresponding table. E.g. "Alias"
@@ -375,7 +386,7 @@ public class DynamoDBStrategy {
         }
     }
 
-    //Probably not needed
+    //Probably not needed -- DEPRACATED FOR SQS POSTING
     public static void createItemWithDualKeyAndAttributes(String tableName, String key, String keyValue, String sortKey, String sortKeyValue, List<String> attributeNames, List<String> attributeValues) {
         Table table = dynamoDB.getTable(tableName);
         int attValueListSize = attributeValues.size();

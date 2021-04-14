@@ -3,11 +3,14 @@ package server.dao;
 import com.amazonaws.services.dynamodbv2.document.Item;
 import com.example.server.dao.dbstrategies.DynamoDBStrategy;
 import com.example.server.dao.dbstrategies.ResultsPage;
+import com.example.shared.model.domain.AuthToken;
+import com.example.shared.model.domain.User;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.concurrent.TimeUnit;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 
 public class DynamoDBTest {
 
@@ -38,7 +41,16 @@ public class DynamoDBTest {
     private static final String authTableName = "AuthTokens";
     private static final String secondaryKeyAuth = "Token";
     private static final String attributeTime = "TimeStamp";
-    private static final String aliasInTable = "@HarryPotter";
+    private static final String aliasInTable = "@AshAhketchum";
+    private static final String obscureAlias1 = "@TheForsaken";
+    private static final String obscureAlias2 = "@TheScourge";
+    private static final String tempAlias = "@Mugwarts";
+    private static final String aliasWithFeed = "@AshAhketchum";
+    private static final String aliasWithFollowers = "@HarryPotter";
+    private static final String followerInTable = "@user1229";
+    private static final String followeeInTable = "@HarryPotter";
+    private static final String aliasWithToken = "@CairneBloodhoof";
+    private static final String tokenInTable = "abcdefghijkm";
 
 
     @BeforeEach
@@ -69,7 +81,7 @@ public class DynamoDBTest {
      */
     @Test //like above test, but SortKeys are consistent -- E.G. Post to multiple Feeds
     public void batchUploadByPartition() {
-        DynamoDBStrategy.batchUploadByPartition(feedTableName, partitionKey, followersAliases, sortKeyTime, timeStamp, attributeNames, attributeValues, uploadBatchSize);
+        //DynamoDBStrategy.batchUploadByPartition(feedTableName, partitionKey, followersAliases, sortKeyTime, timeStamp, attributeNames, attributeValues, uploadBatchSize);
     }
 
     /*String tableName,
@@ -81,7 +93,7 @@ public class DynamoDBTest {
      */
     @Test
     public void getListByString() {
-        ResultsPage resultsPage = DynamoDBStrategy.getListByString(feedTableName, partitionKey, aliasWithFeed, pageSize, sortKeyTime, null);
+        ResultsPage resultsPage = DynamoDBStrategy.getListByString(feedTableName, partitionKey, aliasWithFeed, pageSize, sortKeyTime, "");
     }
 
     /*
@@ -96,7 +108,7 @@ public class DynamoDBTest {
      */
     @Test
     public void getListByString_WithIndex() { // RETRIEVE FOLLOWERS
-        ResultsPage resultsPage = DynamoDBStrategy.getListByString(followsTableName, sortKeyFollows, aliasWithFollowers, pageSize, partionKeyFollows, null, true, sortKeyFollows);
+        ResultsPage resultsPage = DynamoDBStrategy.getListByString(followsTableName, sortKeyFollows, aliasWithFollowers, pageSize, partionKeyFollows, "", true, sortKeyFollows);
     }
 
     /*
@@ -106,10 +118,26 @@ public class DynamoDBTest {
     String sortKey,
     Object sortKeyValue
      */
-    @Test
-    public void deleteItemWithDualKey() {
-        DynamoDBStrategy.deleteItemWithDualKey(followsTableName, partionKeyFollows, request.getCurrentUser(), sortKeyFollows, request.getOtherUser());
+    //@Test
+    public void deleteItemWithDualKey_Auth(String date) {
+        DynamoDBStrategy.deleteItemWithDualKey(followsTableName, partionKeyFollows, obscureAlias1, sortKeyFollows, date);
     }
+
+    public void deleteItemWithDualKey_Follows() {
+        DynamoDBStrategy.deleteItemWithDualKey(followsTableName, partionKeyFollows, obscureAlias1, sortKeyFollows, obscureAlias2);
+    }
+
+    @Test
+    public void createAndDelete_ItemTests() {
+        createItemWithAttributes();
+        createItemWithDualKey_Follows();
+        String date = createItemWithDualKey_oneAttribute_Auth();
+
+        deleteItemWithDualKey_Follows();
+        deleteItemWithDualKey_Auth(date);
+        DynamoDBStrategy.deleteItem(usersTableName, partitionKey, tempAlias);
+    }
+
 
     /*
     String tableName,
@@ -118,9 +146,32 @@ public class DynamoDBTest {
     ArrayList<String> attributes,
     ArrayList<String> attributeValues
      */
-    @Test
+    //@Test
     public void createItemWithAttributes() { // NEW USER
-        DynamoDBStrategy.createItemWithAttributes(usersTableName, partitionKey, alias, attributes, attributeValues);
+        String alias = tempAlias;
+        String firstName = "Muglin";
+        String lastName = "Warthog";
+        String password = "lostUnder";
+        String imageUrl = "uncoded";
+        //User user = new User(firstName, lastName, alias, imageUrl);
+        //user.setPassword(password);
+
+        ArrayList<String> attributes = new ArrayList<>();
+        attributes.add(attributeFirstName);
+        attributes.add(attributeLastName);
+        attributes.add(attributePassword);
+        attributes.add(attributeImageUrl);
+        attributes.add(attributeFollowerCount);
+        attributes.add(attributeFolloweeCount);
+
+        ArrayList<String> attributeValues = new ArrayList<>();
+        attributeValues.add(firstName);
+        attributeValues.add(lastName);
+        attributeValues.add(password);
+        attributeValues.add(imageUrl);
+        attributeValues.add("0");
+        attributeValues.add("0");
+        DynamoDBStrategy.createItemWithAttributes(usersTableName, partitionKey, tempAlias, attributes, attributeValues);
     }
 
     /*
@@ -130,9 +181,9 @@ public class DynamoDBTest {
     String sortKey,
     String sortKeyValue
      */
-    @Test
-    public void createItemWithDualKey() {
-        DynamoDBStrategy.createItemWithDualKey(followsTableName, partionKeyFollows, obscureUserAlias1, sortKeyFollows, obscureUserAlias2);
+    //@Test
+    public void createItemWithDualKey_Follows() {
+        DynamoDBStrategy.createItemWithDualKey(followsTableName, partionKeyFollows, obscureAlias1, sortKeyFollows, obscureAlias2);
     }
 
     /*
@@ -145,12 +196,15 @@ public class DynamoDBTest {
     String attributeName,
     String attributeValue
      */
-    @Test
-    public void createItemWithDualKey_oneAttribute() {
-        DynamoDBStrategy.createItemWithDualKey(authTableName, partitionKey, userAlias, secondaryKeyAuth,  token.getToken(), true, attributeTime, date);
+    //@Test
+    public String createItemWithDualKey_oneAttribute_Auth() {
+        AuthToken token = new AuthToken(obscureAlias1);
+        String date = new Timestamp(System.currentTimeMillis()).toString();
+        DynamoDBStrategy.createItemWithDualKey(authTableName, partitionKey, obscureAlias1, secondaryKeyAuth,  token.getToken(), true, attributeTime, date);
+        return date;
     }
 
-    /*
+    /* DEPRACATED FOR SQS POSTING
     String tableName,
     String key,
     String keyValue,
@@ -159,10 +213,10 @@ public class DynamoDBTest {
     List<String> attributeNames,
     List<String> attributeValues,
      */
-    @Test
-    public void creatItemWithDualKeyAndAttributes() {
-        DynamoDBStrategy.createItemWithDualKeyAndAttributes(feedTableName, partitionKey, aliasInTable, sortKeyTime, newTimeStampValue, attributeNamesFeed, attributeValues);
-    }
+    //@Test
+//    public void createItemWithDualKeyAndAttributes() {
+//        DynamoDBStrategy.createItemWithDualKeyAndAttributes(feedTableName, partitionKey, aliasInTable, sortKeyTime, newTimeStampValue, attributeNamesFeed, attributeValues);
+//    }
 
     /*
     String tableName,
@@ -183,7 +237,7 @@ public class DynamoDBTest {
      */
     @Test
     public void basicGetItemWithDualKey() {
-        Object followTableMatch = DynamoDBStrategy.basicGetItemWithDualKey(followsTableName, partionKeyFollows, request.getCurrentUser(), sortKeyFollows, request.getOtherUser());
+        Object followTableMatch = DynamoDBStrategy.basicGetItemWithDualKey(followsTableName, partionKeyFollows, followerInTable, sortKeyFollows, followeeInTable);
     }
 
     /*
@@ -196,8 +250,9 @@ public class DynamoDBTest {
     String newAttributeValue
      */
     @Test
-    public void updateItemStringAttributeFromDualKey() {
-        DynamoDBStrategy.updateItemStringAttributeFromDualKey(authTableName, partitionKey, authToken.getUserName(), secondaryKeyAuth, authToken.getToken(), attributeTime, currentTime.toString() );
+    public void updateItemStringAttributeFromDualKey() throws Exception {
+        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+        DynamoDBStrategy.updateItemStringAttributeFromDualKey(authTableName, partitionKey, aliasWithToken, secondaryKeyAuth, tokenInTable, attributeTime, currentTime.toString() );
     }
 
     /*
@@ -208,8 +263,9 @@ public class DynamoDBTest {
     String newAttributeValue
      */
     @Test
-    public void updateItemStringAttribute() {
-        DynamoDBStrategy.updateItemStringAttribute(usersTableName, partitionKey, request.getOtherUser(), attributeFollowerCount, followerCount.toString());
+    public void updateItemStringAttribute() throws Exception {
+        String newFollowCount = "32";
+        DynamoDBStrategy.updateItemStringAttribute(usersTableName, partitionKey, aliasInTable, attributeFollowerCount, newFollowCount);
 
     }
 
@@ -223,6 +279,6 @@ public class DynamoDBTest {
      */
     @Test
     public void getBasicStringAttributeFromDualKey() {
-        DynamoDBStrategy.getBasicStringAttributeFromDualKey(authTableName, partitionKey, authToken.getUserName(), secondaryKeyAuth, authToken.getToken(), attributeTime);
+        DynamoDBStrategy.getBasicStringAttributeFromDualKey(authTableName, partitionKey, aliasWithToken, secondaryKeyAuth, tokenInTable, attributeTime);
     }
 }
