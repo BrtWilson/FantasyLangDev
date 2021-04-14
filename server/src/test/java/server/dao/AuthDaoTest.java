@@ -1,16 +1,11 @@
 package server.dao;
 
-import com.example.server.dao.DummyDataProvider;
+import com.amazonaws.services.dynamodbv2.document.Item;
 import com.example.server.dao.AuthTableDAO;
 import com.example.server.dao.dbstrategies.DynamoDBStrategy;
 import com.example.shared.model.domain.AuthToken;
 import com.example.shared.model.domain.User;
-import com.example.shared.model.service.request.LoginRequest;
 import com.example.shared.model.service.request.LogoutRequest;
-import com.example.shared.model.service.request.UserRequest;
-import com.example.shared.model.service.response.BasicResponse;
-import com.example.shared.model.service.response.LoginResponse;
-import com.example.shared.model.service.response.UserResponse;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +24,10 @@ public class AuthDaoTest {
     private AuthToken successStartingResponse;
     private LogoutRequest validLogoutRequest;
 
-    private AuthTableDAO AuthDaoSpy;
+    private AuthTableDAO ourAuthDao;
+    private String tableName = "AuthTokens";
+    private static final String keyAttribute = "Alias";
+    private static final String secondaryKey = "Token";
 
     @BeforeEach
     public void setup() {
@@ -56,30 +54,35 @@ public class AuthDaoTest {
         //logoutToken
         validLogoutRequest = new LogoutRequest(user.getAlias());
 
-        AuthDaoSpy = Mockito.spy(new AuthTableDAO());
+        ourAuthDao = new AuthTableDAO();
     }
 
     @Test
     public void testStartingAuthToken_validRequest_returnsAuthToken() throws IOException {
-        AuthToken response = AuthDaoSpy.startingAuth(userAlias);
-        Assertions.assertEquals(validAuthToken, response);
+        AuthToken response = ourAuthDao.startingAuth(userAlias);
+        Assertions.assertNotNull(response);
+        Item item = DynamoDBStrategy.basicGetItemWithDualKey(tableName, keyAttribute, response.getUserName(), secondaryKey, response.getToken());
+        Assertions.assertNotNull(item);
     }
     
     @Test
     public void testGetAuthorized_validRequest_correctResponse() throws IOException {
-        Boolean response = AuthDaoSpy.getAuthorized(validAuthToken);
+        AuthToken response_0 = ourAuthDao.startingAuth(userAlias);
+        Boolean response = ourAuthDao.getAuthorized(response_0);
         Assertions.assertEquals(true, response);
     }
 
     @Test
     public void testGetAuthorized_invalidRequest_failureResponse() throws IOException {
-        Boolean response = AuthDaoSpy.getAuthorized(invalidAuthToken);
+        Boolean response = ourAuthDao.getAuthorized(invalidAuthToken);
         Assertions.assertEquals(false, response);
     }
 
     @Test
     public void testLogoutToken_validRequest_correctResponse() throws IOException {
-        Boolean response = AuthDaoSpy.logoutToken(validLogoutRequest);
+        AuthToken response_0 = ourAuthDao.startingAuth(userAlias);
+        validLogoutRequest.setToken(response_0);
+        Boolean response = ourAuthDao.logoutToken(validLogoutRequest);
         Assertions.assertEquals(true, response);
     }
 

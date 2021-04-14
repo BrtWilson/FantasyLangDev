@@ -2,6 +2,7 @@ package com.example.server.dao;
 
 import com.example.server.dao.dbstrategies.DynamoDBStrategy;
 import com.example.shared.model.domain.AuthToken;
+import com.example.shared.model.domain.User;
 import com.example.shared.model.service.request.LogoutRequest;
 import com.example.shared.model.service.request.RegisterRequest;
 import com.example.shared.model.service.request.UserRequest;
@@ -31,17 +32,21 @@ public class AuthTableDAO {
      */
     public Boolean getAuthorized(AuthToken authToken) {
         String formerTimeStamp = getDatabaseInteractor().getBasicStringAttributeFromDualKey(tableName, keyAttribute, authToken.getUserName(),secondaryKey, authToken.getToken(), additionalAttribute);
-        if (checkTimePassedValid(formerTimeStamp)) {
-            //update time
-            Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-            try {
-                getDatabaseInteractor().updateItemStringAttributeFromDualKey(tableName, keyAttribute, authToken.getUserName(), secondaryKey, authToken.getToken(), additionalAttribute, currentTime.toString() );
-            } catch (Exception e) {
+        try {
+            if (checkTimePassedValid(formerTimeStamp)) {
+                //update time
+                Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+                try {
+                    getDatabaseInteractor().updateItemStringAttributeFromDualKey(tableName, keyAttribute, authToken.getUserName(), secondaryKey, authToken.getToken(), additionalAttribute, currentTime.toString());
+                } catch (Exception e) {
+                    return false;
+                }
+                return true;
+            } else {
+                // log out, but at use (not here)
                 return false;
             }
-            return true;
-        } else {
-            // log out, but at use (not here)
+        } catch (Exception e) {
             return false;
         }
 
@@ -81,7 +86,8 @@ public class AuthTableDAO {
 
     public Boolean logoutToken(LogoutRequest request) {
         //delete AuthToken
-        getDatabaseInteractor().deleteItemWithDualKey(tableName, keyAttribute, request.getUser(), secondaryKey, request.getToken());
+        String currentUserAlias = request.getUser();
+        getDatabaseInteractor().deleteItemWithDualKey(tableName, keyAttribute, currentUserAlias, secondaryKey, request.getToken().getToken());
         return true;
     }
 
