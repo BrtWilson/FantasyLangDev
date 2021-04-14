@@ -50,7 +50,11 @@ public class DynamoDBStrategy {
         TableWriteItems items = new TableWriteItems(tableName);
         for(int i = 0 ; i < partitionKeyList.size(); i ++){
             //later add this with BatchAdd
-            bacthUpload(items, tableName, key, partitionKeyList.get(i), sortKey, sortKeyList.get(i), attributeNames, attributeValuesList.get(i), batchSize);
+            String sortKeyValue = null;
+            if (sortKeyList != null) {
+                sortKeyValue = sortKeyList.get(i);
+            }
+            bacthUpload(items, tableName, key, partitionKeyList.get(i), sortKey, sortKeyValue, attributeNames, attributeValuesList.get(i), batchSize);
         }
 
         if (items.getItemsToPut() != null && items.getItemsToPut().size() > 0) {
