@@ -17,6 +17,7 @@ import com.example.shared.model.service.response.RegisterResponse;
 import com.example.shared.model.service.response.UserResponse;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class UsersTableDAO {
     //DummyDataProvider dataProvider = DummyDataProvider.getInstance();
@@ -49,7 +50,7 @@ public class UsersTableDAO {
 
             return new UserResponse(tempUser);
         } catch (Exception e) {
-            return new UserResponse(e.getMessage());
+            return new UserResponse(SERVER_SIDE_ERROR + ": " + e.getMessage() + "\nStack: " + Arrays.toString(e.getStackTrace()));
         }
     }
 
@@ -74,7 +75,7 @@ public class UsersTableDAO {
             } else { return new LoginResponse(FAULTY_USER_REQUEST + ": User does not exist."); }
 
         } catch (Exception e) {
-            return new LoginResponse(FAULTY_USER_REQUEST + ": " + e.getMessage());
+            return new LoginResponse(SERVER_SIDE_ERROR + ": " + e.getMessage() + "\nStack: " + Arrays.toString(e.getStackTrace()));
         }
     }
 
@@ -100,7 +101,7 @@ public class UsersTableDAO {
                 return new RegisterResponse(registeredUser, token, true);
             }
         } catch (Exception e) {
-            return new RegisterResponse(SERVER_SIDE_ERROR + ": " + e.getMessage(), false);
+            return new RegisterResponse(SERVER_SIDE_ERROR + ": " + e.getMessage() + "\nStack: " + Arrays.toString(e.getStackTrace()), false);
         }
     }
 
