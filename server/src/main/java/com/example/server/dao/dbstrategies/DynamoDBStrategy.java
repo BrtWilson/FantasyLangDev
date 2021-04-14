@@ -272,7 +272,7 @@ public class DynamoDBStrategy {
         if (items != null) {
             for (Map<String, AttributeValue> item : items){
                 Object returnedObject = item.get(attributeToRetrieve);
-                result.addValue(returnedObject);
+                result.addValue((Item) returnedObject);
             }
         }
 
