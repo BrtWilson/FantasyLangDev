@@ -92,7 +92,7 @@ public class SetupBatchUploader {
 
     private static void uploadOurFeeds() {
         List<User> ourUsers = getOurDefaultUsers();
-        List<Status> ourFeed = getFeed();
+        List<Status> ourFeed = getFeed(ourUsers);
         for (int i = 0; i < ourUsers.size(); i++) {
             List<String> ourUserAliases = getIdenticalAliasesList(ourUsers, i);
             List<String> ourStatusAliases = getStatusAliases(ourUsers);
@@ -441,7 +441,52 @@ public class SetupBatchUploader {
         return ourStory;
     }
 
-    private static List<Status> getFeed() {
-        return null;
+    private static List<Status> getFeed(List<User> ourUsers) {
+        List<Status> ourFeed = new ArrayList<>();
+         Status status1 = new Status("I have a sister.", "1349533576", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
+        ourFeed.add(status1);
+         Status status2 = new Status("@Luke, I am your father.", "1349553576", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
+        ourFeed.add(status2);
+         Status status3 = new Status("No, I am your father", "1349536576", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
+        ourFeed.add(status3);
+         Status status4 = new Status("Oh, I am my daddy.", "1349333576", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
+        ourFeed.add(status4);
+         Status status5 = new Status("Wait, what?", "1349533586", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
+        ourFeed.add(status5);
+         Status status6 = new Status("No tomatoes \n https://youtu.be/yRw1onpgFJA", "1349933576", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
+        ourFeed.add(status6);
+         Status status7 = new Status("It's over @Anakin.", "1349534576", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
+        ourFeed.add(status7);
+         Status status8 = new Status("I have the high ground.", "1329533576", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
+        ourFeed.add(status8);
+         Status status9 = new Status("You underestimate my power.", "1449533576m", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
+        ourFeed.add(status9);
+         Status status10 = new Status("Don't try it.", "1349533576", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
+        ourFeed.add(status10);
+         Status status11 = new Status("You were my brother, @Anakin!", "1549533576", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
+        ourFeed.add(status11);
+         Status status12 = new Status("You were supposed to bring balance to the Force!", "1349533577", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
+        ourFeed.add(status12);
+         Status status13 = new Status("You were to destroy the Sith, not join them!", "1349533586", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
+        ourFeed.add(status13);
+         Status status14 = new Status("I loved you like a brother.", "1349533586", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
+        ourFeed.add(status14);
+         Status status15 = new Status("Barbeque accident. \n https://youtu.be/_MHusGl9BeM", "1359533576", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
+        ourFeed.add(status15);
+         Status status16 = new Status("Hello there.", "1349573576", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
+        ourFeed.add(status16);
+         Status status17 = new Status("General Kenobi.", "1349534576", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
+        ourFeed.add(status17);
+         Status status18 = new Status("Come closer, my little friend.", "1349533574", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
+        ourFeed.add(status18);
+         Status status19 = new Status("These are not the droids you are looking for.", "1359533576", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
+        ourFeed.add(status19);
+         Status status20 = new Status("He's not worth anything to me dead.", "1349533526", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
+        ourFeed.add(status20);
+        return ourFeed;
+    }
+
+    private static int getRandInt(Integer max) {
+        return (0 + (int)(Math.random() * max));
     }
 }
