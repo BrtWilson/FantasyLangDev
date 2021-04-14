@@ -282,6 +282,10 @@ public class DynamoDBStrategy {
         return result;
     }
 
+    //Table followTable = dynamoDB.getTable("follows");
+    //Index index = followTable.getIndex("follows_index");
+
+
     private static Map<String, String> convertMap_to_WithStrings(Map<String, AttributeValue> item) {
         Map<String, String> newMap = new HashMap<>();
         for (Map.Entry<String, AttributeValue> entry : item.entrySet()){

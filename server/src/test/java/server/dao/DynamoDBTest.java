@@ -30,6 +30,7 @@ public class DynamoDBTest {
     private static final String attributeFolloweeCount = "FolloweeCount";
 
     private static final String followsTableName = "Follows";
+    private static final String indexTableName = "FolloweeAlias-FollowerAlias-index";
     private static final String partionKeyFollows = "FollowerAlias";
     private static final String sortKeyFollows = "FolloweeAlias";
 
@@ -66,7 +67,7 @@ public class DynamoDBTest {
      */
     @Test
     public void batchUploadVaryingAttributes() {
-        
+        //See SetupBatchUploader, it works
     }
 
     /*String tableName,
@@ -107,7 +108,7 @@ public class DynamoDBTest {
      */
     @Test
     public void getListByString_WithIndex() { // RETRIEVE FOLLOWERS
-        ResultsPage resultsPage = DynamoDBStrategy.getListByString(followsTableName, sortKeyFollows, aliasWithFollowers, PAGE_SIZE_DEFAULT, partionKeyFollows, "", true, sortKeyFollows);
+        ResultsPage resultsPage = DynamoDBStrategy.getListByString(followsTableName, sortKeyFollows, aliasWithFollowers, PAGE_SIZE_DEFAULT, partionKeyFollows, null, true, indexTableName);
     }
 
     /*
