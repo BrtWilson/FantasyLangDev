@@ -23,7 +23,7 @@ public class LoginService implements ILoginService {
     public LoginResponse login(LoginRequest request) throws IOException {
         PasswordHasher passwordHasher = new PasswordHasher();
         String hashedPassword = passwordHasher.hashPassword(request.getPassword());
-        //request.setPassword(hashedPassword);
+        request.setPassword(hashedPassword);
 
         return getLoginDao().login(request);
     }
