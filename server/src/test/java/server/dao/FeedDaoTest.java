@@ -104,12 +104,9 @@ public class FeedDaoTest {
         StatusArrayResponse arrayResponse = statusesDAO.getStatusArray(validArrayRequest);
         //System.out.println(arrayResponse.getStatuses());
         Assertions.assertEquals(successArrayResponse.isSuccess(), arrayResponse.isSuccess());
-<<<<<<< HEAD
         Assertions.assertEquals(successArrayResponse.getStatuses().size(), arrayResponse.getStatuses().size());
-=======
         Assertions.assertEquals(pageSize, arrayResponse.getStatuses().size());
         Assertions.assertEquals(pageSize, arrayResponse.getStatuses().size());
->>>>>>> 367f5474cadabd2df8d1cce069ea34f184a5652e
     }
 
     /**
