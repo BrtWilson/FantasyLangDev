@@ -14,7 +14,7 @@ import java.util.Map;
 public class SetupBatchUploader {
 
     private static AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard()
-            .withRegion("us-west-2")
+            .withRegion("us-east-1")
             .build();
     private static DynamoDB dynamoDB = new DynamoDB(client);
 
@@ -30,7 +30,7 @@ public class SetupBatchUploader {
 
         for(int i =0 ; i < 2; i ++){
             String userName = "@blakeJ"+ i;
-            String firstName = "@user";
+            String firstName = "Blake";
             String lastName = String.valueOf(i);
             String profileImage = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pngitem.com%2Fmiddle%2FwomThJ_ash-ketchum-hd-png-download%2F&psig=AOvVaw2h43_Bi3x5gdd1y2tRmAhq&ust=1616605412770000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCJjVytTyxu8CFQAAAAAdAAAAABAL";
             //later add this with BatchAdd
