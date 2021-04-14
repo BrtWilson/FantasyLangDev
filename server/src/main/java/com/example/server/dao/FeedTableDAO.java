@@ -54,7 +54,7 @@ public class FeedTableDAO {
      *  // * * * => THIS TO BE USED WITH THE SQS QUEUES BY THE BATCH_FEED_UPDATER.
      *  It will need the inclusion of the Status's correspondingUserAlias, as well as the Feed's owner userAlias
      *
-     * @param request Contains the Status info: CorrespondingUser, Date, Message
+     * @/param request Contains the Status info: CorrespondingUser, Date, Message
      * @return
      */
 //    public NewStatusResponse postNewStatus(NewStatusRequest request, String followerAlias) {
@@ -104,7 +104,11 @@ public class FeedTableDAO {
     }
 
     private List<String> getUserAliases(List<User> followersList) {
-        return null;
+        List<String> aliases = new ArrayList<>();
+        for (int i = 0; i < followersList.size(); i++) {
+            aliases.add(followersList.get(i).getAlias());
+        }
+        return aliases;
     }
 
 
