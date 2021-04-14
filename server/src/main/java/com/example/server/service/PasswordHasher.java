@@ -30,7 +30,7 @@ class PasswordHasher {
             SecureRandom sr = SecureRandom.getInstance("SHA1PRNG", "SUN");
             byte[] salt = new byte[16];
             sr.nextBytes(salt);
-            return Base64.getEncoder().encodeToString(salt);
+            return "Undecipherable salt"; //Base64.getEncoder().encodeToString(salt);
         } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
             e.printStackTrace();
         }
