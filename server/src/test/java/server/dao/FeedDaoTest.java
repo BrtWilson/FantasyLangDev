@@ -41,6 +41,8 @@ public class FeedDaoTest {
     private String followerAlias;
 
     private FeedTableDAO statusesDAO;
+    private String userInTableAlias = "@AangJones";
+    private int pageSize = 5;
 
     @BeforeEach
     public void setup() {
@@ -76,7 +78,7 @@ public class FeedDaoTest {
         followerResponse =  new FollowerResponse(Arrays.asList(resultUser1, resultUser2, resultUser3), false, null);
 
         // Setup request objects to use in the tests
-        validArrayRequest = new StatusArrayRequest(resultUser1.getAlias(), 3, null);
+        validArrayRequest = new StatusArrayRequest(userInTableAlias, pageSize, null);
         invalidArrayRequest = new StatusArrayRequest(null, 0, null);
 
         // Setup a mock ServerFacade that will return known responses
@@ -102,7 +104,12 @@ public class FeedDaoTest {
         StatusArrayResponse arrayResponse = statusesDAO.getStatusArray(validArrayRequest);
         //System.out.println(arrayResponse.getStatuses());
         Assertions.assertEquals(successArrayResponse.isSuccess(), arrayResponse.isSuccess());
+<<<<<<< HEAD
         Assertions.assertEquals(successArrayResponse.getStatuses().size(), arrayResponse.getStatuses().size());
+=======
+        Assertions.assertEquals(pageSize, arrayResponse.getStatuses().size());
+        Assertions.assertEquals(pageSize, arrayResponse.getStatuses().size());
+>>>>>>> 367f5474cadabd2df8d1cce069ea34f184a5652e
     }
 
     /**
