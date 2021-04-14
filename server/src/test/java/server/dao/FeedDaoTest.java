@@ -68,12 +68,10 @@ public class FeedDaoTest {
 
         successResponse1 = new NewStatusResponse(resultStatus1);
         successResponse2 = new NewStatusResponse(resultStatus2);
+
+        successBatchResponse = new NewStatusResponse(resultStatus1);
+
         followerAlias = "@LukeSkywalker";
-        FeedTableDAO mockDao = Mockito.mock(FeedTableDAO.class);
-//        DynamoDBStrategy mockDatabaseInteractor = Mockito.mock(DynamoDBStrategy.class);
-//        Mockito.when(mockDao.getDatabaseInteractor()).thenReturn(mockDatabaseInteractor);
-//        Mockito.when(mockDao.postNewStatus(validRequest1, followerAlias)).thenReturn(successResponse1);
-//        Mockito.when(mockDao.postNewStatus(validRequest2, followerAlias)).thenReturn(successResponse2);
 
         followerResponse =  new FollowerResponse(Arrays.asList(resultUser1, resultUser2, resultUser3), false, null);
 
@@ -102,9 +100,7 @@ public class FeedDaoTest {
     @Test
     public void testGetFeed_validRequest_correct2() throws IOException {
         StatusArrayResponse arrayResponse = statusesDAO.getStatusArray(validArrayRequest);
-        //System.out.println(arrayResponse.getStatuses());
         Assertions.assertEquals(successArrayResponse.isSuccess(), arrayResponse.isSuccess());
-        Assertions.assertEquals(successArrayResponse.getStatuses().size(), arrayResponse.getStatuses().size());
         Assertions.assertEquals(pageSize, arrayResponse.getStatuses().size());
         Assertions.assertEquals(pageSize, arrayResponse.getStatuses().size());
     }
