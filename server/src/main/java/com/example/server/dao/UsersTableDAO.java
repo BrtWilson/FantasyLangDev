@@ -54,7 +54,7 @@ public class UsersTableDAO {
             } else { return new LoginResponse(FAULTY_USER_REQUEST + ": User does not exist."); }
 
         } catch (Exception e) {
-            return new LoginResponse(FAULTY_USER_REQUEST + ": " + e.getMessage());
+            return new LoginResponse(SERVER_SIDE_ERROR + ": " + e.getMessage());
         }
     }
 

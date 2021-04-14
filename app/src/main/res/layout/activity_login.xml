@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         android:padding="5dp"
         android:layout_margin="3dp"
+        android:text="@testuser"
         android:hint="\@Username"/>
 
     <!--Password-->
@@ -27,6 +28,7 @@
         android:padding="5dp"
         android:layout_margin="3dp"
         android:inputType="textPassword"
+        android:text="password"
         android:hint="Password"/>
 
     <Button
