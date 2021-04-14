@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import java.io.IOException;
+import java.util.UUID;
 
 import com.example.server.dao.DummyDataProvider;
 import com.example.server.dao.UsersTableDAO;
@@ -32,11 +33,15 @@ public class RegisterServiceTest {
         user1.setPassword("password");
 
         User user2 = new User("User", "Name", "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
-        user1.setPassword("password");
+        user2.setPassword("password");
         User duplicateUser = DummyDataProvider.getInstance().getSampleDummyUser();
 
-        validRequest1 = new RegisterRequest(user1.getFirstName(), user1.getLastName(), user1.getAlias(), user1.getPassword(), user1.getImageUrl());
-        validRequest2 = new RegisterRequest(user2.getFirstName(), user2.getLastName(), user2.getAlias(), user2.getPassword(), user2.getImageUrl());
+        UUID randomString = UUID.randomUUID();
+        String randomAlias1 = "@" + randomString.toString().substring(0,5);
+        String randomAlias2 = "@" + randomString.toString().substring(0,4);
+
+        validRequest1 = new RegisterRequest(user1.getFirstName(), user1.getLastName(), randomAlias1, user1.getPassword(), "blah");
+        validRequest2 = new RegisterRequest(user2.getFirstName(), user2.getLastName(), randomAlias2, user2.getPassword(), "blah");
         invalidRequest = new RegisterRequest(duplicateUser.getFirstName(), duplicateUser.getLastName(), duplicateUser.getAlias(), duplicateUser.getPassword(), duplicateUser.getImageUrl());
 
         successResponse = new RegisterResponse(user1, new AuthToken(), true);
