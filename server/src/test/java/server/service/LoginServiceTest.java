@@ -34,7 +34,7 @@ public class LoginServiceTest {
 
         validRequest = new LoginRequest(user.getAlias(), user.getPassword());
         invalidRequest = new LoginRequest(user.getAlias(), "wrongPassword");
-        validLogoutRequest = new LogoutRequest(user);
+        validLogoutRequest = new LogoutRequest(user.getAlias());
 
         successResponse = new LoginResponse(user, new AuthToken());
         logoutResponse = new BasicResponse(true, "Successfully logged out");

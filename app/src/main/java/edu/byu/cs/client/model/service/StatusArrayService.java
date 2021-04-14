@@ -61,6 +61,8 @@ public class StatusArrayService implements IStatusArrayService {
      * @param response the response from the followee request.
      */
     private void loadImages(StatusArrayResponse response) throws IOException, TweeterRemoteException {
+        if (response.getStatuses().size() == 0)
+            return;
         for(Status status : response.getStatuses()) {
             User user = getUser(status.getCorrespondingUserAlias());
             byte [] bytes = ByteArrayUtils.bytesFromUrl(user.getImageUrl());

@@ -459,7 +459,8 @@ public class StatusFragment extends Fragment implements StatusArrayPresenter.Vie
 
             isLoading = false;
             removeLoadingFooter();
-            statusRecyclerViewAdapter.addItems(statuses);
+            if (statuses != null && statuses.size() > 0)
+                statusRecyclerViewAdapter.addItems(statuses);
         }
 
         /**

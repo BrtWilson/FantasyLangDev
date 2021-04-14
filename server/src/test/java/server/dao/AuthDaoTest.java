@@ -54,7 +54,7 @@ public class AuthDaoTest {
         Mockito.when(mockDao.getAuthorized(invalidAuthToken)).thenReturn(false);
 
         //logoutToken
-        validLogoutRequest = new LogoutRequest(user);
+        validLogoutRequest = new LogoutRequest(user.getAlias());
 
         AuthDaoSpy = Mockito.spy(new AuthTableDAO());
     }

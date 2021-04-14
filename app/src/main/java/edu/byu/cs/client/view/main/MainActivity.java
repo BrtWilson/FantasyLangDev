@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements LoginPresenter.Vi
 
         if (id == R.id.logoutMenu) {
             LogoutTask logoutTask = new LogoutTask(loginPresenter, MainActivity.this);
-            LogoutRequest logoutRequest = new LogoutRequest(user);
+            LogoutRequest logoutRequest = new LogoutRequest(user.getAlias());
             logoutTask.execute(logoutRequest);
 
             return true;

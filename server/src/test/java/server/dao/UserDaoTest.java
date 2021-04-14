@@ -63,7 +63,7 @@ public class UserDaoTest {
 
         validLoginRequest = new LoginRequest(user.getAlias(), user.getPassword());
         invalidLoginRequest = new LoginRequest(user.getAlias(), "wrongPassword");
-        validLogoutRequest = new LogoutRequest(user);
+        validLogoutRequest = new LogoutRequest(user.getAlias());
 
         loginSuccessResponse = new LoginResponse(user, new AuthToken());
         Mockito.when(mockDao.login(validLoginRequest)).thenReturn(loginSuccessResponse);
