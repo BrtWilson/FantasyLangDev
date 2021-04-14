@@ -43,7 +43,7 @@ public class UsersTableDAO {
             tempUser.setAlias(retrievedUser.getString(keyAttribute));
             tempUser.setFirstName(retrievedUser.getString(attributeFirstName));
             tempUser.setLastName(retrievedUser.getString(attributeLastName));
-            //tempUser.setPassword(retrievedUser.getString(attributePassword));
+            tempUser.setPassword(retrievedUser.getString(attributePassword));
             tempUser.setFolloweeCount(retrievedUser.getString(attributeFolloweeCount));
             tempUser.setFollowerCount(retrievedUser.getString(attributeFollowerCount));
             tempUser.setImageUrl(retrievedUser.getString(attributeImageUrl));

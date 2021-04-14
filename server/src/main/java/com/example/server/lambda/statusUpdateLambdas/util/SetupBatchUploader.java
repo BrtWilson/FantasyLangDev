@@ -47,10 +47,18 @@ public class SetupBatchUploader {
     private static final String standardUserAlias = "@HarryPotter";
 
     //Generating Data to DB
-    public static void main(String[] args) {
-        uploadOurUsers();
-        uploadOurFeeds();
-        uploadOurStory(standardUserAlias);
+    public static void main(String[] args) throws Exception {
+       // uploadOurUsers();
+       // uploadOurFeeds();
+       // uploadOurStory(standardUserAlias);
+        updateImages();
+    }
+
+    private static void updateImages() throws Exception {
+        for (int i = 0; i < 10000; i ++){
+            String username = "@user" +i;
+            DynamoDBStrategy.updateItemStringAttribute(userTableName, partitionKey, username, "ImageUrl", "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
+        }
     }
 
     private static void uploadOurUsers() {

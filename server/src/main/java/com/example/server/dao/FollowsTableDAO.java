@@ -37,7 +37,7 @@ public class FollowsTableDAO {
       //  return new FollowerResponse(13);
     //}
 
-    private void verifyRequestUserAlias(String requestAlias) {
+    private void verifyRequestUserAlias(String requestAlias) {//We have followers that hits this point, and just blows up
         if (requestAlias == null) {
             throw new AssertionError();
         }
@@ -100,7 +100,7 @@ public class FollowsTableDAO {
             usersTableDAO.follow(request);
             return new FollowStatusResponse(true);
         } catch (Exception e) {
-            return new FollowStatusResponse(SERVER_SIDE_ERROR + ": " + e.getMessage());
+            return new FollowStatusResponse(SERVER_SIDE_ERROR + ": " + e.getMessage()); //folllw lambda is hitting this
         }
     }
 
