@@ -45,7 +45,7 @@ public class StoryTableDAO {
 
     //STANDARD ADD TO STORY
     public NewStatusResponse postNewStatus(NewStatusRequest request) {
-        DynamoDBStrategy.createItemWithDualKey(tableName, partitionKey, request.getUserAlias(), sortKey, request.getDate(), true, attributeMessage, request.getMessage());
+        getDatabaseInteractor().createItemWithDualKey(tableName, partitionKey, request.getUserAlias(), sortKey, request.getDate(), true, attributeMessage, request.getMessage());
         return new NewStatusResponse(new Status(request.getMessage(), request.getDate(), request.getUserAlias()));
     }
 
@@ -54,7 +54,7 @@ public class StoryTableDAO {
     //}
 
     private StatusArrayResponse retrieveStory(String targetAlias, String lastRetrieved) {
-        ResultsPage resultsPage = DynamoDBStrategy.getListByString(tableName, partitionKey, targetAlias, pageSize, sortKey, lastRetrieved);
+        ResultsPage resultsPage = getDatabaseInteractor().getListByString(tableName, partitionKey, targetAlias, pageSize, sortKey, lastRetrieved);
         boolean hasMorePages = (resultsPage.hasLastKey());
         String newLastRetrieved = resultsPage.getLastKey();
         List<Status> statusList = ListTypeItemTransformer.transformToStatus(resultsPage.getValues());
@@ -82,4 +82,8 @@ public class StoryTableDAO {
 
         return statusesIndex;
     }*/
+
+    public DynamoDBStrategy getDatabaseInteractor() {
+        return new DynamoDBStrategy();
+    }
 }

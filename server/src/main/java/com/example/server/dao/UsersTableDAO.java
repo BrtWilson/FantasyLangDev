@@ -37,7 +37,7 @@ public class UsersTableDAO {
 
     public UserResponse getUserByAlias(UserRequest userRequest) {
         try {
-            Item retrievedUser = (Item) DynamoDBStrategy.basicGetItem(tableName, keyAttribute, userRequest.getAlias());
+            Item retrievedUser = (Item) getDatabaseInteractor().basicGetItem(tableName, keyAttribute, userRequest.getAlias());
             User tempUser = new User();
 
             tempUser.setAlias(retrievedUser.getString(keyAttribute));
@@ -56,7 +56,7 @@ public class UsersTableDAO {
 
     public LoginResponse login(LoginRequest request) {
         try {
-            Item retrievedUser = DynamoDBStrategy.basicGetItem(tableName,keyAttribute,request.getUsername());
+            Item retrievedUser = getDatabaseInteractor().basicGetItem(tableName,keyAttribute,request.getUsername());
 
             if (retrievedUser != null) {
                 User tempUser = new User();
@@ -92,7 +92,7 @@ public class UsersTableDAO {
 
     public RegisterResponse register(RegisterRequest request) {
         try {
-            Object userTableMatch = DynamoDBStrategy.basicGetItem(tableName, keyAttribute, request.getUserName());
+            Object userTableMatch = getDatabaseInteractor().basicGetItem(tableName, keyAttribute, request.getUserName());
             if (userTableMatch != null) {
                 return new RegisterResponse(FAULTY_USER_REQUEST + ": User already exists.", false);
             } else {
@@ -131,7 +131,7 @@ public class UsersTableDAO {
         attributeValues.add("0");
         attributeValues.add("0");
 
-        if (DynamoDBStrategy.createItemWithAttributes(tableName, keyAttribute, alias, attributes, attributeValues)) {
+        if (getDatabaseInteractor().createItemWithAttributes(tableName, keyAttribute, alias, attributes, attributeValues)) {
             return user;
         }
         throw new Exception(SERVER_SIDE_ERROR + ": Failed to complete user upload");
@@ -141,26 +141,26 @@ public class UsersTableDAO {
     public boolean unfollow(FollowStatusRequest request) throws Exception {
         Integer followerCount = Integer.valueOf(getUserFollowerCount(request.getOtherUser())) + 1;
         Integer followeeCount = Integer.valueOf(getUserFolloweeCount(request.getCurrentUser())) + 1;
-        DynamoDBStrategy.updateItemStringAttribute(tableName, keyAttribute, request.getOtherUser(), attributeFollowerCount, followerCount.toString());
-        DynamoDBStrategy.updateItemStringAttribute(tableName, keyAttribute, request.getOtherUser(), attributeFolloweeCount, followeeCount.toString());
+        getDatabaseInteractor().updateItemStringAttribute(tableName, keyAttribute, request.getOtherUser(), attributeFollowerCount, followerCount.toString());
+        getDatabaseInteractor().updateItemStringAttribute(tableName, keyAttribute, request.getOtherUser(), attributeFolloweeCount, followeeCount.toString());
         return true;
     }
 
     private String getUserFollowerCount(String userAlias) {
-        Item currentUser = DynamoDBStrategy.basicGetItem(tableName,keyAttribute,userAlias);
+        Item currentUser = getDatabaseInteractor().basicGetItem(tableName,keyAttribute,userAlias);
         return currentUser.getString(attributeFollowerCount);
     }
 
     private String getUserFolloweeCount(String userAlias) {
-        Item currentUser = DynamoDBStrategy.basicGetItem(tableName,keyAttribute,userAlias);
+        Item currentUser = getDatabaseInteractor().basicGetItem(tableName,keyAttribute,userAlias);
         return currentUser.getString(attributeFolloweeCount);
     }
 
     public boolean follow(FollowStatusRequest request) throws Exception {
         Integer followerCount = Integer.parseInt(getUserFollowerCount(request.getOtherUser())) + 1;
         Integer followeeCount = Integer.parseInt(getUserFolloweeCount(request.getCurrentUser())) + 1;
-        DynamoDBStrategy.updateItemStringAttribute(tableName, keyAttribute, request.getCurrentUser(), attributeFollowerCount, followerCount.toString());
-        DynamoDBStrategy.updateItemStringAttribute(tableName, keyAttribute, request.getOtherUser(), attributeFolloweeCount, followeeCount.toString());
+        getDatabaseInteractor().updateItemStringAttribute(tableName, keyAttribute, request.getCurrentUser(), attributeFollowerCount, followerCount.toString());
+        getDatabaseInteractor().updateItemStringAttribute(tableName, keyAttribute, request.getOtherUser(), attributeFolloweeCount, followeeCount.toString());
         return true;
     }
 
@@ -181,4 +181,8 @@ public class UsersTableDAO {
         return dataProvider.getSampleDummyUser();
     }
     */
+
+    public DynamoDBStrategy getDatabaseInteractor() {
+        return new DynamoDBStrategy();
+    }
 }

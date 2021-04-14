@@ -8,7 +8,7 @@ import org.mockito.Mockito;
 import java.io.IOException;
 import java.util.Arrays;
 
-import com.example.server.dao.StatusesTableDAO;
+import com.example.server.dao.StoryTableDAO;
 import com.example.server.service.StatusArrayService;
 import com.example.shared.model.domain.User;
 import com.example.shared.model.service.request.StatusArrayRequest;
@@ -50,7 +50,7 @@ public class StatusArrayServiceTest {
 
         // Setup a mock ServerFacade that will return known responses
         successResponse = new StatusArrayResponse(Arrays.asList(resultStatus1, resultStatus2, resultStatus3), false, null);
-        StatusesTableDAO mockDao = Mockito.mock(StatusesTableDAO.class);
+        StoryTableDAO mockDao = Mockito.mock(StoryTableDAO.class);
         Mockito.when(mockDao.getStatusArray(validRequest)).thenReturn(successResponse);
 
         failureResponse = new StatusArrayResponse("An exception occurred");
@@ -63,7 +63,7 @@ public class StatusArrayServiceTest {
 
     /**
      * Verify that for successful requests the {@link StatusArrayService #getStatusArray(StatusArrayRequest)}
-     * method returns the same result as the {@link StatusesTableDAO}.
+     * method returns the same result as the {@link StoryTableDAO}.
      * .
      *
      * @throws IOException if an IO error occurs.
@@ -75,7 +75,7 @@ public class StatusArrayServiceTest {
     }
 
     /**
-     * Verify that the {@link StatusArrayService #StatusesTableDAO(StatusArrayRequest)} method loads the
+     * Verify that the {@link StatusArrayService #StoryTableDAO(StatusArrayRequest)} method loads the
      * profile image of each user included in the result.
      *
      * @throws IOException if an IO error occurs.
@@ -91,7 +91,7 @@ public class StatusArrayServiceTest {
 
     /**
      * Verify that for failed requests the {@link StatusArrayService #requestStatusArray(StatusArrayRequest)}
-     * method returns the same result as the {@link StatusesTableDAO}.
+     * method returns the same result as the {@link StoryTableDAO}.
      *
      * @throws IOException if an IO error occurs.
      */

@@ -62,7 +62,7 @@ public class FollowsTableDAO {
     //}
 
     private FollowingResponse retrieveFollowees(String targetAlias, String lastRetrieved) {
-        ResultsPage resultsPage = DynamoDBStrategy.getListByString(tableName, partionKey, targetAlias, pageSize, sortKey, lastRetrieved);
+        ResultsPage resultsPage = getDatabaseInteractor().getListByString(tableName, partionKey, targetAlias, pageSize, sortKey, lastRetrieved);
         boolean hasMorePages = (resultsPage.hasLastKey());
         String newLastRetrieved = resultsPage.getLastKey();
         List<User> usersList = ListTypeItemTransformer.transformToUser(resultsPage.getValues());
@@ -72,7 +72,7 @@ public class FollowsTableDAO {
 
     private FollowerResponse retrieveFollowers(String targetAlias, String lastRetrieved) {
         //TODO: verify whether this works, or if sortKey and partitionKey should stay normal
-        ResultsPage resultsPage = DynamoDBStrategy.getListByString(tableName, sortKey, targetAlias, pageSize, partionKey, lastRetrieved, true, sortKey);
+        ResultsPage resultsPage = getDatabaseInteractor().getListByString(tableName, sortKey, targetAlias, pageSize, partionKey, lastRetrieved, true, sortKey);
         boolean hasMorePages = (resultsPage.hasLastKey());
         String newLastRetrieved = resultsPage.getLastKey();
         List<User> usersList = ListTypeItemTransformer.transformToUser(resultsPage.getValues());
@@ -82,7 +82,7 @@ public class FollowsTableDAO {
 
     public FollowStatusResponse unfollow(FollowStatusRequest request) {
         try {
-            DynamoDBStrategy.deleteItemWithDualKey(tableName, partionKey, request.getCurrentUser(), sortKey, request.getOtherUser());
+            getDatabaseInteractor().deleteItemWithDualKey(tableName, partionKey, request.getCurrentUser(), sortKey, request.getOtherUser());
 
             UsersTableDAO usersTableDAO = new UsersTableDAO();
             usersTableDAO.unfollow(request);
@@ -94,7 +94,7 @@ public class FollowsTableDAO {
 
     public FollowStatusResponse follow(FollowStatusRequest request) {
         try {
-            DynamoDBStrategy.createItemWithDualKey(tableName, partionKey, request.getCurrentUser(), sortKey, request.getOtherUser());
+            getDatabaseInteractor().createItemWithDualKey(tableName, partionKey, request.getCurrentUser(), sortKey, request.getOtherUser());
 
             UsersTableDAO usersTableDAO = new UsersTableDAO();
             usersTableDAO.follow(request);
@@ -106,7 +106,7 @@ public class FollowsTableDAO {
 
     public FollowStatusResponse getFollowStatus(FollowStatusRequest request) {
         try {
-            Object followTableMatch = DynamoDBStrategy.basicGetItemWithDualKey(tableName, partionKey, request.getCurrentUser(), sortKey, request.getOtherUser());
+            Object followTableMatch = getDatabaseInteractor().basicGetItemWithDualKey(tableName, partionKey, request.getCurrentUser(), sortKey, request.getOtherUser());
             return new FollowStatusResponse((followTableMatch != null));
         } catch (Exception e) {
             return new FollowStatusResponse(SERVER_SIDE_ERROR + ": " + e.getMessage());
@@ -145,4 +145,7 @@ public class FollowsTableDAO {
 
         return followsIndex;
     }*/
+    public DynamoDBStrategy getDatabaseInteractor() {
+        return new DynamoDBStrategy();
+    }
 }

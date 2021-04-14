@@ -65,7 +65,7 @@ public class FeedTableDAO {
         attributeValues.add(request.getUserAlias());
         attributeValues.add(request.getMessage());
 
-        DynamoDBStrategy.createItemWithDualKeyAndAttributes(tableName, partitionKey, followerAlias, sortKey, request.getDate(), attributeNames, attributeValues);
+        getDatabaseInteractor().createItemWithDualKeyAndAttributes(tableName, partitionKey, followerAlias, sortKey, request.getDate(), attributeNames, attributeValues);
         return new NewStatusResponse(new Status(request.getMessage(), request.getDate(), request.getUserAlias()));
     }
 
@@ -75,7 +75,7 @@ public class FeedTableDAO {
 
     //NOPE: Probably will need refactoring with having the additional userAlias --> Should work as is
     private StatusArrayResponse retrieveFeed(String targetAlias, String lastRetrieved) {
-        ResultsPage resultsPage = DynamoDBStrategy.getListByString(tableName, partitionKey, targetAlias, pageSize, sortKey, lastRetrieved);
+        ResultsPage resultsPage = getDatabaseInteractor().getListByString(tableName, partitionKey, targetAlias, pageSize, sortKey, lastRetrieved);
         boolean hasMorePages = (resultsPage.hasLastKey());
         String newLastRetrieved = resultsPage.getLastKey();
         List<Status> statusList = ListTypeItemTransformer.transformToStatus(resultsPage.getValues());
@@ -98,7 +98,7 @@ public class FeedTableDAO {
         List<User> followersList = followerResponse.getFollowers();
         List<String> followersAliases = getUserAliases(followersList);
 
-        DynamoDBStrategy.batchUploadByPartition(tableName, partitionKey, followersAliases, sortKey, timeStamp, attributeNames, attributeValues, uploadBatchSize);
+        getDatabaseInteractor().batchUploadByPartition(tableName, partitionKey, followersAliases, sortKey, timeStamp, attributeNames, attributeValues, uploadBatchSize);
 
         return new NewStatusResponse(new Status(request.getMessage(),timeStamp, request.getUserAlias()));
     }
@@ -129,4 +129,7 @@ public class FeedTableDAO {
         return statusesIndex;
     }*/
 
+    public DynamoDBStrategy getDatabaseInteractor() {
+        return new DynamoDBStrategy();
+    }
 }

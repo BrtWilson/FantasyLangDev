@@ -1,6 +1,8 @@
 package server.dao;
 
-import com.example.server.dao.StatusesTableDAO;
+import com.example.server.dao.StoryTableDAO;
+import com.example.server.dao.dbstrategies.DynamoDBStrategy;
+import com.example.server.dao.dbstrategies.ResultsPage;
 import com.example.server.service.StatusArrayService;
 import com.example.shared.model.domain.Status;
 import com.example.shared.model.domain.User;
@@ -18,7 +20,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 
-public class StatusDaoTest {
+public class StoryDaoTest {
 
     private NewStatusRequest validRequest1;
     private NewStatusRequest validRequest2;
@@ -32,7 +34,8 @@ public class StatusDaoTest {
     private StatusArrayResponse successArrayResponse;
     private StatusArrayResponse failureArrayResponse;
 
-    private StatusesTableDAO statusesDAO;
+    private StoryTableDAO statusesDAO;
+    private DynamoDBStrategy mockDatabaseInteractor;
 
     @BeforeEach
     public void setup() {
@@ -57,7 +60,9 @@ public class StatusDaoTest {
 
         successResponse1 = new NewStatusResponse(resultStatus1);
         successResponse2 = new NewStatusResponse(resultStatus2);
-        StatusesTableDAO mockDao = Mockito.mock(StatusesTableDAO.class);
+        StoryTableDAO mockDao = Mockito.mock(StoryTableDAO.class);
+//        mockDatabaseInteractor = Mockito.mock(DynamoDBStrategy.class);
+//        Mockito.when(mockDao.getDatabaseInteractor()).thenReturn(mockDatabaseInteractor);
         Mockito.when(mockDao.postNewStatus(validRequest1)).thenReturn(successResponse1);
         Mockito.when(mockDao.postNewStatus(validRequest2)).thenReturn(successResponse2);
 
@@ -72,7 +77,9 @@ public class StatusDaoTest {
         failureArrayResponse = new StatusArrayResponse("An exception occurred");
         Mockito.when(mockDao.getStatusArray(invalidArrayRequest)).thenReturn(failureArrayResponse);
 
-        statusesDAO = Mockito.spy(new StatusesTableDAO());
+        statusesDAO = Mockito.spy(new StoryTableDAO());
+
+        //ResultsPage mockResultsPage
     }
 
     // STATUS POST Tests
@@ -84,18 +91,10 @@ public class StatusDaoTest {
         Assertions.assertEquals(successResponse1.getNewStatus().getMessage(), response.getNewStatus().getMessage());
     }
 
-    @Test
-    public void testPostStatus_validRequest_correct2() throws IOException {
-        NewStatusResponse response1 = statusesDAO.postNewStatus(validRequest2);
-        System.out.println(response1.getNewStatus());
-        Assertions.assertEquals(successResponse2.isSuccess(), response1.isSuccess());
-        Assertions.assertEquals(successResponse2.getNewStatus().getMessage(), response1.getNewStatus().getMessage());
-    }
-
     // STATUS ARRAY GET Tests
     /**
      * Verify that for successful requests the {@link StatusArrayService #getStatusArray(StatusArrayRequest)}
-     * method returns the same result as the {@link StatusesTableDAO}.
+     * method returns the same result as the {@link StoryTableDAO}.
      * .
      *
      * @throws IOException if an IO error occurs.
@@ -109,13 +108,14 @@ public class StatusDaoTest {
     }
 
     /**
-     * Verify that the {@link StatusArrayService #StatusesTableDAO(StatusArrayRequest)} method loads the
+     * Verify that the {@link StatusArrayService #StoryTableDAO(StatusArrayRequest)} method loads the
      * profile image of each user included in the result.
      *
      * @throws IOException if an IO error occurs.
      */
     @Test
     public void testGetStatusArray_validRequest_loadsProfileImages() throws IOException {
+        //Mockito.when(mockDatabaseInteractor.getListByString(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyInt(), Mockito.anyString(), Mockito.anyString())).thenReturn(null);
         StatusArrayResponse response = statusesDAO.getStatusArray(validArrayRequest);
 
         for(Status status : response.getStatuses()) {
@@ -125,7 +125,7 @@ public class StatusDaoTest {
 
     /**
      * Verify that for failed requests the {@link StatusArrayService #requestStatusArray(StatusArrayRequest)}
-     * method returns the same result as the {@link StatusesTableDAO}.
+     * method returns the same result as the {@link StoryTableDAO}.
      *
      * @throws IOException if an IO error occurs.
      */

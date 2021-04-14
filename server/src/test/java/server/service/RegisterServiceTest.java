@@ -13,7 +13,6 @@ import com.example.shared.model.domain.AuthToken;
 import com.example.shared.model.domain.User;
 import com.example.shared.model.service.request.RegisterRequest;
 import com.example.shared.model.service.response.RegisterResponse;
-import com.example.shared.model.service.response.StatusArrayResponse;
 
 
 public class RegisterServiceTest {

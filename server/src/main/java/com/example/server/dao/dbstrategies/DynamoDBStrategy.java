@@ -29,7 +29,7 @@ import java.util.Map;
 
 public class DynamoDBStrategy {
 
-    private static AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard().withRegion("us-east-1").build();
+    private static AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard().build();
     private static DynamoDB dynamoDB = new DynamoDB(client);
     private static final String SERVER_SIDE_ERROR = "Server_Error";
 

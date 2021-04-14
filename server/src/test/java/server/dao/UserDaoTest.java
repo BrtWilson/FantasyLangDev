@@ -2,12 +2,15 @@ package server.dao;
 
 import com.example.server.dao.DummyDataProvider;
 import com.example.server.dao.UsersTableDAO;
+import com.example.server.dao.dbstrategies.DynamoDBStrategy;
 import com.example.shared.model.domain.AuthToken;
 import com.example.shared.model.domain.User;
 import com.example.shared.model.service.request.LoginRequest;
 import com.example.shared.model.service.request.LogoutRequest;
+import com.example.shared.model.service.request.RegisterRequest;
 import com.example.shared.model.service.request.UserRequest;
 import com.example.shared.model.service.response.LoginResponse;
+import com.example.shared.model.service.response.RegisterResponse;
 import com.example.shared.model.service.response.UserResponse;
 import com.example.shared.model.service.response.BasicResponse;
 
@@ -35,17 +38,24 @@ public class UserDaoTest {
     private BasicResponse logoutResponse;
 
     private UsersTableDAO userDaoSpy;
+    private RegisterResponse registerSuccessResponse;
+    private RegisterRequest validRegisterRequest;
 
     @BeforeEach
     public void setup() {
         User user = new User("test", "user", "https://static.wikia.nocookie.net/avatar/images/4/4b/Zuko.png/revision/latest?cb=20180630112142");
         user.setPassword("password");
 
+        User newUser = new User("lost", "user", "https://static.wikia.nocookie.net/avatar/images/4/4b/Zuko.png/revision/latest?cb=20180630112142");
+        newUser.setPassword("password");
+
         validRequest = new UserRequest(user.getAlias());
         invalidRequest = new UserRequest(null);
 
         successResponse = new UserResponse(DummyDataProvider.getInstance().getSampleDummyUser());
         UsersTableDAO mockDao = Mockito.mock(UsersTableDAO.class);
+//        DynamoDBStrategy mockDatabaseInteractor = Mockito.mock(DynamoDBStrategy.class);
+//        Mockito.when(mockDao.getDatabaseInteractor()).thenReturn(mockDatabaseInteractor);
         Mockito.when(mockDao.getUserByAlias(validRequest)).thenReturn(successResponse);
 
         failureResponse = new UserResponse("Password does not match.");
@@ -64,6 +74,10 @@ public class UserDaoTest {
 
         logoutResponse = new BasicResponse(true, "Logout successful.");
 
+        String encodedImage = null;
+        validRegisterRequest = new RegisterRequest(newUser.getFirstName(), newUser.getLastName(), newUser.getAlias(), newUser.getPassword(), encodedImage);
+        registerSuccessResponse = new RegisterResponse(newUser, new AuthToken(newUser.getAlias()), true);
+
         userDaoSpy = Mockito.spy(new UsersTableDAO());
     }
 
@@ -75,11 +89,11 @@ public class UserDaoTest {
         Assertions.assertEquals(successResponse.getUser(), response.getUser());;
     }
 
-    @Test
-    public void testGetUser_validRequest_loadsProfileImage() throws IOException {
-        UserResponse response = userDaoSpy.getUserByAlias(validRequest);
-        Assertions.assertNotNull(response.getUser().getImageUrl());
-    }
+//    @Test
+//    public void testGetUser_validRequest_loadsProfileImage() throws IOException {
+//        UserResponse response = userDaoSpy.getUserByAlias(validRequest);
+//        Assertions.assertNotNull(response.getUser().getImageUrl());
+//    }
 
     @Test
     public void testGetUser_invalidRequest_returnsFailedMessage() throws IOException {
@@ -98,12 +112,12 @@ public class UserDaoTest {
         Assertions.assertEquals(loginSuccessResponse.getUser(), response.getUser());
         //Assertions.assertTrue(loginSuccessResponse.equals(response));
     }
-
-    @Test
-    public void testLogin_validRequest_loadsProfileImage() throws IOException {
-        LoginResponse response = userDaoSpy.login(validLoginRequest);
-        Assertions.assertNotNull(response.getUser().getImageUrl());
-    }
+//
+//    @Test
+//    public void testLogin_validRequest_loadsProfileImage() throws IOException {
+//        LoginResponse response = userDaoSpy.login(validLoginRequest);
+//        Assertions.assertNotNull(response.getUser().getImageUrl());
+//    }
 
     @Test
     public void testLogin_invalidRequest_returnsFailedMessage() throws IOException {
@@ -120,5 +134,13 @@ public class UserDaoTest {
         BasicResponse response = userDaoSpy.logout(validLogoutRequest);
         Assertions.assertEquals(logoutResponse.isSuccess(), response.isSuccess());
         Assertions.assertEquals(logoutResponse.getMessage(), response.getMessage());
+    }
+
+    @Test
+    public void testRegister_validRequest_correctResponse() throws IOException {
+        RegisterResponse response = userDaoSpy.register(validRegisterRequest);
+        Assertions.assertEquals(registerSuccessResponse.getUser(), response.getUser());
+        Assertions.assertEquals(registerSuccessResponse.isSuccess(), response.isSuccess());
+        //Assertions.assertTrue(loginSuccessResponse.equals(response));
     }
 }

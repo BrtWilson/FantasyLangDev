@@ -30,12 +30,12 @@ public class AuthTableDAO {
      * @return boolean of whether the authToken is still valid
      */
     public Boolean getAuthorized(AuthToken authToken) {
-        String formerTimeStamp = DynamoDBStrategy.getBasicStringAttributeFromDualKey(tableName, keyAttribute, authToken.getUserName(),secondaryKey, authToken.getToken(), additionalAttribute);
+        String formerTimeStamp = getDatabaseInteractor().getBasicStringAttributeFromDualKey(tableName, keyAttribute, authToken.getUserName(),secondaryKey, authToken.getToken(), additionalAttribute);
         if (checkTimePassedValid(formerTimeStamp)) {
             //update time
             Timestamp currentTime = new Timestamp(System.currentTimeMillis());
             try {
-                DynamoDBStrategy.updateItemStringAttributeFromDualKey(tableName, keyAttribute, authToken.getUserName(), secondaryKey, authToken.getToken(), additionalAttribute, currentTime.toString() );
+                getDatabaseInteractor().updateItemStringAttributeFromDualKey(tableName, keyAttribute, authToken.getUserName(), secondaryKey, authToken.getToken(), additionalAttribute, currentTime.toString() );
             } catch (Exception e) {
                 return false;
             }
@@ -65,7 +65,7 @@ public class AuthTableDAO {
         AuthToken token = new AuthToken(userAlias);
         String date = new Timestamp(System.currentTimeMillis()).toString();
 
-        DynamoDBStrategy.createItemWithDualKey(tableName, keyAttribute, userAlias, secondaryKey,  token, true, additionalAttribute, date);
+        getDatabaseInteractor().createItemWithDualKey(tableName, keyAttribute, userAlias, secondaryKey,  token, true, additionalAttribute, date);
         return token;
     }
 
@@ -81,7 +81,7 @@ public class AuthTableDAO {
 
     public Boolean logoutToken(LogoutRequest request) {
         //delete AuthToken
-        DynamoDBStrategy.deleteItemWithDualKey(tableName, keyAttribute, request.getUser().getAlias(), secondaryKey, request.getToken());
+        getDatabaseInteractor().deleteItemWithDualKey(tableName, keyAttribute, request.getUser().getAlias(), secondaryKey, request.getToken());
         return true;
     }
 
@@ -96,4 +96,7 @@ public class AuthTableDAO {
         return token;
     }*/
 
+    public DynamoDBStrategy getDatabaseInteractor() {
+        return new DynamoDBStrategy();
+    }
 }

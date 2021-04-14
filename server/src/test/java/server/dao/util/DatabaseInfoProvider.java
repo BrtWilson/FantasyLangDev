@@ -1,4 +1,4 @@
-package com.example.server.lambda.statusUpdateLambdas.util;
+package server.dao.util;
 
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
@@ -14,8 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class SetupBatchUploader {
-
+public class DatabaseInfoProvider {
     private static final String userTableName = "Users";
     private static final String partitionKey = "Alias";
     private static final String attributeFirstName = "FirstName";
@@ -46,20 +45,12 @@ public class SetupBatchUploader {
     private static DynamoDB dynamoDB = new DynamoDB(client);
     private static final String standardUserAlias = "@HarryPotter";
 
-    //Generating Data to DB
-    public static void main(String[] args) {
-        uploadOurUsers();
-        uploadOurFeeds();
-        uploadOurStory(standardUserAlias);
-    }
-
     private static void uploadOurUsers() {
         List<User> ourUsers = getOurDefaultUsers();
         List<String> ourUserAliases = getUserAliases(ourUsers);
         List<List<String>> ourUserAttributes = getUserAttributes(ourUsers);
         DynamoDBStrategy.batchUploadVaryingAttributes(userTableName, partitionKey, ourUserAliases, null, null, userAttributeNames, ourUserAttributes, 25);
     }
-
     private static void uploadOurFeeds() {
         List<User> ourUsers = getOurDefaultUsers();
         List<Status> ourFeed = getFeed(ourUsers);
@@ -70,14 +61,13 @@ public class SetupBatchUploader {
             DynamoDBStrategy.batchUploadVaryingAttributes(feedTableName, partitionKey, ourUserAliases, statusSortKey, ourStatusAliases, feedAttributeNames, ourUserAttributes, 25);
         }
     }
-
-    private static List<String> getIdenticalAliasesList(List<User> ourUsers, int i) {
-        List<String> aliasList = new ArrayList<>();
-        for (int j = 0; j < ourUsers.size(); j++) {
-            aliasList.add(ourUsers.get(i).getAlias());
-        }
-        return aliasList;
-    }
+//    private static List<String> getIdenticalAliasesList(List<User> ourUsers, int i) {
+//        List<String> aliasList = new ArrayList<>();
+//        for (int j = 0; j < ourUsers.size(); j++) {
+//            aliasList.add(ourUsers.get(i).getAlias());
+//        }
+//        return aliasList;
+//    }
 
     private static List<String> getIdenticalAliasesList(String userAlias, int i) {
         List<String> aliasList = new ArrayList<>();
@@ -144,240 +134,229 @@ public class SetupBatchUploader {
         return userAliases;
     }
 
-    private static void loopBatchWriter(TableWriteItems items){
-        BatchWriteItemOutcome outcome = dynamoDB.batchWriteItem(items);
-        //logger.log("Wrote User Batch");
-
-        while (outcome.getUnprocessedItems().size() > 0) {
-            Map<String, List<WriteRequest>> unprocessedItems = outcome.getUnprocessedItems();
-            outcome = dynamoDB.batchWriteItemUnprocessed(unprocessedItems);
-            //   logger.log("Wrote more Users");
-        }
-    }
-
-    private static List<User> getOurDefaultUsers() {
+    public static List<User> getOurDefaultUsers() {
         List<User> users = new ArrayList<>();
         User userTemp;
         userTemp = new User("@AangJones",
-        "Aang",
-        "https://jamesblakebrytontweeterimages.s3.amazonaws.com/kuzonfire.jgp",
-        "Jones", 0);
+                "Aang",
+                "https://jamesblakebrytontweeterimages.s3.amazonaws.com/kuzonfire.jgp",
+                "Jones", 0);
         users.add(userTemp);
         userTemp = new User("@AmyAmes",
-        "Amy",
-        "https://jamesblakebrytontweeterimages.s3.amazonaws.com/vulpix.jgp",
-        "Ames", 0);
+                "Amy",
+                "https://jamesblakebrytontweeterimages.s3.amazonaws.com/vulpix.jgp",
+                "Ames", 0);
         users.add(userTemp);
         userTemp = new User("@AnakinSkywalker",
-            "Anakin",
-            "https://jamesblakebrytontweeterimages.s3.amazonaws.com/anakinskywalker.png",
-            "Skywalker", 0);
+                "Anakin",
+                "https://jamesblakebrytontweeterimages.s3.amazonaws.com/anakinskywalker.png",
+                "Skywalker", 0);
         users.add(userTemp);
         userTemp = new User("@AshAhketchum",
-                 "Ash",
-            "https://jamesblakebrytontweeterimages.s3.amazonaws.com/ashketchum.png",
-            "Ahketchum", 0);
+                "Ash",
+                "https://jamesblakebrytontweeterimages.s3.amazonaws.com/ashketchum.png",
+                "Ahketchum", 0);
         users.add(userTemp);
         userTemp = new User("@AzulaFirestart",
-                    "Azula",
-            "https://jamesblakebrytontweeterimages.s3.amazonaws.com/jigglypuff.webp",
-            "Firestart", 0);
+                "Azula",
+                "https://jamesblakebrytontweeterimages.s3.amazonaws.com/jigglypuff.webp",
+                "Firestart", 0);
         users.add(userTemp);
         userTemp = new User("@BobBross",
-            "Bob",
-            "https://jamesblakebrytontweeterimages.s3.amazonaws.com/bobross.png",
-            "Bross", 0);
+                "Bob",
+                "https://jamesblakebrytontweeterimages.s3.amazonaws.com/bobross.png",
+                "Bross", 0);
         users.add(userTemp);
         userTemp = new User("@BonnieBetty",
-            "Bonnie",
-            "https://jamesblakebrytontweeterimages.s3.amazonaws.com/jigglypuff.webp",
-            "Betty", 0);
+                "Bonnie",
+                "https://jamesblakebrytontweeterimages.s3.amazonaws.com/jigglypuff.webp",
+                "Betty", 0);
         users.add(userTemp);
         userTemp = new User("@CairneBloodhoof",
-                    "Cairne",
-            "https://jamesblakebrytontweeterimages.s3.amazonaws.com/cairnebloodhoof.jgp",
-            "Bloodhoof", 0);
+                "Cairne",
+                "https://jamesblakebrytontweeterimages.s3.amazonaws.com/cairnebloodhoof.jgp",
+                "Bloodhoof", 0);
         users.add(userTemp);
         userTemp = new User("@CaptainChris",
-            "Captain",
-            "https://jamesblakebrytontweeterimages.s3.amazonaws.com/bulbasaur.png",
-            "Chris", 0);
+                "Captain",
+                "https://jamesblakebrytontweeterimages.s3.amazonaws.com/bulbasaur.png",
+                "Chris", 0);
         users.add(userTemp);
         userTemp = new User("@ChancellorPalpatine",
-            "Chancellor",
-            "https://jamesblakebrytontweeterimages.s3.amazonaws.com/chancellorpalpatine.png",
-            "Palpatine", 0);
+                "Chancellor",
+                "https://jamesblakebrytontweeterimages.s3.amazonaws.com/chancellorpalpatine.png",
+                "Palpatine", 0);
         users.add(userTemp);
         userTemp = new User("@CindyCoats",
-                    "Cindy",
-            "https://jamesblakebrytontweeterimages.s3.amazonaws.com/jigglypuff.webp",
-            "Coats", 0);
+                "Cindy",
+                "https://jamesblakebrytontweeterimages.s3.amazonaws.com/jigglypuff.webp",
+                "Coats", 0);
         users.add(userTemp);
         userTemp = new User("@ClericUther",
-                    "Cleric",
-            "https://jamesblakebrytontweeterimages.s3.amazonaws.com/humanfootman.png",
-            "Uther", 0);
+                "Cleric",
+                "https://jamesblakebrytontweeterimages.s3.amazonaws.com/humanfootman.png",
+                "Uther", 0);
         users.add(userTemp);
         userTemp = new User("@CountDooku",
-                    "Count",
-            "https://jamesblakebrytontweeterimages.s3.amazonaws.com/countdooku.png",
-            "Dooku", 0);
+                "Count",
+                "https://jamesblakebrytontweeterimages.s3.amazonaws.com/countdooku.png",
+                "Dooku", 0);
         users.add(userTemp);
         userTemp = new User("@DanDumbledoor",
-                    "Dan",
-            "https://jamesblakebrytontweeterimages.s3.amazonaws.com/snorlax.jgp",
-            "Dumbledoor", 0);
+                "Dan",
+                "https://jamesblakebrytontweeterimages.s3.amazonaws.com/snorlax.jgp",
+                "Dumbledoor", 0);
         users.add(userTemp);
         userTemp = new User("@DarthMaul",
-                    "Darth",
-            "https://jamesblakebrytontweeterimages.s3.amazonaws.com/darthmaul.jgp",
-            "Maul", 0);
+                "Darth",
+                "https://jamesblakebrytontweeterimages.s3.amazonaws.com/darthmaul.jgp",
+                "Maul", 0);
         users.add(userTemp);
         userTemp = new User("@DarthPlagueis",
-                    "Darth",
-            "https://jamesblakebrytontweeterimages.s3.amazonaws.com/darthplagueis.png",
-            "Plagueis", 0);
+                "Darth",
+                "https://jamesblakebrytontweeterimages.s3.amazonaws.com/darthplagueis.png",
+                "Plagueis", 0);
         users.add(userTemp);
         userTemp = new User("@DarthSidious",
-                    "Darth",
-            "https://jamesblakebrytontweeterimages.s3.amazonaws.com/darthsidious.jgp",
-            "Sidious", 0);
+                "Darth",
+                "https://jamesblakebrytontweeterimages.s3.amazonaws.com/darthsidious.jgp",
+                "Sidious", 0);
         users.add(userTemp);
         userTemp = new User("@DeeDempsey",
-                    "Dee",
-            "https://jamesblakebrytontweeterimages.s3.amazonaws.com/vulpix.jgp",
-            "Dempsey", 0);
+                "Dee",
+                "https://jamesblakebrytontweeterimages.s3.amazonaws.com/vulpix.jgp",
+                "Dempsey", 0);
         users.add(userTemp);
         userTemp = new User("@DracoMalfoy",
-                    "Draco",
-            "https://jamesblakebrytontweeterimages.s3.amazonaws.com/humanfootman.png",
-            "Malfoy", 0);
+                "Draco",
+                "https://jamesblakebrytontweeterimages.s3.amazonaws.com/humanfootman.png",
+                "Malfoy", 0);
         users.add(userTemp);
         userTemp = new User("@ElizabethEngle",
-                    "Elizabeth",
-            "https://jamesblakebrytontweeterimages.s3.amazonaws.com/jigglypuff.webp",
-            "Engle", 0);
+                "Elizabeth",
+                "https://jamesblakebrytontweeterimages.s3.amazonaws.com/jigglypuff.webp",
+                "Engle", 0);
         users.add(userTemp);
         userTemp = new User("@ElliottEnderson",
-                    "Elliott",
-            "https://jamesblakebrytontweeterimages.s3.amazonaws.com/Zuko.png",
-            "Enderson", 0);
+                "Elliott",
+                "https://jamesblakebrytontweeterimages.s3.amazonaws.com/Zuko.png",
+                "Enderson", 0);
         users.add(userTemp);
         userTemp = new User("@FranFranklin",
-                    "Fran",
-            "https://jamesblakebrytontweeterimages.s3.amazonaws.com/vulpix.jgp",
-            "Franklin", 0);
+                "Fran",
+                "https://jamesblakebrytontweeterimages.s3.amazonaws.com/vulpix.jgp",
+                "Franklin", 0);
         users.add(userTemp);
         userTemp = new User("@FrankFrandson",
-                    "Frank",
-            "https://jamesblakebrytontweeterimages.s3.amazonaws.com/Zuko.png",
-            "Frandson", 0);
+                "Frank",
+                "https://jamesblakebrytontweeterimages.s3.amazonaws.com/Zuko.png",
+                "Frandson", 0);
         users.add(userTemp);
         userTemp = new User("@FrostUndertaker",
-                    "Frost",
-            "https://jamesblakebrytontweeterimages.s3.amazonaws.com/snorlax.jgp",
-            "Undertaker", 0);
+                "Frost",
+                "https://jamesblakebrytontweeterimages.s3.amazonaws.com/snorlax.jgp",
+                "Undertaker", 0);
         users.add(userTemp);
         userTemp = new User("@GaryGiovanni",
-                    "Gary",
-            "https://jamesblakebrytontweeterimages.s3.amazonaws.com/bulbasaur.png",
-            "Giovanni", 0);
+                "Gary",
+                "https://jamesblakebrytontweeterimages.s3.amazonaws.com/bulbasaur.png",
+                "Giovanni", 0);
         users.add(userTemp);
         userTemp = new User("@GiovannaGiles",
-                    "Giovanna",
-            "https://jamesblakebrytontweeterimages.s3.amazonaws.com/vulpix.jgp",
-            "Giles", 0);
+                "Giovanna",
+                "https://jamesblakebrytontweeterimages.s3.amazonaws.com/vulpix.jgp",
+                "Giles", 0);
         users.add(userTemp);
         userTemp = new User("@HagridGameskeeper",
-                    "Hagrid",
-            "https://jamesblakebrytontweeterimages.s3.amazonaws.com/snorlax.jgp",
-            "Gameskeeper", 0);
+                "Hagrid",
+                "https://jamesblakebrytontweeterimages.s3.amazonaws.com/snorlax.jgp",
+                "Gameskeeper", 0);
         users.add(userTemp);
         userTemp = new User("@HanSolo",
-                    "Han",
-            "https://jamesblakebrytontweeterimages.s3.amazonaws.com/hansolo.jgp",
-            "Solo", 0);
+                "Han",
+                "https://jamesblakebrytontweeterimages.s3.amazonaws.com/hansolo.jgp",
+                "Solo", 0);
         users.add(userTemp);
         userTemp = new User("@HelenHopwell",
-                    "Helen",
-            "https://jamesblakebrytontweeterimages.s3.amazonaws.com/vulpix.jgp",
-            "Hopwell", 0);
+                "Helen",
+                "https://jamesblakebrytontweeterimages.s3.amazonaws.com/vulpix.jgp",
+                "Hopwell", 0);
         users.add(userTemp);
         userTemp = new User("@IgorIsaacson",
-                    "Igor",
-            "https://jamesblakebrytontweeterimages.s3.amazonaws.com/humanfootman.png",
-            "Isaacson", 0);
+                "Igor",
+                "https://jamesblakebrytontweeterimages.s3.amazonaws.com/humanfootman.png",
+                "Isaacson", 0);
         users.add(userTemp);
         userTemp = new User("@KataraSmug",
-                    "Katara",
-            "https://jamesblakebrytontweeterimages.s3.amazonaws.com/saphirefire1.jgp",
-            "Smug", 0);
+                "Katara",
+                "https://jamesblakebrytontweeterimages.s3.amazonaws.com/saphirefire1.jgp",
+                "Smug", 0);
         users.add(userTemp);
         userTemp = new User("@KinJonahs",
-                    "Kin",
-            "https://jamesblakebrytontweeterimages.s3.amazonaws.com/humanfootman.png",
-            "Jonahs", 0);
+                "Kin",
+                "https://jamesblakebrytontweeterimages.s3.amazonaws.com/humanfootman.png",
+                "Jonahs", 0);
         users.add(userTemp);
         userTemp = new User("@LukeSkywalker",
-                    "Luke",
-            "https://jamesblakebrytontweeterimages.s3.amazonaws.com/lukeskywalker.png",
-            "Skywalker", 0);
+                "Luke",
+                "https://jamesblakebrytontweeterimages.s3.amazonaws.com/lukeskywalker.png",
+                "Skywalker", 0);
         users.add(userTemp);
         userTemp = new User("@LunaLovegood",
-                    "Luna",
-            "https://jamesblakebrytontweeterimages.s3.amazonaws.com/lunalovegood.png",
-            "Lovegood", 0);
+                "Luna",
+                "https://jamesblakebrytontweeterimages.s3.amazonaws.com/lunalovegood.png",
+                "Lovegood", 0);
         users.add(userTemp);
         userTemp = new User("@MaceWindu",
-                    "Mace",
-            "https://jamesblakebrytontweeterimages.s3.amazonaws.com/macewindu.jgp",
-            "Windu", 0);
+                "Mace",
+                "https://jamesblakebrytontweeterimages.s3.amazonaws.com/macewindu.jgp",
+                "Windu", 0);
         users.add(userTemp);
         userTemp = new User("@Obi-wanKenobi",
-            "Obi-wan",
-            "https://jamesblakebrytontweeterimages.s3.amazonaws.com/obiwankenobi.png",
-            "Kenobi", 0);
+                "Obi-wan",
+                "https://jamesblakebrytontweeterimages.s3.amazonaws.com/obiwankenobi.png",
+                "Kenobi", 0);
         users.add(userTemp);
         userTemp = new User("@PrinceArthas",
-                    "Prince",
-            "https://jamesblakebrytontweeterimages.s3.amazonaws.com/princearthas.jgp",
-            "Arthas", 0);
+                "Prince",
+                "https://jamesblakebrytontweeterimages.s3.amazonaws.com/princearthas.jgp",
+                "Arthas", 0);
         users.add(userTemp);
         userTemp = new User("@SaphireFire",
-                    "Saphire",
-            "https://jamesblakebrytontweeterimages.s3.amazonaws.com/saphirefire1.jgp",
-            "Fire", 0);
+                "Saphire",
+                "https://jamesblakebrytontweeterimages.s3.amazonaws.com/saphirefire1.jgp",
+                "Fire", 0);
         users.add(userTemp);
         userTemp = new User("@SokkaSacapuntes",
-                    "Sokka",
-            "https://jamesblakebrytontweeterimages.s3.amazonaws.com/wangfire.jgp",
-            "Sacapuntes", 0);
+                "Sokka",
+                "https://jamesblakebrytontweeterimages.s3.amazonaws.com/wangfire.jgp",
+                "Sacapuntes", 0);
         users.add(userTemp);
         userTemp = new User("@SukiSacar",
-                    "Suki",
-            "https://jamesblakebrytontweeterimages.s3.amazonaws.com/327-3273611_katara-vector-katara.png",
-            "Sacar", 0);
+                "Suki",
+                "https://jamesblakebrytontweeterimages.s3.amazonaws.com/327-3273611_katara-vector-katara.png",
+                "Sacar", 0);
         users.add(userTemp);
         userTemp = new User("@TheFatherlordSmith",
-                    "TheFatherlord",
-            "https://jamesblakebrytontweeterimages.s3.amazonaws.com/firelord.png",
-            "Smith", 0);
+                "TheFatherlord",
+                "https://jamesblakebrytontweeterimages.s3.amazonaws.com/firelord.png",
+                "Smith", 0);
         users.add(userTemp);
         userTemp = new User("@TheSenate",
-                    "The",
-            "https://jamesblakebrytontweeterimages.s3.amazonaws.com/chancellorpalpatine.png",
-            "Senate", 0);
+                "The",
+                "https://jamesblakebrytontweeterimages.s3.amazonaws.com/chancellorpalpatine.png",
+                "Senate", 0);
         users.add(userTemp);
         userTemp = new User("@TophTheDestroyer",
-                    "Toph",
-            "https://jamesblakebrytontweeterimages.s3.amazonaws.com/tophire.jgp",
-            "TheDestroyer", 0);
+                "Toph",
+                "https://jamesblakebrytontweeterimages.s3.amazonaws.com/tophire.jgp",
+                "TheDestroyer", 0);
         users.add(userTemp);
 
         return users;
     }
 
-    private static List<Status> getStory(String userAlias) {
+    public static List<Status> getStory(String userAlias) {
         List<Status> ourStory = new ArrayList<>();
         Status status1b = new Status("Avatar state, yip, yip!.", "1349333576",userAlias);
         ourStory.add(status1b);
@@ -412,52 +391,49 @@ public class SetupBatchUploader {
         return ourStory;
     }
 
-    private static List<Status> getFeed(List<User> ourUsers) {
+    public static List<Status> getFeed(List<User> ourUsers) {
         List<Status> ourFeed = new ArrayList<>();
-         Status status1 = new Status("I have a sister.", "1349533576", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
+        Status status1 = new Status("I have a sister.", "1349533576", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
         ourFeed.add(status1);
-         Status status2 = new Status("@Luke, I am your father.", "1349553576", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
+        Status status2 = new Status("@Luke, I am your father.", "1349553576", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
         ourFeed.add(status2);
-         Status status3 = new Status("No, I am your father", "1349536576", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
+        Status status3 = new Status("No, I am your father", "1349536576", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
         ourFeed.add(status3);
-         Status status4 = new Status("Oh, I am my daddy.", "1349333576", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
+        Status status4 = new Status("Oh, I am my daddy.", "1349333576", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
         ourFeed.add(status4);
-         Status status5 = new Status("Wait, what?", "1349533586", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
+        Status status5 = new Status("Wait, what?", "1349533586", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
         ourFeed.add(status5);
-         Status status6 = new Status("No tomatoes \n https://youtu.be/yRw1onpgFJA", "1349933576", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
+        Status status6 = new Status("No tomatoes \n https://youtu.be/yRw1onpgFJA", "1349933576", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
         ourFeed.add(status6);
-         Status status7 = new Status("It's over @Anakin.", "1349534576", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
+        Status status7 = new Status("It's over @Anakin.", "1349534576", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
         ourFeed.add(status7);
-         Status status8 = new Status("I have the high ground.", "1329533576", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
+        Status status8 = new Status("I have the high ground.", "1329533576", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
         ourFeed.add(status8);
-         Status status9 = new Status("You underestimate my power.", "1449533576m", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
+        Status status9 = new Status("You underestimate my power.", "1449533576m", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
         ourFeed.add(status9);
-         Status status10 = new Status("Don't try it.", "1349533576", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
+        Status status10 = new Status("Don't try it.", "1349533576", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
         ourFeed.add(status10);
-         Status status11 = new Status("You were my brother, @Anakin!", "1549533576", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
+        Status status11 = new Status("You were my brother, @Anakin!", "1549533576", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
         ourFeed.add(status11);
-         Status status12 = new Status("You were supposed to bring balance to the Force!", "1349533577", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
+        Status status12 = new Status("You were supposed to bring balance to the Force!", "1349533577", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
         ourFeed.add(status12);
-         Status status13 = new Status("You were to destroy the Sith, not join them!", "1349533586", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
+        Status status13 = new Status("You were to destroy the Sith, not join them!", "1349533586", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
         ourFeed.add(status13);
-         Status status14 = new Status("I loved you like a brother.", "1349533586", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
+        Status status14 = new Status("I loved you like a brother.", "1349533586", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
         ourFeed.add(status14);
-         Status status15 = new Status("Barbeque accident. \n https://youtu.be/_MHusGl9BeM", "1359533576", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
+        Status status15 = new Status("Barbeque accident. \n https://youtu.be/_MHusGl9BeM", "1359533576", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
         ourFeed.add(status15);
-         Status status16 = new Status("Hello there.", "1349573576", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
+        Status status16 = new Status("Hello there.", "1349573576", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
         ourFeed.add(status16);
-         Status status17 = new Status("General Kenobi.", "1349534576", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
+        Status status17 = new Status("General Kenobi.", "1349534576", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
         ourFeed.add(status17);
-         Status status18 = new Status("Come closer, my little friend.", "1349533574", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
+        Status status18 = new Status("Come closer, my little friend.", "1349533574", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
         ourFeed.add(status18);
-         Status status19 = new Status("These are not the droids you are looking for.", "1359533576", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
+        Status status19 = new Status("These are not the droids you are looking for.", "1359533576", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
         ourFeed.add(status19);
-         Status status20 = new Status("He's not worth anything to me dead.", "1349533526", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
+        Status status20 = new Status("He's not worth anything to me dead.", "1349533526", ourUsers.get(getRandInt(ourUsers.size())).getAlias());
         ourFeed.add(status20);
         return ourFeed;
     }
 
-    private static int getRandInt(Integer max) {
-        return (0 + (int)(Math.random() * max));
-    }
 }
