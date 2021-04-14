@@ -28,9 +28,19 @@ public class RegisterService implements IRegisterService {
         request.setPassword(hashedPassword);
 
         /*STORE PROFILE IMAGE IN S3 BUCKET AND STORE URL IN REQUEST*/
-        request.setEncodedImage(sendPhotoToS3(request));
+        String encodedImage = request.getEncodedImage();
+        request.setEncodedImage(setImageURL(request));
+
+        RegisterResponse response = getRegisterDao().register(request);
+
+        if (response.isSuccess())
+            sendPhotoToS3(encodedImage, request);
 
         return getRegisterDao().register(request);
+    }
+
+    private String setImageURL(RegisterRequest registerRequest) {
+        return  "https://jamesblakebrytontweeterimages.s3.amazonaws.com/%40" + registerRequest.getUserName().substring(1) + ".jpg";
     }
 
     /**
@@ -38,13 +48,12 @@ public class RegisterService implements IRegisterService {
      * @param request the register request object
      * @return the URL for the new user's profile photo
      */
-    private String sendPhotoToS3(RegisterRequest request) {
+    private void sendPhotoToS3(String encodedImage, RegisterRequest request) {
 
         if (request.getEncodedImage().equals(""))
-            return "";
+            return;
         try {
             //decode image into byte array stream
-            String encodedImage = request.getEncodedImage();
             byte[] imageBytes = Base64.decode(encodedImage);
             ByteArrayInputStream byteStream = new ByteArrayInputStream(imageBytes);
 
@@ -67,10 +76,8 @@ public class RegisterService implements IRegisterService {
             s3Client.putObject(putObjectRequest);
 
             byteStream.close();
-
-            return  "https://jamesblakebrytontweeterimages.s3.amazonaws.com/%40" + objKeyName.substring(1);
         } catch (IOException e) {
-            return "";
+            return;
         }
     }
 
