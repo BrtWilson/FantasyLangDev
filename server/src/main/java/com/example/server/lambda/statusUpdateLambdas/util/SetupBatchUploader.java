@@ -4,7 +4,6 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.document.BatchWriteItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
-import com.amazonaws.services.dynamodbv2.document.Item;
 import com.amazonaws.services.dynamodbv2.document.TableWriteItems;
 import com.amazonaws.services.dynamodbv2.model.WriteRequest;
 import com.example.server.dao.dbstrategies.DynamoDBStrategy;
@@ -12,7 +11,6 @@ import com.example.shared.model.domain.Status;
 import com.example.shared.model.domain.User;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -55,34 +53,6 @@ public class SetupBatchUploader {
         uploadOurStory(standardUserAlias);
     }
 
-    private static void uploadUsers() {
-        String dbPrimaryKey = "Alias";
-
-        TableWriteItems items = new TableWriteItems("Users");
-
-        for(int i =0 ; i < 2; i ++){
-            String userName = "@blakeJ"+ i;
-            String firstName = "@user";
-            String lastName = String.valueOf(i);
-            String profileImage = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pngitem.com%2Fmiddle%2FwomThJ_ash-ketchum-hd-png-download%2F&psig=AOvVaw2h43_Bi3x5gdd1y2tRmAhq&ust=1616605412770000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCJjVytTyxu8CFQAAAAAdAAAAABAL";
-            //later add this with BatchAdd
-            Item item = new Item().withPrimaryKey(dbPrimaryKey, userName).withString("FirstName", firstName).withString("ImageUrl", profileImage).withString("LastName", lastName);
-
-            //table.putItem(item);
-
-            items.addItemToPut(item);
-            if(items.getItemsToPut() != null && items.getItemsToPut().size() == 25){
-                //then add a list for the Batch
-                loopBatchWriter(items);
-                items = new TableWriteItems("Users");
-            }
-        }
-
-        if (items.getItemsToPut() != null && items.getItemsToPut().size() > 0) {
-            loopBatchWriter(items);
-        }
-    }
-
     private static void uploadOurUsers() {
         List<User> ourUsers = getOurDefaultUsers();
         List<String> ourUserAliases = getUserAliases(ourUsers);
@@ -93,8 +63,8 @@ public class SetupBatchUploader {
     private static void uploadOurFeeds() {
         List<User> ourUsers = getOurDefaultUsers();
         List<Status> ourFeed = getFeed(ourUsers);
-        for (int i = 0; i < ourUsers.size(); i++) {
-            List<String> ourUserAliases = getIdenticalAliasesList(ourUsers, i);
+        for (int i = 0; i < ourFeed.size(); i++) {
+            List<String> ourUserAliases = getIdenticalAliasesList(ourUsers.get(i).getAlias(), ourFeed.size());
             List<String> ourStatusAliases = getStatusAliases(ourUsers);
             List<List<String>> ourUserAttributes = getStatusAttributes(ourFeed, true);
             DynamoDBStrategy.batchUploadVaryingAttributes(feedTableName, partitionKey, ourUserAliases, statusSortKey, ourStatusAliases, feedAttributeNames, ourUserAttributes, 25);
@@ -192,6 +162,7 @@ public class SetupBatchUploader {
         "Aang",
         "https://jamesblakebrytontweeterimages.s3.amazonaws.com/kuzonfire.jgp",
         "Jones", 0);
+        users.add(userTemp);
         userTemp = new User("@AmyAmes",
         "Amy",
         "https://jamesblakebrytontweeterimages.s3.amazonaws.com/vulpix.jgp",

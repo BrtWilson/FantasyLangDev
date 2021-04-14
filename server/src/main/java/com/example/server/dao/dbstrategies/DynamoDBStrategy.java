@@ -112,7 +112,7 @@ public class DynamoDBStrategy {
         }
     }
 
-    private static void bacthUpload(TableWriteItems items, String tableName, String key, String partitionValue, String sortKey, String sortKeyValue, List<String> attributeNames, List<String> attributeValues, int batchSize) {
+    public static TableWriteItems bacthUpload(TableWriteItems items, String tableName, String key, String partitionValue, String sortKey, String sortKeyValue, List<String> attributeNames, List<String> attributeValues, int batchSize) {
         Item item;
         if (sortKey == null) {
             item = new Item().withPrimaryKey(key, partitionValue);
@@ -131,6 +131,7 @@ public class DynamoDBStrategy {
             //then add a list for the Batch
             loopBatchWriter(items);
         }
+        return items;
     }
 
     private static void loopBatchWriter(TableWriteItems items){
@@ -142,10 +143,6 @@ public class DynamoDBStrategy {
             outcome = dynamoDB.batchWriteItemUnprocessed(unprocessedItems);
             //   logger.log("Wrote more Users");
         }
-    }
-
-
-    public DynamoDBStrategy() {
     }
 
     public static Item basicQueryWithKey(String targetTable, String key, String keyValue) throws Exception {
