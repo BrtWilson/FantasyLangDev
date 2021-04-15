@@ -81,7 +81,7 @@ public class FollowsDaoTest {
         validFollowerRequest = new FollowerRequest(currentUser.getAlias(), 3, null);
 
         // Setup a mock ServerFacade that will return known responses
-        successFollowerResponse = new FollowerResponse(Arrays.asList(resultUser1, resultUser2, resultUser3), false, resultUser3.getAlias());
+        successFollowerResponse = new FollowerResponse(Arrays.asList(resultUser1, resultUser2, resultUser3), false, null);
 
         // Setup request objects to use in the tests
         validFollowingRequest = new FollowingRequest(currentUser.getAlias(), 3, resultUser2.getAlias());
