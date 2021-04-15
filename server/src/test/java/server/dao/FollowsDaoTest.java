@@ -56,9 +56,6 @@ public class FollowsDaoTest {
         User resultUser6 = new User("User'", "6082", "@user6082", "https://jamesblakebrytontweeterimages.s3.amazonaws.com/Zuko.png");
         User currentUser2 = new User("Obi-wan", "Kenobi", "https://jamesblakebrytontweeterimages.s3.amazonaws.com/obiwankenobi.png");
 
-
-
-
         /*
         User currentUser = new User("Harry", "Potter", null);
 
@@ -81,7 +78,7 @@ public class FollowsDaoTest {
          */
 
         // Setup request objects to use in the tests
-        validFollowerRequest = new FollowerRequest(currentUser.getAlias(), 3, resultUser1.getAlias());
+        validFollowerRequest = new FollowerRequest(currentUser.getAlias(), 3, null);
 
         // Setup a mock ServerFacade that will return known responses
         successFollowerResponse = new FollowerResponse(Arrays.asList(resultUser1, resultUser2, resultUser3), false, resultUser3.getAlias());
@@ -117,6 +114,7 @@ public class FollowsDaoTest {
         FollowerResponse response = followsDao.getFollowers(validFollowerRequest);
         //Assertions.assertTrue(successResponse.equals(response));
         Assertions.assertEquals(successFollowerResponse.getMessage(), response.getMessage());
+        Assertions.assertEquals(successFollowerResponse.getLastFollowerAlias(), response.getLastFollowerAlias());
         Assertions.assertEquals(successFollowerResponse.getFollowers(), response.getFollowers());;
     }
 
