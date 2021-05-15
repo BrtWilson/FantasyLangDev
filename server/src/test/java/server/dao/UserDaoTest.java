@@ -1,7 +1,5 @@
 package server.dao;
 
-import com.example.server.dao.AuthTableDAO;
-import com.example.server.dao.DummyDataProvider;
 import com.example.server.dao.UsersTableDAO;
 import com.example.server.dao.dbstrategies.DynamoDBStrategy;
 import com.example.shared.model.domain.AuthToken;

@@ -1,7 +1,6 @@
 package server.dao;
 
 import com.amazonaws.services.dynamodbv2.document.Item;
-import com.example.server.dao.AuthTableDAO;
 import com.example.server.dao.dbstrategies.DynamoDBStrategy;
 import com.example.shared.model.domain.AuthToken;
 import com.example.shared.model.domain.User;

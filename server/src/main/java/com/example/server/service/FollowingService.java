@@ -1,11 +1,9 @@
 package com.example.server.service;
 
-import com.example.server.dao.FollowsTableDAO;
+import com.example.server.dao.SyllableTableDAO;
 import com.example.server.dao.UsersTableDAO;
 import com.example.shared.model.service.IFollowingService;
-import com.example.shared.model.service.request.FollowerRequest;
 import com.example.shared.model.service.request.FollowingRequest;
-import com.example.shared.model.service.response.FollowerResponse;
 import com.example.shared.model.service.response.FollowingResponse;
 
 import java.io.IOException;
@@ -43,8 +41,8 @@ public class FollowingService implements IFollowingService {
      *
      * @return the instance.
      */
-    public FollowsTableDAO getFolloweesDao() {
-        return new FollowsTableDAO();
+    public SyllableTableDAO getFolloweesDao() {
+        return new SyllableTableDAO();
     }
 
     public UsersTableDAO getFollowCountDao() {

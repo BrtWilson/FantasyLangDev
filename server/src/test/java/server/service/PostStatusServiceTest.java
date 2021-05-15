@@ -1,10 +1,9 @@
 package server.service;
 
-import com.example.server.dao.StoryTableDAO;
+import com.example.server.dao.DictionaryTableDAO;
 import com.example.server.service.NewStatusStoryService;
 import com.example.shared.model.domain.User;
 import com.example.shared.model.domain.Status;
-import com.example.shared.model.domain.User;
 import com.example.shared.model.service.request.NewStatusRequest;
 import com.example.shared.model.service.response.NewStatusResponse;
 
@@ -42,7 +41,7 @@ public class PostStatusServiceTest {
 
         successResponse1 = new NewStatusResponse(resultStatus1);
         successResponse2 = new NewStatusResponse(resultStatus2);
-        StoryTableDAO mockDao = Mockito.mock(StoryTableDAO.class);
+        DictionaryTableDAO mockDao = Mockito.mock(DictionaryTableDAO.class);
         Mockito.when(mockDao.postNewStatus(validRequest1)).thenReturn(successResponse1);
         Mockito.when(mockDao.postNewStatus(validRequest2)).thenReturn(successResponse2);
 

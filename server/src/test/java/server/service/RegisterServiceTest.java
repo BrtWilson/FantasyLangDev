@@ -7,7 +7,6 @@ import org.mockito.Mockito;
 import java.io.IOException;
 import java.util.UUID;
 
-import com.example.server.dao.DummyDataProvider;
 import com.example.server.dao.UsersTableDAO;
 import com.example.server.service.RegisterService;
 import com.example.shared.model.domain.AuthToken;

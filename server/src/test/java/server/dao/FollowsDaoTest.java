@@ -1,6 +1,6 @@
 package server.dao;
 
-import com.example.server.dao.FollowsTableDAO;
+import com.example.server.dao.SyllableTableDAO;
 import com.example.server.service.FollowerService;
 import com.example.server.service.FollowingService;
 import com.example.shared.model.domain.AuthToken;
@@ -37,7 +37,7 @@ public class FollowsDaoTest {
     private FollowStatusResponse followStatusResponse1;
     private FollowStatusResponse followStatusResponse2;
 
-    private FollowsTableDAO followsDao;
+    private SyllableTableDAO followsDao;
 
     /**
      * Create a FollowerService spy that uses a mock ServerFacade to return known responses to
@@ -98,12 +98,12 @@ public class FollowsDaoTest {
         followStatusResponse1 = new FollowStatusResponse(false);
 
         // Create a FollowerService instance and wrap it with a spy that will use the mock service
-        followsDao = new FollowsTableDAO();
+        followsDao = new SyllableTableDAO();
     }
 
     /**
      * Verify that for successful requests the {@link FollowerService#getFollowers(FollowerRequest)}
-     * method returns the same result as the {@link FollowsTableDAO}.
+     * method returns the same result as the {@link SyllableTableDAO}.
      * .
      *
      * @throws IOException if an IO error occurs.
@@ -135,7 +135,7 @@ public class FollowsDaoTest {
 
     /**
      * Verify that for failed requests the {@link FollowerService#getFollowers(FollowerRequest)}
-     * method returns the same result as the {@link FollowsTableDAO}.
+     * method returns the same result as the {@link SyllableTableDAO}.
      *
      * @throws IOException if an IO error occurs.
      */
@@ -151,7 +151,7 @@ public class FollowsDaoTest {
 
     /**
      * Verify that for successful requests the {@link FollowingService #getFollowees(com.example.shared.model.service.request.FollowingRequest)}
-     * method returns the same result as the {@link FollowsTableDAO}.
+     * method returns the same result as the {@link SyllableTableDAO}.
      * .
      *
      * @throws IOException if an IO error occurs.
@@ -165,7 +165,7 @@ public class FollowsDaoTest {
 
     /**
      * Verify that for failed requests the {@link FollowingService #getFollowees(com.example.shared.model.service.request.FollowingRequest)}
-     * method returns the same result as the {@link FollowsTableDAO}.
+     * method returns the same result as the {@link SyllableTableDAO}.
      *
      * @throws IOException if an IO error occurs.
      */

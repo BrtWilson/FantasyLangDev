@@ -1,6 +1,6 @@
 package server.service;
 
-import com.example.server.dao.FollowsTableDAO;
+import com.example.server.dao.SyllableTableDAO;
 import com.example.server.service.FollowerService;
 import com.example.shared.model.domain.User;
 import com.example.shared.model.service.request.FollowerRequest;
@@ -45,7 +45,7 @@ public class FollowerServiceTest {
 
         // Setup a mock ServerFacade that will return known responses
         successResponse = new FollowerResponse(Arrays.asList(resultUser1, resultUser2, resultUser3), false, null);
-        FollowsTableDAO mockFollowsDao = Mockito.mock(FollowsTableDAO.class);
+        SyllableTableDAO mockFollowsDao = Mockito.mock(SyllableTableDAO.class);
         Mockito.when(mockFollowsDao.getFollowers(validRequest)).thenReturn(successResponse);
 
         failureResponse = new FollowerResponse("An exception occurred");
@@ -58,7 +58,7 @@ public class FollowerServiceTest {
 
     /**
      * Verify that for successful requests the {@link FollowerService#getFollowers(FollowerRequest)}
-     * method returns the same result as the {@link FollowsTableDAO}.
+     * method returns the same result as the {@link SyllableTableDAO}.
      * .
      *
      * @throws IOException if an IO error occurs.
@@ -86,7 +86,7 @@ public class FollowerServiceTest {
 
     /**
      * Verify that for failed requests the {@link FollowerService#getFollowers(FollowerRequest)}
-     * method returns the same result as the {@link FollowsTableDAO}.
+     * method returns the same result as the {@link SyllableTableDAO}.
      *
      * @throws IOException if an IO error occurs.
      */

@@ -1,8 +1,7 @@
 package server.dao;
 
-import com.example.server.dao.FeedTableDAO;
-import com.example.server.dao.StoryTableDAO;
-import com.example.server.dao.dbstrategies.DynamoDBStrategy;
+import com.example.server.dao.LanguageTableDAO;
+import com.example.server.dao.DictionaryTableDAO;
 import com.example.server.service.StatusArrayService;
 import com.example.shared.model.domain.Status;
 import com.example.shared.model.domain.User;
@@ -40,7 +39,7 @@ public class FeedDaoTest {
 
     private String followerAlias;
 
-    private FeedTableDAO statusesDAO;
+    private LanguageTableDAO statusesDAO;
     private String userInTableAlias = "@AangJones";
     private int pageSize = 5;
 
@@ -86,7 +85,7 @@ public class FeedDaoTest {
         failureArrayResponse = new StatusArrayResponse("An exception occurred");
         //Mockito.when(mockDao.getStatusArray(invalidArrayRequest)).thenReturn(failureArrayResponse);
 
-        statusesDAO = Mockito.spy(new FeedTableDAO());
+        statusesDAO = Mockito.spy(new LanguageTableDAO());
     }
 
 //    @Test
@@ -107,7 +106,7 @@ public class FeedDaoTest {
 
     /**
      * Verify that for successful requests the {@link StatusArrayService #getStatusArray(StatusArrayRequest)}
-     * method returns the same result as the {@link StoryTableDAO}.
+     * method returns the same result as the {@link DictionaryTableDAO}.
      *
      *
      * @throws IOException if an IO error occurs.

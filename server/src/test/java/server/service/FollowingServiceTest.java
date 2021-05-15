@@ -8,7 +8,7 @@ import org.mockito.Mockito;
 import java.io.IOException;
 import java.util.Arrays;
 
-import com.example.server.dao.FollowsTableDAO;
+import com.example.server.dao.SyllableTableDAO;
 import com.example.server.service.FollowingService;
 import com.example.shared.model.domain.User;
 import com.example.shared.model.service.request.FollowingRequest;
@@ -45,7 +45,7 @@ public class FollowingServiceTest {
 
         // Setup a mock ServerFacade that will return known responses
         successResponse = new FollowingResponse(Arrays.asList(resultUser1, resultUser2, resultUser3), false);
-        FollowsTableDAO mockServerFacade = Mockito.mock(FollowsTableDAO.class);
+        SyllableTableDAO mockServerFacade = Mockito.mock(SyllableTableDAO.class);
         Mockito.when(mockServerFacade.getFollowees(validRequest)).thenReturn(successResponse);
 
         failureResponse = new FollowingResponse("An exception occurred");
@@ -58,7 +58,7 @@ public class FollowingServiceTest {
 
     /**
      * Verify that for successful requests the {@link FollowingService#getFollowees(FollowingRequest)}
-     * method returns the same result as the {@link FollowsTableDAO}.
+     * method returns the same result as the {@link SyllableTableDAO}.
      * .
      *
      * @throws IOException if an IO error occurs.
@@ -86,7 +86,7 @@ public class FollowingServiceTest {
 
     /**
      * Verify that for failed requests the {@link FollowingService#getFollowees(FollowingRequest)}
-     * method returns the same result as the {@link FollowsTableDAO}.
+     * method returns the same result as the {@link SyllableTableDAO}.
      *
      * @throws IOException if an IO error occurs.
      */

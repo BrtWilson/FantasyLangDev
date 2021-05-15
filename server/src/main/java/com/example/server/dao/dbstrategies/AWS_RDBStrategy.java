@@ -27,7 +27,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class DynamoDBStrategy implements DBStrategyInterface {
+public class AWS_RDBStrategy implements DBStrategyInterface {
 
     private static AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard().build();
     private static DynamoDB dynamoDB = new DynamoDB(client);

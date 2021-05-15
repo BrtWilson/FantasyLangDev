@@ -1,7 +1,7 @@
 package com.example.server.service;
 
-import com.example.server.dao.FeedTableDAO;
-import com.example.server.dao.StoryTableDAO;
+import com.example.server.dao.LanguageTableDAO;
+import com.example.server.dao.DictionaryTableDAO;
 import com.example.shared.model.net.TweeterRemoteException;
 import com.example.shared.model.service.INewStatusService;
 import com.example.shared.model.service.request.NewStatusRequest;
@@ -43,9 +43,9 @@ public class NewStatusFeedService implements INewStatusService {
      //   return new StatusesTableDAO();
     //}
 
-    public FeedTableDAO getFeedTableDAO() { return new FeedTableDAO(); }
+    public LanguageTableDAO getFeedTableDAO() { return new LanguageTableDAO(); }
 
-    public StoryTableDAO getStoryTableDAO() { return new StoryTableDAO(); }
+    public DictionaryTableDAO getStoryTableDAO() { return new DictionaryTableDAO(); }
 
     @Override
     public NewStatusResponse postNewStatus(NewStatusRequest request) throws IOException, TweeterRemoteException {

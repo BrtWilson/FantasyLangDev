@@ -1,13 +1,10 @@
 package com.example.server.service;
 
-import com.example.server.dao.FollowsTableDAO;
+import com.example.server.dao.SyllableTableDAO;
 import com.example.shared.model.net.TweeterRemoteException;
 import com.example.shared.model.service.IFollowStatusService;
-import com.example.shared.model.service.IFollowingService;
 import com.example.shared.model.service.request.FollowStatusRequest;
-import com.example.shared.model.service.request.FollowingRequest;
 import com.example.shared.model.service.response.FollowStatusResponse;
-import com.example.shared.model.service.response.FollowingResponse;
 
 import java.io.IOException;
 
@@ -51,11 +48,11 @@ public class FollowStatusService implements IFollowStatusService {
      *
      * @return the instance.
      */
-    public FollowsTableDAO getFollowsDao() {
-        return new FollowsTableDAO();
+    public SyllableTableDAO getFollowsDao() {
+        return new SyllableTableDAO();
     }
 
     public void followUser(){
-        FollowsTableDAO followers = new FollowsTableDAO();
+        SyllableTableDAO followers = new SyllableTableDAO();
     }
 }

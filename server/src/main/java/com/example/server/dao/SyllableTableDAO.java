@@ -13,7 +13,7 @@ import com.example.shared.model.service.response.FollowingResponse;
 
 import java.util.List;
 
-public class FollowsTableDAO {
+public class SyllableTableDAO {
     //DummyDataProvider dataProvider = DummyDataProvider.getInstance();
 
     private static final String tableName = "Follows";

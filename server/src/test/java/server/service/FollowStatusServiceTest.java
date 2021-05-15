@@ -1,12 +1,11 @@
 package server.service;
 
-import com.example.server.dao.FollowsTableDAO;
+import com.example.server.dao.SyllableTableDAO;
 import com.example.server.service.FollowStatusService;
 import com.example.shared.model.domain.AuthToken;
 import com.example.shared.model.domain.User;
 import com.example.shared.model.net.TweeterRemoteException;
 import com.example.shared.model.service.request.FollowStatusRequest;
-import com.example.shared.model.service.request.FollowingRequest;
 import com.example.shared.model.service.response.FollowStatusResponse;
 
 import org.junit.jupiter.api.Assertions;
@@ -53,7 +52,7 @@ public class FollowStatusServiceTest {
         successUnfollowResponse =  new FollowStatusResponse(false);
 
         // Setup a mock ServerFacade that will return known responses
-        FollowsTableDAO mockFollowsDao = Mockito.mock(FollowsTableDAO.class);
+        SyllableTableDAO mockFollowsDao = Mockito.mock(SyllableTableDAO.class);
         Mockito.when(mockFollowsDao.getFollowStatus(validGetRequest)).thenReturn(successGetResponse);
         Mockito.when(mockFollowsDao.getFollowStatus(validFollowRequest)).thenReturn(successFollowResponse);
         Mockito.when(mockFollowsDao.getFollowStatus(validUnfollowRequest)).thenReturn(successUnfollowResponse);
