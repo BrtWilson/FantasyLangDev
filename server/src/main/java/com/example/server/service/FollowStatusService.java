@@ -1,10 +1,7 @@
 package com.example.server.service;
 
 import com.example.server.dao.SyllableTableDAO;
-import com.example.shared.model.net.TweeterRemoteException;
-import com.example.shared.model.service.IFollowStatusService;
-import com.example.shared.model.service.request.FollowStatusRequest;
-import com.example.shared.model.service.response.FollowStatusResponse;
+import com.example.shared.model.net.RemoteException;
 
 import java.io.IOException;
 
@@ -35,7 +32,7 @@ public class FollowStatusService implements IFollowStatusService {
     }
 
     @Override
-    public FollowStatusResponse getFollowStatus(FollowStatusRequest request) throws IOException, TweeterRemoteException {
+    public FollowStatusResponse getFollowStatus(FollowStatusRequest request) throws IOException, RemoteException {
         FollowStatusResponse response = getFollowsDao().getFollowStatus(request);
 
         return response;

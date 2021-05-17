@@ -3,11 +3,9 @@ package server.dao;
 import com.example.server.dao.LanguageTableDAO;
 import com.example.server.dao.DictionaryTableDAO;
 import com.example.server.service.StatusArrayService;
-import com.example.shared.model.domain.Status;
 import com.example.shared.model.domain.User;
 import com.example.shared.model.service.request.NewStatusRequest;
 import com.example.shared.model.service.request.StatusArrayRequest;
-import com.example.shared.model.service.response.FollowerResponse;
 import com.example.shared.model.service.response.NewStatusResponse;
 import com.example.shared.model.service.response.StatusArrayResponse;
 

@@ -1,8 +1,7 @@
 package integration;
 
-import com.example.shared.model.domain.AuthToken;
 import com.example.shared.model.domain.User;
-import com.example.shared.model.net.TweeterRemoteException;
+import com.example.shared.model.net.RemoteException;
 import com.example.shared.model.service.request.RegisterRequest;
 import com.example.shared.model.service.response.RegisterResponse;
 
@@ -14,7 +13,7 @@ import org.mockito.Mockito;
 import java.io.IOException;
 
 import edu.byu.cs.client.model.net.ServerFacade;
-import edu.byu.cs.client.model.service.RegisterService;
+import edu.byu.cs.client.model.service.oldfiles.RegisterService;
 
 
 public class RegisterServiceIntegrationTest {
@@ -30,7 +29,7 @@ public class RegisterServiceIntegrationTest {
     private RegisterService registerService;
 
     @BeforeEach
-    public void setup() throws IOException, TweeterRemoteException {
+    public void setup() throws IOException, RemoteException {
         User user1 = new User("First", "Last", "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
         user1.setPassword("password");
 
@@ -56,20 +55,20 @@ public class RegisterServiceIntegrationTest {
     }
 
     @Test
-    public void testRegister_validRequest_correctResponse() throws IOException, TweeterRemoteException {
+    public void testRegister_validRequest_correctResponse() throws IOException, RemoteException {
         RegisterResponse response = registerService.register(validRequest1);
         System.out.println(response.getUser());
         Assertions.assertEquals(successResponse.isSuccess(), response.isSuccess());
     }
 
     @Test
-    public void testRegister_validRequest_loadsProfileImage() throws IOException, TweeterRemoteException {
+    public void testRegister_validRequest_loadsProfileImage() throws IOException, RemoteException {
         RegisterResponse response = registerService.register(validRequest2);
         Assertions.assertNotNull(response.getUser().getImageBytes());
     }
 
     @Test
-    public void testRegister_invalidRequest_returnsFailedMessage() throws IOException, TweeterRemoteException {
+    public void testRegister_invalidRequest_returnsFailedMessage() throws IOException, RemoteException {
         RegisterResponse response = registerService.register(invalidRequest);
         //Assertions.assertEquals(failureResponse.getMessage(), response.getMessage());
         Assertions.assertEquals(failureResponse.isSuccess(), response.isSuccess());

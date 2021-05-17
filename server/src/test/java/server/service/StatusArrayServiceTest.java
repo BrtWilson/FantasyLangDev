@@ -13,7 +13,6 @@ import com.example.server.service.StatusArrayService;
 import com.example.shared.model.domain.User;
 import com.example.shared.model.service.request.StatusArrayRequest;
 import com.example.shared.model.service.response.StatusArrayResponse;
-import com.example.shared.model.domain.Status;
 
 public class StatusArrayServiceTest {
 

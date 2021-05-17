@@ -1,8 +1,7 @@
 package integration;
 
-import com.example.shared.model.domain.Status;
 import com.example.shared.model.domain.User;
-import com.example.shared.model.net.TweeterRemoteException;
+import com.example.shared.model.net.RemoteException;
 import com.example.shared.model.service.request.StatusArrayRequest;
 import com.example.shared.model.service.response.StatusArrayResponse;
 
@@ -15,7 +14,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import edu.byu.cs.client.model.net.ServerFacade;
-import edu.byu.cs.client.model.service.StatusArrayService;
+import edu.byu.cs.client.model.service.oldfiles.StatusArrayService;
 
 public class StatusArrayServiceIntegrationTest {
 
@@ -32,7 +31,7 @@ public class StatusArrayServiceIntegrationTest {
      * requests.
      */
     @BeforeEach
-    public void setup() throws IOException, TweeterRemoteException {
+    public void setup() throws IOException, RemoteException {
         User currentUser = new User("FirstName", "LastName", null);
 
         User resultUser1 = new User("FirstName1", "LastName1",

@@ -11,8 +11,6 @@ import java.util.Arrays;
 import com.example.server.dao.SyllableTableDAO;
 import com.example.server.service.FollowingService;
 import com.example.shared.model.domain.User;
-import com.example.shared.model.service.request.FollowingRequest;
-import com.example.shared.model.service.response.FollowingResponse;
 
 public class FollowingServiceTest {
 

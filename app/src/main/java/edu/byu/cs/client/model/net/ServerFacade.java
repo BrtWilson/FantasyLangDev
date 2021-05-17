@@ -2,24 +2,19 @@ package edu.byu.cs.client.model.net;
 
 import java.io.IOException;
 
-import com.example.shared.model.net.TweeterRemoteException;
-import com.example.shared.model.service.request.FollowStatusRequest;
-import com.example.shared.model.service.request.FollowerRequest;
-import com.example.shared.model.service.request.FollowingRequest;
+import com.example.shared.model.domain.User;
+import com.example.shared.model.net.RemoteException;
 import com.example.shared.model.service.request.LoginRequest;
 import com.example.shared.model.service.request.NewStatusRequest;
 import com.example.shared.model.service.request.StatusArrayRequest;
 import com.example.shared.model.service.request.LogoutRequest;
 import com.example.shared.model.service.request.RegisterRequest;
 import com.example.shared.model.service.request.UserRequest;
-import com.example.shared.model.service.response.FollowStatusResponse;
-import com.example.shared.model.service.response.FollowingResponse;
-import com.example.shared.model.service.response.FollowerResponse;
 import com.example.shared.model.service.response.LoginResponse;
 import com.example.shared.model.service.response.NewStatusResponse;
 import com.example.shared.model.service.response.StatusArrayResponse;
 import com.example.shared.model.service.response.UserResponse;
-import com.example.shared.model.service.response.BasicResponse;
+import com.example.shared.model.service.response.Response;
 import com.example.shared.model.service.response.RegisterResponse;
 
 /**
@@ -56,26 +51,33 @@ public class ServerFacade {
      * @param request contains all information needed to perform a login.
      * @return the login response.
      */
-    public LoginResponse login(LoginRequest request) throws IOException, TweeterRemoteException, RuntimeException {
+    public LoginResponse login(LoginRequest request) throws IOException {
         String Url_Path = URL_PATH_LOGIN;
-        LoginResponse response = clientCommunicator.doPost(Url_Path, request, null, LoginResponse.class);
+        //LoginResponse response = clientCommunicator.doPost(Url_Path, request, null, LoginResponse.class);
 
-        return response;
+        // TEMP RESPONSE
+        User user = new User("Test User", "username", "password");
+        return new LoginResponse(user);
+        //
+
+       //return response;
     }
 
-    public RegisterResponse register(RegisterRequest request) throws IOException, TweeterRemoteException {
+    public RegisterResponse register(RegisterRequest request) throws IOException {
         String Url_Path = URL_PATH_REGISTER;
-        RegisterResponse response = clientCommunicator.doPost(Url_Path, request, null, RegisterResponse.class);
-    //    if(response.isSuccess()) {
-            return response;
-      //  } else {
-          //  throw new RuntimeException(response.getMessage());
-      //  }
+        //RegisterResponse response = clientCommunicator.doPost(Url_Path, request, null, RegisterResponse.class);
+
+        // TEMP RESPONSE
+        User user = new User("Test User", "username", "password");
+        return new RegisterResponse(user, true);
+        //
+
+        //return response;
     }
 
-    public BasicResponse logout(LogoutRequest request) throws IOException, TweeterRemoteException {
+    public Response logout(LogoutRequest request) throws IOException, RemoteException {
         String Url_Path = URL_PATH_LOGOUT;
-        BasicResponse response = clientCommunicator.doPost(Url_Path, request, null, BasicResponse.class);
+        Response response = clientCommunicator.doPost(Url_Path, request, null, Response.class);
 
         if(response.isSuccess()) {
             return response;
@@ -84,7 +86,8 @@ public class ServerFacade {
         }
     }
 
-    public FollowStatusResponse getFollowStatus(FollowStatusRequest request) throws IOException, TweeterRemoteException {
+    /*
+    public FollowStatusResponse getFollowStatus(FollowStatusRequest request) throws IOException, RemoteException {
         String Url_Path = URL_PATH_GETFOLLOWSTATUS;
         FollowStatusResponse response = clientCommunicator.doPost(Url_Path, request, null, FollowStatusResponse.class);
 
@@ -94,7 +97,7 @@ public class ServerFacade {
             throw new RuntimeException(response.getMessage());
     }
 
-    public FollowStatusResponse follow(FollowStatusRequest request) throws IOException, TweeterRemoteException {
+    public FollowStatusResponse follow(FollowStatusRequest request) throws IOException, RemoteException {
         String Url_Path = URL_PATH_FOLLOW;
         FollowStatusResponse response = clientCommunicator.doPost(Url_Path, request, null, FollowStatusResponse.class);
 
@@ -104,7 +107,7 @@ public class ServerFacade {
             throw new RuntimeException(response.getMessage());
     }
 
-    public FollowStatusResponse unfollow(FollowStatusRequest request) throws IOException, TweeterRemoteException {
+    public FollowStatusResponse unfollow(FollowStatusRequest request) throws IOException, RemoteException {
         String Url_Path = URL_PATH_UNFOLLOW;
         FollowStatusResponse response = clientCommunicator.doPost(Url_Path, request, null, FollowStatusResponse.class);
 
@@ -123,8 +126,8 @@ public class ServerFacade {
      * @param request contains information about the user whose followees are to be returned and any
      *                other information required to satisfy the request.
      * @return the following response.
-     */
-    public FollowingResponse getFollowees(FollowingRequest request) throws IOException, TweeterRemoteException {
+     *
+    public FollowingResponse getFollowees(FollowingRequest request) throws IOException, RemoteException {
         String Url_Path = URL_PATH_GETFOLLOWEES;
         FollowingResponse response = clientCommunicator.doPost(Url_Path, request, null, FollowingResponse.class);
 
@@ -135,7 +138,7 @@ public class ServerFacade {
         }
     }
 
-    public FollowingResponse getNumFollowees(FollowingRequest request) throws IOException, TweeterRemoteException {
+    public FollowingResponse getNumFollowees(FollowingRequest request) throws IOException, RemoteException {
         String Url_Path = URL_PATH_GETNUMFOLLOWEES;
         FollowingResponse response = clientCommunicator.doPost(Url_Path,request,null,FollowingResponse.class);
 
@@ -154,8 +157,8 @@ public class ServerFacade {
      * @param request contains information about the user whose followers are to be returned and any
      *                other information required to satisfy the request.
      * @return the following response.
-     */
-    public FollowerResponse getFollowers(FollowerRequest request) throws IOException, TweeterRemoteException {
+     *
+    public FollowerResponse getFollowers(FollowerRequest request) throws IOException, RemoteException {
         String Url_Path = URL_PATH_GETFOLLOWERS;
         FollowerResponse response = clientCommunicator.doPost(Url_Path, request, null, FollowerResponse.class);
 
@@ -166,7 +169,7 @@ public class ServerFacade {
         }
     }
 
-    public FollowerResponse getNumFollowers(FollowerRequest request) throws IOException, TweeterRemoteException {
+    public FollowerResponse getNumFollowers(FollowerRequest request) throws IOException, RemoteException {
         String Url_Path = URL_PATH_GETNUMFOLLOWERS;
         FollowerResponse response = clientCommunicator.doPost(Url_Path,request,null,FollowerResponse.class);
 
@@ -176,7 +179,7 @@ public class ServerFacade {
             throw new RuntimeException(response.getMessage());
     }
 
-    public NewStatusResponse pushNewStatus(NewStatusRequest request) throws IOException, TweeterRemoteException {
+    public NewStatusResponse pushNewStatus(NewStatusRequest request) throws IOException, RemoteException {
         String Url_Path = URL_PATH_POSTSTATUS;
         NewStatusResponse response = clientCommunicator.doPost(Url_Path, request, null, NewStatusResponse.class);
 
@@ -187,7 +190,7 @@ public class ServerFacade {
         }
     }
 
-    public StatusArrayResponse getStatusArray(StatusArrayRequest request) throws IOException, TweeterRemoteException {
+    public StatusArrayResponse getStatusArray(StatusArrayRequest request) throws IOException, RemoteException {
         String Url_Path = URL_PATH_GETSTATUSARRAY;
         StatusArrayResponse response = clientCommunicator.doPost(Url_Path, request, null, StatusArrayResponse.class);
 
@@ -200,7 +203,7 @@ public class ServerFacade {
 
 
     //GetUser for Status
-    public UserResponse getUserByAlias(UserRequest request) throws IOException, TweeterRemoteException {
+    public UserResponse getUserByAlias(UserRequest request) throws IOException, RemoteException {
         String Url_Path = URL_PATH_GETUSERBYALIAS;
         UserResponse response = clientCommunicator.doPost(Url_Path, request, null, UserResponse.class);
 
@@ -210,4 +213,6 @@ public class ServerFacade {
             throw new RuntimeException(response.getMessage());
         }
     }
+
+     */
 }

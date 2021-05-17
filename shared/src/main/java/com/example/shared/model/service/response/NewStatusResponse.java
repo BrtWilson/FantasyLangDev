@@ -1,7 +1,5 @@
 package com.example.shared.model.service.response;
 
-import com.example.shared.model.domain.Status;
-
 import java.util.Objects;
 
 public class NewStatusResponse extends Response {

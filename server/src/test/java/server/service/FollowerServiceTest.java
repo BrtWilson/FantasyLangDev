@@ -3,8 +3,6 @@ package server.service;
 import com.example.server.dao.SyllableTableDAO;
 import com.example.server.service.FollowerService;
 import com.example.shared.model.domain.User;
-import com.example.shared.model.service.request.FollowerRequest;
-import com.example.shared.model.service.response.FollowerResponse;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

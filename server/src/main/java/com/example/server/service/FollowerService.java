@@ -2,9 +2,6 @@ package com.example.server.service;
 
 import com.example.server.dao.SyllableTableDAO;
 import com.example.server.dao.UsersTableDAO;
-import com.example.shared.model.service.IFollowerService;
-import com.example.shared.model.service.request.FollowerRequest;
-import com.example.shared.model.service.response.FollowerResponse;
 
 import java.io.IOException;
 

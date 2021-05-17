@@ -2,17 +2,12 @@ package server.dao.util;
 
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
-import com.amazonaws.services.dynamodbv2.document.BatchWriteItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
-import com.amazonaws.services.dynamodbv2.document.TableWriteItems;
-import com.amazonaws.services.dynamodbv2.model.WriteRequest;
 import com.example.server.dao.dbstrategies.DynamoDBStrategy;
-import com.example.shared.model.domain.Status;
 import com.example.shared.model.domain.User;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class DatabaseInfoProvider {
     private static final String userTableName = "Users";

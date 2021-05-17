@@ -3,8 +3,6 @@ package com.example.server.lambda;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.example.server.service.FollowingService;
-import com.example.shared.model.service.request.FollowingRequest;
-import com.example.shared.model.service.response.FollowingResponse;
 
 import java.io.IOException;
 

@@ -10,11 +10,11 @@ import java.util.Arrays;
 
 import com.example.shared.model.domain.User;
 import edu.byu.cs.client.model.net.ServerFacade;
+import edu.byu.cs.client.model.service.oldfiles.StatusArrayService;
 
-import com.example.shared.model.net.TweeterRemoteException;
+import com.example.shared.model.net.RemoteException;
 import com.example.shared.model.service.request.StatusArrayRequest;
 import com.example.shared.model.service.response.StatusArrayResponse;
-import com.example.shared.model.domain.Status;
 
 public class StatusArrayServiceTest {
 
@@ -31,7 +31,7 @@ public class StatusArrayServiceTest {
      * requests.
      */
     @BeforeEach
-    public void setup() throws IOException, TweeterRemoteException {
+    public void setup() throws IOException, RemoteException {
         User currentUser = new User("FirstName", "LastName", null);
 
         User resultUser1 = new User("FirstName1", "LastName1",

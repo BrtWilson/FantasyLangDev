@@ -10,12 +10,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.example.shared.model.domain.User;
-import edu.byu.cs.client.model.service.StatusArrayService;
+import edu.byu.cs.client.model.service.oldfiles.StatusArrayService;
+import edu.byu.cs.client.presenter.oldfiles.StatusArrayPresenter;
 
-import com.example.shared.model.net.TweeterRemoteException;
 import com.example.shared.model.service.request.StatusArrayRequest;
 import com.example.shared.model.service.response.StatusArrayResponse;
-import com.example.shared.model.domain.Status;
 
 public class StatusArrayPresenterTest {
 

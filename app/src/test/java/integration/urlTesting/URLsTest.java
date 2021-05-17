@@ -1,23 +1,16 @@
 package integration.urlTesting;
 
-import com.example.shared.model.domain.Status;
 import com.example.shared.model.domain.User;
-import com.example.shared.model.net.TweeterRemoteException;
-import com.example.shared.model.service.request.FollowerRequest;
-import com.example.shared.model.service.response.FollowerResponse;
+import com.example.shared.model.net.RemoteException;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 import edu.byu.cs.client.model.net.ServerFacade;
-import edu.byu.cs.client.model.service.FollowerService;
+import edu.byu.cs.client.model.service.oldfiles.FollowerService;
 import edu.byu.cs.client.util.ByteArrayUtils;
 
 public class URLsTest {
@@ -82,7 +75,7 @@ public class URLsTest {
      * @throws IOException if an IO error occurs.
      */
     @Test
-    public void myTest() throws IOException, TweeterRemoteException {
+    public void myTest() throws IOException, RemoteException {
         byte [] bytes = ByteArrayUtils.bytesFromUrl(user1.getImageUrl());
         bytes = ByteArrayUtils.bytesFromUrl(user2.getImageUrl());
         bytes = ByteArrayUtils.bytesFromUrl(user3.getImageUrl());
@@ -132,7 +125,7 @@ public class URLsTest {
         }*/
     }
     @Test
-    public void myTest2() throws IOException, TweeterRemoteException {
+    public void myTest2() throws IOException, RemoteException {
         byte [] bytes = ByteArrayUtils.bytesFromUrl(user36.getImageUrl()); // <-
 
         /*for(User user : getDummy) {
@@ -142,7 +135,7 @@ public class URLsTest {
     }
 
     @Test
-    public void myOldTest() throws IOException, TweeterRemoteException {
+    public void myOldTest() throws IOException, RemoteException {
 
         User user22 = new User("Luke", "Skywalker", "https://www.vippng.com/png/detail/510-5106254_luke-skywalker-cliparts-luke-skywalker-star-wars-5.png");
         User user23 = new User("Anakin", "Skywalker", "https://images.immediate.co.uk/production/volatile/sites/3/2019/12/Episode_III_Revenge_Christensen07-8bbd9e4.jpg?quality=90&resize=620,413");

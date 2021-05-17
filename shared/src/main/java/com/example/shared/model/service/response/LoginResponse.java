@@ -1,6 +1,5 @@
 package com.example.shared.model.service.response;
 
-import com.example.shared.model.domain.AuthToken;
 import com.example.shared.model.domain.User;
 
 import java.util.Objects;
@@ -11,10 +10,9 @@ import java.util.Objects;
 public class LoginResponse extends Response {
 
     private User user;
-    private AuthToken authToken;
 
     /**
-     * Creates a response indicating that the corresponding request was unsuccessful.
+     * Creates a response indicating that the corresponding request was NOT SUCCESSFUL.
      *
      * @param message a message describing why the request was unsuccessful.
      */
@@ -23,15 +21,13 @@ public class LoginResponse extends Response {
     }
 
     /**
-     * Creates a response indicating that the corresponding request was successful.
+     * Creates a response indicating that the corresponding request was SUCCESSFUL.
      *
      * @param user the now logged in user.
-     * @param authToken the auth token representing this user's session with the server.
      */
-    public LoginResponse(User user, AuthToken authToken) {
+    public LoginResponse(User user) {
         super(true, null);
         this.user = user;
-        this.authToken = authToken;
     }
 
     /**
@@ -43,14 +39,6 @@ public class LoginResponse extends Response {
         return user;
     }
 
-    /**
-     * Returns the auth token.
-     *
-     * @return the auth token.
-     */
-    public AuthToken getAuthToken() {
-        return authToken;
-    }
 
     @Override
     public boolean equals(Object param) {
@@ -65,7 +53,6 @@ public class LoginResponse extends Response {
         LoginResponse that = (LoginResponse) param;
 
         return (Objects.equals(user, that.user) &&
-                Objects.equals(authToken, that.authToken) &&
                 Objects.equals(this.getMessage(), that.getMessage()) &&
                 this.isSuccess() == that.isSuccess());
     }

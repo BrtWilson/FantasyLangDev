@@ -1,9 +1,8 @@
 package com.example.shared.model.service.response;
 
-/**
- * A base class for server responses.
- */
-abstract class Response {
+import java.util.Objects;
+
+public class Response {
 
     private final boolean success;
     private final String message;
@@ -23,7 +22,7 @@ abstract class Response {
      * @param success the success indicator.
      * @param message the error message.
      */
-    Response(boolean success, String message) {
+    public Response(boolean success, String message) {
         this.success = success;
         this.message = message;
     }
@@ -45,4 +44,22 @@ abstract class Response {
     public String getMessage() {
         return message;
     }
+
+
+    @Override
+    public boolean equals(Object param) {
+        if (this == param) {
+            return true;
+        }
+
+        if (param == null || getClass() != param.getClass()) {
+            return false;
+        }
+
+        Response that = (Response) param;
+
+        return (Objects.equals(this.getMessage(), that.getMessage()) &&
+                this.isSuccess() == that.isSuccess());
+    }
+
 }

@@ -1,8 +1,7 @@
 package integration;
 
-import com.example.shared.model.domain.Status;
 import com.example.shared.model.domain.User;
-import com.example.shared.model.net.TweeterRemoteException;
+import com.example.shared.model.net.RemoteException;
 import com.example.shared.model.service.request.NewStatusRequest;
 import com.example.shared.model.service.response.NewStatusResponse;
 
@@ -14,7 +13,7 @@ import org.mockito.Mockito;
 import java.io.IOException;
 
 import edu.byu.cs.client.model.net.ServerFacade;
-import edu.byu.cs.client.model.service.NewStatusService;
+import edu.byu.cs.client.model.service.oldfiles.NewStatusService;
 
 
 public class PostStatusServiceIntegrationTest {
@@ -28,7 +27,7 @@ public class PostStatusServiceIntegrationTest {
     private NewStatusService newStatusService;
 
     @BeforeEach
-    public void setup() throws IOException, TweeterRemoteException {
+    public void setup() throws IOException, RemoteException {
         User user1 = new User("First", "Last", "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
         user1.setPassword("password");
 
@@ -52,7 +51,7 @@ public class PostStatusServiceIntegrationTest {
     }
 
     @Test
-    public void testPostStatus_validRequest_correctResponse() throws IOException, TweeterRemoteException {
+    public void testPostStatus_validRequest_correctResponse() throws IOException, RemoteException {
         NewStatusResponse response = newStatusService.postNewStatus(validRequest1);
         System.out.println(response.getNewStatus());
         Assertions.assertEquals(successResponse1.isSuccess(), response.isSuccess());
@@ -60,7 +59,7 @@ public class PostStatusServiceIntegrationTest {
     }
 
     @Test
-    public void testPostStatus_validRequest_correct2() throws IOException, TweeterRemoteException {
+    public void testPostStatus_validRequest_correct2() throws IOException, RemoteException {
         NewStatusResponse response1 = newStatusService.postNewStatus(validRequest2);
         System.out.println(response1.getNewStatus());
         Assertions.assertEquals(successResponse2.isSuccess(), response1.isSuccess());

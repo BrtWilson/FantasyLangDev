@@ -9,7 +9,6 @@ import java.util.UUID;
 
 import com.example.server.dao.UsersTableDAO;
 import com.example.server.service.RegisterService;
-import com.example.shared.model.domain.AuthToken;
 import com.example.shared.model.domain.User;
 import com.example.shared.model.service.request.RegisterRequest;
 import com.example.shared.model.service.response.RegisterResponse;

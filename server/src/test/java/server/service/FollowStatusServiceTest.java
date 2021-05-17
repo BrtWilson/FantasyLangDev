@@ -2,11 +2,8 @@ package server.service;
 
 import com.example.server.dao.SyllableTableDAO;
 import com.example.server.service.FollowStatusService;
-import com.example.shared.model.domain.AuthToken;
 import com.example.shared.model.domain.User;
-import com.example.shared.model.net.TweeterRemoteException;
-import com.example.shared.model.service.request.FollowStatusRequest;
-import com.example.shared.model.service.response.FollowStatusResponse;
+import com.example.shared.model.net.RemoteException;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,7 +29,7 @@ public class FollowStatusServiceTest {
      * requests.
      */
     @BeforeEach
-    public void setup() throws IOException, TweeterRemoteException {
+    public void setup() throws IOException, RemoteException {
         AuthToken authToken = new AuthToken();
         User currentUser = new User("FirstName", "LastName", null);
 
@@ -70,19 +67,19 @@ public class FollowStatusServiceTest {
      * @throws IOException if an IO error occurs.
      */
     @Test
-    public void testGetFollowStatus_validGetRequest_correctResponse() throws IOException, TweeterRemoteException {
+    public void testGetFollowStatus_validGetRequest_correctResponse() throws IOException, RemoteException {
         FollowStatusResponse response = followStatusServiceSpy.getFollowStatus(validGetRequest);
         Assertions.assertEquals(successGetResponse, response);
     }
 
     @Test
-    public void testGetFollowStatus_validFollowRequest_correctResponse() throws IOException, TweeterRemoteException {
+    public void testGetFollowStatus_validFollowRequest_correctResponse() throws IOException, RemoteException {
         FollowStatusResponse response = followStatusServiceSpy.getFollowStatus(validFollowRequest);
         Assertions.assertEquals(successFollowResponse, response);
     }
 
     @Test
-    public void testGetFollowStatus_validUnfollowRequest_correctResponse() throws IOException, TweeterRemoteException {
+    public void testGetFollowStatus_validUnfollowRequest_correctResponse() throws IOException, RemoteException {
         FollowStatusResponse response = followStatusServiceSpy.getFollowStatus(validUnfollowRequest);
         Assertions.assertEquals(successUnfollowResponse, response);
     }

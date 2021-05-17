@@ -7,7 +7,6 @@ import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.TableWriteItems;
 import com.amazonaws.services.dynamodbv2.model.WriteRequest;
 import com.example.server.dao.dbstrategies.DynamoDBStrategy;
-import com.example.shared.model.domain.Status;
 import com.example.shared.model.domain.User;
 
 import java.util.ArrayList;

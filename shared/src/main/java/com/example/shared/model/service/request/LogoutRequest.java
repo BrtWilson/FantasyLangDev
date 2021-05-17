@@ -1,8 +1,5 @@
 package com.example.shared.model.service.request;
 
-import com.example.shared.model.domain.AuthToken;
-import com.example.shared.model.domain.User;
-
 public class LogoutRequest {
 
     private String user;

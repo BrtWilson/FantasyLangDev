@@ -1,6 +1,5 @@
 package com.example.shared.model.service.response;
 
-import com.example.shared.model.domain.AuthToken;
 import com.example.shared.model.domain.User;
 
 import java.util.Objects;
@@ -8,25 +7,29 @@ import java.util.Objects;
 public class RegisterResponse extends Response{
 
     private final User user;
-    private final AuthToken authToken;
 
-    public RegisterResponse(User user, AuthToken authToken, boolean success) {
+    /**
+     * If response is SUCCESSFUL
+     * @param user User object created from successful registration
+     * @param success boolean of successfulness
+     */
+    public RegisterResponse(User user, boolean success) {
         super(success);
         this.user = user;
-        this.authToken = authToken;
     }
 
+    /**
+     * If response is NOT SUCCESSFUL
+     * @param message error message
+     * @param success boolean of successfulness
+     */
     public RegisterResponse(String message, boolean success) {
-        super(success,message);
+        super(success, message);
         this.user = null;
-        this.authToken = null;
     }
 
     public User getUser() {
         return user;
-    }
-    public AuthToken getAuthToken() {
-        return authToken;
     }
 
     @Override
@@ -42,7 +45,6 @@ public class RegisterResponse extends Response{
         RegisterResponse that = (RegisterResponse) param;
 
         return (Objects.equals(user, that.user) &&
-                Objects.equals(authToken, that.authToken) &&
                 Objects.equals(this.getMessage(), that.getMessage()) &&
                 this.isSuccess() == that.isSuccess());
     }

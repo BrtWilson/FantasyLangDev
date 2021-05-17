@@ -3,7 +3,6 @@ package server.dao;
 import com.amazonaws.services.dynamodbv2.document.Item;
 import com.example.server.dao.dbstrategies.DynamoDBStrategy;
 import com.example.server.dao.dbstrategies.ResultsPage;
-import com.example.shared.model.domain.AuthToken;
 import com.example.shared.model.domain.User;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -12,8 +11,6 @@ import org.junit.jupiter.api.Test;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.xml.crypto.Data;
 
 import server.dao.util.DatabaseInfoProvider;
 

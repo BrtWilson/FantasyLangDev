@@ -2,7 +2,6 @@ package server.dao;
 
 import com.amazonaws.services.dynamodbv2.document.Item;
 import com.example.server.dao.dbstrategies.DynamoDBStrategy;
-import com.example.shared.model.domain.AuthToken;
 import com.example.shared.model.domain.User;
 import com.example.shared.model.service.request.LogoutRequest;
 

@@ -3,12 +3,9 @@ package com.example.server.dao;
 import com.example.server.dao.dbstrategies.DynamoDBStrategy;
 import com.example.server.dao.dbstrategies.ResultsPage;
 import com.example.server.dao.util.ListTypeItemTransformer;
-import com.example.server.service.UserService;
-import com.example.shared.model.domain.Status;
 import com.example.shared.model.domain.User;
 import com.example.shared.model.service.request.NewStatusRequest;
 import com.example.shared.model.service.request.StatusArrayRequest;
-import com.example.shared.model.service.response.FollowerResponse;
 import com.example.shared.model.service.response.NewStatusResponse;
 import com.example.shared.model.service.response.StatusArrayResponse;
 
@@ -30,7 +27,7 @@ public class LanguageTableDAO {
 
     private static final int uploadBatchSize = 25;
 
-
+/*
     public StatusArrayResponse getStatusArray(StatusArrayRequest request) {
         pageSize = request.getLimit();
         verifyLimit(request.getLimit());

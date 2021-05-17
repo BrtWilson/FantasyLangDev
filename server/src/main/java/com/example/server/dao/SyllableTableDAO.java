@@ -4,12 +4,6 @@ import com.example.server.dao.dbstrategies.DynamoDBStrategy;
 import com.example.server.dao.dbstrategies.ResultsPage;
 import com.example.server.dao.util.ListTypeItemTransformer;
 import com.example.shared.model.domain.User;
-import com.example.shared.model.service.request.FollowStatusRequest;
-import com.example.shared.model.service.request.FollowerRequest;
-import com.example.shared.model.service.request.FollowingRequest;
-import com.example.shared.model.service.response.FollowStatusResponse;
-import com.example.shared.model.service.response.FollowerResponse;
-import com.example.shared.model.service.response.FollowingResponse;
 
 import java.util.List;
 
@@ -24,7 +18,7 @@ public class SyllableTableDAO {
     private static Integer pageSize;
 
     private static final String SERVER_SIDE_ERROR = "[Server Error]";
-
+/*
     public FollowerResponse getFollowers(FollowerRequest request) {
         pageSize = request.getLimit();
         verifyRequestLimit(request.getLimit());

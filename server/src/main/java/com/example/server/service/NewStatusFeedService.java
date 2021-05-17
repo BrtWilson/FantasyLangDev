@@ -2,10 +2,9 @@ package com.example.server.service;
 
 import com.example.server.dao.LanguageTableDAO;
 import com.example.server.dao.DictionaryTableDAO;
-import com.example.shared.model.net.TweeterRemoteException;
+import com.example.shared.model.net.RemoteException;
 import com.example.shared.model.service.INewStatusService;
 import com.example.shared.model.service.request.NewStatusRequest;
-import com.example.shared.model.service.response.FollowerResponse;
 import com.example.shared.model.service.response.NewStatusResponse;
 
 import java.io.IOException;
@@ -48,7 +47,7 @@ public class NewStatusFeedService implements INewStatusService {
     public DictionaryTableDAO getStoryTableDAO() { return new DictionaryTableDAO(); }
 
     @Override
-    public NewStatusResponse postNewStatus(NewStatusRequest request) throws IOException, TweeterRemoteException {
+    public NewStatusResponse postNewStatus(NewStatusRequest request) throws IOException, RemoteException {
         return null;
     }
 }

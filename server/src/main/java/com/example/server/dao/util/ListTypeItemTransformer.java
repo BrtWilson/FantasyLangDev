@@ -1,7 +1,5 @@
 package com.example.server.dao.util;
 
-import com.amazonaws.services.dynamodbv2.document.Item;
-import com.example.shared.model.domain.Status;
 import com.example.shared.model.domain.User;
 
 import java.util.ArrayList;

@@ -3,9 +3,7 @@ package com.example.server.lambda;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.example.server.service.FollowStatusService;
-import com.example.shared.model.net.TweeterRemoteException;
-import com.example.shared.model.service.request.FollowStatusRequest;
-import com.example.shared.model.service.response.FollowStatusResponse;
+import com.example.shared.model.net.RemoteException;
 
 import java.io.IOException;
 
@@ -16,7 +14,7 @@ public class GetFollowStatusHandler implements RequestHandler<FollowStatusReques
         FollowStatusService service = new FollowStatusService();
         try {
             return service.getFollowStatus(request);
-        }catch (RuntimeException | IOException | TweeterRemoteException e) {
+        }catch (RuntimeException | IOException | RemoteException e) {
             String message = "[Bad Request]";
             throw new RuntimeException(message, e);
         }

@@ -1,6 +1,5 @@
 package com.example.shared.model.service.response;
 
-import com.example.shared.model.domain.AuthToken;
 import com.example.shared.model.domain.User;
 
 import java.util.Objects;

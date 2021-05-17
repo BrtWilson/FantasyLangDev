@@ -1,23 +1,9 @@
 package edu.byu.cs.client.model.net;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 import com.example.shared.model.domain.User;
-import com.example.shared.model.service.request.FollowingRequest;
-import com.example.shared.model.service.request.LoginRequest;
-import com.example.shared.model.service.request.LogoutRequest;
-import com.example.shared.model.service.request.RegisterRequest;
-import com.example.shared.model.service.response.FollowingResponse;
-import com.example.shared.model.service.response.LoginResponse;
-import com.example.shared.model.service.response.BasicResponse;
-import com.example.shared.model.service.response.RegisterResponse;
 
 class ServerFacadeTest {
 

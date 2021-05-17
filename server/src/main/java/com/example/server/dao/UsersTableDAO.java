@@ -2,16 +2,12 @@ package com.example.server.dao;
 
 import com.amazonaws.services.dynamodbv2.document.Item;
 import com.example.server.dao.dbstrategies.DynamoDBStrategy;
-import com.example.shared.model.domain.AuthToken;
 import com.example.shared.model.domain.User;
-import com.example.shared.model.service.request.FollowStatusRequest;
-import com.example.shared.model.service.request.FollowerRequest;
-import com.example.shared.model.service.request.FollowingRequest;
 import com.example.shared.model.service.request.LoginRequest;
 import com.example.shared.model.service.request.LogoutRequest;
 import com.example.shared.model.service.request.RegisterRequest;
 import com.example.shared.model.service.request.UserRequest;
-import com.example.shared.model.service.response.BasicResponse;
+import com.example.shared.model.service.response.Response;
 import com.example.shared.model.service.response.LoginResponse;
 import com.example.shared.model.service.response.RegisterResponse;
 import com.example.shared.model.service.response.UserResponse;
@@ -69,9 +65,9 @@ public class UsersTableDAO {
                 tempUser.setImageUrl(retrievedUser.getString(attributeImageUrl));
 
                 if (tempUser.getPassword().equals(request.getPassword())) { // Note that hashing has already happened in the Services
-                    AuthTableDAO authTableDAO = new AuthTableDAO();
-                    AuthToken token = authTableDAO.startingAuth(request.getUsername());
-                    return new LoginResponse(tempUser, token);
+                    //AuthTableDAO authTableDAO = new AuthTableDAO();
+                    //AuthToken token = authTableDAO.startingAuth(request.getUsername());
+                    return new LoginResponse(tempUser);
                 } else { return new LoginResponse(FAULTY_USER_REQUEST + ": Password does not match: " + request.getPassword() +" " + tempUser.getPassword()); }
             } else { return new LoginResponse(FAULTY_USER_REQUEST + ": User does not exist."); }
 
@@ -80,14 +76,14 @@ public class UsersTableDAO {
         }
     }
 
-    public BasicResponse logout(LogoutRequest request) {
+    public Response logout(LogoutRequest request) {
         //VERIFY: whether this needs additional checks. Is there something else for this?
-        AuthTableDAO authTableDAO = new AuthTableDAO();
-        if (authTableDAO.logoutToken(request)) {
-            return new BasicResponse(true, "Logout successful.");
-        } else {
-            return new BasicResponse(false, SERVER_SIDE_ERROR + ": Logout failed.");
-        }
+        //AuthTableDAO authTableDAO = new AuthTableDAO();
+        //if (authTableDAO.logoutToken(request)) {
+            return new Response(true, "Logout successful.");
+        //} else {
+        //    return new Response(false, SERVER_SIDE_ERROR + ": Logout failed.");
+        //}
     }
 
     public RegisterResponse register(RegisterRequest request) {
@@ -97,9 +93,9 @@ public class UsersTableDAO {
                 return new RegisterResponse(FAULTY_USER_REQUEST + ": User already exists.", false);
             } else {
                 User registeredUser = UploadUser(request);
-                AuthTableDAO authTableDAO = new AuthTableDAO();
-                AuthToken token = authTableDAO.startingAuth(request.getUserName());
-                return new RegisterResponse(registeredUser, token, true);
+                //AuthTableDAO authTableDAO = new AuthTableDAO();
+                //AuthToken token = authTableDAO.startingAuth(request.getUserName());
+                return new RegisterResponse(registeredUser, true);
             }
         } catch (Exception e) {
             return new RegisterResponse(SERVER_SIDE_ERROR + ": " + e.getMessage() + "\nStack: " + Arrays.toString(e.getStackTrace()), false);
@@ -141,7 +137,7 @@ public class UsersTableDAO {
     }
 
 
-    public boolean unfollow(FollowStatusRequest request) throws Exception {
+    /*public boolean unfollow(FollowStatusRequest request) throws Exception {
         Integer followerCount = Integer.valueOf(getUserFollowerCount(request.getOtherUser())) + 1;
         Integer followeeCount = Integer.valueOf(getUserFolloweeCount(request.getCurrentUser())) + 1;
         getDatabaseInteractor().updateItemStringAttribute(tableName, keyAttribute, request.getOtherUser(), attributeFollowerCount, followerCount.toString());

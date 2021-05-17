@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="edu.byu.cs.client.view.main.LoginActivity"
+            android:name="edu.byu.cs.client.view.main.oldfiles.LoginActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -21,15 +21,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="edu.byu.cs.client.view.main.RegisterActivity"
+            android:name="edu.byu.cs.client.view.main.oldfiles.RegisterActivity"
             android:label="Register">
         </activity>
         <activity
-            android:name="edu.byu.cs.client.view.main.MainActivity"
+            android:name="edu.byu.cs.client.view.main.oldfiles.MainActivity"
             android:label="@string/title_activity_main">
         </activity>
         <activity
-            android:name="edu.byu.cs.client.view.main.UserPageActivity"
+            android:name="edu.byu.cs.client.view.main.oldfiles.UserPageActivity"
             android:label="Tweeter">
         </activity>
     </application>

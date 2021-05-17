@@ -3,8 +3,6 @@ package com.example.shared.model.service.response;
 import java.util.List;
 import java.util.Objects;
 
-import com.example.shared.model.domain.Status;
-
 public class StatusArrayResponse extends PagedResponse implements IListResponse{
 
     private List<Status> statuses;

@@ -1,10 +1,7 @@
 package integration;
 
 import com.example.shared.model.domain.User;
-import com.example.shared.model.net.TweeterRemoteException;
-import com.example.shared.model.service.request.FollowingRequest;
-import com.example.shared.model.service.response.FollowerResponse;
-import com.example.shared.model.service.response.FollowingResponse;
+import com.example.shared.model.net.RemoteException;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +12,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import edu.byu.cs.client.model.net.ServerFacade;
-import edu.byu.cs.client.model.service.FollowingService;
+import edu.byu.cs.client.model.service.oldfiles.FollowingService;
 
 public class FollowingServiceIntegrationTest {
 
@@ -32,7 +29,7 @@ public class FollowingServiceIntegrationTest {
      * requests.
      */
     @BeforeEach
-    public void setup() throws IOException, TweeterRemoteException {
+    public void setup() throws IOException, RemoteException {
         User currentUser = new User("FirstName", "LastName", null);
 
         User resultUser1 = new User("Ash", "Ahketchum",
@@ -67,7 +64,7 @@ public class FollowingServiceIntegrationTest {
      * @throws IOException if an IO error occurs.
      */
     @Test
-    public void testGetFollowees_validRequest_correctResponse() throws IOException, TweeterRemoteException {
+    public void testGetFollowees_validRequest_correctResponse() throws IOException, RemoteException {
         FollowingResponse response = followingServiceSpy.getFollowees(validRequest);
         Assertions.assertEquals(successResponse.getFollowees(), response.getFollowees());
         Assertions.assertEquals(successResponse.getFollowees(), response.getFollowees());
@@ -80,7 +77,7 @@ public class FollowingServiceIntegrationTest {
      * @throws IOException if an IO error occurs.
      */
     @Test
-    public void testGetFollowees_validRequest_loadsProfileImages() throws IOException, TweeterRemoteException {
+    public void testGetFollowees_validRequest_loadsProfileImages() throws IOException, RemoteException {
         FollowingResponse response = followingServiceSpy.getFollowees(validRequest);
 
         for(User user : response.getFollowees()) {
@@ -95,7 +92,7 @@ public class FollowingServiceIntegrationTest {
      * @throws IOException if an IO error occurs.
      */
     @Test
-    public void testGetFollowees_invalidRequest_returnsNoFollowees() throws IOException, TweeterRemoteException {
+    public void testGetFollowees_invalidRequest_returnsNoFollowees() throws IOException, RemoteException {
         //Assertions.assertEquals(failureResponse, response);
         try {
             FollowingResponse response = followingServiceSpy.getFollowees(invalidRequest);

@@ -3,7 +3,6 @@ package com.example.server.dao;
 import com.example.server.dao.dbstrategies.DynamoDBStrategy;
 import com.example.server.dao.dbstrategies.ResultsPage;
 import com.example.server.dao.util.ListTypeItemTransformer;
-import com.example.shared.model.domain.Status;
 import com.example.shared.model.service.request.NewStatusRequest;
 import com.example.shared.model.service.request.StatusArrayRequest;
 import com.example.shared.model.service.response.NewStatusResponse;
@@ -28,7 +27,7 @@ public class DictionaryTableDAO {
         verifyLimit(request.getLimit());
         verifyAlias(request.getUserAlias());
 
-        return retrieveStory(request.getUserAlias(), request.getLastStatusDate());
+        return null; //retrieveStory(request.getUserAlias(), request.getLastStatusDate());
     }
 
     private void verifyLimit(int limit) {
@@ -43,6 +42,7 @@ public class DictionaryTableDAO {
         }
     }
 
+    /*
     //STANDARD ADD TO STORY
     public NewStatusResponse postNewStatus(NewStatusRequest request) {
         getDatabaseInteractor().createItemWithDualKey(tableName, partitionKey, request.getUserAlias(), sortKey, request.getDate(), true, attributeMessage, request.getMessage());

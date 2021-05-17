@@ -1,6 +1,6 @@
 package edu.byu.cs.client.model.net;
 
-import com.example.shared.model.net.TweeterRemoteException;
+import com.example.shared.model.net.RemoteException;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -29,7 +29,7 @@ class ClientCommunicator {
     }
 
     <T> T doPost(String urlPath, final Object requestInfo, Map<String, String> headers, Class<T> returnType)
-            throws IOException, TweeterRemoteException {
+            throws IOException, RemoteException, ServerException, RequestException {
         RequestStrategy requestStrategy = new RequestStrategy() {
             @Override
             public void setRequestMethod(HttpURLConnection connection) throws IOException {
@@ -52,7 +52,7 @@ class ClientCommunicator {
     }
 
     <T> T doGet(String urlPath, Map<String, String> headers, Class<T> returnType)
-            throws IOException, TweeterRemoteException {
+            throws IOException, RemoteException, ServerException, RequestException {
         RequestStrategy requestStrategy = new RequestStrategy() {
             @Override
             public void setRequestMethod(HttpURLConnection connection) throws IOException {
@@ -69,7 +69,7 @@ class ClientCommunicator {
     }
 
     private <T> T doRequest(String urlPath, Map<String, String> headers, Class<T> returnType, RequestStrategy requestStrategy)
-            throws IOException, TweeterRemoteException {
+            throws IOException, RemoteException, RequestException, ServerException {
 
         HttpURLConnection connection = null;
 
@@ -93,10 +93,10 @@ class ClientCommunicator {
                     return edu.byu.cs.client.model.net.JsonSerializer.deserialize(responseString, returnType);
                 case HttpURLConnection.HTTP_BAD_REQUEST:
                     ErrorResponse errorResponse = getErrorResponse(connection);
-                    throw new TweeterRequestException(errorResponse.errorMessage, errorResponse.errorType, errorResponse.stackTrace);
+                    throw new RequestException(errorResponse.errorMessage, errorResponse.errorType, errorResponse.stackTrace);
                 case HttpURLConnection.HTTP_INTERNAL_ERROR:
                     errorResponse = getErrorResponse(connection);
-                    throw new TweeterServerException(errorResponse.errorMessage, errorResponse.errorType, errorResponse.stackTrace);
+                    throw new ServerException(errorResponse.errorMessage, errorResponse.errorType, errorResponse.stackTrace);
                 default:
                     throw new RuntimeException("An unknown error occurred. Response code = " + connection.getResponseCode());
             }

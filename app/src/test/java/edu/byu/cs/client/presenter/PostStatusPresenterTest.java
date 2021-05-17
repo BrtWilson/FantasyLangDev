@@ -5,14 +5,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import java.io.IOException;
-import com.example.shared.model.domain.AuthToken;
-import com.example.shared.model.domain.User;
-import com.example.shared.model.domain.Status;
 
-import com.example.shared.model.net.TweeterRemoteException;
+import com.example.shared.model.domain.User;
+
+import com.example.shared.model.net.RemoteException;
 import com.example.shared.model.service.request.NewStatusRequest;
 import com.example.shared.model.service.response.NewStatusResponse;
-import edu.byu.cs.client.model.service.NewStatusService;
+import edu.byu.cs.client.model.service.oldfiles.NewStatusService;
+import edu.byu.cs.client.presenter.oldfiles.LoginPresenter;
+import edu.byu.cs.client.presenter.oldfiles.NewStatusPresenter;
 
 public class PostStatusPresenterTest {
 
@@ -24,7 +25,7 @@ public class PostStatusPresenterTest {
     private NewStatusPresenter presenter;
 
     @BeforeEach
-    public void setup() throws IOException, TweeterRemoteException {
+    public void setup() throws IOException, RemoteException {
         User user1 = new User("First", "Last", "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
         user1.setPassword("password");
 
@@ -49,14 +50,14 @@ public class PostStatusPresenterTest {
 
 
     @Test
-    public void testLogin_returnsServiceResult1() throws IOException, TweeterRemoteException {
+    public void testLogin_returnsServiceResult1() throws IOException, RemoteException {
         Mockito.when(mockNewStatusService.postNewStatus(request1)).thenReturn(response1);
 
         Assertions.assertEquals(response1.isSuccess(), presenter.newStatus(request1).isSuccess());
     }
 
     @Test
-    public void testLogin_returnsServiceResult2() throws IOException, TweeterRemoteException {
+    public void testLogin_returnsServiceResult2() throws IOException, RemoteException {
         Mockito.when(mockNewStatusService.postNewStatus(request2)).thenReturn(response2);
 
         Assertions.assertEquals(response2.isSuccess(), presenter.newStatus(request2).isSuccess());

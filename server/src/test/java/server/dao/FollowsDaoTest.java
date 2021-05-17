@@ -3,14 +3,7 @@ package server.dao;
 import com.example.server.dao.SyllableTableDAO;
 import com.example.server.service.FollowerService;
 import com.example.server.service.FollowingService;
-import com.example.shared.model.domain.AuthToken;
 import com.example.shared.model.domain.User;
-import com.example.shared.model.service.request.FollowStatusRequest;
-import com.example.shared.model.service.request.FollowerRequest;
-import com.example.shared.model.service.request.FollowingRequest;
-import com.example.shared.model.service.response.FollowStatusResponse;
-import com.example.shared.model.service.response.FollowerResponse;
-import com.example.shared.model.service.response.FollowingResponse;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

@@ -8,12 +8,11 @@ import java.io.IOException;
 
 import com.example.server.dao.UsersTableDAO;
 import com.example.server.service.LoginService;
-import com.example.shared.model.domain.AuthToken;
 import com.example.shared.model.domain.User;
 import com.example.shared.model.service.request.LoginRequest;
 import com.example.shared.model.service.request.LogoutRequest;
 import com.example.shared.model.service.response.LoginResponse;
-import com.example.shared.model.service.response.BasicResponse;
+import com.example.shared.model.service.response.Response;
 
 
 public class LoginServiceTest {
@@ -23,7 +22,7 @@ public class LoginServiceTest {
 
     private LoginResponse successResponse;
     private LoginResponse failureResponse;
-    private BasicResponse logoutResponse;
+    private Response logoutResponse;
 
     private LoginService loginService;
 
@@ -37,7 +36,7 @@ public class LoginServiceTest {
         validLogoutRequest = new LogoutRequest(user.getAlias());
 
         successResponse = new LoginResponse(user, new AuthToken());
-        logoutResponse = new BasicResponse(true, "Successfully logged out");
+        logoutResponse = new Response(true, "Successfully logged out");
         UsersTableDAO mockDao = Mockito.mock(UsersTableDAO.class);
         Mockito.when(mockDao.login(validRequest)).thenReturn(successResponse);
         Mockito.when(mockDao.logout(validLogoutRequest)).thenReturn(logoutResponse);
@@ -70,7 +69,7 @@ public class LoginServiceTest {
 
     @Test
     public void testLogout_validRequest_correctResponse() throws IOException {
-        BasicResponse response = loginService.logout(validLogoutRequest);
+        Response response = loginService.logout(validLogoutRequest);
         Assertions.assertEquals(logoutResponse.getMessage(), response.getMessage());
     }
 }

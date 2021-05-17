@@ -2,7 +2,6 @@ package server.dao;
 
 import com.example.server.dao.UsersTableDAO;
 import com.example.server.dao.dbstrategies.DynamoDBStrategy;
-import com.example.shared.model.domain.AuthToken;
 import com.example.shared.model.domain.User;
 import com.example.shared.model.service.request.LoginRequest;
 import com.example.shared.model.service.request.LogoutRequest;
@@ -11,7 +10,7 @@ import com.example.shared.model.service.request.UserRequest;
 import com.example.shared.model.service.response.LoginResponse;
 import com.example.shared.model.service.response.RegisterResponse;
 import com.example.shared.model.service.response.UserResponse;
-import com.example.shared.model.service.response.BasicResponse;
+import com.example.shared.model.service.response.Response;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,7 +33,7 @@ public class UserDaoTest {
 
     private LoginResponse loginSuccessResponse;
     private LoginResponse loginFailureResponse;
-    private BasicResponse logoutResponse;
+    private Response logoutResponse;
 
     private UsersTableDAO ourUserDao;
     private RegisterResponse registerSuccessResponse;
@@ -78,7 +77,7 @@ public class UserDaoTest {
         loginFailureResponse = new LoginResponse("Password does not match.");
         //Mockito.when(mockDao.login(invalidLoginRequest)).thenReturn(loginFailureResponse);
 
-        logoutResponse = new BasicResponse(true, "Logout successful.");
+        logoutResponse = new Response(true, "Logout successful.");
 
         String encodedImage = null;
         validRegisterRequest = new RegisterRequest(newUser.getFirstName(), newUser.getLastName(), newUser.getAlias(), newUser.getPassword(), encodedImage);
@@ -140,7 +139,7 @@ public class UserDaoTest {
         AuthTableDAO authTableDAO = new AuthTableDAO();
         AuthToken token = authTableDAO.startingAuth(tempAlias);
         validLogoutRequest.setToken(token);
-        BasicResponse response = ourUserDao.logout(validLogoutRequest);
+        Response response = ourUserDao.logout(validLogoutRequest);
         Assertions.assertEquals(logoutResponse.isSuccess(), response.isSuccess());
         Assertions.assertEquals(logoutResponse.getMessage(), response.getMessage());
     }
