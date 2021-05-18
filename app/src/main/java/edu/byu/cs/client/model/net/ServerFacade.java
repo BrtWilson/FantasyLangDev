@@ -12,6 +12,7 @@ import com.example.shared.model.service.request.NewLanguageRequest;
 import com.example.shared.model.service.request.NewWordRequest;
 import com.example.shared.model.service.request.RegisterRequest;
 import com.example.shared.model.service.request.SearchWordRequest;
+import com.example.shared.model.service.request.TranslateRequest;
 import com.example.shared.model.service.request.UpdateAlphabetRequest;
 import com.example.shared.model.service.request.UpdateSyllablesRequest;
 import com.example.shared.model.service.request.UpdateWordRequest;
@@ -23,6 +24,7 @@ import com.example.shared.model.service.response.NewLanguageResponse;
 import com.example.shared.model.service.response.NewWordResponse;
 import com.example.shared.model.service.response.Response;
 import com.example.shared.model.service.response.RegisterResponse;
+import com.example.shared.model.service.response.TranslateResponse;
 
 /**
  * Acts as a Facade to the Tweeter server. All network requests to the server should go through
@@ -46,6 +48,7 @@ public class ServerFacade {
     static final String URL_PATH_DICTIONARY = "/dictionary";
     static final String URL_PATH_UPDATEWORD = "/updateword";
     static final String URL_PATH_DELETEWORD = "/deleteword";
+    static final String URL_PATH_TRANSLATE = "/translate";
 
     private final ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
 
@@ -132,6 +135,12 @@ public class ServerFacade {
     public GeneralUpdateResponse deleteWord(DeleteWordRequest request) throws RemoteException, ServerException, RequestException, IOException {
         String Url_Path = URL_PATH_DELETEWORD;
         GeneralUpdateResponse response = clientCommunicator.doPost(Url_Path, request, null, GeneralUpdateResponse.class);
+        return response;
+    }
+
+    public TranslateResponse translate(TranslateRequest request) throws RemoteException, ServerException, RequestException, IOException {
+        String Url_Path = URL_PATH_TRANSLATE;
+        TranslateResponse response = clientCommunicator.doPost(Url_Path, request, null, TranslateResponse.class);
         return response;
     }
 
