@@ -4,9 +4,23 @@ import java.io.IOException;
 
 import com.example.shared.model.domain.User;
 import com.example.shared.model.net.RemoteException;
+import com.example.shared.model.service.request.DeleteWordRequest;
+import com.example.shared.model.service.request.DictionaryPageRequest;
+import com.example.shared.model.service.request.GetLanguageDataRequest;
 import com.example.shared.model.service.request.LoginRequest;
+import com.example.shared.model.service.request.NewLanguageRequest;
+import com.example.shared.model.service.request.NewWordRequest;
 import com.example.shared.model.service.request.RegisterRequest;
+import com.example.shared.model.service.request.SearchWordRequest;
+import com.example.shared.model.service.request.UpdateAlphabetRequest;
+import com.example.shared.model.service.request.UpdateSyllablesRequest;
+import com.example.shared.model.service.request.UpdateWordRequest;
+import com.example.shared.model.service.response.DictionaryPageResponse;
+import com.example.shared.model.service.response.GeneralUpdateResponse;
+import com.example.shared.model.service.response.GetLanguageDataResponse;
 import com.example.shared.model.service.response.LoginResponse;
+import com.example.shared.model.service.response.NewLanguageResponse;
+import com.example.shared.model.service.response.NewWordResponse;
 import com.example.shared.model.service.response.Response;
 import com.example.shared.model.service.response.RegisterResponse;
 
@@ -21,18 +35,17 @@ public class ServerFacade {
     private static final String SERVER_URL = "https://ubfjbeee2b.execute-api.us-east-1.amazonaws.com/tweeterBeta";
 
     static final String URL_PATH_LOGIN = "/login";
-    static final String URL_PATH_LOGOUT = "/logout";
+    //static final String URL_PATH_LOGOUT = "/logout";
     static final String URL_PATH_REGISTER = "/register";
-    static final String URL_PATH_GETFOLLOWSTATUS = "/getfollowstatus";
-    static final String URL_PATH_FOLLOW = "/follow";
-    static final String URL_PATH_UNFOLLOW = "/unfollow";
-    static final String URL_PATH_GETFOLLOWEES = "/getfollowees";
-    static final String URL_PATH_GETNUMFOLLOWEES = "/numfollowees";
-    static final String URL_PATH_GETFOLLOWERS = "/getfollowers";
-    static final String URL_PATH_GETNUMFOLLOWERS = "/numfollowers";
-    static final String URL_PATH_POSTSTATUS = "/poststatus";
-    static final String URL_PATH_GETSTATUSARRAY = "/getstatusarray";
-    static final String URL_PATH_GETUSERBYALIAS = "/getuserbyalias";
+    static final String URL_PATH_GETLANGDATA = "/getlanguagedata";
+    static final String URL_PATH_NEWLANGUAGE = "/createlanguage";
+    static final String URL_PATH_UPDATEALPHA = "/updatealphabet";
+    static final String URL_PATH_UPDATESYLLABLES = "/updatesyllables";
+    static final String URL_PATH_NEWWORD = "/newword";
+    static final String URL_PATH_SEARCHWORD = "/searchword";
+    static final String URL_PATH_DICTIONARY = "/dictionary";
+    static final String URL_PATH_UPDATEWORD = "/updateword";
+    static final String URL_PATH_DELETEWORD = "/deleteword";
 
     private final ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
 
@@ -66,6 +79,60 @@ public class ServerFacade {
         //
 
         //return response;
+    }
+
+    public GetLanguageDataResponse getLanguageData(GetLanguageDataRequest request) throws RemoteException, ServerException, RequestException, IOException {
+        String Url_Path = URL_PATH_GETLANGDATA;
+        GetLanguageDataResponse response = clientCommunicator.doPost(Url_Path, request, null, GetLanguageDataResponse.class);
+        return response;
+    }
+
+    public NewLanguageResponse createNewLanguage(NewLanguageRequest request) throws RemoteException, ServerException, RequestException, IOException {
+        String Url_Path = URL_PATH_NEWLANGUAGE;
+        NewLanguageResponse response = clientCommunicator.doPost(Url_Path, request, null, NewLanguageResponse.class);
+        return response;
+    }
+
+    public GeneralUpdateResponse updateAlphabet(UpdateAlphabetRequest request) throws RemoteException, ServerException, RequestException, IOException {
+        String Url_Path = URL_PATH_UPDATEALPHA;
+        GeneralUpdateResponse response = clientCommunicator.doPost(Url_Path, request, null, GeneralUpdateResponse.class);
+        return response;
+    }
+
+    public GeneralUpdateResponse updateSyllables(UpdateSyllablesRequest request) throws RemoteException, ServerException, RequestException, IOException {
+        String Url_Path = URL_PATH_UPDATESYLLABLES;
+        GeneralUpdateResponse response = clientCommunicator.doPost(Url_Path, request, null, GeneralUpdateResponse.class);
+        return null;
+    }
+
+    public NewWordResponse newWord(NewWordRequest request) throws RemoteException, ServerException, RequestException, IOException {
+        String Url_Path = URL_PATH_NEWWORD;
+        NewWordResponse response = clientCommunicator.doPost(Url_Path, request, null, NewWordResponse.class);
+        return null;
+    }
+
+    public DictionaryPageResponse searchWord(SearchWordRequest request) throws RemoteException, ServerException, RequestException, IOException {
+        String Url_Path = URL_PATH_SEARCHWORD;
+        DictionaryPageResponse response = clientCommunicator.doPost(Url_Path, request, null, DictionaryPageResponse.class);
+        return response;
+    }
+
+    public DictionaryPageResponse dictionary(DictionaryPageRequest request) throws RemoteException, ServerException, RequestException, IOException {
+        String Url_Path = URL_PATH_DICTIONARY;
+        DictionaryPageResponse response = clientCommunicator.doPost(Url_Path, request, null, DictionaryPageResponse.class);
+        return response;
+    }
+
+    public GeneralUpdateResponse updateWord(UpdateWordRequest request) throws RemoteException, ServerException, RequestException, IOException {
+        String Url_Path = URL_PATH_UPDATEWORD;
+        GeneralUpdateResponse response = clientCommunicator.doPost(Url_Path, request, null, GeneralUpdateResponse.class);
+        return response;
+    }
+
+    public GeneralUpdateResponse deleteWord(DeleteWordRequest request) throws RemoteException, ServerException, RequestException, IOException {
+        String Url_Path = URL_PATH_DELETEWORD;
+        GeneralUpdateResponse response = clientCommunicator.doPost(Url_Path, request, null, GeneralUpdateResponse.class);
+        return response;
     }
 
     /*
