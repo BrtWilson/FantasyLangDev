@@ -26,6 +26,7 @@ public class DictionaryPageResponse extends PagedResponse{
 
     /**
      * Creates a response indicating that the corresponding request was successful.
+     * This is used for the base dictionary and for the search words feature
      *
      * @param hasMorePages an indicator of whether more data is available for the request.
      */
