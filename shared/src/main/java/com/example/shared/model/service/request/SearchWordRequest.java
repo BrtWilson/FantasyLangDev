@@ -3,7 +3,7 @@ package com.example.shared.model.service.request;
 /**
  * Contains all the information needed to make a login request.
  */
-public class SearchWordRequest {
+public class SearchWordRequest extends ListRequest{
 
     public final int BY_UNSPECIFIED = 0;
     public final int BY_TRANSLATION = 1;
@@ -22,7 +22,8 @@ public class SearchWordRequest {
      * @param languageID the id of the language being searched
      * @param typeOfData probably "Translation"
      */
-    public SearchWordRequest(String searchByData, String languageID, int typeOfData) {
+    public SearchWordRequest(String searchByData, String languageID, int limit, String lastWord, int typeOfData) {
+        super(languageID, limit, lastWord);
         this.searchByData = searchByData;
         this.languageID = languageID;
         this.typeOfData = typeOfData;

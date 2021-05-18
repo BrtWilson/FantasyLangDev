@@ -30,7 +30,7 @@ import com.example.shared.model.service.response.TranslateResponse;
  * Acts as a Facade to the Tweeter server. All network requests to the server should go through
  * this class.
  */
-public class ServerFacade {
+public class ServerFacade implements ServerFacadeInterface {
 
     // TODO: Set this to the invoke URL of your API. Find it by going to your API in AWS, clicking
     //  on stages in the right-side menu, and clicking on the stage you deployed your API to.

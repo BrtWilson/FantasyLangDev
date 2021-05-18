@@ -4,20 +4,34 @@ import com.example.server.dao.dbstrategies.DynamoDBStrategy;
 import com.example.server.dao.dbstrategies.ResultsPage;
 import com.example.server.dao.util.ListTypeItemTransformer;
 import com.example.shared.model.domain.User;
+import com.example.shared.model.service.request.GetLanguageDataRequest;
+import com.example.shared.model.service.request.UpdateSyllablesRequest;
+import com.example.shared.model.service.response.GeneralUpdateResponse;
 
 import java.util.List;
 
 public class SyllableTableDAO {
     //DummyDataProvider dataProvider = DummyDataProvider.getInstance();
 
-    private static final String tableName = "Follows";
-    private static final String partionKey = "FollowerAlias";
-    private static final String sortKey = "FolloweeAlias";
-
-    private static final Integer PAGE_SIZE_DEFAULT = 10;
-    private static Integer pageSize;
+    private static final String tableName = "Syllables";
+    //private static final String partionKey = "FollowerAlias";
+    //private static final String sortKey = "FolloweeAlias";
 
     private static final String SERVER_SIDE_ERROR = "[Server Error]";
+
+    /**
+     *
+     * @param request provides languageID
+     * @return a List of String containing the syllable data corresponding to the languageID if any exists
+     */
+    public List<String> getSyllableData(GetLanguageDataRequest request) {
+        return null;
+    }
+
+    public GeneralUpdateResponse updateSyllables(UpdateSyllablesRequest request) {
+        return null;
+    }
+
 /*
     public FollowerResponse getFollowers(FollowerRequest request) {
         pageSize = request.getLimit();

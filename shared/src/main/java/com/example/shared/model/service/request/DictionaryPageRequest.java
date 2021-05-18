@@ -4,7 +4,7 @@ package com.example.shared.model.service.request;
  * Contains all the information needed to make a request to have the server return the next page of
  * followees for a specified follower.
  */
-public class DictionaryPageRequest extends ListRequest implements IListRequest{
+public class DictionaryPageRequest extends ListRequest {
 
     private String languageID;
     private String lastWord;

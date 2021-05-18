@@ -1,21 +1,46 @@
 package com.example.server.dao;
 
 import com.example.server.dao.dbstrategies.DynamoDBStrategy;
+import com.example.shared.model.service.request.GetLanguageDataRequest;
+import com.example.shared.model.service.request.NewLanguageRequest;
+import com.example.shared.model.service.request.UpdateAlphabetRequest;
+import com.example.shared.model.service.request.UpdateWordRequest;
+import com.example.shared.model.service.response.GeneralUpdateResponse;
+import com.example.shared.model.service.response.GetLanguageDataResponse;
+import com.example.shared.model.service.response.NewLanguageResponse;
 
 public class LanguageTableDAO {
     //DummyDataProvider dataProvider = DummyDataProvider.getInstance();
 
-    private static final String tableName = "Feeds";
-    private static final String partitionKey = "Alias";
-    private static final String sortKey = "TimeStamp";
+    private static final String tableName = "Languages";
+    //private static final String partitionKey = "Alias";
+    //private static final String sortKey = "TimeStamp";
 
-    private static final String attributeMessage = "Message";
-    private static final String attributeStatusUser = "StatusUser";
+    //private static final String attributeMessage = "Message";
+    //private static final String attributeStatusUser = "StatusUser";
 
     private static final Integer PAGE_SIZE_DEFAULT = 10;
     private static Integer pageSize;
 
     private static final int uploadBatchSize = 25;
+
+    /**
+     *
+     * @param request provides the LanguageID
+     * @return GetLanguageDataResponse object with all fields corresponding to the Languages Table
+     *          including alphabet if it exists
+     */
+    public GetLanguageDataResponse getLanguageData(GetLanguageDataRequest request) {
+        return null;
+    }
+
+    public NewLanguageResponse createLanguage(NewLanguageRequest request) {
+        return null;
+    }
+
+    public GeneralUpdateResponse updateAlphabet(UpdateWordRequest request) {
+        return null;
+    }
 
 /*
     public StatusArrayResponse getStatusArray(StatusArrayRequest request) {

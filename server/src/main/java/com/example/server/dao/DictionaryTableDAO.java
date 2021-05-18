@@ -1,22 +1,40 @@
 package com.example.server.dao;
 
 import com.example.server.dao.dbstrategies.DynamoDBStrategy;
+import com.example.shared.model.service.request.DeleteWordRequest;
+import com.example.shared.model.service.request.DictionaryPageRequest;
+import com.example.shared.model.service.request.NewWordRequest;
+import com.example.shared.model.service.request.SearchWordRequest;
 import com.example.shared.model.service.request.UpdateSyllablesRequest;
 import com.example.shared.model.service.response.DictionaryPageResponse;
+import com.example.shared.model.service.response.GeneralUpdateResponse;
+import com.example.shared.model.service.response.NewWordResponse;
+import com.example.shared.model.service.response.TranslateResponse;
 
 public class DictionaryTableDAO {
     //DummyDataProvider dataProvider = DummyDataProvider.getInstance();
 
-    private static final String tableName = "Stories";
-    private static final String partitionKey = "Alias";
-    private static final String sortKey = "TimeStamp";
-    private static final String attributeMessage = "Message";
+    private static final String tableName = "Dictionary";
+    //private static final String partitionKey = "Alias";
+    //private static final String sortKey = "TimeStamp";
 
     private static final Integer PAGE_SIZE_DEFAULT = 10;
-
     private static Integer pageSize;
 
-    public DictionaryPageResponse getStatusArray(UpdateSyllablesRequest request) {
+    public DictionaryPageResponse getWordArray(DictionaryPageRequest request) {
+        pageSize = request.getLimit();
+        verifyLimit(request.getLimit());
+        verifyAlias(request.getLanguageID());
+
+        return null; //retrieveStory(request.getUserAlias(), request.getLastStatusDate());
+    }
+
+    /**
+     *  Acts as if "filtered" version of Dictionary's getWordArray
+     * @param request ...
+     * @return ...
+     */
+    public DictionaryPageResponse searchWord(SearchWordRequest request) {
         pageSize = request.getLimit();
         verifyLimit(request.getLimit());
         verifyAlias(request.getLanguageID());
@@ -34,6 +52,33 @@ public class DictionaryTableDAO {
         if (userAlias == null) {
             throw new AssertionError();
         }
+    }
+
+    /**
+     * Used in "Create New Word" feature
+     */
+    public Boolean checkWordExists(NewWordRequest request) {
+        return null;
+    }
+
+    /**
+     * Used in "Create New Word" feature
+     */
+    public NewWordResponse insertNewWord(NewWordRequest request) {
+        return null;
+    }
+
+    /**
+     * Used in "Create New Word" feature, and
+     *     "Edit Word" feature in dictionary (for which the service class will have to adapt
+     *     the Response object class)
+     */
+    public NewWordResponse updateWord(NewWordRequest request) {
+        return null;
+    }
+
+    public GeneralUpdateResponse deleteWord(DeleteWordRequest request) {
+        return null;
     }
 
     /*
