@@ -3,8 +3,8 @@ package com.example.server.service;
 import com.example.server.dao.LanguageTableDAO;
 import com.example.server.dao.DictionaryTableDAO;
 import com.example.shared.model.service.INewStatusService;
-import com.example.shared.model.service.request.NewStatusRequest;
-import com.example.shared.model.service.response.NewStatusResponse;
+import com.example.shared.model.service.request.NewLanguageRequest;
+import com.example.shared.model.service.response.NewLanguageResponse;
 
 import java.io.IOException;
 
@@ -15,14 +15,14 @@ public class NewStatusStoryService implements INewStatusService {
 
     private static final String SERVER_SIDE_ERROR = "[Server Error]";
 
-    public NewStatusResponse postNewStatus(NewStatusRequest request) throws IOException {
+    public NewLanguageResponse postNewStatus(NewLanguageRequest request) throws IOException {
 
         //NewStatusResponse feedResponse = getFeedTableDAO().postNewStatus(request);
         try {
-            NewStatusResponse storyResponse = getStoryTableDAO().postNewStatus(request);
+            NewLanguageResponse storyResponse = getStoryTableDAO().postNewStatus(request);
             return storyResponse;
         } catch (Exception e) {
-            return new NewStatusResponse(SERVER_SIDE_ERROR + ": " + e.getMessage());
+            return new NewLanguageResponse(SERVER_SIDE_ERROR + ": " + e.getMessage());
         }
         //if (feedResponse.isSuccess() && storyResponse.isSuccess())
          //   return feedResponse;

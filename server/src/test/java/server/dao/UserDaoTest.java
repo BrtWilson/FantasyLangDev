@@ -6,10 +6,10 @@ import com.example.shared.model.domain.User;
 import com.example.shared.model.service.request.LoginRequest;
 import com.example.shared.model.service.request.LogoutRequest;
 import com.example.shared.model.service.request.RegisterRequest;
-import com.example.shared.model.service.request.UserRequest;
+import com.example.shared.model.service.request.GetLanguageDataRequest;
 import com.example.shared.model.service.response.LoginResponse;
 import com.example.shared.model.service.response.RegisterResponse;
-import com.example.shared.model.service.response.UserResponse;
+import com.example.shared.model.service.response.GetLanguageDataResponse;
 import com.example.shared.model.service.response.Response;
 
 import org.junit.jupiter.api.Assertions;
@@ -21,11 +21,11 @@ import java.io.IOException;
 
 
 public class UserDaoTest {
-    private UserRequest validRequest;
-    private UserRequest invalidRequest;
+    private GetLanguageDataRequest validRequest;
+    private GetLanguageDataRequest invalidRequest;
 
-    private UserResponse successResponse;
-    private UserResponse failureResponse;
+    private GetLanguageDataResponse successResponse;
+    private GetLanguageDataResponse failureResponse;
 
     private LoginRequest validLoginRequest;
     private LoginRequest invalidLoginRequest;
@@ -53,16 +53,16 @@ public class UserDaoTest {
         User newUser = new User("lost", "user", newUserAlias,"https://static.wikia.nocookie.net/avatar/images/4/4b/Zuko.png/revision/latest?cb=20180630112142");
         newUser.setPassword("password");
 
-        validRequest = new UserRequest(loginAlias);
-        invalidRequest = new UserRequest(null);
+        validRequest = new GetLanguageDataRequest(loginAlias);
+        invalidRequest = new GetLanguageDataRequest(null);
 
-        successResponse = new UserResponse(userFrodo);
+        successResponse = new GetLanguageDataResponse(userFrodo);
         UsersTableDAO mockDao = Mockito.mock(UsersTableDAO.class);
 //        DynamoDBStrategy mockDatabaseInteractor = Mockito.mock(DynamoDBStrategy.class);
 //        Mockito.when(mockDao.getDatabaseInteractor()).thenReturn(mockDatabaseInteractor);
         //Mockito.when(mockDao.getUserByAlias(validRequest)).thenReturn(successResponse);
 
-        failureResponse = new UserResponse("Password does not match.");
+        failureResponse = new GetLanguageDataResponse("Password does not match.");
         //Mockito.when(mockDao.getUserByAlias(invalidRequest)).thenReturn(failureResponse);
 
         validLoginRequest = new LoginRequest(loginAlias, loginPassword);
@@ -88,7 +88,7 @@ public class UserDaoTest {
 
     @Test
     public void testGetUser_validRequest_correctResponse() throws IOException {
-        UserResponse response = ourUserDao.getUserByAlias(validRequest);
+        GetLanguageDataResponse response = ourUserDao.getUserByAlias(validRequest);
         //Assertions.assertEquals(successResponse, response);
         Assertions.assertEquals(successResponse.getMessage(), response.getMessage());
         Assertions.assertEquals(successResponse.getUser(), response.getUser());;
@@ -104,7 +104,7 @@ public class UserDaoTest {
     public void testGetUser_invalidRequest_returnsFailedMessage() throws IOException {
         //Assertions.assertEquals(failureResponse, response);
         try {
-            UserResponse response = ourUserDao.getUserByAlias(invalidRequest);
+            GetLanguageDataResponse response = ourUserDao.getUserByAlias(invalidRequest);
         } catch (AssertionError e) {
             Assertions.assertEquals(e.getMessage(), new AssertionError().getMessage());
         }

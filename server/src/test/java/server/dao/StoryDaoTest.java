@@ -4,10 +4,10 @@ import com.example.server.dao.DictionaryTableDAO;
 import com.example.server.dao.dbstrategies.DynamoDBStrategy;
 import com.example.server.service.StatusArrayService;
 import com.example.shared.model.domain.User;
-import com.example.shared.model.service.request.NewStatusRequest;
-import com.example.shared.model.service.request.StatusArrayRequest;
-import com.example.shared.model.service.response.NewStatusResponse;
-import com.example.shared.model.service.response.StatusArrayResponse;
+import com.example.shared.model.service.request.NewLanguageRequest;
+import com.example.shared.model.service.request.UpdateSyllablesRequest;
+import com.example.shared.model.service.response.NewLanguageResponse;
+import com.example.shared.model.service.response.DictionaryPageResponse;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,17 +20,17 @@ import java.util.Arrays;
 
 public class StoryDaoTest {
 
-    private NewStatusRequest validRequest1;
-    private NewStatusRequest validRequest2;
+    private NewLanguageRequest validRequest1;
+    private NewLanguageRequest validRequest2;
 
-    private NewStatusResponse successResponse1;
-    private NewStatusResponse successResponse2;
+    private NewLanguageResponse successResponse1;
+    private NewLanguageResponse successResponse2;
 
-    private StatusArrayRequest validArrayRequest;
-    private StatusArrayRequest invalidArrayRequest;
+    private UpdateSyllablesRequest validArrayRequest;
+    private UpdateSyllablesRequest invalidArrayRequest;
 
-    private StatusArrayResponse successArrayResponse;
-    private StatusArrayResponse failureArrayResponse;
+    private DictionaryPageResponse successArrayResponse;
+    private DictionaryPageResponse failureArrayResponse;
 
     private DictionaryTableDAO statusesDAO;
     private DynamoDBStrategy mockDatabaseInteractor;
@@ -53,11 +53,11 @@ public class StoryDaoTest {
         Status resultStatus2 = new Status("Message 2", "TimeStamp2", user2.getAlias());
         Status resultStatus3 = new Status("Message 3", "TimeStamp3", resultUser3.getAlias());
 
-        validRequest1 = new NewStatusRequest( user1.getAlias(), "Message 1", "TimeStamp1");
-        validRequest2 = new NewStatusRequest( user2.getAlias(), "Message 2", "TimeStamp2");
+        validRequest1 = new NewLanguageRequest( user1.getAlias(), "Message 1", "TimeStamp1");
+        validRequest2 = new NewLanguageRequest( user2.getAlias(), "Message 2", "TimeStamp2");
 
-        successResponse1 = new NewStatusResponse(resultStatus1);
-        successResponse2 = new NewStatusResponse(resultStatus2);
+        successResponse1 = new NewLanguageResponse(resultStatus1);
+        successResponse2 = new NewLanguageResponse(resultStatus2);
         DictionaryTableDAO mockDao = Mockito.mock(DictionaryTableDAO.class);
 //        mockDatabaseInteractor = Mockito.mock(DynamoDBStrategy.class);
 //        Mockito.when(mockDao.getDatabaseInteractor()).thenReturn(mockDatabaseInteractor);
@@ -65,14 +65,14 @@ public class StoryDaoTest {
       //  Mockito.when(mockDao.postNewStatus(validRequest2)).thenReturn(successResponse2);
 
         // Setup request objects to use in the tests
-        validArrayRequest = new StatusArrayRequest("@HarryPotter", 3, null);
-        invalidArrayRequest = new StatusArrayRequest(null, 0, null);
+        validArrayRequest = new UpdateSyllablesRequest("@HarryPotter", 3, null);
+        invalidArrayRequest = new UpdateSyllablesRequest(null, 0, null);
 
         // Setup a mock ServerFacade that will return known responses
-        successArrayResponse = new StatusArrayResponse(Arrays.asList(resultStatus1, resultStatus2, resultStatus3), true, null);
+        successArrayResponse = new DictionaryPageResponse(Arrays.asList(resultStatus1, resultStatus2, resultStatus3), true, null);
         //Mockito.when(mockDao.getStatusArray(validArrayRequest)).thenReturn(successArrayResponse);
 
-        failureArrayResponse = new StatusArrayResponse("An exception occurred");
+        failureArrayResponse = new DictionaryPageResponse("An exception occurred");
         //Mockito.when(mockDao.getStatusArray(invalidArrayRequest)).thenReturn(failureArrayResponse);
 
         statusesDAO = Mockito.spy(new DictionaryTableDAO());
@@ -83,7 +83,7 @@ public class StoryDaoTest {
     // STATUS POST Tests
     @Test
     public void testPostStatus_validRequest_correctResponse() throws IOException {
-        NewStatusResponse response = statusesDAO.postNewStatus(validRequest1);
+        NewLanguageResponse response = statusesDAO.postNewStatus(validRequest1);
         System.out.println(response.getNewStatus());
         Assertions.assertEquals(successResponse1.isSuccess(), response.isSuccess());
         Assertions.assertEquals(successResponse1.getNewStatus().getMessage(), response.getNewStatus().getMessage());
@@ -99,7 +99,7 @@ public class StoryDaoTest {
      */
     @Test
     public void testGetStatusArray_validRequest_correctResponse() throws IOException {
-        StatusArrayResponse response = statusesDAO.getStatusArray(validArrayRequest);
+        DictionaryPageResponse response = statusesDAO.getStatusArray(validArrayRequest);
         Assertions.assertEquals(successArrayResponse.getStatuses().size(), response.getStatuses().size());
         Assertions.assertEquals(successArrayResponse.getHasMorePages(), response.getHasMorePages());
     }
@@ -113,7 +113,7 @@ public class StoryDaoTest {
     @Test
     public void testGetStatusArray_validRequest_loadsProfileImages() throws IOException {
         //Mockito.when(mockDatabaseInteractor.getListByString(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyInt(), Mockito.anyString(), Mockito.anyString())).thenReturn(null);
-        StatusArrayResponse response = statusesDAO.getStatusArray(validArrayRequest);
+        DictionaryPageResponse response = statusesDAO.getStatusArray(validArrayRequest);
 
         for(Status status : response.getStatuses()) {
             Assertions.assertNotNull(status.getCorrespondingUserAlias());
@@ -130,7 +130,7 @@ public class StoryDaoTest {
     public void testGetStatusArray_invalidRequest_returnsNoFollowers() throws IOException {
         // Should throw error:
         try {
-            StatusArrayResponse response = statusesDAO.getStatusArray(invalidArrayRequest);
+            DictionaryPageResponse response = statusesDAO.getStatusArray(invalidArrayRequest);
         } catch (AssertionError e) {
             Assertions.assertEquals(e.getMessage(), new AssertionError().getMessage());
         }

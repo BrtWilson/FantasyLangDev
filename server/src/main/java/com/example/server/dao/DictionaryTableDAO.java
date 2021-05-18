@@ -1,14 +1,8 @@
 package com.example.server.dao;
 
 import com.example.server.dao.dbstrategies.DynamoDBStrategy;
-import com.example.server.dao.dbstrategies.ResultsPage;
-import com.example.server.dao.util.ListTypeItemTransformer;
-import com.example.shared.model.service.request.NewStatusRequest;
-import com.example.shared.model.service.request.StatusArrayRequest;
-import com.example.shared.model.service.response.NewStatusResponse;
-import com.example.shared.model.service.response.StatusArrayResponse;
-
-import java.util.List;
+import com.example.shared.model.service.request.UpdateSyllablesRequest;
+import com.example.shared.model.service.response.DictionaryPageResponse;
 
 public class DictionaryTableDAO {
     //DummyDataProvider dataProvider = DummyDataProvider.getInstance();
@@ -22,10 +16,10 @@ public class DictionaryTableDAO {
 
     private static Integer pageSize;
 
-    public StatusArrayResponse getStatusArray(StatusArrayRequest request) {
+    public DictionaryPageResponse getStatusArray(UpdateSyllablesRequest request) {
         pageSize = request.getLimit();
         verifyLimit(request.getLimit());
-        verifyAlias(request.getUserAlias());
+        verifyAlias(request.getLanguageID());
 
         return null; //retrieveStory(request.getUserAlias(), request.getLastStatusDate());
     }

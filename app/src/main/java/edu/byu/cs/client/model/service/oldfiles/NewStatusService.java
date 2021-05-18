@@ -6,8 +6,8 @@ import edu.byu.cs.client.model.net.ServerFacade;
 
 import com.example.shared.model.net.RemoteException;
 import com.example.shared.model.service.INewStatusService;
-import com.example.shared.model.service.request.NewStatusRequest;
-import com.example.shared.model.service.response.NewStatusResponse;
+import com.example.shared.model.service.request.NewLanguageRequest;
+import com.example.shared.model.service.response.NewLanguageResponse;
 
 /**
  * Contains the business logic to support the login operation.
@@ -15,7 +15,7 @@ import com.example.shared.model.service.response.NewStatusResponse;
 public class NewStatusService implements INewStatusService {
 
 
-    public NewStatusResponse postNewStatus(NewStatusRequest request) throws IOException, RemoteException {
+    public NewLanguageResponse postNewStatus(NewLanguageRequest request) throws IOException, RemoteException {
         ServerFacade serverFacade = getServerFacade();
         return serverFacade.pushNewStatus(request);
     }

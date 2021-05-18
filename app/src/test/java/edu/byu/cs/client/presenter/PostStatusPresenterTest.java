@@ -9,18 +9,18 @@ import java.io.IOException;
 import com.example.shared.model.domain.User;
 
 import com.example.shared.model.net.RemoteException;
-import com.example.shared.model.service.request.NewStatusRequest;
-import com.example.shared.model.service.response.NewStatusResponse;
+import com.example.shared.model.service.request.NewLanguageRequest;
+import com.example.shared.model.service.response.NewLanguageResponse;
 import edu.byu.cs.client.model.service.oldfiles.NewStatusService;
 import edu.byu.cs.client.presenter.oldfiles.LoginPresenter;
 import edu.byu.cs.client.presenter.oldfiles.NewStatusPresenter;
 
 public class PostStatusPresenterTest {
 
-    private NewStatusRequest request1;
-    private NewStatusRequest request2;
-    private NewStatusResponse response1;
-    private NewStatusResponse response2;
+    private NewLanguageRequest request1;
+    private NewLanguageRequest request2;
+    private NewLanguageResponse response1;
+    private NewLanguageResponse response2;
     private NewStatusService mockNewStatusService;
     private NewStatusPresenter presenter;
 
@@ -35,11 +35,11 @@ public class PostStatusPresenterTest {
         Status resultStatus1 = new Status("Message 1", "TimeStamp1", user1);
         Status resultStatus2 = new Status("Message 2", "TimeStamp2", user2);
 
-        request1 = new NewStatusRequest("Message 1", "TimeStamp1", user1.getAlias());
-        request2 = new NewStatusRequest("Message 2", "TimeStamp2", user2.getAlias());
+        request1 = new NewLanguageRequest("Message 1", "TimeStamp1", user1.getAlias());
+        request2 = new NewLanguageRequest("Message 2", "TimeStamp2", user2.getAlias());
 
-        response1 = new NewStatusResponse(resultStatus1);
-        response2 = new NewStatusResponse(resultStatus2);
+        response1 = new NewLanguageResponse(resultStatus1);
+        response2 = new NewLanguageResponse(resultStatus2);
 
         mockNewStatusService = Mockito.mock(NewStatusService.class);
         Mockito.when(mockNewStatusService.postNewStatus(request1)).thenReturn(response1);

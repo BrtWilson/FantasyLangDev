@@ -3,17 +3,17 @@ package com.example.shared.model.service.request;
 /**
  * Contains all the information needed to make a login request.
  */
-public class UserRequest {
+public class GetLanguageDataRequest {
 
-    private  String alias;
+    private  String languageID;
 
     /**
      * Creates an instance.
      *
      * @param username the username of the user to be logged in.
      */
-    public UserRequest(String username) {
-        this.alias = username;
+    public GetLanguageDataRequest(String username) {
+        this.languageID = username;
     }
 
     /**
@@ -21,14 +21,14 @@ public class UserRequest {
      *
      * @return the username.
      */
-    public String getAlias() {
-        return alias;
+    public String getLanguageID() {
+        return languageID;
     }
 
-    public UserRequest() {
+    public GetLanguageDataRequest() {
     }
 
-    public void setAlias(String alias) {
-        this.alias = alias;
+    public void setLanguageID(String languageID) {
+        this.languageID = languageID;
     }
 }

@@ -1,16 +1,6 @@
 package com.example.server.dao;
 
 import com.example.server.dao.dbstrategies.DynamoDBStrategy;
-import com.example.server.dao.dbstrategies.ResultsPage;
-import com.example.server.dao.util.ListTypeItemTransformer;
-import com.example.shared.model.domain.User;
-import com.example.shared.model.service.request.NewStatusRequest;
-import com.example.shared.model.service.request.StatusArrayRequest;
-import com.example.shared.model.service.response.NewStatusResponse;
-import com.example.shared.model.service.response.StatusArrayResponse;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class LanguageTableDAO {
     //DummyDataProvider dataProvider = DummyDataProvider.getInstance();

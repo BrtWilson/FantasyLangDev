@@ -1,9 +1,13 @@
 package com.example.shared.model.service.request;
 
-abstract class ListRequest{
-    private  String languageID;
-    private  int limit;
-    private  String lastWord;
+/**
+ * Contains all the information needed to make a request to have the server return the next page of
+ * followees for a specified follower.
+ */
+public class DictionaryPageRequest extends ListRequest implements IListRequest{
+
+    private String languageID;
+    private String lastWord;
 
     /**
      * Creates an instance.
@@ -13,33 +17,14 @@ abstract class ListRequest{
      * @param lastWord the alias of the last followee that was returned in the previous request (null if
      *                     there was no previous request or if no followees were returned in the
      *                     previous request).
+     * This is used for any Story request, rather than a feed request.
      */
-    public ListRequest(String languageID, int limit, String lastWord) {
-        this.languageID = languageID;
-        this.limit = limit;
+    public DictionaryPageRequest(String languageID, int limit, String lastWord) {
+        super(languageID, limit, lastWord);
         this.lastWord = lastWord;
     }
 
-    public ListRequest() {
-    }
-
-    /**
-     * Returns the follower whose followees are to be returned by this request.
-     *
-     * @return the follower.
-     */
-    public String getLanguageID() {
-        return languageID;
-    }
-
-    /**
-     * Returns the number representing the maximum number of followees to be returned by this request.
-     *
-     * @return the limit.
-     */
-    public int getLimit() {
-        return limit;
-    }
+    public DictionaryPageRequest(){}
 
     /**
      * Returns the last followee that was returned in the previous request or null if there was no
@@ -51,15 +36,8 @@ abstract class ListRequest{
         return lastWord;
     }
 
-    public void setLanguageID(String languageID) {
-        this.languageID = languageID;
-    }
-
-    public void setLimit(int limit) {
-        this.limit = limit;
-    }
-
     public void setLastWord(String lastWord) {
         this.lastWord = lastWord;
     }
+
 }

@@ -5,15 +5,9 @@ import java.io.IOException;
 import com.example.shared.model.domain.User;
 import com.example.shared.model.net.RemoteException;
 import com.example.shared.model.service.request.LoginRequest;
-import com.example.shared.model.service.request.NewStatusRequest;
-import com.example.shared.model.service.request.StatusArrayRequest;
 import com.example.shared.model.service.request.LogoutRequest;
 import com.example.shared.model.service.request.RegisterRequest;
-import com.example.shared.model.service.request.UserRequest;
 import com.example.shared.model.service.response.LoginResponse;
-import com.example.shared.model.service.response.NewStatusResponse;
-import com.example.shared.model.service.response.StatusArrayResponse;
-import com.example.shared.model.service.response.UserResponse;
 import com.example.shared.model.service.response.Response;
 import com.example.shared.model.service.response.RegisterResponse;
 

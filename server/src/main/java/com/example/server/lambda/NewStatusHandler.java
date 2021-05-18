@@ -8,30 +8,30 @@ import com.amazonaws.services.sqs.model.SendMessageRequest;
 import com.amazonaws.services.sqs.model.SendMessageResult;
 import com.example.server.lambda.statusUpdateLambdas.util.JsonSerializer;
 import com.example.server.service.NewStatusStoryService;
-import com.example.shared.model.service.request.NewStatusRequest;
-import com.example.shared.model.service.response.NewStatusResponse;
+import com.example.shared.model.service.request.NewLanguageRequest;
+import com.example.shared.model.service.response.NewLanguageResponse;
 
 import java.io.IOException;
 
-public class NewStatusHandler implements RequestHandler<NewStatusRequest, NewStatusResponse> {
+public class NewStatusHandler implements RequestHandler<NewLanguageRequest, NewLanguageResponse> {
 
     private static final String messageQueueUrl = "https://sqs.us-east-1.amazonaws.com/217816874822/PostUpdateFeedMessageQueue.fifo";
 
     @Override
-    public NewStatusResponse handleRequest(NewStatusRequest newStatusRequest, Context context) {
+    public NewLanguageResponse handleRequest(NewLanguageRequest newLanguageRequest, Context context) {
         NewStatusStoryService newStatusStoryService = new NewStatusStoryService();
         try {
-            PostToFollowerFeeds(newStatusRequest);
-            return newStatusStoryService.postNewStatus(newStatusRequest);
+            PostToFollowerFeeds(newLanguageRequest);
+            return newStatusStoryService.postNewStatus(newLanguageRequest);
         } catch (RuntimeException | IOException e) {
             String message = "[Bad Request]";
             throw new RuntimeException(message, e);
         }
     }
 
-    private void PostToFollowerFeeds(NewStatusRequest newStatusRequest) {
+    private void PostToFollowerFeeds(NewLanguageRequest newLanguageRequest) {
         AmazonSQS sqs = AmazonSQSClientBuilder.defaultClient();
-        String requestMessage = createMessage(newStatusRequest);
+        String requestMessage = createMessage(newLanguageRequest);
         SendMessageRequest send_msg_request = new SendMessageRequest()
                 .withQueueUrl(messageQueueUrl)
                 .withMessageBody(requestMessage);
@@ -45,7 +45,7 @@ public class NewStatusHandler implements RequestHandler<NewStatusRequest, NewSta
         //feedMessenger.queueMessages(newStatusRequest);
     }
 
-    private String createMessage(NewStatusRequest newStatusRequest) {
-        return JsonSerializer.serialize(newStatusRequest);
+    private String createMessage(NewLanguageRequest newLanguageRequest) {
+        return JsonSerializer.serialize(newLanguageRequest);
     }
 }

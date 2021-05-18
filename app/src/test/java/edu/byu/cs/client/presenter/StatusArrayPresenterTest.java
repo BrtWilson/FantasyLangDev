@@ -13,15 +13,15 @@ import com.example.shared.model.domain.User;
 import edu.byu.cs.client.model.service.oldfiles.StatusArrayService;
 import edu.byu.cs.client.presenter.oldfiles.StatusArrayPresenter;
 
-import com.example.shared.model.service.request.StatusArrayRequest;
-import com.example.shared.model.service.response.StatusArrayResponse;
+import com.example.shared.model.service.request.UpdateSyllablesRequest;
+import com.example.shared.model.service.response.DictionaryPageResponse;
 
 public class StatusArrayPresenterTest {
 
-    private StatusArrayRequest request;
-    private StatusArrayRequest request2;
-    private StatusArrayResponse response;
-    private StatusArrayResponse invalidResponse;
+    private UpdateSyllablesRequest request;
+    private UpdateSyllablesRequest request2;
+    private DictionaryPageResponse response;
+    private DictionaryPageResponse invalidResponse;
     private StatusArrayService mockStatusArrayService;
     private StatusArrayPresenter presenter;
 
@@ -60,9 +60,9 @@ public class StatusArrayPresenterTest {
         Status resultStatus2 = new Status("Message 2", "TimeStamp2", resultUser2);
         Status resultStatus3 = new Status("Message 3", "TimeStamp3", resultUser3);
 
-        request = new StatusArrayRequest(resultUser1.getAlias(), 3, null);
-        response = new StatusArrayResponse( Arrays.asList(resultStatus1, resultStatus2, resultStatus3), false);
-        invalidResponse = new StatusArrayResponse( "[Bad Request]" );
+        request = new UpdateSyllablesRequest(resultUser1.getAlias(), 3, null);
+        response = new DictionaryPageResponse( Arrays.asList(resultStatus1, resultStatus2, resultStatus3), false);
+        invalidResponse = new DictionaryPageResponse( "[Bad Request]" );
 
         // Create a mock StatusArrayService
         mockStatusArrayService = Mockito.mock(StatusArrayService.class);

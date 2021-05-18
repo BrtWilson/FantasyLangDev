@@ -2,8 +2,8 @@ package integration;
 
 import com.example.shared.model.domain.User;
 import com.example.shared.model.net.RemoteException;
-import com.example.shared.model.service.request.StatusArrayRequest;
-import com.example.shared.model.service.response.StatusArrayResponse;
+import com.example.shared.model.service.request.UpdateSyllablesRequest;
+import com.example.shared.model.service.response.DictionaryPageResponse;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,11 +18,11 @@ import edu.byu.cs.client.model.service.oldfiles.StatusArrayService;
 
 public class StatusArrayServiceIntegrationTest {
 
-    private StatusArrayRequest validRequest;
-    private StatusArrayRequest invalidRequest;
+    private UpdateSyllablesRequest validRequest;
+    private UpdateSyllablesRequest invalidRequest;
 
-    private StatusArrayResponse successResponse;
-    private StatusArrayResponse failureResponse;
+    private DictionaryPageResponse successResponse;
+    private DictionaryPageResponse failureResponse;
 
     private StatusArrayService statusArrayServiceSpy;
 
@@ -53,15 +53,15 @@ public class StatusArrayServiceIntegrationTest {
         Status status3 = new Status("No, I am your father", "8:02pm", user3.getAlias());
 
         // Setup request objects to use in the tests
-        validRequest = new StatusArrayRequest(resultUser1.getAlias(), 3, null);
-        invalidRequest = new StatusArrayRequest(null, 0, null);
+        validRequest = new UpdateSyllablesRequest(resultUser1.getAlias(), 3, null);
+        invalidRequest = new UpdateSyllablesRequest(null, 0, null);
 
         // Setup a mock ServerFacade that will return known responses
-        successResponse = new StatusArrayResponse(Arrays.asList(status1, status2, status3), false, null);
+        successResponse = new DictionaryPageResponse(Arrays.asList(status1, status2, status3), false, null);
         ServerFacade serverFacade = Mockito.spy(new ServerFacade());
         //Mockito.when(serverFacade.getStatusArray(validRequest)).thenReturn(successResponse);
 
-        failureResponse = new StatusArrayResponse("An exception occurred");
+        failureResponse = new DictionaryPageResponse("An exception occurred");
         //Mockito.when(serverFacade.getStatusArray(invalidRequest)).thenReturn(failureResponse);
 
         // Create a StatusArrayService instance and wrap it with a spy that will use the mock service
@@ -78,7 +78,7 @@ public class StatusArrayServiceIntegrationTest {
      */
     @Test
     public void testGetStatusArray_validRequest_correctResponse() throws IOException {
-        StatusArrayResponse response = statusArrayServiceSpy.requestStatusArray(validRequest);
+        DictionaryPageResponse response = statusArrayServiceSpy.requestStatusArray(validRequest);
         Assertions.assertEquals(successResponse.getStatuses().get(0).getMessage(), response.getStatuses().get(0).getMessage());
         Assertions.assertEquals(successResponse.getStatuses().get(0).getDate(), response.getStatuses().get(0).getDate());
         Assertions.assertEquals(successResponse.getStatuses().get(1).getMessage(), response.getStatuses().get(1).getMessage());
@@ -93,7 +93,7 @@ public class StatusArrayServiceIntegrationTest {
      */
     @Test
     public void testGetStatusArray_validRequest_loadsProfileImages() throws IOException {
-        StatusArrayResponse response = statusArrayServiceSpy.requestStatusArray(validRequest);
+        DictionaryPageResponse response = statusArrayServiceSpy.requestStatusArray(validRequest);
 
         for(Status status : response.getStatuses()) {
             Assertions.assertNotNull(status.getCorrespondingUserAlias());
@@ -110,7 +110,7 @@ public class StatusArrayServiceIntegrationTest {
     public void testGetStatusArray_invalidRequest_returnsNoFollowers() throws IOException {
         //Assertions.assertEquals(failureResponse, response);
         try {
-            StatusArrayResponse response = statusArrayServiceSpy.requestStatusArray(invalidRequest);
+            DictionaryPageResponse response = statusArrayServiceSpy.requestStatusArray(invalidRequest);
         } catch (RuntimeException e) {
             Assertions.assertEquals(e.getClass(), new RuntimeException().getClass());
         }

@@ -9,10 +9,10 @@ import edu.byu.cs.client.model.net.ServerFacade;
 import com.example.shared.model.net.RemoteException;
 import com.example.shared.model.service.IStatusArrayService;
 import com.example.shared.model.service.request.IListRequest;
-import com.example.shared.model.service.request.StatusArrayRequest;
-import com.example.shared.model.service.request.UserRequest;
+import com.example.shared.model.service.request.UpdateSyllablesRequest;
+import com.example.shared.model.service.request.GetLanguageDataRequest;
 import com.example.shared.model.service.response.IListResponse;
-import com.example.shared.model.service.response.StatusArrayResponse;
+import com.example.shared.model.service.response.DictionaryPageResponse;
 import edu.byu.cs.client.util.ByteArrayUtils;
 
 /**
@@ -30,20 +30,20 @@ public class StatusArrayService implements IStatusArrayService {
      * @param request contains the data required to fulfill the request.
      * @return the followees.
      */
-    public StatusArrayResponse requestStatusArray(IListRequest request) {
-        StatusArrayResponse response = new StatusArrayResponse("Statuses missing");
+    public DictionaryPageResponse requestStatusArray(IListRequest request) {
+        DictionaryPageResponse response = new DictionaryPageResponse("Statuses missing");
         try {
-            if (request.getClass() != StatusArrayRequest.class) {
+            if (request.getClass() != UpdateSyllablesRequest.class) {
                 return response;
             }
-            StatusArrayRequest req = (StatusArrayRequest) request;
+            UpdateSyllablesRequest req = (UpdateSyllablesRequest) request;
             response = getServerFacade().getStatusArray(req);
 
             if (response.isSuccess()) {
                 loadImages(response);
             }
         } catch (IOException | RemoteException e) {
-            response = new StatusArrayResponse("Statuses error: " + e.getMessage());
+            response = new DictionaryPageResponse("Statuses error: " + e.getMessage());
             return response;
         }
 
@@ -60,7 +60,7 @@ public class StatusArrayService implements IStatusArrayService {
      *
      * @param response the response from the followee request.
      */
-    private void loadImages(StatusArrayResponse response) throws IOException, RemoteException {
+    private void loadImages(DictionaryPageResponse response) throws IOException, RemoteException {
         if (response.getStatuses().size() == 0)
             return;
         for(Status status : response.getStatuses()) {
@@ -72,7 +72,7 @@ public class StatusArrayService implements IStatusArrayService {
 
     private User getUser(String correspondingUserAlias) throws IOException, RemoteException {
         UserService userService = new UserService();
-        return userService.getUserByAlias(new UserRequest(correspondingUserAlias)).getUser();
+        return userService.getUserByAlias(new GetLanguageDataRequest(correspondingUserAlias)).getUser();
     }
 
     /**

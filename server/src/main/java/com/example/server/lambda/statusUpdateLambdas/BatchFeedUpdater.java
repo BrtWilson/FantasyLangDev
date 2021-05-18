@@ -6,7 +6,7 @@ import com.amazonaws.services.lambda.runtime.events.SQSEvent;
 import com.amazonaws.services.sqs.model.MessageAttributeValue;
 import com.example.server.lambda.statusUpdateLambdas.util.JsonSerializer;
 import com.example.server.service.NewStatusFeedService;
-import com.example.shared.model.service.request.NewStatusRequest;
+import com.example.shared.model.service.request.NewLanguageRequest;
 
 import java.io.IOException;
 import java.util.Map;
@@ -24,8 +24,8 @@ public class BatchFeedUpdater implements RequestHandler<SQSEvent, Void> {
             String followerResponseStr = extractAttribute(attributes.get(followerAliasesAttribute));
             String newStatusRequestStr = extractAttribute(attributes.get(postedStatusAttribute));
             FollowerResponse followerResponse = convertToRequestObject(followerResponseStr, FollowerResponse.class);
-            NewStatusRequest newStatusRequest = convertToRequestObject(newStatusRequestStr, NewStatusRequest.class);
-            handleBatch(newStatusRequest, followerResponse);
+            NewLanguageRequest newLanguageRequest = convertToRequestObject(newStatusRequestStr, NewLanguageRequest.class);
+            handleBatch(newLanguageRequest, followerResponse);
         }
 
         //Uses FollowerService(?) to get batches of followers whose feeds are to be updated
@@ -41,11 +41,11 @@ public class BatchFeedUpdater implements RequestHandler<SQSEvent, Void> {
         return tempMessageAttributeValue.getStringValue();
     }
 
-    public void handleBatch(NewStatusRequest newStatusRequest, FollowerResponse followerResponse) { // Uses an input Status or an input NewStatusRequest
+    public void handleBatch(NewLanguageRequest newLanguageRequest, FollowerResponse followerResponse) { // Uses an input Status or an input NewStatusRequest
         //From parameter info, discerns user
         NewStatusFeedService newStatusFeedService = new NewStatusFeedService();
         try {
-            newStatusFeedService.postStatusBatch(newStatusRequest, followerResponse);
+            newStatusFeedService.postStatusBatch(newLanguageRequest, followerResponse);
         } catch (IOException e) {
             String message = BAD_REQUEST;
             throw new RuntimeException(message, e);

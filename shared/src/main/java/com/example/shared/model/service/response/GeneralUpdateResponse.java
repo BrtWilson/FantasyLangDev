@@ -2,29 +2,33 @@ package com.example.shared.model.service.response;
 
 import java.util.Objects;
 
-public class NewStatusResponse extends Response {
+public class GeneralUpdateResponse extends Response {
 
-    private Status newStatus;
+    private String languageID;
 
     /**
      * Creates a response indicating that the corresponding request was unsuccessful.
      *
      * @param message a message describing why the request was unsuccessful.
      */
-    public NewStatusResponse(String message) {
-        super(false, message);
+    public GeneralUpdateResponse(boolean success, String message) {
+        super(success, message);
     }
 
     /**
      * Creates a response indicating that the corresponding request was successful.
      */
-    public NewStatusResponse(Status newStatus) {
+    public GeneralUpdateResponse(String languageID) {
         super(true, null);
-        this.newStatus = newStatus;
+        this.languageID = languageID;
     }
 
-    public Status getNewStatus() {
-        return newStatus;
+    public String getLanguageID() {
+        return languageID;
+    }
+
+    public void setLanguageID(String languageID) {
+        this.languageID = languageID;
     }
 
     @Override
@@ -37,9 +41,9 @@ public class NewStatusResponse extends Response {
             return false;
         }
 
-        NewStatusResponse that = (NewStatusResponse) param;
+        GeneralUpdateResponse that = (GeneralUpdateResponse) param;
 
-        return (Objects.equals(newStatus, that.getNewStatus()) &&
+        return (Objects.equals(this.languageID, that.languageID) &&
                 Objects.equals(this.getMessage(), that.getMessage()) &&
                 this.isSuccess() == that.isSuccess());
     }

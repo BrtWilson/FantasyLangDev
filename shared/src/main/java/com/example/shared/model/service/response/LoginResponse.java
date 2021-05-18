@@ -2,6 +2,7 @@ package com.example.shared.model.service.response;
 
 import com.example.shared.model.domain.User;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -10,6 +11,7 @@ import java.util.Objects;
 public class LoginResponse extends Response {
 
     private User user;
+    private List<String> userLanguages;
 
     /**
      * Creates a response indicating that the corresponding request was NOT SUCCESSFUL.
@@ -25,9 +27,10 @@ public class LoginResponse extends Response {
      *
      * @param user the now logged in user.
      */
-    public LoginResponse(User user) {
+    public LoginResponse(User user, List<String> userLanguages) {
         super(true, null);
         this.user = user;
+        this.userLanguages = userLanguages;
     }
 
     /**
@@ -39,6 +42,17 @@ public class LoginResponse extends Response {
         return user;
     }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<String> getUserLanguages() {
+        return userLanguages;
+    }
+
+    public void setUserLanguages(List<String> userLanguages) {
+        this.userLanguages = userLanguages;
+    }
 
     @Override
     public boolean equals(Object param) {

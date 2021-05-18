@@ -2,20 +2,23 @@ package com.example.shared.model.service.response;
 
 import com.example.shared.model.domain.User;
 
+import java.util.List;
 import java.util.Objects;
 
 public class RegisterResponse extends Response{
 
     private final User user;
+    private List<String> userLanguages;
 
     /**
      * If response is SUCCESSFUL
      * @param user User object created from successful registration
-     * @param success boolean of successfulness
+     * @param userLanguages List of Strings of languageIDs
      */
-    public RegisterResponse(User user, boolean success) {
-        super(success);
+    public RegisterResponse(User user, List<String> userLanguages) {
+        super(true);
         this.user = user;
+        this.userLanguages = userLanguages;
     }
 
     /**
@@ -30,6 +33,14 @@ public class RegisterResponse extends Response{
 
     public User getUser() {
         return user;
+    }
+
+    public List<String> getUserLanguages() {
+        return userLanguages;
+    }
+
+    public void setUserLanguages(List<String> userLanguages) {
+        this.userLanguages = userLanguages;
     }
 
     @Override

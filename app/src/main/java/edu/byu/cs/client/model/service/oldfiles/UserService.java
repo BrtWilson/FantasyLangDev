@@ -7,8 +7,8 @@ import edu.byu.cs.client.model.net.ServerFacade;
 
 import com.example.shared.model.net.RemoteException;
 import com.example.shared.model.service.IUserService;
-import com.example.shared.model.service.request.UserRequest;
-import com.example.shared.model.service.response.UserResponse;
+import com.example.shared.model.service.request.GetLanguageDataRequest;
+import com.example.shared.model.service.response.GetLanguageDataResponse;
 import edu.byu.cs.client.util.ByteArrayUtils;
 
 /**
@@ -17,9 +17,9 @@ import edu.byu.cs.client.util.ByteArrayUtils;
 public class UserService implements IUserService {
 
 
-    public UserResponse getUserByAlias(UserRequest request) throws IOException, RemoteException {
+    public GetLanguageDataResponse getUserByAlias(GetLanguageDataRequest request) throws IOException, RemoteException {
         ServerFacade serverFacade = getServerFacade();
-        UserResponse response = serverFacade.getUserByAlias(request);
+        GetLanguageDataResponse response = serverFacade.getUserByAlias(request);
 
         if(response.isSuccess()) {
             loadImage(response);
@@ -32,7 +32,7 @@ public class UserService implements IUserService {
      *
      * @param response the response from the follower request.
      */
-    private void loadImage(UserResponse response) throws IOException {
+    private void loadImage(GetLanguageDataResponse response) throws IOException {
         User user = response.getUser();
         byte [] bytes = ByteArrayUtils.bytesFromUrl(user.getImageUrl());
         user.setImageBytes(bytes);

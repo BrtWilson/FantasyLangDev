@@ -4,10 +4,10 @@ import com.example.server.dao.LanguageTableDAO;
 import com.example.server.dao.DictionaryTableDAO;
 import com.example.server.service.StatusArrayService;
 import com.example.shared.model.domain.User;
-import com.example.shared.model.service.request.NewStatusRequest;
-import com.example.shared.model.service.request.StatusArrayRequest;
-import com.example.shared.model.service.response.NewStatusResponse;
-import com.example.shared.model.service.response.StatusArrayResponse;
+import com.example.shared.model.service.request.NewLanguageRequest;
+import com.example.shared.model.service.request.UpdateSyllablesRequest;
+import com.example.shared.model.service.response.NewLanguageResponse;
+import com.example.shared.model.service.response.DictionaryPageResponse;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,20 +20,20 @@ import java.util.Arrays;
 
 public class FeedDaoTest {
 
-    private NewStatusRequest validRequest1;
-    private NewStatusRequest validRequest2;
+    private NewLanguageRequest validRequest1;
+    private NewLanguageRequest validRequest2;
 
-    private NewStatusResponse successResponse1;
-    private NewStatusResponse successResponse2;
+    private NewLanguageResponse successResponse1;
+    private NewLanguageResponse successResponse2;
 
-    private StatusArrayRequest validArrayRequest;
-    private StatusArrayRequest invalidArrayRequest;
+    private UpdateSyllablesRequest validArrayRequest;
+    private UpdateSyllablesRequest invalidArrayRequest;
 
-    private StatusArrayResponse successArrayResponse;
-    private StatusArrayResponse failureArrayResponse;
+    private DictionaryPageResponse successArrayResponse;
+    private DictionaryPageResponse failureArrayResponse;
 
     private FollowerResponse followerResponse;
-    private NewStatusResponse successBatchResponse;
+    private NewLanguageResponse successBatchResponse;
 
     private String followerAlias;
 
@@ -60,27 +60,27 @@ public class FeedDaoTest {
         Status resultStatus3 = new Status("Message 3", "1349533574", resultUser3.getAlias());
 
 
-        validRequest1 = new NewStatusRequest( user1.getAlias(), "Message 1", "1349533574");
-        validRequest2 = new NewStatusRequest( user2.getAlias(), "Message 2", "1349533574");
+        validRequest1 = new NewLanguageRequest( user1.getAlias(), "Message 1", "1349533574");
+        validRequest2 = new NewLanguageRequest( user2.getAlias(), "Message 2", "1349533574");
 
-        successResponse1 = new NewStatusResponse(resultStatus1);
-        successResponse2 = new NewStatusResponse(resultStatus2);
+        successResponse1 = new NewLanguageResponse(resultStatus1);
+        successResponse2 = new NewLanguageResponse(resultStatus2);
 
-        successBatchResponse = new NewStatusResponse(resultStatus1);
+        successBatchResponse = new NewLanguageResponse(resultStatus1);
 
         followerAlias = "@LukeSkywalker";
 
         followerResponse =  new FollowerResponse(Arrays.asList(resultUser1, resultUser2, resultUser3), false, null);
 
         // Setup request objects to use in the tests
-        validArrayRequest = new StatusArrayRequest(userInTableAlias, pageSize, null);
-        invalidArrayRequest = new StatusArrayRequest(null, 0, null);
+        validArrayRequest = new UpdateSyllablesRequest(userInTableAlias, pageSize, null);
+        invalidArrayRequest = new UpdateSyllablesRequest(null, 0, null);
 
         // Setup a mock ServerFacade that will return known responses
-        successArrayResponse = new StatusArrayResponse(Arrays.asList(resultStatus1, resultStatus2, resultStatus3), true, null);
+        successArrayResponse = new DictionaryPageResponse(Arrays.asList(resultStatus1, resultStatus2, resultStatus3), true, null);
        // Mockito.when(mockDao.getStatusArray(validArrayRequest)).thenReturn(successArrayResponse);
 
-        failureArrayResponse = new StatusArrayResponse("An exception occurred");
+        failureArrayResponse = new DictionaryPageResponse("An exception occurred");
         //Mockito.when(mockDao.getStatusArray(invalidArrayRequest)).thenReturn(failureArrayResponse);
 
         statusesDAO = Mockito.spy(new LanguageTableDAO());
@@ -96,7 +96,7 @@ public class FeedDaoTest {
 
     @Test
     public void testGetFeed_validRequest_correct2() throws IOException {
-        StatusArrayResponse arrayResponse = statusesDAO.getStatusArray(validArrayRequest);
+        DictionaryPageResponse arrayResponse = statusesDAO.getStatusArray(validArrayRequest);
         Assertions.assertEquals(successArrayResponse.isSuccess(), arrayResponse.isSuccess());
         Assertions.assertEquals(pageSize, arrayResponse.getStatuses().size());
         Assertions.assertEquals(pageSize, arrayResponse.getStatuses().size());
@@ -111,7 +111,7 @@ public class FeedDaoTest {
      */
     @Test
     public void testPostStatusBatch_validRequest_correctResponse() throws IOException {
-        NewStatusResponse response = statusesDAO.postStatusBatch(validRequest1, followerResponse);
+        NewLanguageResponse response = statusesDAO.postStatusBatch(validRequest1, followerResponse);
         Assertions.assertEquals(successBatchResponse.isSuccess(), response.isSuccess());
         Assertions.assertEquals(successBatchResponse.getNewStatus().getMessage(), response.getNewStatus().getMessage());
     }

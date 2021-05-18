@@ -4,8 +4,8 @@ import com.example.server.dao.LanguageTableDAO;
 import com.example.server.dao.DictionaryTableDAO;
 import com.example.shared.model.net.RemoteException;
 import com.example.shared.model.service.INewStatusService;
-import com.example.shared.model.service.request.NewStatusRequest;
-import com.example.shared.model.service.response.NewStatusResponse;
+import com.example.shared.model.service.request.NewLanguageRequest;
+import com.example.shared.model.service.response.NewLanguageResponse;
 
 import java.io.IOException;
 
@@ -16,14 +16,14 @@ public class NewStatusFeedService implements INewStatusService {
 
     private static final String SERVER_SIDE_ERROR = "[Server Error]";
 
-    public NewStatusResponse postStatusBatch(NewStatusRequest request, FollowerResponse followerResponse) throws IOException {
+    public NewLanguageResponse postStatusBatch(NewLanguageRequest request, FollowerResponse followerResponse) throws IOException {
 
         //NewStatusResponse feedResponse = getFeedTableDAO().postNewStatus(request);
         try {
-            NewStatusResponse feedResponse = getFeedTableDAO().postStatusBatch(request, followerResponse);
+            NewLanguageResponse feedResponse = getFeedTableDAO().postStatusBatch(request, followerResponse);
             return feedResponse;
         } catch (Exception e) {
-            return new NewStatusResponse(SERVER_SIDE_ERROR + ": " + e.getMessage());
+            return new NewLanguageResponse(SERVER_SIDE_ERROR + ": " + e.getMessage());
         }
         //if (feedResponse.isSuccess() && storyResponse.isSuccess())
          //   return feedResponse;
@@ -47,7 +47,7 @@ public class NewStatusFeedService implements INewStatusService {
     public DictionaryTableDAO getStoryTableDAO() { return new DictionaryTableDAO(); }
 
     @Override
-    public NewStatusResponse postNewStatus(NewStatusRequest request) throws IOException, RemoteException {
+    public NewLanguageResponse postNewStatus(NewLanguageRequest request) throws IOException, RemoteException {
         return null;
     }
 }

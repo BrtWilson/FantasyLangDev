@@ -4,9 +4,9 @@ import com.example.server.dao.LanguageTableDAO;
 import com.example.server.dao.DictionaryTableDAO;
 import com.example.shared.model.service.IStatusArrayService;
 import com.example.shared.model.service.request.IListRequest;
-import com.example.shared.model.service.request.StatusArrayRequest;
+import com.example.shared.model.service.request.UpdateSyllablesRequest;
 import com.example.shared.model.service.response.IListResponse;
-import com.example.shared.model.service.response.StatusArrayResponse;
+import com.example.shared.model.service.response.DictionaryPageResponse;
 
 /**
  * Contains the business logic for getting a user's feed or story
@@ -22,11 +22,11 @@ public class StatusArrayService implements IStatusArrayService {
      * @param request contains the data required to fulfill the request.
      * @return the followees.
      */
-    public StatusArrayResponse requestStatusArray(IListRequest request) {
-        if (request.getClass() != StatusArrayRequest.class) {
-            return new StatusArrayResponse("Statuses missing");
+    public DictionaryPageResponse requestStatusArray(IListRequest request) {
+        if (request.getClass() != UpdateSyllablesRequest.class) {
+            return new DictionaryPageResponse("Statuses missing");
         }
-        StatusArrayRequest req = (StatusArrayRequest) request;
+        UpdateSyllablesRequest req = (UpdateSyllablesRequest) request;
         //response = getStatusArrayDao().getStatusArray(req);
 
         if (req.getFeedInstead())

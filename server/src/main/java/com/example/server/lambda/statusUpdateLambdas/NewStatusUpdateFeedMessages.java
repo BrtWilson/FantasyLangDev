@@ -10,7 +10,7 @@ import com.amazonaws.services.sqs.model.SendMessageRequest;
 import com.amazonaws.services.sqs.model.SendMessageResult;
 import com.example.server.lambda.statusUpdateLambdas.util.JsonSerializer;
 import com.example.server.service.FollowerService;
-import com.example.shared.model.service.request.NewStatusRequest;
+import com.example.shared.model.service.request.NewLanguageRequest;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -28,14 +28,14 @@ public class NewStatusUpdateFeedMessages implements RequestHandler<SQSEvent, Voi
     public Void handleRequest(SQSEvent input, Context context) {
         //Uses FollowerService(?) to get batches of followers whose feeds are to be updated
         for (SQSEvent.SQSMessage msg : input.getRecords()) {
-            NewStatusRequest newStatusRequest = convertToRequestObject(msg.getBody());
-            queueMessages(newStatusRequest);
+            NewLanguageRequest newLanguageRequest = convertToRequestObject(msg.getBody());
+            queueMessages(newLanguageRequest);
         }
         return null;
     }
 
-    public void queueMessages(NewStatusRequest newStatusRequest) {
-        String followeeAlias = newStatusRequest.getUserAlias();
+    public void queueMessages(NewLanguageRequest newLanguageRequest) {
+        String followeeAlias = newLanguageRequest.getUserAlias();
         do {
             FollowerRequest followerRequest = new FollowerRequest( followeeAlias, BatchSize,  lastFollowerAlias);
             FollowerResponse followerResponse = null;
@@ -45,13 +45,13 @@ public class NewStatusUpdateFeedMessages implements RequestHandler<SQSEvent, Voi
                 e.printStackTrace();
             }
             lastFollowerAlias = followerResponse.getLastFollowerAlias();
-            sendBatchToQueue(followerResponse, newStatusRequest);
+            sendBatchToQueue(followerResponse, newLanguageRequest);
         } while (lastFollowerAlias != null);
     }
 
-    private void sendBatchToQueue(FollowerResponse followerResponse, NewStatusRequest newStatusRequest) {
+    private void sendBatchToQueue(FollowerResponse followerResponse, NewLanguageRequest newLanguageRequest) {
         AmazonSQS sqs = AmazonSQSClientBuilder.defaultClient();
-        Map<String, MessageAttributeValue> messageAttributes = packMapAttributes(followerResponse, newStatusRequest);
+        Map<String, MessageAttributeValue> messageAttributes = packMapAttributes(followerResponse, newLanguageRequest);
         SendMessageRequest send_msg_request = new SendMessageRequest()
                 .withQueueUrl(batchQueueUrl)
                 .withMessageAttributes(messageAttributes);
@@ -79,8 +79,8 @@ public class NewStatusUpdateFeedMessages implements RequestHandler<SQSEvent, Voi
         return JsonSerializer.serialize(sendingObject);
     }
 
-    private NewStatusRequest convertToRequestObject(String msg) {
-        return JsonSerializer.deserialize(msg, NewStatusRequest.class);
+    private NewLanguageRequest convertToRequestObject(String msg) {
+        return JsonSerializer.deserialize(msg, NewLanguageRequest.class);
     }
 
     // Receive a list of Followers, and a status to add to each of their feeds

@@ -6,11 +6,11 @@ import com.example.shared.model.domain.User;
 import com.example.shared.model.service.request.LoginRequest;
 import com.example.shared.model.service.request.LogoutRequest;
 import com.example.shared.model.service.request.RegisterRequest;
-import com.example.shared.model.service.request.UserRequest;
+import com.example.shared.model.service.request.GetLanguageDataRequest;
 import com.example.shared.model.service.response.Response;
 import com.example.shared.model.service.response.LoginResponse;
 import com.example.shared.model.service.response.RegisterResponse;
-import com.example.shared.model.service.response.UserResponse;
+import com.example.shared.model.service.response.GetLanguageDataResponse;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,9 +31,9 @@ public class UsersTableDAO {
     private static final String FAULTY_USER_REQUEST = "[Bad Request]";
     private static final String SERVER_SIDE_ERROR = "[Server Error]";
 
-    public UserResponse getUserByAlias(UserRequest userRequest) {
+    public GetLanguageDataResponse getUserByAlias(GetLanguageDataRequest getLanguageDataRequest) {
         try {
-            Item retrievedUser = (Item) getDatabaseInteractor().basicGetItem(tableName, keyAttribute, userRequest.getAlias());
+            Item retrievedUser = (Item) getDatabaseInteractor().basicGetItem(tableName, keyAttribute, getLanguageDataRequest.getAlias());
             User tempUser = new User();
 
             tempUser.setAlias(retrievedUser.getString(keyAttribute));
@@ -44,9 +44,9 @@ public class UsersTableDAO {
             tempUser.setFollowerCount(retrievedUser.getString(attributeFollowerCount));
             tempUser.setImageUrl(retrievedUser.getString(attributeImageUrl));
 
-            return new UserResponse(tempUser);
+            return new GetLanguageDataResponse(tempUser);
         } catch (Exception e) {
-            return new UserResponse(SERVER_SIDE_ERROR + ": " + e.getMessage() + "\nStack: " + Arrays.toString(e.getStackTrace()));
+            return new GetLanguageDataResponse(SERVER_SIDE_ERROR + ": " + e.getMessage() + "\nStack: " + Arrays.toString(e.getStackTrace()));
         }
     }
 

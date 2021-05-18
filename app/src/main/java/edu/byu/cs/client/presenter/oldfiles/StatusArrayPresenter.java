@@ -8,11 +8,11 @@ import edu.byu.cs.client.model.service.oldfiles.UserService;
 import com.example.shared.model.net.RemoteException;
 import com.example.shared.model.service.IStatusArrayService;
 import com.example.shared.model.service.request.IListRequest;
-import com.example.shared.model.service.request.StatusArrayRequest;
-import com.example.shared.model.service.request.UserRequest;
+import com.example.shared.model.service.request.UpdateSyllablesRequest;
+import com.example.shared.model.service.request.GetLanguageDataRequest;
 import com.example.shared.model.service.response.IListResponse;
-import com.example.shared.model.service.response.StatusArrayResponse;
-import com.example.shared.model.service.response.UserResponse;
+import com.example.shared.model.service.response.DictionaryPageResponse;
+import com.example.shared.model.service.response.GetLanguageDataResponse;
 
 /**
  * The presenter for the "following" functionality of the application.
@@ -57,7 +57,7 @@ public class StatusArrayPresenter {
      * @param request contains the data required to fulfill the request.
      * @return the followees.
      */
-    public StatusArrayResponse getStatusArray(StatusArrayRequest request) throws IOException {
+    public DictionaryPageResponse getStatusArray(UpdateSyllablesRequest request) throws IOException {
         StatusArrayService statusArrayService = getStatusArrayService();
         return statusArrayService.requestStatusArray(request);
     }
@@ -77,7 +77,7 @@ public class StatusArrayPresenter {
         return (IStatusArrayService) getStatusArrayService();
     }
 
-    public UserResponse getUserByAlias(UserRequest request) throws IOException, RemoteException {
+    public GetLanguageDataResponse getUserByAlias(GetLanguageDataRequest request) throws IOException, RemoteException {
         UserService userService = getUserService();
         return userService.getUserByAlias(request);
     }

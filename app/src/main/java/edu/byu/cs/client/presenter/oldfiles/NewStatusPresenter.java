@@ -4,8 +4,8 @@ import java.io.IOException;
 import edu.byu.cs.client.model.service.oldfiles.NewStatusService;
 
 import com.example.shared.model.net.RemoteException;
-import com.example.shared.model.service.request.NewStatusRequest;
-import com.example.shared.model.service.response.NewStatusResponse;
+import com.example.shared.model.service.request.NewLanguageRequest;
+import com.example.shared.model.service.response.NewLanguageResponse;
 
 public class NewStatusPresenter {
 
@@ -16,9 +16,9 @@ public class NewStatusPresenter {
 
     public NewStatusPresenter( LoginPresenter.View view) { this.view = view; }
 
-    public NewStatusResponse newStatus(NewStatusRequest newStatusRequest) throws IOException, RemoteException {
+    public NewLanguageResponse newStatus(NewLanguageRequest newLanguageRequest) throws IOException, RemoteException {
         newStatusService = getNewStatusService();
-        return newStatusService.postNewStatus(newStatusRequest);
+        return newStatusService.postNewStatus(newLanguageRequest);
     }
 
     public NewStatusService getNewStatusService() {

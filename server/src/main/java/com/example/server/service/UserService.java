@@ -2,8 +2,8 @@ package com.example.server.service;
 
 import com.example.server.dao.UsersTableDAO;
 import com.example.shared.model.service.IUserService;
-import com.example.shared.model.service.request.UserRequest;
-import com.example.shared.model.service.response.UserResponse;
+import com.example.shared.model.service.request.GetLanguageDataRequest;
+import com.example.shared.model.service.response.GetLanguageDataResponse;
 
 import java.io.IOException;
 
@@ -12,8 +12,8 @@ import java.io.IOException;
  */
 public class UserService implements IUserService {
 
-    public UserResponse getUserByAlias(UserRequest request) throws IOException {
-        UserResponse response = getUserDao().getUserByAlias(request);
+    public GetLanguageDataResponse getUserByAlias(GetLanguageDataRequest request) throws IOException {
+        GetLanguageDataResponse response = getUserDao().getUserByAlias(request);
 
         return response;
     }

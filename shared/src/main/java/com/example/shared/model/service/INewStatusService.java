@@ -1,8 +1,8 @@
 package com.example.shared.model.service;
 
 import com.example.shared.model.net.RemoteException;
-import com.example.shared.model.service.request.NewStatusRequest;
-import com.example.shared.model.service.response.NewStatusResponse;
+import com.example.shared.model.service.request.NewLanguageRequest;
+import com.example.shared.model.service.response.NewLanguageResponse;
 
 import java.io.IOException;
 
@@ -11,5 +11,5 @@ import java.io.IOException;
  */
 public interface INewStatusService {
 
-    public NewStatusResponse postNewStatus(NewStatusRequest request) throws IOException, RemoteException;
+    public NewLanguageResponse postNewStatus(NewLanguageRequest request) throws IOException, RemoteException;
 }
