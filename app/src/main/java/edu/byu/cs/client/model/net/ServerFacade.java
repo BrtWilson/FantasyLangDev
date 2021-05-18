@@ -5,7 +5,6 @@ import java.io.IOException;
 import com.example.shared.model.domain.User;
 import com.example.shared.model.net.RemoteException;
 import com.example.shared.model.service.request.LoginRequest;
-import com.example.shared.model.service.request.LogoutRequest;
 import com.example.shared.model.service.request.RegisterRequest;
 import com.example.shared.model.service.response.LoginResponse;
 import com.example.shared.model.service.response.Response;
@@ -51,7 +50,7 @@ public class ServerFacade {
 
         // TEMP RESPONSE
         User user = new User("Test User", "username", "password");
-        return new LoginResponse(user);
+        return new LoginResponse(user, null);
         //
 
        //return response;
@@ -63,21 +62,10 @@ public class ServerFacade {
 
         // TEMP RESPONSE
         User user = new User("Test User", "username", "password");
-        return new RegisterResponse(user, true);
+        return new RegisterResponse(user, null);
         //
 
         //return response;
-    }
-
-    public Response logout(LogoutRequest request) throws IOException, RemoteException {
-        String Url_Path = URL_PATH_LOGOUT;
-        Response response = clientCommunicator.doPost(Url_Path, request, null, Response.class);
-
-        if(response.isSuccess()) {
-            return response;
-        } else {
-            throw new RuntimeException(response.getMessage());
-        }
     }
 
     /*
