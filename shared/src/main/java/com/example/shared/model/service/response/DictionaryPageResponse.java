@@ -8,11 +8,8 @@ import java.util.Objects;
 public class DictionaryPageResponse extends PagedResponse{
 
     private String languageID;
+    private String lastWord;
     private List<DictionaryEntry> words;
-
-    public void setStatuses(List<DictionaryEntry> words) {
-        this.words = words;
-    }
 
     /**
      * Creates a response indicating that the corresponding request was unsuccessful. Sets the
@@ -30,13 +27,36 @@ public class DictionaryPageResponse extends PagedResponse{
      *
      * @param hasMorePages an indicator of whether more data is available for the request.
      */
-    public DictionaryPageResponse(List<DictionaryEntry> words, boolean hasMorePages, String lastDate) {
+    public DictionaryPageResponse(List<DictionaryEntry> words, boolean hasMorePages, String lastWord, String languageID) {
         super(true, hasMorePages);
         this.words = words;
+        this.lastWord = lastWord;
+        this.languageID = languageID;
     }
 
-    public List<DictionaryEntry> getStatuses() {
+
+    public String getLanguageID() {
+        return languageID;
+    }
+
+    public void setLanguageID(String languageID) {
+        this.languageID = languageID;
+    }
+
+    public String getLastWord() {
+        return lastWord;
+    }
+
+    public void setLastWord(String lastWord) {
+        this.lastWord = lastWord;
+    }
+
+    public List<DictionaryEntry> getWords() {
         return words;
+    }
+
+    public void setWords(List<DictionaryEntry> words) {
+        this.words = words;
     }
 
     @Override
@@ -53,6 +73,8 @@ public class DictionaryPageResponse extends PagedResponse{
 
         return (Objects.equals(words, that.words) &&
                 Objects.equals(this.getMessage(), that.getMessage()) &&
+                Objects.equals(this.getLanguageID(), that.getLanguageID()) &&
+                Objects.equals(this.getLastWord(), that.getLastWord()) &&
                 this.isSuccess() == that.isSuccess());
     }
 

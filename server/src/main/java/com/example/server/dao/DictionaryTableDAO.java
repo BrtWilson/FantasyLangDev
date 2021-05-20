@@ -2,23 +2,30 @@ package com.example.server.dao;
 
 import com.example.server.dao.dbstrategies.AWS_RDBStrategy;
 import com.example.server.dao.dbstrategies.DBStrategyInterface;
-import com.example.server.dao.dbstrategies.DynamoDBStrategy;
+import com.example.server.dao.dbstrategies.ResultsPage;
+import com.example.shared.model.domain.DictionaryEntry;
 import com.example.shared.model.service.request.DeleteWordRequest;
 import com.example.shared.model.service.request.DictionaryPageRequest;
 import com.example.shared.model.service.request.NewWordRequest;
 import com.example.shared.model.service.request.SearchWordRequest;
-import com.example.shared.model.service.request.UpdateSyllablesRequest;
 import com.example.shared.model.service.response.DictionaryPageResponse;
 import com.example.shared.model.service.response.GeneralUpdateResponse;
 import com.example.shared.model.service.response.NewWordResponse;
-import com.example.shared.model.service.response.TranslateResponse;
+import com.example.shared.model.service.response.PagedResponse;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DictionaryTableDAO {
     private DBStrategyInterface databaseInteractor = getDatabaseInteractor();
 
     private static final String tableName = "Dictionary";
-    //private static final String partitionKey = "Alias";
-    //private static final String sortKey = "TimeStamp";
+    private static final String attributeLangID = "LanguageID";
+    private static final String attributeFantasyWord = "FantasyWord";
+    private static final String attributePartOfSpeech = "PartOfSpeech";
+    private static final String attributeTranslation = "Translation";
 
     private static final Integer PAGE_SIZE_DEFAULT = 10;
     private static Integer pageSize;
@@ -26,32 +33,58 @@ public class DictionaryTableDAO {
     public DictionaryPageResponse getWordArray(DictionaryPageRequest request) {
         pageSize = request.getLimit();
         verifyLimit(request.getLimit());
-        verifyAlias(request.getLanguageID());
+        String langID = request.getLanguageID();
+        verifyLanguageID(langID);
 
-        return null; //retrieveStory(request.getUserAlias(), request.getLastStatusDate());
+        ResultsPage pageOfWords = databaseInteractor.keyAndCompositePageQuery(tableName, attributeLangID, langID, pageSize, attributeFantasyWord, request.getLastWord());
+        return convertToDictionaryResponse(pageOfWords, langID);
+    }
+
+    private DictionaryPageResponse convertToDictionaryResponse(ResultsPage pageOfWords, String langID) {
+        List<DictionaryEntry> wordsList = new ArrayList<>();
+        List<Map<String,String>> wordsListRaw = pageOfWords.getValues();
+        for (int i = 0; i < wordsListRaw.size(); i++) {
+            wordsList.add(convertWord(wordsListRaw.get(i)));
+        }
+        return new DictionaryPageResponse(wordsList, pageOfWords.hasLastKey(), pageOfWords.getLastKey(), langID);
+    }
+
+    private DictionaryEntry convertWord(Map<String, String> rawWordMap) {
+        String fantasyWord = rawWordMap.get(attributeFantasyWord);
+        String partOfSpeech = rawWordMap.get(attributePartOfSpeech);
+        String translation = rawWordMap.get(attributeTranslation);
+        return new DictionaryEntry(fantasyWord, partOfSpeech, translation);
     }
 
     /**
      *  Acts as if "filtered" version of Dictionary's getWordArray
+     *      TODO: LESS OF A PRIORITY AT THIS TIME. WILL FINISH LATER
      * @param request ...
      * @return ...
      */
     public DictionaryPageResponse searchWord(SearchWordRequest request) {
         pageSize = request.getLimit();
         verifyLimit(request.getLimit());
-        verifyAlias(request.getLanguageID());
+        verifyLanguageID(request.getLanguageID());
 
+        if (request.getTypeOfData().equals(SearchWordRequest.str_BY_FANTASYWORD)) {
+            //search by key and *like composite
+        } else if (request.getTypeOfData().equals(SearchWordRequest.str_BY_TRANSLATION)) {
+            //search by key and *like attribute
+        } else if (request.getTypeOfData().equals(SearchWordRequest.str_BY_UNSPECIFIED)) {
+            //search by both
+        }
         return null; //retrieveStory(request.getUserAlias(), request.getLastStatusDate());
     }
 
     private void verifyLimit(int limit) {
-        if (limit < 0) {
+        if (limit <= 0) {
             pageSize = PAGE_SIZE_DEFAULT;
         }
     }
 
-    private void verifyAlias(String userAlias) {
-        if (userAlias == null) {
+    private void verifyLanguageID(String languageID) {
+        if (languageID == null) {
             throw new AssertionError();
         }
     }
@@ -60,13 +93,37 @@ public class DictionaryTableDAO {
      * Used in "Create New Word" feature
      */
     public Boolean checkWordExists(NewWordRequest request) {
-        return null;
+        Map<String, String> queryAttributes = new HashMap<>();
+        queryAttributes.put(attributeLangID, request.getLanguageID());
+        DictionaryEntry fantasyWordData = request.getFantasyWord();
+        queryAttributes.put(attributeFantasyWord, fantasyWordData.getFantasyWord());
+        //queryAttributes.put(attributePartOfSpeech, fantasyWordData.getPartOfSpeech());
+        //queryAttributes.put(attributeTranslation, fantasyWordData.getTranslation());
+        return (databaseInteractor.getItem(tableName, queryAttributes) != null);
     }
 
     /**
      * Used in "Create New Word" feature
      */
     public NewWordResponse insertNewWord(NewWordRequest request) {
+        Map<String, String> newWordAttributes = new HashMap<>();
+        newWordAttributes.put(attributeLangID, request.getLanguageID());
+        DictionaryEntry fantasyWordData = request.getFantasyWord();
+        newWordAttributes.put(attributeFantasyWord, fantasyWordData.getFantasyWord());
+        newWordAttributes.put(attributePartOfSpeech, fantasyWordData.getPartOfSpeech());
+        newWordAttributes.put(attributeTranslation, fantasyWordData.getTranslation());
+        databaseInteractor.insertItem(tableName, newWordAttributes);
+        return new NewWordResponse(request.getLanguageID(), fantasyWordData.getFantasyWord(), false);
+    }
+
+    /**
+     * Used in "Create New Word" feature, I believe
+     *     TODO**, lower priority
+     */
+    public NewWordResponse updateWordAddToAttributes(NewWordRequest request) {
+        //get word
+        //add new data on non-basic attributes
+        //update item
         return null;
     }
 
@@ -74,57 +131,26 @@ public class DictionaryTableDAO {
      * Used in "Create New Word" feature, and
      *     "Edit Word" feature in dictionary (for which the service class will have to adapt
      *     the Response object class)
+     *     TODO**, lower priority
      */
     public NewWordResponse updateWord(NewWordRequest request) {
+        //update and replace item data
         return null;
     }
 
     public GeneralUpdateResponse deleteWord(DeleteWordRequest request) {
-
-
-        return null;
-    }
-
-    /*
-    //STANDARD ADD TO STORY
-    public NewStatusResponse postNewStatus(NewStatusRequest request) {
-        getDatabaseInteractor().createItemWithDualKey(tableName, partitionKey, request.getUserAlias(), sortKey, request.getDate(), true, attributeMessage, request.getMessage());
-        return new NewStatusResponse(new Status(request.getMessage(), request.getDate(), request.getUserAlias()));
-    }
-
-    //private User getAUser() {
-      //  return null;// dataProvider.getSampleDummyUser();
-    //}
-
-    private StatusArrayResponse retrieveStory(String targetAlias, String lastRetrieved) {
-        ResultsPage resultsPage = getDatabaseInteractor().getListByString(tableName, partitionKey, targetAlias, pageSize, sortKey, lastRetrieved);
-        boolean hasMorePages = (resultsPage.hasLastKey());
-        String newLastRetrieved = resultsPage.getLastKey();
-        List<Status> statusList = ListTypeItemTransformer.transformToStatus(resultsPage.getValues());
-        StatusArrayResponse response = new StatusArrayResponse(statusList, hasMorePages, newLastRetrieved);
-        return response;
-    }
-
-    /*
-    private int getStatusesStartingIndex(String lastStatusAlias, List<Status> allStatuses) {
-
-        int statusesIndex = 0;
-
-        if (lastStatusAlias != null) {
-            // This is a paged request for something after the first page. Find the first item
-            // we should return
-            for (int i = 0; i < allStatuses.size(); i++) {
-                if (lastStatusAlias.equals(allStatuses.get(i).getDate())) {
-                    // We found the index of the last item returned last time. Increment to get
-                    // to the first one we should return
-                    statusesIndex = i + 1;
-                    break;
-                }
-            }
+        Map<String, String> deletionItemAttributes = new HashMap<>();
+        deletionItemAttributes.put(attributeLangID, request.getLanguageID());
+        DictionaryEntry fantasyWordData = request.getFantasyWord();
+        deletionItemAttributes.put(attributeFantasyWord, fantasyWordData.getFantasyWord());
+        deletionItemAttributes.put(attributePartOfSpeech, fantasyWordData.getPartOfSpeech());
+        deletionItemAttributes.put(attributeTranslation, fantasyWordData.getTranslation());
+        boolean success = databaseInteractor.deleteItem(tableName, deletionItemAttributes);
+        if (success) {
+            return new GeneralUpdateResponse(request.getLanguageID());
         }
-
-        return statusesIndex;
-    }*/
+        return new GeneralUpdateResponse(false, "[Error] Failed to delete word.");
+    }
 
     private DBStrategyInterface getDatabaseInteractor() {
         return new AWS_RDBStrategy();

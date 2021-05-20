@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class UsersTableDAO {
-    private DBStrategyInterface databaseInteractor = getDatabaseInteractor();
+    private final DBStrategyInterface databaseInteractor = getDatabaseInteractor();
 
     private static final String tableName = "Users";
     //private static final String keyAttribute = "Alias";

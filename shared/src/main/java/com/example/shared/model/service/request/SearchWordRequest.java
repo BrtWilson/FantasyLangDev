@@ -5,12 +5,12 @@ package com.example.shared.model.service.request;
  */
 public class SearchWordRequest extends ListRequest{
 
-    public final int BY_UNSPECIFIED = 0;
-    public final int BY_TRANSLATION = 1;
-    public final int BY_FANTASYWORD = 2;
-    public final String str_BY_UNSPECIFIED = "Unspecified";
-    public final String str_BY_TRANSLATION = "Translation";
-    public final String str_BY_FANTASYWORD = "FantasyWord";
+    public static final int BY_UNSPECIFIED = 0;
+    public static final int BY_TRANSLATION = 1;
+    public static final int BY_FANTASYWORD = 2;
+    public static final String str_BY_UNSPECIFIED = "Unspecified";
+    public static final String str_BY_TRANSLATION = "Translation";
+    public static final String str_BY_FANTASYWORD = "FantasyWord";
 
     private String searchByData;
     private String languageID;
