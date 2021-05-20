@@ -1,28 +1,25 @@
 package com.example.server.dao;
 
-import com.amazonaws.services.dynamodbv2.document.Item;
-import com.example.server.dao.dbstrategies.DynamoDBStrategy;
+import com.example.server.dao.dbstrategies.AWS_RDBStrategy;
+import com.example.server.dao.dbstrategies.DBStrategyInterface;
 import com.example.shared.model.domain.User;
 import com.example.shared.model.service.request.LoginRequest;
 import com.example.shared.model.service.request.RegisterRequest;
-import com.example.shared.model.service.request.GetLanguageDataRequest;
-import com.example.shared.model.service.response.Response;
 import com.example.shared.model.service.response.LoginResponse;
 import com.example.shared.model.service.response.RegisterResponse;
-import com.example.shared.model.service.response.GetLanguageDataResponse;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class UsersTableDAO {
-    //DummyDataProvider dataProvider = DummyDataProvider.getInstance();
+    private DBStrategyInterface databaseInteractor = getDatabaseInteractor();
 
     private static final String tableName = "Users";
     //private static final String keyAttribute = "Alias";
 //
-//    private static final String attributeFirstName = "FirstName";
-//    private static final String attributeLastName = "LastName";
-//    private static final String attributePassword = "Password";
+    private static final String attributeName = "Name";
+    private static final String attributeUserName = "UserName";
+    private static final String attributePassword = "Password";
 //    private static final String attributeImageUrl = "ImageUrl";
 //    private static final String attributeFollowerCount = "FollowerCount";
 //    private static final String attributeFolloweeCount = "FolloweeCount";
@@ -31,11 +28,26 @@ public class UsersTableDAO {
     private static final String SERVER_SIDE_ERROR = "[Server Error]";
 
     public RegisterResponse register(RegisterRequest request) {
-        return null;
+        if (databaseInteractor.getItem(tableName, attributeUserName, request.getUserName()) != null) {
+            return new RegisterResponse(false, "UserName already taken!");
+        }
+        Map<String, String> attributesToInsert = new HashMap<>();
+        attributesToInsert.put(attributeUserName, request.getUserName());
+        attributesToInsert.put(attributeName, request.getName());
+        attributesToInsert.put(attributePassword, request.getPassword());
+
+        if (databaseInteractor.insertItem(tableName, attributesToInsert)) {
+            User newUser = new User(request.getUserName(), request.getName(), null);
+            return new RegisterResponse(newUser, null); //Only not null if we change insertion
+        }
+        return new RegisterResponse(false, "[Error] Failed to insert User!");
     }
 
-    public LoginResponse login(LoginRequest request) {
-        return null;
+    public boolean login(LoginRequest request) {
+        if (databaseInteractor.getItem(tableName, attributeUserName, request.getUsername()) != null) {
+            // return as success
+        }
+        return false; // NO USER FOUND
     }
 
 
@@ -189,7 +201,8 @@ public class UsersTableDAO {
     }
     */
 
-    public DynamoDBStrategy getDatabaseInteractor() {
-        return new DynamoDBStrategy();
+    private DBStrategyInterface getDatabaseInteractor() {
+        return new AWS_RDBStrategy();
+        //return new DynamoDBStrategy();
     }
 }

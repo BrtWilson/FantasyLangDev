@@ -26,7 +26,7 @@ public class RegisterResponse extends Response{
      * @param message error message
      * @param success boolean of successfulness
      */
-    public RegisterResponse(String message, boolean success) {
+    public RegisterResponse(boolean success, String message) {
         super(success, message);
         this.user = null;
     }

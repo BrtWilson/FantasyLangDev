@@ -559,4 +559,14 @@ public class AWS_RDBStrategy implements DBStrategyInterface {
             return item.getString(desiredAttribute);
         }
     }
+
+    @Override
+    public boolean insertItem(String tableName, Map<String, String> attributesToInsert) {
+        return false;
+    }
+
+    @Override
+    public Map<String, String> getItem(String tableName, String attributeName, String attributeValue) {
+        return null;
+    }
 }

@@ -1,5 +1,7 @@
 package com.example.server.dao;
 
+import com.example.server.dao.dbstrategies.AWS_RDBStrategy;
+import com.example.server.dao.dbstrategies.DBStrategyInterface;
 import com.example.server.dao.dbstrategies.DynamoDBStrategy;
 import com.example.shared.model.service.request.DeleteWordRequest;
 import com.example.shared.model.service.request.DictionaryPageRequest;
@@ -12,7 +14,7 @@ import com.example.shared.model.service.response.NewWordResponse;
 import com.example.shared.model.service.response.TranslateResponse;
 
 public class DictionaryTableDAO {
-    //DummyDataProvider dataProvider = DummyDataProvider.getInstance();
+    private DBStrategyInterface databaseInteractor = getDatabaseInteractor();
 
     private static final String tableName = "Dictionary";
     //private static final String partitionKey = "Alias";
@@ -78,6 +80,8 @@ public class DictionaryTableDAO {
     }
 
     public GeneralUpdateResponse deleteWord(DeleteWordRequest request) {
+
+
         return null;
     }
 
@@ -122,7 +126,8 @@ public class DictionaryTableDAO {
         return statusesIndex;
     }*/
 
-    public DynamoDBStrategy getDatabaseInteractor() {
-        return new DynamoDBStrategy();
+    private DBStrategyInterface getDatabaseInteractor() {
+        return new AWS_RDBStrategy();
+        //return new DynamoDBStrategy();
     }
 }

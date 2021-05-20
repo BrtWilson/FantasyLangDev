@@ -2,16 +2,15 @@ package com.example.shared.model.service.request;
 
 public class RegisterRequest {
 
-    private String firstName, lastName, userName, password;
+    private String name, userName, password;
     //private String imageURL;
     private String encodedImage;
     //private byte[] imageBytes;
 
     public RegisterRequest() {}
 
-    public RegisterRequest(String firstName, String lastName, String userName, String password, String encodedImage) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public RegisterRequest(String name, String lastName, String userName, String password, String encodedImage) {
+        this.name = name;
         this.userName = userName;
         this.password = password;
         this.encodedImage = encodedImage;
@@ -28,11 +27,8 @@ public class RegisterRequest {
         //this.imageBytes = imageBytes;
     }*/
 
-    public String getFirstName() {
-        return firstName;
-    }
-    public String getLastName() {
-        return lastName;
+    public String getName() {
+        return name;
     }
     public String getUserName() {
         return userName;
@@ -45,12 +41,8 @@ public class RegisterRequest {
     //public byte[] getImageBytes() { return imageBytes; }
 
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setUserName(String userName) {

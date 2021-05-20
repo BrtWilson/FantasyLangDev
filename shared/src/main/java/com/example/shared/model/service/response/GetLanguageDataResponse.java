@@ -38,6 +38,14 @@ public class GetLanguageDataResponse extends Response {
         this.syllableData = syllableData;
     }
 
+    public GetLanguageDataResponse(String userName, String languageName, String languageID, String alphabet) {
+        super(true, null);
+        this.userName = userName;
+        this.languageName = languageName;
+        this.languageID = languageID;
+        this.alphabet = alphabet;
+    }
+
     public String getUserName() {
         return userName;
     }
