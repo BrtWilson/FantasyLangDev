@@ -569,4 +569,19 @@ public class AWS_RDBStrategy implements DBStrategyInterface {
     public Map<String, String> getItem(String tableName, String attributeName, String attributeValue) {
         return null;
     }
+
+    @Override
+    public List<Map<String, String>> queryListItems(String tableName, Map<String, String> queryAttributes) {
+        return null;
+    }
+
+    @Override
+    public Map<String, String> querySingleItem(String tableName, Map<String, String> queryAttributes) {
+        return null;
+    }
+
+    @Override
+    public boolean updateItem(String tableName, Map<String, String> queryAttributes, Map<String, String> updateAttributes) {
+        return false;
+    }
 }
