@@ -12,8 +12,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.example.fantasylangdev.R;
-import com.example.fantasylangdev.client.view.main.PageViewModel;
+
+import edu.byu.cs.client.view.main.PageViewModel;
+import edu.byu.cs.tweeter.R;
 
 public class placeholderFragment extends Fragment {
 

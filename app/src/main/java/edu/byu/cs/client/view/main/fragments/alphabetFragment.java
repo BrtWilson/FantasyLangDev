@@ -4,7 +4,8 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.fantasylangdev.R;
+import edu.byu.cs.tweeter.R;
+
 
 public class alphabetFragment extends AppCompatActivity {
 

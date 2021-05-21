@@ -17,10 +17,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.shared.model.service.request.LoginRequest;
 import com.example.shared.model.service.response.LoginResponse;
 
-import edu.byu.cs.client.R;
 import edu.byu.cs.client.presenter.LoginPresenter;
 import edu.byu.cs.client.view.asyncTasks.LoginTask;
 import edu.byu.cs.client.view.main.activities.MainActivity;
+import edu.byu.cs.tweeter.R;
 
 public class LoginActivity extends AppCompatActivity implements LoginPresenter.View, LoginTask.Observer {
 

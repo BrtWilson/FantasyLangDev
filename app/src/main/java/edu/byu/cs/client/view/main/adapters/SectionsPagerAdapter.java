@@ -7,11 +7,12 @@ import androidx.annotation.StringRes;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.example.fantasylangdev.R;
-import com.example.fantasylangdev.client.view.main.fragments.PlaceholderFragment;
-import com.example.fantasylangdev.client.view.main.fragments.dictionaryFragment;
-import com.example.fantasylangdev.client.view.main.fragments.languageCreationFragment;
-import com.example.fantasylangdev.client.view.main.fragments.translatorFragment;
+import edu.byu.cs.client.view.main.fragments.dictionaryFragment;
+import edu.byu.cs.client.view.main.fragments.languageCreationFragment;
+import edu.byu.cs.client.view.main.fragments.placeholderFragment;
+import edu.byu.cs.client.view.main.fragments.translatorFragment;
+import edu.byu.cs.tweeter.R;
+
 
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
@@ -38,7 +39,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
             case DICTIONARY_FRAGMENT_POSITION:
                 return new dictionaryFragment();
             default:
-                return PlaceholderFragment.newInstance(position + 1);
+                return placeholderFragment.newInstance(position + 1);
         }
     }
 

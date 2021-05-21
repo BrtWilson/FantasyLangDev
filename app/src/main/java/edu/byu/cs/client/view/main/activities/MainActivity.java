@@ -7,7 +7,8 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.shared.model.domain.User;
-import edu.byu.cs.client.R;
+
+import edu.byu.cs.tweeter.R;
 
 public class MainActivity extends AppCompatActivity {
 

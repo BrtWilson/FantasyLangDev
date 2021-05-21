@@ -12,14 +12,15 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.fantasylangdev.R;
-import com.example.fantasylangdev.client.presenter.signUpPresenter;
-import com.example.fantasylangdev.client.view.asyncTasks.signUpTask;
-import com.example.fantasylangdev.client.view.main.activities.mainActivity;
-import com.example.shared.model.service.request.signUpRequest;
-import com.example.shared.model.service.response.signUpResponse;
+import com.example.shared.model.service.request.RegisterRequest;
+import com.example.shared.model.service.response.RegisterResponse;
 
-public class SignupActivity extends AppCompatActivity implements signUpPresenter.View, signUpTask.Observer{
+import edu.byu.cs.client.presenter.SignUpPresenter;
+import edu.byu.cs.client.view.asyncTasks.SignUpTask;
+import edu.byu.cs.client.view.main.activities.MainActivity;
+import edu.byu.cs.tweeter.R;
+
+public class SignupActivity extends AppCompatActivity implements SignUpPresenter.View, SignUpTask.Observer{
 
     private int BACK_NUM = 0;
 
@@ -30,7 +31,7 @@ public class SignupActivity extends AppCompatActivity implements signUpPresenter
     private EditText password;
     private Button signup;
 
-    private signUpPresenter presenter;
+    private SignUpPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +46,7 @@ public class SignupActivity extends AppCompatActivity implements signUpPresenter
         setContentView(R.layout.activity_signup);
         Intent intent = getIntent();
 
-        presenter = new signUpPresenter(this);
+        presenter = new SignUpPresenter(this);
 
         back = (Button)findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
@@ -70,8 +71,8 @@ public class SignupActivity extends AppCompatActivity implements signUpPresenter
         signup.setEnabled(false);
         signup.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                signUpTask task = new signUpTask(presenter, SignupActivity.this);
-                signUpRequest request = new signUpRequest(firstName.toString() + " " + lastName.toString(), username.toString(), password.toString());
+                SignUpTask task = new SignUpTask(presenter, SignupActivity.this);
+                RegisterRequest request = new RegisterRequest(firstName.toString() + " " + lastName.toString(), username.toString(), password.toString());
                 task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, request);
                 firstName.setText("");
                 lastName.setText("");
@@ -103,10 +104,10 @@ public class SignupActivity extends AppCompatActivity implements signUpPresenter
     };
 
     @Override
-    public void signUp(signUpResponse response) {
+    public void signUp(RegisterResponse response) {
         if (response.isSuccess()) {
-            Intent intent = new Intent(this, mainActivity.class);
-            intent.putExtra(mainActivity.CURRENT_USER_KEY, response.getUser());
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra(MainActivity.CURRENT_USER_KEY, response.getUser());
             Toast.makeText(this, "Welcome, " + response.getUser().getName() + "!", Toast.LENGTH_SHORT).show();
             startActivity(intent);
         }

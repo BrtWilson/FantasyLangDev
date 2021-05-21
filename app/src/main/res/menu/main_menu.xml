@@ -4,6 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/logoutMenu"
-        android:title="@string/logoutMenuTitle"
+        android:title="Add/Change"
         app:showAsAction="ifRoom|withText"/>
 </menu>

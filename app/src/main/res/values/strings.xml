@@ -1,30 +1,26 @@
 <resources>
-    <string name="app_name">Tweeter</string>
+    <string name="app_name">FantasyLangDev</string>
+    <string name="languageCreationTabTitle">Create</string>
+    <string name="translatorTabTitle">Translate</string>
+    <string name="dictionaryTabTitle">Dictionary</string>
+    <string name="alphabetTabTitle">Alphabet</string>
+    <string name="syllableTabTitle">Syllable</string>
+    <string name="wordCreationTabTitle">Word</string>
 
-    <string name="logoutMenuTitle">Logout</string>
+    <string-array name="partOfSpeech">
+        <item>Custom</item>
+        <item>Article</item>
+        <item>Preposition</item>
+        <item>Conjunction</item>
+        <item>Most Used</item>
+        <item>Suffixes</item>
+        <item>Prefixes</item>
+        <item>Nouns</item>
+        <item>Verbs</item>
+        <item>Adjectives</item>
+    </string-array>
 
-    <string name="homePageTitle">Home</string>
-    <string name="userImageContentDescription">The user\'s image</string>
-
-    <string name="title_activity_main">Tweeter</string>
-    <string name="loadingData">Loading More Data…</string>
-    <string name="feedTabTitle">Feed</string>
-    <string name="storyTabTitle">Story</string>
-    <string name="followingTabTitle">Following</string>
-    <string name="followersTabTitle">Followers</string>
-
-    <string name="sampleAlias">"@UserAlias"</string>
-    <string name="sampleUserName">The User</string>
-    <string name="title_activity_login">Tweeter</string>
-    <string name="followeeCount">Following: %d</string>
-    <string name="followerCount">Followers: %d</string>
-
-    <string name="take_profile_photo_button">Take Profile Photo</string>
-    <string name="confirm_register_button">Confirm</string>
-
-    <string name="followButtonText">Follow</string>
-    <string name="followButtonText2">Following</string>
-    <string name="status_prompt">Enter a message for your status:</string>
-    <string name="enter_a_message">E.g. I have the high ground!</string>
-    <string name="my_spacer"> >> </string>
+    <string-array name="translation">
+        <item>Custom</item>
+    </string-array>
 </resources>

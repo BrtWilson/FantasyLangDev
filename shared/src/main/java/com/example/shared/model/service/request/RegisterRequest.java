@@ -9,13 +9,10 @@ public class RegisterRequest {
 
     public RegisterRequest() {}
 
-    public RegisterRequest(String name, String lastName, String userName, String password, String encodedImage) {
+    public RegisterRequest(String name, String userName, String password) {
         this.name = name;
         this.userName = userName;
         this.password = password;
-        this.encodedImage = encodedImage;
-        //this.imageURL = imageURL;
-        //this.imageBytes = null;
     }
 
     /*public RegisterRequest(String firstName, String lastName, String userName, String password, byte[] imageBytes) {
