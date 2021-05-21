@@ -9,6 +9,6 @@
         android:id="@+id/languageName"/>
     <item
         android:id="@+id/logoutMenu"
-        android:title="Add/Change"
+        android:title="logout"
         app:showAsAction="ifRoom|withText"/>
 </menu>
