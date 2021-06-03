@@ -3,7 +3,7 @@ package com.example.server.dao;
 import com.example.server.dao.dbstrategies.AWS_RDBStrategy;
 import com.example.server.dao.dbstrategies.DBStrategyInterface;
 import com.example.server.dao.dbstrategies.ResultsPage;
-import com.example.shared.model.domain.DictionaryEntry;
+import com.example.shared.model.domain.Dictionary;
 import com.example.shared.model.service.request.DeleteWordRequest;
 import com.example.shared.model.service.request.DictionaryPageRequest;
 import com.example.shared.model.service.request.NewWordRequest;
@@ -11,7 +11,6 @@ import com.example.shared.model.service.request.SearchWordRequest;
 import com.example.shared.model.service.response.DictionaryPageResponse;
 import com.example.shared.model.service.response.GeneralUpdateResponse;
 import com.example.shared.model.service.response.NewWordResponse;
-import com.example.shared.model.service.response.PagedResponse;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,7 +40,7 @@ public class DictionaryTableDAO {
     }
 
     private DictionaryPageResponse convertToDictionaryResponse(ResultsPage pageOfWords, String langID) {
-        List<DictionaryEntry> wordsList = new ArrayList<>();
+        List<Dictionary> wordsList = new ArrayList<>();
         List<Map<String,String>> wordsListRaw = pageOfWords.getValues();
         for (int i = 0; i < wordsListRaw.size(); i++) {
             wordsList.add(convertWord(wordsListRaw.get(i)));
@@ -49,11 +48,11 @@ public class DictionaryTableDAO {
         return new DictionaryPageResponse(wordsList, pageOfWords.hasLastKey(), pageOfWords.getLastKey(), langID);
     }
 
-    private DictionaryEntry convertWord(Map<String, String> rawWordMap) {
+    private Dictionary convertWord(Map<String, String> rawWordMap) {
         String fantasyWord = rawWordMap.get(attributeFantasyWord);
         String partOfSpeech = rawWordMap.get(attributePartOfSpeech);
         String translation = rawWordMap.get(attributeTranslation);
-        return new DictionaryEntry(fantasyWord, partOfSpeech, translation);
+        return new Dictionary(fantasyWord, partOfSpeech, translation);
     }
 
     /**
@@ -95,7 +94,7 @@ public class DictionaryTableDAO {
     public Boolean checkWordExists(NewWordRequest request) {
         Map<String, String> queryAttributes = new HashMap<>();
         queryAttributes.put(attributeLangID, request.getLanguageID());
-        DictionaryEntry fantasyWordData = request.getFantasyWord();
+        Dictionary fantasyWordData = request.getFantasyWord();
         queryAttributes.put(attributeFantasyWord, fantasyWordData.getFantasyWord());
         //queryAttributes.put(attributePartOfSpeech, fantasyWordData.getPartOfSpeech());
         //queryAttributes.put(attributeTranslation, fantasyWordData.getTranslation());
@@ -108,7 +107,7 @@ public class DictionaryTableDAO {
     public NewWordResponse insertNewWord(NewWordRequest request) {
         Map<String, String> newWordAttributes = new HashMap<>();
         newWordAttributes.put(attributeLangID, request.getLanguageID());
-        DictionaryEntry fantasyWordData = request.getFantasyWord();
+        Dictionary fantasyWordData = request.getFantasyWord();
         newWordAttributes.put(attributeFantasyWord, fantasyWordData.getFantasyWord());
         newWordAttributes.put(attributePartOfSpeech, fantasyWordData.getPartOfSpeech());
         newWordAttributes.put(attributeTranslation, fantasyWordData.getTranslation());
@@ -141,7 +140,7 @@ public class DictionaryTableDAO {
     public GeneralUpdateResponse deleteWord(DeleteWordRequest request) {
         Map<String, String> deletionItemAttributes = new HashMap<>();
         deletionItemAttributes.put(attributeLangID, request.getLanguageID());
-        DictionaryEntry fantasyWordData = request.getFantasyWord();
+        Dictionary fantasyWordData = request.getFantasyWord();
         deletionItemAttributes.put(attributeFantasyWord, fantasyWordData.getFantasyWord());
         deletionItemAttributes.put(attributePartOfSpeech, fantasyWordData.getPartOfSpeech());
         deletionItemAttributes.put(attributeTranslation, fantasyWordData.getTranslation());

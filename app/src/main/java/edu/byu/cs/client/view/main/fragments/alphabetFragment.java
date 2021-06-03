@@ -4,25 +4,26 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.shared.model.domain.User;
-
 import edu.byu.cs.tweeter.R;
-
 
 public class alphabetFragment extends Fragment {
 
-    private static final String USER_KEY = "";
+    private static final String LANGUAGE_ID_KEY = "";
 
-    private User user;
+    private String languageID;
+    private EditText alphabetEditText;
+    private Button alphabetSubmitButton;
 
-    public static alphabetFragment newInstance(User user) {
+    public static alphabetFragment newInstance(String languageID) {
         alphabetFragment fragment = new alphabetFragment();
 
         Bundle args = new Bundle(1);
-        args.putSerializable(USER_KEY, user);
+        args.putString(LANGUAGE_ID_KEY, languageID);
 
         fragment.setArguments(args);
         return fragment;
@@ -32,7 +33,13 @@ public class alphabetFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_alphabet, container, false);
 
-        user = (User) getArguments().getSerializable(USER_KEY);
+        languageID = (String) getArguments().getString(LANGUAGE_ID_KEY);
+
+//        TextView textView = view.findViewById(R.id.editTexView);
+//        textView.setText(language);
+
+        alphabetEditText = (EditText) view.findViewById(R.id.alphabetEditText);
+        alphabetSubmitButton = (Button) view.findViewById(R.id.alphabetSubmit);
 
         return view;
     }

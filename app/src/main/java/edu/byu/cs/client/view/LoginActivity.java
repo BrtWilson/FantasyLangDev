@@ -17,6 +17,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.shared.model.service.request.LoginRequest;
 import com.example.shared.model.service.response.LoginResponse;
 
+import java.io.Serializable;
+
 import edu.byu.cs.client.presenter.LoginPresenter;
 import edu.byu.cs.client.view.asyncTasks.LoginTask;
 import edu.byu.cs.client.view.main.activities.MainActivity;
@@ -107,6 +109,7 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
         if (response.isSuccess()) {
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra(MainActivity.CURRENT_USER_KEY, response.getUser());
+            intent.putExtra(MainActivity.LANGUAGE_KEY, (Serializable) response.getUserLanguages());
             Toast.makeText(this, "Welcome, " + response.getUser().getName() + "!", Toast.LENGTH_SHORT).show();
             startActivity(intent);
 //            finish();

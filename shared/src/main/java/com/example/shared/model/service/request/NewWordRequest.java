@@ -1,6 +1,6 @@
 package com.example.shared.model.service.request;
 
-import com.example.shared.model.domain.DictionaryEntry;
+import com.example.shared.model.domain.Dictionary;
 
 /**
  * Contains all the information needed to make a login request.
@@ -8,13 +8,13 @@ import com.example.shared.model.domain.DictionaryEntry;
 public class NewWordRequest {
 
     private String languageID;
-    private DictionaryEntry fantasyWord;
+    private Dictionary fantasyWord;
     private Boolean checkedAboutDuplicate;
 
     /**
      * Creates an instance.
      */
-    public NewWordRequest(String languageID, DictionaryEntry fantasyWord) {
+    public NewWordRequest(String languageID, Dictionary fantasyWord) {
         this.languageID = languageID;
         this.fantasyWord = fantasyWord;
         checkedAboutDuplicate = false;
@@ -26,7 +26,7 @@ public class NewWordRequest {
      * @param fantasyWord corresponding language name
      * @param checkedAboutDuplicate if false, returns a question for user whether they are sure they want to add the meaning
      */
-    public NewWordRequest(String languageID, DictionaryEntry fantasyWord, Boolean checkedAboutDuplicate) {
+    public NewWordRequest(String languageID, Dictionary fantasyWord, Boolean checkedAboutDuplicate) {
         this.languageID = languageID;
         this.fantasyWord = fantasyWord;
         this.checkedAboutDuplicate = checkedAboutDuplicate;
@@ -55,11 +55,11 @@ public class NewWordRequest {
         this.languageID = languageID;
     }
 
-    public DictionaryEntry getFantasyWord() {
+    public Dictionary getFantasyWord() {
         return fantasyWord;
     }
 
-    public void setFantasyWord(DictionaryEntry fantasyWord) {
+    public void setFantasyWord(Dictionary fantasyWord) {
         this.fantasyWord = fantasyWord;
     }
 

@@ -14,8 +14,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/tabs"
+            android:background="@color/whiteFE"
             android:layout_gravity="center_vertical"
-            app:tabMode="scrollable"/>
+            app:tabMode="auto"
+            app:tabBackground="@color/whiteFE"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 

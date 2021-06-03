@@ -13,15 +13,15 @@ import edu.byu.cs.tweeter.R;
 
 public class syllableFragment extends Fragment {
 
-    private static final String USER_KEY = "";
+    private static final String LANGUAGE_ID_KEY = "";
 
-    private User user;
+    private String languageID;
 
-    public static syllableFragment newInstance(User user) {
+    public static syllableFragment newInstance(String languageID) {
         syllableFragment fragment = new syllableFragment();
 
         Bundle args = new Bundle(1);
-        args.putSerializable(USER_KEY, user);
+        args.putString(LANGUAGE_ID_KEY, languageID);
 
         fragment.setArguments(args);
         return fragment;
@@ -31,7 +31,7 @@ public class syllableFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_syllable, container, false);
 
-        user = (User) getArguments().getSerializable(USER_KEY);
+        languageID = (String) getArguments().getString(LANGUAGE_ID_KEY);
 
         return view;
     }

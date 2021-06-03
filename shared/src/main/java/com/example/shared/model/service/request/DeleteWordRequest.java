@@ -1,6 +1,6 @@
 package com.example.shared.model.service.request;
 
-import com.example.shared.model.domain.DictionaryEntry;
+import com.example.shared.model.domain.Dictionary;
 
 /**
  * Contains all the information needed to make a login request.
@@ -8,12 +8,12 @@ import com.example.shared.model.domain.DictionaryEntry;
 public class DeleteWordRequest {
 
     private String languageID;
-    private DictionaryEntry fantasyWord;
+    private Dictionary fantasyWord;
 
     /**
      * Creates an instance.
      */
-    public DeleteWordRequest(String languageID, DictionaryEntry fantasyWord) {
+    public DeleteWordRequest(String languageID, Dictionary fantasyWord) {
         this.languageID = languageID;
         this.fantasyWord = fantasyWord;
     }
@@ -29,11 +29,11 @@ public class DeleteWordRequest {
         this.languageID = languageID;
     }
 
-    public DictionaryEntry getFantasyWord() {
+    public Dictionary getFantasyWord() {
         return fantasyWord;
     }
 
-    public void setFantasyWord(DictionaryEntry fantasyWord) {
+    public void setFantasyWord(Dictionary fantasyWord) {
         this.fantasyWord = fantasyWord;
     }
 

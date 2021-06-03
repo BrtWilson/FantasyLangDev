@@ -1,6 +1,6 @@
 package com.example.shared.model.service.response;
 
-import com.example.shared.model.domain.DictionaryEntry;
+import com.example.shared.model.domain.Dictionary;
 
 import java.util.List;
 import java.util.Objects;
@@ -9,7 +9,7 @@ public class DictionaryPageResponse extends PagedResponse{
 
     private String languageID;
     private String lastWord;
-    private List<DictionaryEntry> words;
+    private List<Dictionary> words;
 
     /**
      * Creates a response indicating that the corresponding request was unsuccessful. Sets the
@@ -27,7 +27,7 @@ public class DictionaryPageResponse extends PagedResponse{
      *
      * @param hasMorePages an indicator of whether more data is available for the request.
      */
-    public DictionaryPageResponse(List<DictionaryEntry> words, boolean hasMorePages, String lastWord, String languageID) {
+    public DictionaryPageResponse(List<Dictionary> words, boolean hasMorePages, String lastWord, String languageID) {
         super(true, hasMorePages);
         this.words = words;
         this.lastWord = lastWord;
@@ -51,11 +51,11 @@ public class DictionaryPageResponse extends PagedResponse{
         this.lastWord = lastWord;
     }
 
-    public List<DictionaryEntry> getWords() {
+    public List<Dictionary> getWords() {
         return words;
     }
 
-    public void setWords(List<DictionaryEntry> words) {
+    public void setWords(List<Dictionary> words) {
         this.words = words;
     }
 

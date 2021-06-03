@@ -1,15 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#19B3FF</color>
-    <color name="colorPrimaryDark">#00ABFF</color>
-    <color name="colorAccent">#0000FF</color>
-
-    <color name="white">#ffffff</color>
-
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!--  Main Color  -->
+    <color name="lapis_lazuli">#2f68b1</color>
+    <color name="colorPrimary">#2f68b1</color>
+    <!--  Secondary Color  -->
+    <color name="carolina_blue">#5799cf</color>
+    <color name="colorPrimaryDark">#5799cf</color>
+    <!--  Tertiary Color  -->
+    <color name="pale_cerulean">#9ec7e3</color>
+    <!--  Text Color  -->
+    <color name="whiteFE">#fefefe</color>
+    <!--  Main Accent Color  -->
+    <color name="apricot">#faceb4</color>
+    <color name="colorAccent">#faceb4</color>
+    <!--  Secondary Accent Color  -->
+    <color name="macaroni_and_cheese">#fab18d</color>
 </resources>

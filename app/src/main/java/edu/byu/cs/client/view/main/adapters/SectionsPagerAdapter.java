@@ -4,9 +4,11 @@ import android.content.Context;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import com.example.shared.model.domain.Language;
 import com.example.shared.model.domain.User;
 
 import edu.byu.cs.client.view.main.fragments.dictionaryFragment;
@@ -26,25 +28,33 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     private static final int[] TAB_TITLES = new int[]{R.string.languageCreationTabTitle, R.string.translatorTabTitle, R.string.dictionaryTabTitle};
     private final Context mContext;
     private final User user;
+    private final Language language;
 
-    public SectionsPagerAdapter(Context context, FragmentManager fm, User user) {
+    public SectionsPagerAdapter (Context context, FragmentManager fm, User user, Language language) {
         super(fm);
         mContext = context;
         this.user = user;
+        this.language = language;
+        System.out.println("LANGUAGE: " + language.getLanguageName());
     }
 
     @Override
-    public androidx.fragment.app.Fragment getItem(int position) {
+    public Fragment getItem(int position) {
         switch (position) {
             case LANGUAGE_CREATION_FRAGMENT_POSITION:
-                return languageCreationFragment.newInstance(user);
+                return languageCreationFragment.newInstance(language);
             case TRANSLATOR_FRAGMENT_POSITION:
-                return translatorFragment.newInstance(user);
+                return translatorFragment.newInstance(language);
             case DICTIONARY_FRAGMENT_POSITION:
-                return dictionaryFragment.newInstance(user);
+                return dictionaryFragment.newInstance(language);
             default:
                 return placeholderFragment.newInstance(position + 1);
         }
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        //
     }
 
     @Nullable

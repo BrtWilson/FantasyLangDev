@@ -8,44 +8,56 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.shared.model.domain.Language;
 import com.example.shared.model.domain.User;
 import com.google.android.material.tabs.TabLayout;
 
+import java.io.Serializable;
+import java.util.List;
+
 import edu.byu.cs.client.view.main.adapters.SectionsPagerAdapter;
+import edu.byu.cs.client.view.main.fragments.LanguageFragment;
 import edu.byu.cs.tweeter.R;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final String CURRENT_USER_KEY = "CurrentUser";
-    public static final String LANGUAGE_KEY = "LanguageKey";
+    public static final String LANGUAGE_KEY = "Language";
+
+    private Language currentLanguage = null;
+    private User user = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getSupportActionBar().setTitle("");
+        getSupportActionBar().setTitle("...");
 
-        User user = (User) getIntent().getSerializableExtra(CURRENT_USER_KEY);
+        user = (User) getIntent().getSerializableExtra(CURRENT_USER_KEY);
         if (user == null) throw new RuntimeException("User not passed to activity");
 
-        SectionsPagerAdapter adapter = new SectionsPagerAdapter(this, getSupportFragmentManager(), user);
-        ViewPager viewPager = findViewById(R.id.view_pager);
-        viewPager.setAdapter(adapter);
-
-        TabLayout tabs = findViewById(R.id.tabs);
-        tabs.setupWithViewPager(viewPager);
+        List<Language> languages = (List<Language>) getIntent().getSerializableExtra(LANGUAGE_KEY);
+        if (languages != null) {
+            currentLanguage = languages.get(0);
+            getSupportActionBar().setTitle(currentLanguage.getLanguageName());
+            setTabs(user, currentLanguage);
+        }
+        else {
+            showLanguageDialog();
+        }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+        switch(item.getItemId()) {
             case R.id.logoutMenu:
                 finish();
                 return true;
             case R.id.languageName:
-                getSupportActionBar().setTitle("Hi");
+                showLanguageDialog();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -59,13 +71,39 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    public static Intent newIntent(Context context, User user, String lang) {
+    private void setTabs(User user, Language language) {
+        SectionsPagerAdapter adapter = new SectionsPagerAdapter(this, getSupportFragmentManager(), user, language);
+        ViewPager viewPager = findViewById(R.id.view_pager);
+        viewPager.setAdapter(adapter);
+
+        TabLayout tabs = findViewById(R.id.tabs);
+        tabs.setupWithViewPager(viewPager);
+    }
+
+    private void showLanguageDialog() {
+        List<Language> languages = (List<Language>) getIntent().getSerializableExtra(LANGUAGE_KEY);
+        FragmentManager manager = getSupportFragmentManager();
+        LanguageFragment fragment = LanguageFragment.newInstance(languages);
+        fragment.show(manager, "fragment_alert");
+        fragment.setDialogResult(new LanguageFragment.OnDialogResult() {
+            @Override
+            public void finish(int result) {
+                currentLanguage = languages.get(result);
+                getSupportActionBar().setTitle(currentLanguage.getLanguageName());
+                setTabs(user, currentLanguage);
+            }
+        });
+    }
+
+    public static Intent newIntent(Context context, User user, List<Language> lang) {
         Intent intent = new Intent(context, MainActivity.class);
         intent.putExtra(CURRENT_USER_KEY, user);
-        intent.putExtra(LANGUAGE_KEY, lang);
+        intent.putExtra(LANGUAGE_KEY, (Serializable) lang);
         return intent;
     }
 
     @Override
-    public void onBackPressed() {}
+    public void onBackPressed() {
+        //
+    }
 }

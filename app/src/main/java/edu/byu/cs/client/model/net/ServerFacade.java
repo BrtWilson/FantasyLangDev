@@ -120,7 +120,7 @@ public class ServerFacade implements ServerFacadeInterface {
         return response;
     }
 
-    public DictionaryPageResponse dictionary(DictionaryPageRequest request) throws RemoteException, ServerException, RequestException, IOException {
+    public DictionaryPageResponse dictionary(DictionaryPageRequest request) throws IOException, RemoteException {//RemoteException, ServerException, RequestException, IOException {
         String Url_Path = URL_PATH_DICTIONARY;
         DictionaryPageResponse response = clientCommunicator.doPost(Url_Path, request, null, DictionaryPageResponse.class);
         return response;

@@ -25,23 +25,25 @@ public class CreationSectionsPagerAdapter extends FragmentPagerAdapter {
     @StringRes
     private static final int[] TAB_TITLES = new int[]{R.string.alphabetTabTitle, R.string.syllableTabTitle, R.string.wordCreationTabTitle};
     private final Context mContext;
-    private final User user;
+    //    private final String username;
+    private final String languageID;
 
-    public CreationSectionsPagerAdapter (Context context, FragmentManager fm, User user) {
+    public CreationSectionsPagerAdapter (Context context, FragmentManager fm, String languageID) {
         super(fm);
         mContext = context;
-        this.user = user;
+//        this.username = username;
+        this.languageID = languageID;
     }
 
     @Override
     public Fragment getItem(int position) {
         switch (position) {
             case LANGUAGE_CREATION_FRAGMENT_POSITION:
-                return alphabetFragment.newInstance(user);
+                return alphabetFragment.newInstance(languageID);
             case TRANSLATOR_FRAGMENT_POSITION:
-                return syllableFragment.newInstance(user);
+                return syllableFragment.newInstance(languageID);
             case DICTIONARY_FRAGMENT_POSITION:
-                return wordCreationFragment.newInstance(user);
+                return wordCreationFragment.newInstance(languageID);
             default:
                 return placeholderFragment.newInstance(position + 1);
         }

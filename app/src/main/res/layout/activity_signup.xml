@@ -11,8 +11,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="back"
-        android:textColor="@color/design_default_color_primary"
-        android:backgroundTint="@color/white"/>
+        android:textColor="@color/lapis_lazuli"
+        android:backgroundTint="@color/whiteFE"/>
 
     <EditText
         android:id="@+id/firstName"
@@ -47,6 +47,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:hint="password"
+        android:inputType="textPassword"
         app:layout_constraintTop_toBottomOf="@+id/username"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>

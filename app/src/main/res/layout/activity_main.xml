@@ -15,9 +15,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/tabs"
-            android:background="?attr/colorPrimary"
+            android:background="@color/carolina_blue"
             android:layout_gravity="center_vertical"
-            app:tabMode="scrollable"/>
+            app:tabMode="auto"
+            app:tabBackground="@color/carolina_blue"/>
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/createLanguage"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"/>-->
 
     </com.google.android.material.appbar.AppBarLayout>
 

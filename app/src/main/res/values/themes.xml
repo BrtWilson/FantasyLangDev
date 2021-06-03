@@ -1,16 +1,17 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.FantasyLangDev" parent="Theme.AppCompat.DayNight.DarkActionBar">
+    <style name="Theme.FantasyLangDev" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryDark">@color/purple_700</item>
-<!--        <item name="colorOnPrimary">@color/white</item>-->
+        <item name="colorPrimary">@color/lapis_lazuli</item>
+<!--        <item name="colorPrimaryVariant">@color/carolina_blue</item>-->
+<!--        <item name="colorOnPrimary">@color/whiteFE</item>-->
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-<!--        <item name="colorSecondary">@color/teal_700</item>-->
+        <item name="colorSecondary">@color/apricot</item>
+<!--        <item name="colorSecondaryVariant">@color/macaroni_and_cheese</item>-->
 <!--        <item name="colorOnSecondary">@color/black</item>-->
         <!-- Status bar color. -->
-<!--        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>-->
+        <item name="android:statusBarColor" tools:targetApi="l">@color/lapis_lazuli</item>
         <!-- Customize your theme here. -->
     </style>
+
 </resources>

@@ -31,7 +31,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
-        android:hint="beginning consonants"
+        android:hint="beginning consonants: ex. st d"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/secondSpace"/>
@@ -62,7 +62,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
-        android:hint="vowels"
+        android:hint="vowels: ex. u a e"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fourthSpace"/>
@@ -93,7 +93,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
-        android:hint="end consonants"
+        android:hint="end consonants: ex. nt"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sixthSpace"/>
@@ -112,5 +112,13 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/seventhSpace"/>
+
+    <TextView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="Hint: enter the consonants and vowels you wish to use for your syllables in your new language! This is handily split up to let you make many syllables depending on what you put in each box! For the examples, \'dent\' is split into \'d\', \'e\', and \'nt\'!\nExample Syllables: stu a dent\nExample Beginning Consonants: st d\nExample Vowels: u a e\nExample End Consonants: nt"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/syllableSubmit"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
