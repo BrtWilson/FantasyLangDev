@@ -7,8 +7,6 @@ import com.example.shared.model.service.response.DictionaryPageResponse;
 
 import java.io.IOException;
 
-import edu.byu.cs.client.model.net.RequestException;
-import edu.byu.cs.client.model.net.ServerException;
 import edu.byu.cs.client.model.net.ServerFacade;
 
 public class DictionaryServiceProxy implements IDictionaryService {

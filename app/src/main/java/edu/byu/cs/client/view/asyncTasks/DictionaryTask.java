@@ -2,6 +2,7 @@ package edu.byu.cs.client.view.asyncTasks;
 
 import android.os.AsyncTask;
 
+import com.example.shared.model.net.RemoteException;
 import com.example.shared.model.service.request.DictionaryPageRequest;
 import com.example.shared.model.service.response.DictionaryPageResponse;
 
@@ -34,7 +35,7 @@ public class DictionaryTask extends AsyncTask<DictionaryPageRequest, Void, Dicti
         try {
             response = presenter.dictionary(requests[0]);
         }
-        catch (IOException ex) {
+        catch (IOException | RemoteException ex) {
             exception = ex;
         }
 
