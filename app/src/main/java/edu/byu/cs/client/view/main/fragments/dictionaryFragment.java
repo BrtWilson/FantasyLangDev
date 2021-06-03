@@ -166,12 +166,13 @@ public class dictionaryFragment extends Fragment {
         }
 
         void loadMoreItems() {
-            isLoading = true;
-            addLoadingFooter();
-
-            DictionaryTask task = new DictionaryTask(presenter, this);
-            DictionaryPageRequest request = new DictionaryPageRequest(language.getLanguageID(), PAGE_SIZE, lastDictionary.getFantasyWord());
-            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, request);
+            if (lastDictionary != null) {
+                isLoading = true;
+                addLoadingFooter();
+                DictionaryTask task = new DictionaryTask(presenter, this);
+                DictionaryPageRequest request = new DictionaryPageRequest(language.getLanguageID(), PAGE_SIZE, lastDictionary.getFantasyWord());
+                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, request);
+            }
         }
 
         @Override

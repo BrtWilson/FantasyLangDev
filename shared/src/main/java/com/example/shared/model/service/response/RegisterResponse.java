@@ -1,5 +1,6 @@
 package com.example.shared.model.service.response;
 
+import com.example.shared.model.domain.Language;
 import com.example.shared.model.domain.User;
 
 import java.util.List;
@@ -8,14 +9,14 @@ import java.util.Objects;
 public class RegisterResponse extends Response{
 
     private final User user;
-    private List<String> userLanguages;
+    private List<Language> userLanguages;
 
     /**
      * If response is SUCCESSFUL
      * @param user User object created from successful registration
      * @param userLanguages List of Strings of languageIDs
      */
-    public RegisterResponse(User user, List<String> userLanguages) {
+    public RegisterResponse(User user, List<Language> userLanguages) {
         super(true);
         this.user = user;
         this.userLanguages = userLanguages;
@@ -35,11 +36,11 @@ public class RegisterResponse extends Response{
         return user;
     }
 
-    public List<String> getUserLanguages() {
+    public List<Language> getUserLanguages() {
         return userLanguages;
     }
 
-    public void setUserLanguages(List<String> userLanguages) {
+    public void setUserLanguages(List<Language> userLanguages) {
         this.userLanguages = userLanguages;
     }
 

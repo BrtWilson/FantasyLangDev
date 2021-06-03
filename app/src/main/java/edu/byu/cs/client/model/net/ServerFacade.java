@@ -1,7 +1,10 @@
 package edu.byu.cs.client.model.net;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.example.shared.model.domain.Language;
 import com.example.shared.model.domain.User;
 import com.example.shared.model.net.RemoteException;
 import com.example.shared.model.service.request.DeleteWordRequest;
@@ -66,7 +69,10 @@ public class ServerFacade implements ServerFacadeInterface {
 
         // TEMP RESPONSE
         User user = new User("Test User", "username", "password");
-        return new LoginResponse(user, null);
+        List<Language> languages = new ArrayList<>();
+        languages.add(new Language("elven0",request.getUsername(),"Elven", null));
+        languages.add(new Language("dwarven0",request.getUsername(),"Dwarven",null));
+        return new LoginResponse(user, languages);
         //
 
        //return response;

@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getSupportActionBar().setTitle("...");
+        getSupportActionBar().setTitle("(Add Language)");
 
         user = (User) getIntent().getSerializableExtra(CURRENT_USER_KEY);
         if (user == null) throw new RuntimeException("User not passed to activity");
