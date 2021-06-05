@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String CURRENT_USER_KEY = "CurrentUser";
     public static final String LANGUAGE_KEY = "Language";
 
+    private List<Language> languages;
     private Language currentLanguage = null;
     private User user = null;
 
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         user = (User) getIntent().getSerializableExtra(CURRENT_USER_KEY);
         if (user == null) throw new RuntimeException("User not passed to activity");
 
-        List<Language> languages = (List<Language>) getIntent().getSerializableExtra(LANGUAGE_KEY);
+        languages = (List<Language>) getIntent().getSerializableExtra(LANGUAGE_KEY);
         if (languages != null) {
             currentLanguage = languages.get(0);
             getSupportActionBar().setTitle(currentLanguage.getLanguageName());
@@ -81,13 +82,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showLanguageDialog() {
-        List<Language> languages = (List<Language>) getIntent().getSerializableExtra(LANGUAGE_KEY);
         FragmentManager manager = getSupportFragmentManager();
-        LanguageFragment fragment = LanguageFragment.newInstance(languages);
+        LanguageFragment fragment;
+        if (languages == null) fragment = LanguageFragment.newInstance(user.getUserName());
+        else fragment = LanguageFragment.newInstance(languages);
         fragment.show(manager, "fragment_alert");
         fragment.setDialogResult(new LanguageFragment.OnDialogResult() {
             @Override
-            public void finish(int result) {
+            public void finish(int result, List<Language> languages1) {
+                languages = languages1;
                 currentLanguage = languages.get(result);
                 getSupportActionBar().setTitle(currentLanguage.getLanguageName());
                 setTabs(user, currentLanguage);

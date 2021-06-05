@@ -121,16 +121,6 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
 
     @Override
     public void handleException(Exception e) {
-//        Log.e(TAG, e.getMessage(), e);
-//        if (e.getMessage() != null && e.getMessage().equals("401 ERROR: Access Denied")) {
-//            startActivity(loginActivity.newIntent(getActivity()));
-//        } else {
-//            try {
-//                Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-//            } catch (NullPointerException ex) {
-//                ex.printStackTrace();
-//            }
-//        }
         Toast.makeText(this, "ERROR: " + e.getMessage(), Toast.LENGTH_SHORT).show();
     }
 

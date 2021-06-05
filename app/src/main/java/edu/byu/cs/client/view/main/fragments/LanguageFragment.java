@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,24 +13,32 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.fragment.app.DialogFragment;
 
 import com.example.shared.model.domain.Language;
+import com.example.shared.model.service.request.NewLanguageRequest;
+import com.example.shared.model.service.response.NewLanguageResponse;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
+import edu.byu.cs.client.presenter.NewLanguagePresenter;
+import edu.byu.cs.client.view.asyncTasks.NewLanguageTask;
 import edu.byu.cs.tweeter.R;
 
-public class LanguageFragment extends DialogFragment {
+public class LanguageFragment extends DialogFragment implements NewLanguagePresenter.View, NewLanguageTask.Observer {
 
     private static final String LANGUAGES_KEY = "Languages";
     private static final String USER_KEY = "User";
 
     private String user = null;
     private List<Language> languages = null;
+    private NewLanguagePresenter presenter;
     OnDialogResult dialogResult;
+    AlertDialog dialog;
 
     private EditText createLanguageEditText;
     private Button createLanguageButton;
@@ -65,6 +74,10 @@ public class LanguageFragment extends DialogFragment {
         languages = (List<Language>) getArguments().getSerializable(LANGUAGES_KEY);
         user = (String) getArguments().getString(USER_KEY);
 
+        if (user == null) user = languages.get(0).getUsername();
+
+        presenter = new NewLanguagePresenter(this);
+
         createLanguageEditText = (EditText) view.findViewById(R.id.addLanguageEditText);
         createLanguageEditText.addTextChangedListener(watcher);
         createLanguageButton = (Button) view.findViewById(R.id.addLanguageButton);
@@ -79,7 +92,8 @@ public class LanguageFragment extends DialogFragment {
             }
         });
 
-        final AlertDialog dialog = builder.create();
+//        final AlertDialog dialog = builder.create();
+        dialog = builder.create();
         dialog.setCanceledOnTouchOutside(false);
 
         if (languages != null) {
@@ -90,7 +104,7 @@ public class LanguageFragment extends DialogFragment {
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (dialogResult != null) dialogResult.finish(finalI);
+                        if (dialogResult != null) dialogResult.finish(finalI, languages);
                         dialog.dismiss();
                     }
                 });
@@ -122,6 +136,16 @@ public class LanguageFragment extends DialogFragment {
             }
         });
 
+        createLanguageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NewLanguageTask task = new NewLanguageTask(presenter, LanguageFragment.this);
+                NewLanguageRequest request = new NewLanguageRequest(user, createLanguageEditText.getText().toString());
+                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, request);
+                createLanguageEditText.setText("");
+            }
+        });
+
         return dialog;
     }
 
@@ -145,11 +169,32 @@ public class LanguageFragment extends DialogFragment {
         }
     };
 
+    @Override
+    public void newLanguage(NewLanguageResponse response) {
+        Language language = new Language(response.getLanguageID(), response.getUserName(), response.getLanguageName(), null);
+        if (languages != null) {
+            languages.add(language);
+            int num = languages.indexOf(language);
+            if (dialogResult != null) dialogResult.finish(num, languages);
+        }
+        else {
+            List<Language> list = new ArrayList<>();
+            list.add(language);
+            if (dialogResult != null) dialogResult.finish(0, list);
+        }
+        dialog.dismiss();
+    }
+
+    @Override
+    public void handleException(Exception e) {
+        Toast.makeText(getContext(), "ERROR: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+    }
+
     public void setDialogResult(OnDialogResult result) {
         dialogResult = result;
     }
 
     public interface OnDialogResult {
-        void finish(int result);
+        void finish(int result, List<Language> languages);
     }
 }

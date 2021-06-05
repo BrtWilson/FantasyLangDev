@@ -90,37 +90,40 @@ public class ServerFacade implements ServerFacadeInterface {
         //return response;
     }
 
-    public GetLanguageDataResponse getLanguageData(GetLanguageDataRequest request) throws RemoteException, ServerException, RequestException, IOException {
+    public GetLanguageDataResponse getLanguageData(GetLanguageDataRequest request) throws IOException, RemoteException {//RemoteException, ServerException, RequestException, IOException {
         String Url_Path = URL_PATH_GETLANGDATA;
         GetLanguageDataResponse response = clientCommunicator.doPost(Url_Path, request, null, GetLanguageDataResponse.class);
         return response;
     }
 
-    public NewLanguageResponse createNewLanguage(NewLanguageRequest request) throws RemoteException, ServerException, RequestException, IOException {
-        String Url_Path = URL_PATH_NEWLANGUAGE;
-        NewLanguageResponse response = clientCommunicator.doPost(Url_Path, request, null, NewLanguageResponse.class);
+    public NewLanguageResponse createNewLanguage(NewLanguageRequest request) throws IOException, RemoteException {//RemoteException, ServerException, RequestException, IOException {
+//        String Url_Path = URL_PATH_NEWLANGUAGE;
+//        NewLanguageResponse response = clientCommunicator.doPost(Url_Path, request, null, NewLanguageResponse.class);
+//        return response;
+        //TEMP RESPONSE
+        NewLanguageResponse response = new NewLanguageResponse(request.getUserName(),request.getLanguageName(),request.getLanguageName()+"0");
         return response;
     }
 
-    public GeneralUpdateResponse updateAlphabet(UpdateAlphabetRequest request) throws RemoteException, ServerException, RequestException, IOException {
+    public GeneralUpdateResponse updateAlphabet(UpdateAlphabetRequest request) throws IOException, RemoteException {//RemoteException, ServerException, RequestException, IOException {
         String Url_Path = URL_PATH_UPDATEALPHA;
         GeneralUpdateResponse response = clientCommunicator.doPost(Url_Path, request, null, GeneralUpdateResponse.class);
         return response;
     }
 
-    public GeneralUpdateResponse updateSyllables(UpdateSyllablesRequest request) throws RemoteException, ServerException, RequestException, IOException {
+    public GeneralUpdateResponse updateSyllables(UpdateSyllablesRequest request) throws IOException, RemoteException {//RemoteException, ServerException, RequestException, IOException {
         String Url_Path = URL_PATH_UPDATESYLLABLES;
         GeneralUpdateResponse response = clientCommunicator.doPost(Url_Path, request, null, GeneralUpdateResponse.class);
         return null;
     }
 
-    public NewWordResponse newWord(NewWordRequest request) throws RemoteException, ServerException, RequestException, IOException {
+    public NewWordResponse newWord(NewWordRequest request) throws IOException, RemoteException {//RemoteException, ServerException, RequestException, IOException {
         String Url_Path = URL_PATH_NEWWORD;
         NewWordResponse response = clientCommunicator.doPost(Url_Path, request, null, NewWordResponse.class);
         return null;
     }
 
-    public DictionaryPageResponse searchWord(SearchWordRequest request) throws RemoteException, ServerException, RequestException, IOException {
+    public DictionaryPageResponse searchWord(SearchWordRequest request) throws IOException, RemoteException {//RemoteException, ServerException, RequestException, IOException {
         String Url_Path = URL_PATH_SEARCHWORD;
         DictionaryPageResponse response = clientCommunicator.doPost(Url_Path, request, null, DictionaryPageResponse.class);
         return response;
@@ -132,19 +135,19 @@ public class ServerFacade implements ServerFacadeInterface {
         return response;
     }
 
-    public GeneralUpdateResponse updateWord(UpdateWordRequest request) throws RemoteException, ServerException, RequestException, IOException {
+    public GeneralUpdateResponse updateWord(UpdateWordRequest request) throws IOException, RemoteException {//RemoteException, ServerException, RequestException, IOException {
         String Url_Path = URL_PATH_UPDATEWORD;
         GeneralUpdateResponse response = clientCommunicator.doPost(Url_Path, request, null, GeneralUpdateResponse.class);
         return response;
     }
 
-    public GeneralUpdateResponse deleteWord(DeleteWordRequest request) throws RemoteException, ServerException, RequestException, IOException {
+    public GeneralUpdateResponse deleteWord(DeleteWordRequest request) throws IOException, RemoteException {//RemoteException, ServerException, RequestException, IOException {
         String Url_Path = URL_PATH_DELETEWORD;
         GeneralUpdateResponse response = clientCommunicator.doPost(Url_Path, request, null, GeneralUpdateResponse.class);
         return response;
     }
 
-    public TranslateResponse translate(TranslateRequest request) throws RemoteException, ServerException, RequestException, IOException {
+    public TranslateResponse translate(TranslateRequest request) throws IOException, RemoteException {//RemoteException, ServerException, RequestException, IOException {
         String Url_Path = URL_PATH_TRANSLATE;
         TranslateResponse response = clientCommunicator.doPost(Url_Path, request, null, TranslateResponse.class);
         return response;
