@@ -91,9 +91,14 @@ public class ServerFacade implements ServerFacadeInterface {
     }
 
     public GetLanguageDataResponse getLanguageData(GetLanguageDataRequest request) throws IOException, RemoteException {//RemoteException, ServerException, RequestException, IOException {
-        String Url_Path = URL_PATH_GETLANGDATA;
-        GetLanguageDataResponse response = clientCommunicator.doPost(Url_Path, request, null, GetLanguageDataResponse.class);
-        return response;
+//        String Url_Path = URL_PATH_GETLANGDATA;
+//        GetLanguageDataResponse response = clientCommunicator.doPost(Url_Path, request, null, GetLanguageDataResponse.class);
+//        return response;
+        List<String> syllables = new ArrayList<>();
+        syllables.add("st d");
+        syllables.add(null);
+        syllables.add("nt");
+        return new GetLanguageDataResponse("TestUser", "Elven", "elven0", "a b c ae", syllables);
     }
 
     public NewLanguageResponse createNewLanguage(NewLanguageRequest request) throws IOException, RemoteException {//RemoteException, ServerException, RequestException, IOException {
@@ -106,15 +111,17 @@ public class ServerFacade implements ServerFacadeInterface {
     }
 
     public GeneralUpdateResponse updateAlphabet(UpdateAlphabetRequest request) throws IOException, RemoteException {//RemoteException, ServerException, RequestException, IOException {
-        String Url_Path = URL_PATH_UPDATEALPHA;
-        GeneralUpdateResponse response = clientCommunicator.doPost(Url_Path, request, null, GeneralUpdateResponse.class);
-        return response;
+//        String Url_Path = URL_PATH_UPDATEALPHA;
+//        GeneralUpdateResponse response = clientCommunicator.doPost(Url_Path, request, null, GeneralUpdateResponse.class);
+//        return response;
+        return new GeneralUpdateResponse("elven0");
     }
 
     public GeneralUpdateResponse updateSyllables(UpdateSyllablesRequest request) throws IOException, RemoteException {//RemoteException, ServerException, RequestException, IOException {
-        String Url_Path = URL_PATH_UPDATESYLLABLES;
-        GeneralUpdateResponse response = clientCommunicator.doPost(Url_Path, request, null, GeneralUpdateResponse.class);
-        return null;
+//        String Url_Path = URL_PATH_UPDATESYLLABLES;
+//        GeneralUpdateResponse response = clientCommunicator.doPost(Url_Path, request, null, GeneralUpdateResponse.class);
+//        return null;
+        return new GeneralUpdateResponse("elven0");
     }
 
     public NewWordResponse newWord(NewWordRequest request) throws IOException, RemoteException {//RemoteException, ServerException, RequestException, IOException {

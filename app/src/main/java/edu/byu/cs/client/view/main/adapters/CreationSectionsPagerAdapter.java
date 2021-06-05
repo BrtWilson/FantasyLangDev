@@ -7,6 +7,7 @@ import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.example.shared.model.domain.User;
 
@@ -16,7 +17,7 @@ import edu.byu.cs.client.view.main.fragments.syllableFragment;
 import edu.byu.cs.client.view.main.fragments.wordCreationFragment;
 import edu.byu.cs.tweeter.R;
 
-public class CreationSectionsPagerAdapter extends FragmentPagerAdapter {
+public class CreationSectionsPagerAdapter extends FragmentStatePagerAdapter {
 
     private static final int LANGUAGE_CREATION_FRAGMENT_POSITION = 0;
     private static final int TRANSLATOR_FRAGMENT_POSITION = 1;
