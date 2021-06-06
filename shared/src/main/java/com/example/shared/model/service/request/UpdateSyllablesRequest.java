@@ -6,7 +6,7 @@ import java.util.Map;
  * Contains all the information needed to make a request to have the server return the next page of
  * followees for a specified follower.
  */
-public class UpdateSyllablesRequest extends ListRequest{
+public class UpdateSyllablesRequest {//extends ListRequest{
 
     private String languageID;
     private String syllableTemplate;
