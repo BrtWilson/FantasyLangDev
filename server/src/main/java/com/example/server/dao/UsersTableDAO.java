@@ -43,11 +43,13 @@ public class UsersTableDAO {
         return new RegisterResponse(false, "[Error] Failed to insert User!");
     }
 
-    public boolean login(LoginRequest request) {
+    public User login(LoginRequest request) {
         if (databaseInteractor.getItem(tableName, attributeUserName, request.getUsername()) != null) {
             // return as success
+            //THIS NEEDS TO BE FILLED WITH THE USER INFO
+            return new User(request.getUsername(), request.getUsername(), request.getPassword());
         }
-        return false; // NO USER FOUND
+        return new User(); // NO USER FOUND
     }
 
 

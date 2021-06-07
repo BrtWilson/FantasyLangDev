@@ -43,16 +43,16 @@ public class DictionaryTableDAO {
         List<Dictionary> wordsList = new ArrayList<>();
         List<Map<String,String>> wordsListRaw = pageOfWords.getValues();
         for (int i = 0; i < wordsListRaw.size(); i++) {
-            wordsList.add(convertWord(wordsListRaw.get(i)));
+            wordsList.add(convertWord(langID, wordsListRaw.get(i)));
         }
         return new DictionaryPageResponse(wordsList, pageOfWords.hasLastKey(), pageOfWords.getLastKey(), langID);
     }
 
-    private Dictionary convertWord(Map<String, String> rawWordMap) {
+    private Dictionary convertWord(String langID, Map<String, String> rawWordMap) {
         String fantasyWord = rawWordMap.get(attributeFantasyWord);
         String partOfSpeech = rawWordMap.get(attributePartOfSpeech);
         String translation = rawWordMap.get(attributeTranslation);
-        return new Dictionary(fantasyWord, partOfSpeech, translation);
+        return new Dictionary(langID, fantasyWord, partOfSpeech, translation);
     }
 
     /**

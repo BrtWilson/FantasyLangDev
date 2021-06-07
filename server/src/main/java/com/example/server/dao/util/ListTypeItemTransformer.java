@@ -1,6 +1,7 @@
 package com.example.server.dao.util;
 
 import com.example.shared.model.domain.User;
+import com.sun.org.apache.xerces.internal.util.Status;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,12 +30,13 @@ public class ListTypeItemTransformer {
 
     private static User toUser(Map<String, String> retrievedUser) {
         User tempUser = new User();
-        tempUser.setAlias(retrievedUser.get(partitionKey));
-        tempUser.setFirstName(retrievedUser.get(attributeFirstName));
-        tempUser.setLastName(retrievedUser.get(attributeLastName));
-        tempUser.setFolloweeCount(retrievedUser.get(attributeFolloweeCount));
-        tempUser.setFollowerCount(retrievedUser.get(attributeFollowerCount));
-        tempUser.setImageUrl(retrievedUser.get(attributeImageUrl));
+        //IT DOESN'T LOOK LIKE THIS IS BEING USED AND IT'S A LOT TO FIX TO GET THE APP RUNNING
+        //tempUser.setAlias(retrievedUser.get(partitionKey));
+        //tempUser.setFirstName(retrievedUser.get(attributeFirstName));
+        //tempUser.setLastName(retrievedUser.get(attributeLastName));
+        //tempUser.setFolloweeCount(retrievedUser.get(attributeFolloweeCount));
+        //tempUser.setFollowerCount(retrievedUser.get(attributeFollowerCount));
+        //tempUser.setImageUrl(retrievedUser.get(attributeImageUrl));
         return tempUser;
     }
 
@@ -47,6 +49,8 @@ public class ListTypeItemTransformer {
     }
 
     private static Status toStatus(Map<String, String> item) {
-        return new Status(item.get(sortKey), item.get(attributeMessage), item.get(partitionKey));
+        //SAME, DOESN'T LOOK LIKE THIS IS BEING USED
+        //return new Status(item.get(sortKey), item.get(attributeMessage), item.get(partitionKey));
+        return null;
     }
 }

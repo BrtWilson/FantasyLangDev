@@ -559,4 +559,49 @@ public class DynamoDBStrategy implements DBStrategyInterface {
             return item.getString(desiredAttribute);
         }
     }
+
+    @Override
+    public boolean insertItem(String tableName, Map<String, String> attributesToInsert) {
+        return false;
+    }
+
+    @Override
+    public Map<String, String> getItem(String tableName, String attributeName, String attributeValue) {
+        return null;
+    }
+
+    @Override
+    public List<Map<String, String>> queryListItems(String tableName, Map<String, String> queryAttributes) {
+        return null;
+    }
+
+    @Override
+    public ResultsPage keyAndCompositePageQuery(String tableName, String primaryKey, String keyValue, int pageSize, String byAttribute, String lastRetrieved) {
+        return null;
+    }
+
+    @Override
+    public ResultsPage keyAndAttributesPageQuery(String tableName, String primaryKey, String keyValue, Map<String, String> queryAttributes, boolean includesKey, int pageSize, String byAttribute, String lastRetrieved) {
+        return null;
+    }
+
+    @Override
+    public Map<String, String> querySingleItem(String tableName, Map<String, String> queryAttributes) {
+        return null;
+    }
+
+    @Override
+    public boolean updateItem(String tableName, Map<String, String> queryAttributes, Map<String, String> updateAttributes) {
+        return false;
+    }
+
+    @Override
+    public Map<String, String> getItem(String tableName, Map<String, String> queryAttributes) {
+        return null;
+    }
+
+    @Override
+    public boolean deleteItem(String tableName, Map<String, String> deletionItemAttributes) {
+        return false;
+    }
 }

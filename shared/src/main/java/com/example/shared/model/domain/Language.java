@@ -8,11 +8,11 @@ public class Language implements Comparable<Language>, Serializable {
     private String languageID;
     private String username;
     private String languageName;
-    private List<String> alphabet;
+    private String alphabet;
 
     private Language() {}
 
-    public Language(String languageID, String username, String languageName, List<String> alphabet) {
+    public Language(String languageID, String username, String languageName, String alphabet) {
         this.languageID = languageID;
         this.username = username;
         this.languageName = languageName;
@@ -48,11 +48,11 @@ public class Language implements Comparable<Language>, Serializable {
         return this.getUsername().compareTo(o.getUsername());
     }
 
-    public List<String> getAlphabet() {
+    public String getAlphabet() {
         return alphabet;
     }
 
-    public void setAlphabet(List<String> alphabet) {
+    public void setAlphabet(String alphabet) {
         this.alphabet = alphabet;
     }
 }
