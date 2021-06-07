@@ -1,5 +1,7 @@
 package com.example.shared.model.service.request;
 
+import com.example.shared.model.domain.Dictionary;
+
 /**
  * Contains all the information needed to make a request to have the server return the next page of
  * followees for a specified follower.
@@ -7,7 +9,7 @@ package com.example.shared.model.service.request;
 public class DictionaryPageRequest extends ListRequest {
 
     private String languageID;
-    private String lastWord;
+    private Dictionary lastWord;
 
     /**
      * Creates an instance.
@@ -19,7 +21,7 @@ public class DictionaryPageRequest extends ListRequest {
      *                     previous request).
      * This is used for any Story request, rather than a feed request.
      */
-    public DictionaryPageRequest(String languageID, int limit, String lastWord) {
+    public DictionaryPageRequest(String languageID, int limit, Dictionary lastWord) {
         super(languageID, limit, lastWord);
         this.lastWord = lastWord;
     }
@@ -32,12 +34,21 @@ public class DictionaryPageRequest extends ListRequest {
      *
      * @return the last followee.
      */
-    public String getLastWord() {
+    public Dictionary getLastWord() {
         return lastWord;
     }
 
-    public void setLastWord(String lastWord) {
+    public void setLastWord(Dictionary lastWord) {
         this.lastWord = lastWord;
     }
 
+    @Override
+    public String getLanguageID() {
+        return languageID;
+    }
+
+    @Override
+    public void setLanguageID(String languageID) {
+        this.languageID = languageID;
+    }
 }

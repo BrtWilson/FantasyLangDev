@@ -60,6 +60,13 @@ public class wordCreationFragment extends Fragment {
         fantasyWordEditText.addTextChangedListener(watcher);
         submitWordButton = (Button) view.findViewById(R.id.submitWord);
 
+        submitWordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //
+            }
+        });
+
         translationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

@@ -24,7 +24,7 @@ public class DictionaryServiceProxy implements IDictionaryService {
         return response;
     }
 
-    @Override
+//    @Override
     public DictionaryPageResponse getWordArray(DictionaryPageRequest request) throws IOException, RemoteException {
         return null;
     }

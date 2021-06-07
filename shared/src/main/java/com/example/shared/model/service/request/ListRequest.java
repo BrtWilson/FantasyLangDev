@@ -1,9 +1,11 @@
 package com.example.shared.model.service.request;
 
+import com.example.shared.model.domain.Dictionary;
+
 abstract class ListRequest{
     private  String languageID;
     private  int limit;
-    private  String lastWord;
+    private  Dictionary lastWord;
 
     /**
      * Creates an instance.
@@ -14,7 +16,7 @@ abstract class ListRequest{
      *                     there was no previous request or if no followees were returned in the
      *                     previous request).
      */
-    public ListRequest(String languageID, int limit, String lastWord) {
+    public ListRequest(String languageID, int limit, Dictionary lastWord) {
         this.languageID = languageID;
         this.limit = limit;
         this.lastWord = lastWord;
@@ -47,7 +49,7 @@ abstract class ListRequest{
      *
      * @return the last followee.
      */
-    public String getLastWord() {
+    public Dictionary getLastWord() {
         return lastWord;
     }
 
@@ -59,7 +61,7 @@ abstract class ListRequest{
         this.limit = limit;
     }
 
-    public void setLastWord(String lastWord) {
+    public void setLastWord(Dictionary lastWord) {
         this.lastWord = lastWord;
     }
 }

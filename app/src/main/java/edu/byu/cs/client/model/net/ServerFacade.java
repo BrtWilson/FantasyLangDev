@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.shared.model.domain.Dictionary;
 import com.example.shared.model.domain.Language;
 import com.example.shared.model.domain.User;
 import com.example.shared.model.net.RemoteException;
@@ -137,9 +138,13 @@ public class ServerFacade implements ServerFacadeInterface {
     }
 
     public DictionaryPageResponse dictionary(DictionaryPageRequest request) throws IOException, RemoteException {//RemoteException, ServerException, RequestException, IOException {
-        String Url_Path = URL_PATH_DICTIONARY;
-        DictionaryPageResponse response = clientCommunicator.doPost(Url_Path, request, null, DictionaryPageResponse.class);
-        return response;
+//        String Url_Path = URL_PATH_DICTIONARY;
+//        DictionaryPageResponse response = clientCommunicator.doPost(Url_Path, request, null, DictionaryPageResponse.class);
+//        return response;
+        List<Dictionary> dictionaries = new ArrayList<>();
+        dictionaries.add(new Dictionary("elven0", "Aiya", "", "hello"));
+        dictionaries.add(new Dictionary("elven0", "Namárië", "", "good bye"));
+        return new DictionaryPageResponse(dictionaries,false,null, request.getLanguageID());
     }
 
     public GeneralUpdateResponse updateWord(UpdateWordRequest request) throws IOException, RemoteException {//RemoteException, ServerException, RequestException, IOException {

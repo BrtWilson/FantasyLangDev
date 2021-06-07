@@ -19,6 +19,6 @@ public class SignUpPresenter {
 
     public RegisterResponse signUp(RegisterRequest request) throws IOException {
         SignUpServiceProxy serviceProxy = new SignUpServiceProxy();
-        return serviceProxy.signUp(request);
+        return serviceProxy.register(request);
     }
 }

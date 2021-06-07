@@ -1,5 +1,7 @@
 package com.example.shared.model.service.request;
 
+import com.example.shared.model.domain.Dictionary;
+
 /**
  * Contains all the information needed to make a login request.
  */
@@ -22,7 +24,7 @@ public class SearchWordRequest extends ListRequest{
      * @param languageID the id of the language being searched
      * @param typeOfData probably "Translation"
      */
-    public SearchWordRequest(String searchByData, String languageID, int limit, String lastWord, int typeOfData) {
+    public SearchWordRequest(String searchByData, String languageID, int limit, Dictionary lastWord, int typeOfData) {
         super(languageID, limit, lastWord);
         this.searchByData = searchByData;
         this.languageID = languageID;

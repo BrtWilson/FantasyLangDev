@@ -89,7 +89,7 @@ public class dictionaryFragment extends Fragment {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //
+                    //***
                 }
             });
         }
@@ -111,6 +111,7 @@ public class dictionaryFragment extends Fragment {
         private final List<Dictionary> dictionaries = new ArrayList<>();
 
         private Dictionary lastDictionary;
+        private Dictionary loadingDictionary = new Dictionary("loading", "loading", "loading", "loading");
 
         private boolean hasMorePages;
         private boolean isLoading = false;
@@ -132,6 +133,8 @@ public class dictionaryFragment extends Fragment {
 
         void removeItem(Dictionary dictionary) {
             int position = dictionaries.indexOf(dictionary);
+            dictionaries.remove(position);
+            this.notifyItemRemoved(position);
         }
 
         @NonNull
@@ -166,13 +169,11 @@ public class dictionaryFragment extends Fragment {
         }
 
         void loadMoreItems() {
-            if (lastDictionary != null) {
-                isLoading = true;
-                addLoadingFooter();
-                DictionaryTask task = new DictionaryTask(presenter, this);
-                DictionaryPageRequest request = new DictionaryPageRequest(language.getLanguageID(), PAGE_SIZE, lastDictionary.getFantasyWord());
-                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, request);
-            }
+            isLoading = true;
+            addLoadingFooter();
+            DictionaryTask task = new DictionaryTask(presenter, this);
+            DictionaryPageRequest request = new DictionaryPageRequest(language.getLanguageID(), PAGE_SIZE, lastDictionary);
+            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, request);
         }
 
         @Override
@@ -194,12 +195,10 @@ public class dictionaryFragment extends Fragment {
         }
 
         private void addLoadingFooter() {
-            addItem(new Dictionary("testID", "testWord", "testPartOfSpeech", "testTranslation"));
+            addItem(loadingDictionary);
         }
 
-        private void removeLoadingFooter() {
-            removeItem(dictionaries.get(dictionaries.size()-1));
-        }
+        private void removeLoadingFooter() { removeItem(loadingDictionary); }
     }
 
     private class DictionaryRecyclerViewPaginationScrollListener extends RecyclerView.OnScrollListener {
@@ -223,6 +222,12 @@ public class dictionaryFragment extends Fragment {
                     recyclerViewAdapter.loadMoreItems();
                 }
             }
+//            if (dy > 0) {
+//                System.out.println("***HI***");
+//            }
+//            else {
+//                System.out.println("***BYE***");
+//            }
         }
     }
 }
