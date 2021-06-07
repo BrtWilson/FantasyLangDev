@@ -35,7 +35,7 @@ public class DictionaryTableDAO {
         String langID = request.getLanguageID();
         verifyLanguageID(langID);
 
-        ResultsPage pageOfWords = databaseInteractor.keyAndCompositePageQuery(tableName, attributeLangID, langID, pageSize, attributeFantasyWord, request.getLastWord());
+        ResultsPage pageOfWords = databaseInteractor.keyAndCompositePageQuery(tableName, attributeLangID, langID, pageSize, attributeFantasyWord, request.getLastWord().getFantasyWord());
         return convertToDictionaryResponse(pageOfWords, langID);
     }
 

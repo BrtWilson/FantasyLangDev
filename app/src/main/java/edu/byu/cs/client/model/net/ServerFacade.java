@@ -38,21 +38,21 @@ public class ServerFacade implements ServerFacadeInterface {
 
     // TODO: Set this to the invoke URL of your API. Find it by going to your API in AWS, clicking
     //  on stages in the right-side menu, and clicking on the stage you deployed your API to.
-    private static final String SERVER_URL = "https://ubfjbeee2b.execute-api.us-east-1.amazonaws.com/tweeterBeta";
+    private static final String SERVER_URL = "https://dedp7pd1sf.execute-api.us-west-2.amazonaws.com/dev";//"https://ubfjbeee2b.execute-api.us-east-1.amazonaws.com/tweeterBeta";
 
-    static final String URL_PATH_LOGIN = "/login";
+    static final String URL_PATH_LOGIN = "/Login";
     //static final String URL_PATH_LOGOUT = "/logout";
-    static final String URL_PATH_REGISTER = "/register";
-    static final String URL_PATH_GETLANGDATA = "/getlanguagedata";
-    static final String URL_PATH_NEWLANGUAGE = "/createlanguage";
-    static final String URL_PATH_UPDATEALPHA = "/updatealphabet";
-    static final String URL_PATH_UPDATESYLLABLES = "/updatesyllables";
-    static final String URL_PATH_NEWWORD = "/newword";
-    static final String URL_PATH_SEARCHWORD = "/searchword";
-    static final String URL_PATH_DICTIONARY = "/dictionary";
-    static final String URL_PATH_UPDATEWORD = "/updateword";
-    static final String URL_PATH_DELETEWORD = "/deleteword";
-    static final String URL_PATH_TRANSLATE = "/translate";
+    static final String URL_PATH_REGISTER = "/Register";
+    static final String URL_PATH_GETLANGDATA = "/GetLanguageData";
+    static final String URL_PATH_NEWLANGUAGE = "/CreateLanguage";
+    static final String URL_PATH_UPDATEALPHA = "/UpdateAlphabet";
+    static final String URL_PATH_UPDATESYLLABLES = "/UpdateSyllables";
+    static final String URL_PATH_NEWWORD = "/InsertNewWord";
+    static final String URL_PATH_SEARCHWORD = "/SearchWord";
+    static final String URL_PATH_DICTIONARY = "/Dictionary";
+    static final String URL_PATH_UPDATEWORD = "/UpdateWord";
+    static final String URL_PATH_DELETEWORD = "/DeleteWord";
+    static final String URL_PATH_TRANSLATE = "/Translate";
 
     private final ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
 
@@ -79,16 +79,16 @@ public class ServerFacade implements ServerFacadeInterface {
        //return response;
     }
 
-    public RegisterResponse register(RegisterRequest request) throws IOException {
+    public RegisterResponse register(RegisterRequest request) throws IOException, RemoteException {
         String Url_Path = URL_PATH_REGISTER;
-        //RegisterResponse response = clientCommunicator.doPost(Url_Path, request, null, RegisterResponse.class);
+        RegisterResponse response = clientCommunicator.doPost(Url_Path, request, null, RegisterResponse.class);
 
         // TEMP RESPONSE
-        User user = new User("Test User", "username", "password");
-        return new RegisterResponse(user, null);
+//        User user = new User("Test User", "username", "password");
+//        return new RegisterResponse(user, null);
         //
 
-        //return response;
+        return response;
     }
 
     public GetLanguageDataResponse getLanguageData(GetLanguageDataRequest request) throws IOException, RemoteException {//RemoteException, ServerException, RequestException, IOException {
