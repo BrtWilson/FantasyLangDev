@@ -126,9 +126,13 @@ public class ServerFacade implements ServerFacadeInterface {
     }
 
     public NewWordResponse newWord(NewWordRequest request) throws IOException, RemoteException {//RemoteException, ServerException, RequestException, IOException {
-        String Url_Path = URL_PATH_NEWWORD;
-        NewWordResponse response = clientCommunicator.doPost(Url_Path, request, null, NewWordResponse.class);
-        return null;
+//        String Url_Path = URL_PATH_NEWWORD;
+//        NewWordResponse response = clientCommunicator.doPost(Url_Path, request, null, NewWordResponse.class);
+//        return null;
+        NewWordResponse response;
+        if (request.getFantasyWord().getFantasyWord().equals("Aiya") || request.getFantasyWord().getFantasyWord().equals("Namárië")) response = new NewWordResponse(request.getLanguageID(),request.getFantasyWord().getFantasyWord(),true);
+        else response = new NewWordResponse(request.getLanguageID(),request.getFantasyWord().getFantasyWord(), false);
+        return response;
     }
 
     public DictionaryPageResponse searchWord(SearchWordRequest request) throws IOException, RemoteException {//RemoteException, ServerException, RequestException, IOException {

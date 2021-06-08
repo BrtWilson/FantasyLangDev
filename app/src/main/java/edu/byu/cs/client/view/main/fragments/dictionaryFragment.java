@@ -5,11 +5,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -79,25 +83,66 @@ public class dictionaryFragment extends Fragment {
 
         private final TextView fantasyWord;
         private final TextView translation;
+        private final TextView vTextView;
+        private final LinearLayout topLL;
+        private final LinearLayout middleLL;
+        private final LinearLayout bottomLL;
+        private final EditText fantasyWordEditText;
+        private final EditText translationEditText;
+        private final EditText partOfSpeechEditText;
+        private final Button deleteWordButton;
+        private final Button updateWordButton;
 
         DictionaryHolder(@NonNull View itemView) {
             super(itemView);
 
             fantasyWord = itemView.findViewById(R.id.recycler_item_fantasy_word);
             translation = itemView.findViewById(R.id.recycler_item_translation);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //***
-                }
-            });
+            vTextView = itemView.findViewById(R.id.vTextView);
+            topLL = itemView.findViewById(R.id.topLL);
+            middleLL = itemView.findViewById(R.id.middleLL);
+            bottomLL = itemView.findViewById(R.id.bottomLL);
+            fantasyWordEditText = itemView.findViewById(R.id.fantasyWordEditText);
+            translationEditText = itemView.findViewById(R.id.translationEditText);
+            partOfSpeechEditText = itemView.findViewById(R.id.partOfSpeechEditText);
+            deleteWordButton = itemView.findViewById(R.id.deleteWordButton);
+            updateWordButton = itemView.findViewById(R.id.updateWordButton);
         }
 
         void bindDictionary(Dictionary dictionary) {
             language.setLanguageID(dictionary.getLanguageID());
             fantasyWord.setText(dictionary.getFantasyWord());
+            fantasyWordEditText.setText(dictionary.getFantasyWord());
             translation.setText(dictionary.getTranslation());
+            translationEditText.setText(dictionary.getTranslation());
+            partOfSpeechEditText.setText(dictionary.getPartOfSpeech());
+            vTextView.setText("˅");
+
+            topLL.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (middleLL.getVisibility() == View.GONE) middleLL.setVisibility(View.VISIBLE);
+                    else middleLL.setVisibility(View.GONE);
+                    if (bottomLL.getVisibility() == View.GONE) bottomLL.setVisibility(View.VISIBLE);
+                    else bottomLL.setVisibility(View.GONE);
+                    if (vTextView.getText() == "˅") vTextView.setText("˄");
+                    else vTextView.setText("˅");
+                }
+            });
+
+            deleteWordButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    System.out.println("Word: " + fantasyWordEditText.getText().toString());
+                }
+            });
+
+            updateWordButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    System.out.println("Word: " + fantasyWordEditText.getText().toString());
+                }
+            });
         }
 
 //        @Override

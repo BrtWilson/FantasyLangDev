@@ -43,6 +43,8 @@ public class NewWordResponse extends Response {
         this.languageID = languageID;
     }
 
+    public Boolean getNeedsConfirmation() { return needsConfirmation; }
+
     @Override
     public boolean equals(Object param) {
         if (this == param) {

@@ -11,12 +11,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <Space
+        android:id="@+id/topSpace"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"/>
+
     <LinearLayout
-        android:id="@+id/ll"
+        android:id="@+id/topLL"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topSpace">
 
         <LinearLayout
             android:layout_width="100dp"
@@ -39,7 +45,7 @@
             android:text=":"/>
 
         <LinearLayout
-            android:layout_width="190dp"
+            android:layout_width="160dp"
             android:layout_height="wrap_content">
 
             <TextView
@@ -48,6 +54,97 @@
                 android:layout_height="wrap_content"
                 android:background="@color/apricot"
                 android:text="translation"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="30dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/vTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="˅"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/middleLL"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topLL">
+
+        <LinearLayout
+            android:layout_width="100dp"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/fantasyWordEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="100dp"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/translationEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="100dp"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/partOfSpeechEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/bottomLL"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/middleLL">
+
+        <LinearLayout
+            android:layout_width="150dp"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/deleteWordButton"
+                android:text="Delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="150dp"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/updateWordButton"
+                android:text="Update"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
         </LinearLayout>
 

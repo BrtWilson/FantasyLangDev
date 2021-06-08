@@ -16,10 +16,10 @@ import java.io.IOException;
 
 public interface IDictionaryService {
     public DictionaryPageResponse dictionary(DictionaryPageRequest request) throws IOException, RemoteException;//, RequestException, edu.byu.cs.client.model.net.ServerException;
-    public DictionaryPageResponse searchWord(SearchWordRequest request);
-    public Boolean checkWordExists(NewWordRequest request);
-    public NewWordResponse insertNewWord(NewWordRequest request);
-    public NewWordResponse updateWordAddToAttributes(NewWordRequest request);
-    public NewWordResponse updateWord(NewWordRequest request);
-    public GeneralUpdateResponse deleteWord(DeleteWordRequest request);
+    public DictionaryPageResponse searchWord(SearchWordRequest request) throws IOException, RemoteException;
+    public Boolean checkWordExists(NewWordRequest request) throws IOException, RemoteException;
+    public NewWordResponse insertNewWord(NewWordRequest request) throws IOException, RemoteException;
+    public NewWordResponse updateWordAddToAttributes(NewWordRequest request) throws IOException, RemoteException;
+    public NewWordResponse updateWord(NewWordRequest request) throws IOException, RemoteException;
+    public GeneralUpdateResponse deleteWord(DeleteWordRequest request) throws IOException, RemoteException;
 }

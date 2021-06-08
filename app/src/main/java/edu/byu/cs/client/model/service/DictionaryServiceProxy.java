@@ -40,8 +40,11 @@ public class DictionaryServiceProxy implements IDictionaryService {
     }
 
     @Override
-    public NewWordResponse insertNewWord(NewWordRequest request) {
-        return null;
+    public NewWordResponse insertNewWord(NewWordRequest request)  throws IOException, RemoteException {
+        ServerFacade serverFacade = getServerFacade();
+        NewWordResponse response = serverFacade.newWord(request);//, URL_PATH);
+
+        return response;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package edu.byu.cs.client.view.main.fragments;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,14 +12,24 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.shared.model.domain.User;
+import com.example.shared.model.domain.Dictionary;
+import com.example.shared.model.service.request.GetLanguageDataRequest;
+import com.example.shared.model.service.request.NewWordRequest;
+import com.example.shared.model.service.response.GetLanguageDataResponse;
+import com.example.shared.model.service.response.NewWordResponse;
 
+import edu.byu.cs.client.presenter.DictionaryPresenter;
+import edu.byu.cs.client.presenter.GetLanguageDataPresenter;
+import edu.byu.cs.client.view.asyncTasks.GetLanguageDataTask;
+import edu.byu.cs.client.view.asyncTasks.InsertNewWordTask;
 import edu.byu.cs.tweeter.R;
 
-public class wordCreationFragment extends Fragment {
+public class wordCreationFragment extends Fragment implements GetLanguageDataPresenter.View, GetLanguageDataTask.Observer, DictionaryPresenter.View, InsertNewWordTask.Observer {
 
     private static final String LANGUAGE_ID_KEY = "";
 
@@ -30,6 +41,12 @@ public class wordCreationFragment extends Fragment {
     private EditText translationEditText;
     private EditText fantasyWordEditText;
     private Button submitWordButton;
+
+    private TextView alphabetTextView;
+    private TextView syllablesTextView;
+
+    private DictionaryPresenter dictionaryPresenter;
+    private GetLanguageDataPresenter languageDataPresenter;
 
     public static wordCreationFragment newInstance(String languageID) {
         wordCreationFragment fragment = new wordCreationFragment();
@@ -47,6 +64,12 @@ public class wordCreationFragment extends Fragment {
 
         languageID = (String) getArguments().getString(LANGUAGE_ID_KEY);
 
+        dictionaryPresenter = new DictionaryPresenter(this);
+        languageDataPresenter = new GetLanguageDataPresenter(this);
+
+        alphabetTextView = (TextView) view.findViewById(R.id.alphabetTextView);
+        syllablesTextView = (TextView) view.findViewById(R.id.syllablesTextView);
+
         partOfSpeechSpinner = (Spinner) view.findViewById(R.id.partOfSpeechSpinner);
 
         partOfSpeechEditText = (EditText) view.findViewById(R.id.partOfSpeechEditText);
@@ -60,10 +83,14 @@ public class wordCreationFragment extends Fragment {
         fantasyWordEditText.addTextChangedListener(watcher);
         submitWordButton = (Button) view.findViewById(R.id.submitWord);
 
+        setTextViews();
+
         submitWordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //
+                InsertNewWordTask task = new InsertNewWordTask(dictionaryPresenter, wordCreationFragment.this);
+                NewWordRequest request = new NewWordRequest(languageID, new Dictionary(languageID,fantasyWordEditText.getText().toString(),partOfSpeechEditText.getText().toString(),translationEditText.getText().toString()));
+                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, request);
             }
         });
 
@@ -238,4 +265,41 @@ public class wordCreationFragment extends Fragment {
             else submitWordButton.setEnabled(false);
         }
     };
+
+    public void setTextViews() {
+        GetLanguageDataTask task = new GetLanguageDataTask(languageDataPresenter, wordCreationFragment.this);
+        GetLanguageDataRequest request = new GetLanguageDataRequest(languageID);
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,request);
+    }
+
+    @Override
+    public void insertNewWord(NewWordResponse response) {
+        if (response.getNeedsConfirmation()) {
+            Toast.makeText(getContext(), "The fantasy word already exists. Please go to dictionary to edit it!", Toast.LENGTH_LONG).show();
+        }
+        else Toast.makeText(getContext(), "Fantasy word added to dictionary!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void getLanguageData(GetLanguageDataResponse response) {
+        String str;
+        if (response.getAlphabet() != null) {
+            str = "Alphabet: " + response.getAlphabet();
+            alphabetTextView.setText(str);
+        }
+        if (response.getSyllableData() != null) {
+            str = "Beginning Consonants: ";
+            str = (response.getSyllableData().get(0) != null) ? str + response.getSyllableData().get(0) : str;
+            str = str + "\nMiddle Vowels: ";
+            str = (response.getSyllableData().get(1) != null) ? str + response.getSyllableData().get(1) : str;
+            str = str + "\nEnding Consonants: ";
+            str = (response.getSyllableData().get(2) != null) ? str + response.getSyllableData().get(2) : str;
+            syllablesTextView.setText(str);
+        }
+    }
+
+    @Override
+    public void handleException(Exception exception) {
+        Toast.makeText(getContext(), "Error: " + exception.getMessage(), Toast.LENGTH_LONG).show();
+    }
 }
