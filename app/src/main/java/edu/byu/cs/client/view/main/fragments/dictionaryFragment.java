@@ -20,15 +20,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.shared.model.domain.Dictionary;
 import com.example.shared.model.domain.Language;
 import com.example.shared.model.domain.User;
+import com.example.shared.model.service.request.DeleteWordRequest;
 import com.example.shared.model.service.request.DictionaryPageRequest;
 import com.example.shared.model.service.request.SearchWordRequest;
 import com.example.shared.model.service.response.DictionaryPageResponse;
+import com.example.shared.model.service.response.GeneralUpdateResponse;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import edu.byu.cs.client.presenter.DictionaryPresenter;
+import edu.byu.cs.client.view.asyncTasks.DeleteWordTask;
 import edu.byu.cs.client.view.asyncTasks.DictionaryTask;
 import edu.byu.cs.client.view.asyncTasks.SearchWordTask;
 import edu.byu.cs.tweeter.R;
@@ -98,7 +101,7 @@ public class dictionaryFragment extends Fragment {
         return view;
     }
 
-    private class DictionaryHolder extends RecyclerView.ViewHolder {
+    private class DictionaryHolder extends RecyclerView.ViewHolder implements DeleteWordTask.Observer, DictionaryPresenter.View{
 
         private final TextView fantasyWord;
         private final TextView translation;
@@ -112,8 +115,12 @@ public class dictionaryFragment extends Fragment {
         private final Button deleteWordButton;
         private final Button updateWordButton;
 
+        private DictionaryPresenter presenter;
+
         DictionaryHolder(@NonNull View itemView) {
             super(itemView);
+
+            presenter = new DictionaryPresenter(this);
 
             fantasyWord = itemView.findViewById(R.id.recycler_item_fantasy_word);
             translation = itemView.findViewById(R.id.recycler_item_translation);
@@ -153,6 +160,9 @@ public class dictionaryFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     System.out.println("Word: " + fantasyWordEditText.getText().toString());
+                    DeleteWordTask task = new DeleteWordTask(presenter, DictionaryHolder.this);
+                    DeleteWordRequest request = new DeleteWordRequest(language.getLanguageID(), dictionary);
+                    task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, request);
                 }
             });
 
@@ -164,10 +174,15 @@ public class dictionaryFragment extends Fragment {
             });
         }
 
-//        @Override
-//        public void handleException(Exception e) {
-//            //
-//        }
+        @Override
+        public void deleteWord(GeneralUpdateResponse response) {
+            Toast.makeText(getContext(), "Word deleted!", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void handleException(Exception exception) {
+            Toast.makeText(getContext(), "Error: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private class DictionaryRecyclerViewAdapter extends RecyclerView.Adapter<DictionaryHolder> implements SearchWordTask.Observer, DictionaryTask.Observer, DictionaryPresenter.View {

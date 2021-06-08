@@ -155,16 +155,17 @@ public class ServerFacade implements ServerFacadeInterface {
         return new DictionaryPageResponse(dictionaries,false,null, request.getLanguageID());
     }
 
-    public GeneralUpdateResponse updateWord(UpdateWordRequest request) throws IOException, RemoteException {//RemoteException, ServerException, RequestException, IOException {
+    public NewWordResponse updateWord(NewWordRequest request) throws IOException, RemoteException {//RemoteException, ServerException, RequestException, IOException {
         String Url_Path = URL_PATH_UPDATEWORD;
-        GeneralUpdateResponse response = clientCommunicator.doPost(Url_Path, request, null, GeneralUpdateResponse.class);
+        NewWordResponse response = clientCommunicator.doPost(Url_Path, request, null, NewWordResponse.class);
         return response;
     }
 
     public GeneralUpdateResponse deleteWord(DeleteWordRequest request) throws IOException, RemoteException {//RemoteException, ServerException, RequestException, IOException {
-        String Url_Path = URL_PATH_DELETEWORD;
-        GeneralUpdateResponse response = clientCommunicator.doPost(Url_Path, request, null, GeneralUpdateResponse.class);
-        return response;
+//        String Url_Path = URL_PATH_DELETEWORD;
+//        GeneralUpdateResponse response = clientCommunicator.doPost(Url_Path, request, null, GeneralUpdateResponse.class);
+//        return response;
+        return new GeneralUpdateResponse("elven0");
     }
 
     public TranslateResponse translate(TranslateRequest request) throws IOException, RemoteException {//RemoteException, ServerException, RequestException, IOException {
