@@ -3,6 +3,7 @@ package edu.byu.cs.client.presenter;
 import com.example.shared.model.net.RemoteException;
 import com.example.shared.model.service.request.DictionaryPageRequest;
 import com.example.shared.model.service.request.NewWordRequest;
+import com.example.shared.model.service.request.SearchWordRequest;
 import com.example.shared.model.service.response.DictionaryPageResponse;
 import com.example.shared.model.service.response.NewWordResponse;
 
@@ -28,5 +29,9 @@ public class DictionaryPresenter {
     public NewWordResponse insertNewWord(NewWordRequest request) throws IOException, RemoteException {
         DictionaryServiceProxy serviceProxy = new DictionaryServiceProxy();
         return serviceProxy.insertNewWord(request);
+    }
+    public DictionaryPageResponse searchWord(SearchWordRequest request) throws IOException, RemoteException {
+        DictionaryServiceProxy serviceProxy = new DictionaryServiceProxy();
+        return serviceProxy.searchWord(request);
     }
 }

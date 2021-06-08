@@ -30,8 +30,11 @@ public class DictionaryServiceProxy implements IDictionaryService {
     }
 
     @Override
-    public DictionaryPageResponse searchWord(SearchWordRequest request) {
-        return null;
+    public DictionaryPageResponse searchWord(SearchWordRequest request) throws IOException, RemoteException {
+        ServerFacade serverFacade = getServerFacade();
+        DictionaryPageResponse response = serverFacade.searchWord(request);//, URL_PATH);
+
+        return response;
     }
 
     @Override

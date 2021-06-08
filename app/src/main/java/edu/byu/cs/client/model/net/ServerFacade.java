@@ -80,15 +80,15 @@ public class ServerFacade implements ServerFacadeInterface {
     }
 
     public RegisterResponse register(RegisterRequest request) throws IOException, RemoteException {
-        String Url_Path = URL_PATH_REGISTER;
-        RegisterResponse response = clientCommunicator.doPost(Url_Path, request, null, RegisterResponse.class);
+//        String Url_Path = URL_PATH_REGISTER;
+//        RegisterResponse response = clientCommunicator.doPost(Url_Path, request, null, RegisterResponse.class);
 
         // TEMP RESPONSE
-//        User user = new User("Test User", "username", "password");
-//        return new RegisterResponse(user, null);
+        User user = new User("Test User", "username", "password");
+        return new RegisterResponse(user, null);
         //
 
-        return response;
+//        return response;
     }
 
     public GetLanguageDataResponse getLanguageData(GetLanguageDataRequest request) throws IOException, RemoteException {//RemoteException, ServerException, RequestException, IOException {
@@ -136,9 +136,13 @@ public class ServerFacade implements ServerFacadeInterface {
     }
 
     public DictionaryPageResponse searchWord(SearchWordRequest request) throws IOException, RemoteException {//RemoteException, ServerException, RequestException, IOException {
-        String Url_Path = URL_PATH_SEARCHWORD;
-        DictionaryPageResponse response = clientCommunicator.doPost(Url_Path, request, null, DictionaryPageResponse.class);
-        return response;
+//        String Url_Path = URL_PATH_SEARCHWORD;
+//        DictionaryPageResponse response = clientCommunicator.doPost(Url_Path, request, null, DictionaryPageResponse.class);
+//        return response;
+        List<Dictionary> dictionaries = new ArrayList<>();
+        dictionaries.add(new Dictionary("elven0", "Aiya", "", "hello"));
+//        dictionaries.add(new Dictionary("elven0", "Namárië", "", "good bye"));
+        return new DictionaryPageResponse(dictionaries,false,null, request.getLanguageID());
     }
 
     public DictionaryPageResponse dictionary(DictionaryPageRequest request) throws IOException, RemoteException {//RemoteException, ServerException, RequestException, IOException {

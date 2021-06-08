@@ -23,11 +23,13 @@
         app:layout_constraintTop_toBottomOf="@+id/topSpace">
 
         <EditText
+            android:id="@+id/searchEditText"
             android:hint="search fantasy word"
             android:layout_width="240dp"
             android:layout_height="wrap_content"/>
 
         <Button
+            android:id="@+id/searchButton"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:drawableEnd="@android:drawable/ic_menu_search"

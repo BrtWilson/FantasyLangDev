@@ -21,6 +21,7 @@ import com.example.shared.model.domain.Dictionary;
 import com.example.shared.model.domain.Language;
 import com.example.shared.model.domain.User;
 import com.example.shared.model.service.request.DictionaryPageRequest;
+import com.example.shared.model.service.request.SearchWordRequest;
 import com.example.shared.model.service.response.DictionaryPageResponse;
 
 import java.io.Serializable;
@@ -29,14 +30,20 @@ import java.util.List;
 
 import edu.byu.cs.client.presenter.DictionaryPresenter;
 import edu.byu.cs.client.view.asyncTasks.DictionaryTask;
+import edu.byu.cs.client.view.asyncTasks.SearchWordTask;
 import edu.byu.cs.tweeter.R;
 
 public class dictionaryFragment extends Fragment {
+
+    public boolean search = false;
 
     private static final String LANGUAGE_KEY = "";
 
     private Language language;
     private DictionaryPresenter presenter;
+
+    private EditText searchEditText;
+    private Button searchButton;
 
     private static final int LOADING_DATA_VIEW = 0;
     private static final int ITEM_VIEW = 1;
@@ -63,16 +70,28 @@ public class dictionaryFragment extends Fragment {
         language = (Language) getArguments().getSerializable(LANGUAGE_KEY);
         presenter = new DictionaryPresenter((DictionaryPresenter.View) this.getView());
 
-//        TextView textView = view.findViewById(R.id.editTexView);
-//        textView.setText(language.getLanguageName());
+        //search goes here***
+        searchEditText = (EditText) view.findViewById(R.id.searchEditText);
+        searchButton = (Button) view.findViewById(R.id.searchButton);
 
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        recyclerViewAdapter = new DictionaryRecyclerViewAdapter();
+        recyclerViewAdapter = new DictionaryRecyclerViewAdapter(search);
         recyclerView.setAdapter(recyclerViewAdapter);
+
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (searchEditText.getText().length() >= 1) search = true;
+                else search = false;
+
+                recyclerViewAdapter = new DictionaryRecyclerViewAdapter(search);
+                recyclerView.setAdapter(recyclerViewAdapter);
+            }
+        });
 
         recyclerView.addOnScrollListener(new DictionaryRecyclerViewPaginationScrollListener(layoutManager));
 
@@ -151,7 +170,7 @@ public class dictionaryFragment extends Fragment {
 //        }
     }
 
-    private class DictionaryRecyclerViewAdapter extends RecyclerView.Adapter<DictionaryHolder> implements DictionaryTask.Observer, DictionaryPresenter.View {
+    private class DictionaryRecyclerViewAdapter extends RecyclerView.Adapter<DictionaryHolder> implements SearchWordTask.Observer, DictionaryTask.Observer, DictionaryPresenter.View {
 
         private final List<Dictionary> dictionaries = new ArrayList<>();
 
@@ -161,8 +180,8 @@ public class dictionaryFragment extends Fragment {
         private boolean hasMorePages;
         private boolean isLoading = false;
 
-        DictionaryRecyclerViewAdapter() {
-            loadMoreItems();
+        DictionaryRecyclerViewAdapter(boolean search) {
+            loadMoreItems(search);
         }
 
         void addItems(List<Dictionary> newDictionaries) {
@@ -213,16 +232,35 @@ public class dictionaryFragment extends Fragment {
             return (position == dictionaries.size() - 1 && isLoading) ? LOADING_DATA_VIEW : ITEM_VIEW;
         }
 
-        void loadMoreItems() {
+        void loadMoreItems(boolean search) {
             isLoading = true;
             addLoadingFooter();
-            DictionaryTask task = new DictionaryTask(presenter, this);
-            DictionaryPageRequest request = new DictionaryPageRequest(language.getLanguageID(), PAGE_SIZE, lastDictionary);
-            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, request);
+            if (!search) {
+                DictionaryTask task = new DictionaryTask(presenter, this);
+                DictionaryPageRequest request = new DictionaryPageRequest(language.getLanguageID(), PAGE_SIZE, lastDictionary);
+                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, request);
+            }
+            else {//String searchByData, String languageID, int limit, Dictionary lastWord, int typeOfData
+                SearchWordTask task = new SearchWordTask(presenter,this);
+                SearchWordRequest request = new SearchWordRequest("Unspecified",language.getLanguageID(),PAGE_SIZE,lastDictionary,0);
+                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, request);
+            }
         }
 
         @Override
         public void dictionariesRetrieved(DictionaryPageResponse response) {
+            List<Dictionary> dictionaries = response.getWords();
+
+            lastDictionary = (dictionaries.size() > 0) ? dictionaries.get(dictionaries.size()-1) : null;
+            hasMorePages = response.getHasMorePages();
+
+            isLoading = false;
+            removeLoadingFooter();
+            recyclerViewAdapter.addItems(dictionaries);
+        }
+
+        @Override
+        public void searchWord(DictionaryPageResponse response) {
             List<Dictionary> dictionaries = response.getWords();
 
             lastDictionary = (dictionaries.size() > 0) ? dictionaries.get(dictionaries.size()-1) : null;
@@ -264,15 +302,9 @@ public class dictionaryFragment extends Fragment {
 
             if (!recyclerViewAdapter.isLoading && recyclerViewAdapter.hasMorePages) {
                 if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount && firstVisibleItemPosition >= 0) {
-                    recyclerViewAdapter.loadMoreItems();
+                    recyclerViewAdapter.loadMoreItems(search);
                 }
             }
-//            if (dy > 0) {
-//                System.out.println("***HI***");
-//            }
-//            else {
-//                System.out.println("***BYE***");
-//            }
         }
     }
 }
