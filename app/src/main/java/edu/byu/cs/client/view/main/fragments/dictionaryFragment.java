@@ -22,9 +22,11 @@ import com.example.shared.model.domain.Language;
 import com.example.shared.model.domain.User;
 import com.example.shared.model.service.request.DeleteWordRequest;
 import com.example.shared.model.service.request.DictionaryPageRequest;
+import com.example.shared.model.service.request.NewWordRequest;
 import com.example.shared.model.service.request.SearchWordRequest;
 import com.example.shared.model.service.response.DictionaryPageResponse;
 import com.example.shared.model.service.response.GeneralUpdateResponse;
+import com.example.shared.model.service.response.NewWordResponse;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -34,6 +36,7 @@ import edu.byu.cs.client.presenter.DictionaryPresenter;
 import edu.byu.cs.client.view.asyncTasks.DeleteWordTask;
 import edu.byu.cs.client.view.asyncTasks.DictionaryTask;
 import edu.byu.cs.client.view.asyncTasks.SearchWordTask;
+import edu.byu.cs.client.view.asyncTasks.UpdateWordTask;
 import edu.byu.cs.tweeter.R;
 
 public class dictionaryFragment extends Fragment {
@@ -101,7 +104,7 @@ public class dictionaryFragment extends Fragment {
         return view;
     }
 
-    private class DictionaryHolder extends RecyclerView.ViewHolder implements DeleteWordTask.Observer, DictionaryPresenter.View{
+    private class DictionaryHolder extends RecyclerView.ViewHolder implements DeleteWordTask.Observer, UpdateWordTask.Observer, DictionaryPresenter.View{
 
         private final TextView fantasyWord;
         private final TextView translation;
@@ -159,7 +162,6 @@ public class dictionaryFragment extends Fragment {
             deleteWordButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    System.out.println("Word: " + fantasyWordEditText.getText().toString());
                     DeleteWordTask task = new DeleteWordTask(presenter, DictionaryHolder.this);
                     DeleteWordRequest request = new DeleteWordRequest(language.getLanguageID(), dictionary);
                     task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, request);
@@ -169,7 +171,9 @@ public class dictionaryFragment extends Fragment {
             updateWordButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    System.out.println("Word: " + fantasyWordEditText.getText().toString());
+                    UpdateWordTask task = new UpdateWordTask(presenter, DictionaryHolder.this);
+                    NewWordRequest request = new NewWordRequest(new NewWordRequest(language.getLanguageID(), dictionary), true);
+                    task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, request);
                 }
             });
         }
@@ -177,6 +181,11 @@ public class dictionaryFragment extends Fragment {
         @Override
         public void deleteWord(GeneralUpdateResponse response) {
             Toast.makeText(getContext(), "Word deleted!", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void updateWord(NewWordResponse response) {
+            Toast.makeText(getContext(), "Word updated!", Toast.LENGTH_SHORT).show();
         }
 
         @Override

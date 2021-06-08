@@ -40,4 +40,8 @@ public class DictionaryPresenter {
         DictionaryServiceProxy serviceProxy = new DictionaryServiceProxy();
         return serviceProxy.deleteWord(request);
     }
+    public NewWordResponse updateWord(NewWordRequest request) throws IOException, RemoteException {
+        DictionaryServiceProxy serviceProxy = new DictionaryServiceProxy();
+        return serviceProxy.updateWord(request);
+    }
 }

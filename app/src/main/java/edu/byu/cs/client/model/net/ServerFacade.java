@@ -156,9 +156,10 @@ public class ServerFacade implements ServerFacadeInterface {
     }
 
     public NewWordResponse updateWord(NewWordRequest request) throws IOException, RemoteException {//RemoteException, ServerException, RequestException, IOException {
-        String Url_Path = URL_PATH_UPDATEWORD;
-        NewWordResponse response = clientCommunicator.doPost(Url_Path, request, null, NewWordResponse.class);
-        return response;
+//        String Url_Path = URL_PATH_UPDATEWORD;
+//        NewWordResponse response = clientCommunicator.doPost(Url_Path, request, null, NewWordResponse.class);
+//        return response;
+        return new NewWordResponse(request.getLanguageID(), request.getFantasyWord().getFantasyWord(), false);
     }
 
     public GeneralUpdateResponse deleteWord(DeleteWordRequest request) throws IOException, RemoteException {//RemoteException, ServerException, RequestException, IOException {
