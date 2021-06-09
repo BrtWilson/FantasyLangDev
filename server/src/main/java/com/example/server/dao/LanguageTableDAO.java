@@ -59,7 +59,11 @@ public class LanguageTableDAO {
      *          including alphabet if it exists
      */
     public GetLanguageDataResponse getLanguageData(GetLanguageDataRequest request) throws Exception {
-        Map<String, String> languageData = databaseInteractor.getItem(tableName, attributeLangID, request.getLanguageID());
+        Map<String, String> queryAttributes = new HashMap<>();
+        queryAttributes.put(attributeLangID, request.getLanguageID());
+        queryAttributes.put(attributeUserName, parseUserFromLangID(request.getLanguageID()));
+
+        Map<String, String> languageData = databaseInteractor.getItem(tableName, attributeUserName, queryAttributes, attributeLangID);
         if (languageData != null) {
             String userName = languageData.get(attributeUserName);
             String languageName = languageData.get(attributeLanguageName);
@@ -71,6 +75,12 @@ public class LanguageTableDAO {
         return new GetLanguageDataResponse("No language data found for " + request.getLanguageID());
     }
 
+    private String parseUserFromLangID(String langID) {
+        int dashLocation = langID.indexOf("-");
+        String userName = langID.substring(0, dashLocation);
+        return userName;
+    }
+
     /**
      *  *TODO NOTE: likely will require particular adjustment for establishment of LANGUAGE_ID,
      *      unless we keep that the database will develop the key for this
@@ -78,6 +88,7 @@ public class LanguageTableDAO {
     public NewLanguageResponse createLanguage(NewLanguageRequest request) throws Exception {
         Map<String, String> basicLanguageData = new HashMap<>();
        //basicLanguageData.put(attributeUserName, request.getUserName());
+        basicLanguageData.put(attributeLangID, createLangID(request));
         basicLanguageData.put(attributeLanguageName, request.getLanguageName());
         if (databaseInteractor.insertItem(tableName, attributeUserName, request.getUserName(), basicLanguageData)) {
             Map<String, String> languageInserted = databaseInteractor.querySingleItem(tableName, attributeUserName, request.getUserName(), basicLanguageData);
@@ -85,6 +96,10 @@ public class LanguageTableDAO {
             return new NewLanguageResponse(request.getUserName(), request.getLanguageName(), languageIDRetrieved);
         }
         return new NewLanguageResponse("Failed to insert new language.");
+    }
+
+    private String createLangID(NewLanguageRequest request) {
+        return request.getLanguageName() + "-" + request.getLanguageName();
     }
 
     public GeneralUpdateResponse updateAlphabet(UpdateAlphabetRequest request) {
