@@ -314,9 +314,11 @@ public class DynamoDBStrategy implements DBStrategyInterface {
      */
     private static Map<String, String> convertMap_to_WithStrings(Map<String, AttributeValue> item) {
         Map<String, String> newMap = new HashMap<>();
-        for (Map.Entry<String, AttributeValue> entry : item.entrySet()){
-            if ((entry.getKey() != null) && (entry.getValue() != null)) {
-                newMap.put(entry.getKey(), entry.getValue().toString());
+        if(item != null){
+            for (Map.Entry<String, AttributeValue> entry : item.entrySet()){
+                if ((entry.getKey() != null) && (entry.getValue() != null)) {
+                    newMap.put(entry.getKey(), entry.getValue().toString());
+                }
             }
         }
         return newMap;
@@ -617,7 +619,7 @@ public class DynamoDBStrategy implements DBStrategyInterface {
     private ArrayList<String> convertMapValues_to_Array(Map<String, String> attributesToInsert) {
         ArrayList<String> attributes = new ArrayList<>();
         for (Map.Entry<String, String> entry: attributesToInsert.entrySet()) {
-            attributes.add(entry.getKey());
+            attributes.add(entry.getValue());
         }
         return attributes;
     }
@@ -625,7 +627,7 @@ public class DynamoDBStrategy implements DBStrategyInterface {
     private ArrayList<String> convertMapKeys_to_Array(Map<String, String> attributesToInsert) {
         ArrayList<String> attributeValues = new ArrayList<>();
         for (Map.Entry<String, String> entry: attributesToInsert.entrySet()) {
-            attributeValues.add(entry.getValue());
+            attributeValues.add(entry.getKey());
         }
         return attributeValues;
     }
@@ -646,7 +648,12 @@ public class DynamoDBStrategy implements DBStrategyInterface {
     @Override
     public Map<String, String> getItem(String tableName, String attributeName, String attributeValue) throws Exception {
         Item item = basicQueryWithKey(tableName, attributeName, attributeValue);
-        return convertItemToMap(item);
+        if(item == null){
+            return null;
+        }
+        else{
+            return convertItemToMap(item);
+        }
     }
 
     @Override
