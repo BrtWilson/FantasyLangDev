@@ -718,7 +718,7 @@ public class DynamoDBStrategy implements DBStrategyInterface {
 
     private Map<String, String> convertItemToMap(Item item) {
         Map<String, String> itemMap = new HashMap<>();
-        Map<String, AttributeValue> map = (Map<String, AttributeValue>) ItemUtils.toAttributeValue(item);
+        Map<String, AttributeValue> map = (Map<String, AttributeValue>) ItemUtils.toAttributeValues(item);
         return convertMap_to_WithStrings(map);
     }
 }
