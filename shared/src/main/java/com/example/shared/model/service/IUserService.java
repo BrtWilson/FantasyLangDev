@@ -10,6 +10,6 @@ import java.io.IOException;
 
 public interface IUserService {
 
-    public LoginResponse login(LoginRequest request) throws IOException, RemoteException;
-    public RegisterResponse register(RegisterRequest request) throws IOException, RemoteException;
+    public LoginResponse login(LoginRequest request) throws Exception;
+    public RegisterResponse register(RegisterRequest request) throws Exception;
 }

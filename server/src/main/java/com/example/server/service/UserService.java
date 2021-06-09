@@ -22,7 +22,7 @@ import java.util.List;
  */
 public class UserService implements IUserService {
     @Override
-    public LoginResponse login(LoginRequest request) throws IOException {
+    public LoginResponse login(LoginRequest request) throws Exception {
         User user = getUserDao().login(request);
         LoginResponse response = null;
         if(user.getUserName() != null){
@@ -46,7 +46,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public RegisterResponse register(RegisterRequest request) throws IOException {
+    public RegisterResponse register(RegisterRequest request) throws Exception {
         RegisterResponse response = getUserDao().register(request);
 
         return response;

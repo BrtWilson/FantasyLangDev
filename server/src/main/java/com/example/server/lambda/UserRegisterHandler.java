@@ -21,6 +21,8 @@ public class UserRegisterHandler implements RequestHandler<RegisterRequest, Regi
         } catch (RuntimeException | IOException e) {
             String message = "[Bad Request]";
             throw new RuntimeException(message, e);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return response;
     }

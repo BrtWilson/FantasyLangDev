@@ -7,5 +7,5 @@ import com.example.shared.model.service.response.NewLanguageResponse;
 import java.io.IOException;
 
 public interface INewLanguageService {
-    public NewLanguageResponse newLanguage(NewLanguageRequest request) throws IOException, RemoteException;
+    public NewLanguageResponse newLanguage(NewLanguageRequest request) throws Exception;
 }

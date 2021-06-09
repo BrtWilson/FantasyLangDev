@@ -28,7 +28,7 @@ public class SyllableService implements ISyllableService {
     }
 
     @Override
-    public GetLanguageDataResponse getSyllableData(GetLanguageDataRequest request) throws IOException {
+    public GetLanguageDataResponse getSyllableData(GetLanguageDataRequest request) throws Exception {
         List<String> syllables = getSyllableDao().getSyllableData(request);
         String languageID = request.getLanguageID();
 

@@ -42,7 +42,7 @@ public class ServerFacade implements ServerFacadeInterface {
     //static final String URL_PATH_LOGOUT = "/logout";
     static final String URL_PATH_REGISTER = "/Register";
     static final String URL_PATH_GETLANGDATA = "/GetLanguageData";
-    static final String URL_PATH_NEWLANGUAGE = "/CreateLanguage";
+    static final String URL_PATH_NEWLANGUAGE = "/NewLanguage";
     static final String URL_PATH_UPDATEALPHA = "/UpdateAlphabet";
     static final String URL_PATH_UPDATESYLLABLES = "/UpdateSyllables";
     static final String URL_PATH_NEWWORD = "/InsertNewWord";

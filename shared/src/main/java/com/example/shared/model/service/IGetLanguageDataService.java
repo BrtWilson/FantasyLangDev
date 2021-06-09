@@ -7,5 +7,5 @@ import com.example.shared.model.service.response.GetLanguageDataResponse;
 import java.io.IOException;
 
 public interface IGetLanguageDataService {
-    public GetLanguageDataResponse getLanguageData(GetLanguageDataRequest request) throws IOException, RemoteException;
+    public GetLanguageDataResponse getLanguageData(GetLanguageDataRequest request) throws Exception;
 }

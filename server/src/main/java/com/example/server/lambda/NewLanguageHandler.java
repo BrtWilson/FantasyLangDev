@@ -32,6 +32,8 @@ public class NewLanguageHandler implements RequestHandler<NewLanguageRequest, Ne
         } catch (RuntimeException | IOException | RemoteException e) {
             String message = "[Bad Request]";
             throw new RuntimeException(message, e);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return response;
     }

@@ -23,7 +23,7 @@ public class GetLanguageDataService implements IGetLanguageDataService {
 
 
     @Override
-    public GetLanguageDataResponse getLanguageData(GetLanguageDataRequest request) throws IOException, RemoteException {
+    public GetLanguageDataResponse getLanguageData(GetLanguageDataRequest request) throws Exception {
         GetLanguageDataResponse response = getLanguageDAO().getLanguageData(request);
         return response;
     }

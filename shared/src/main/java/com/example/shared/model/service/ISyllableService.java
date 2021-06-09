@@ -11,5 +11,5 @@ import java.util.List;
 
 public interface ISyllableService {
 
-    public GetLanguageDataResponse getSyllableData(GetLanguageDataRequest request) throws IOException;
+    public GetLanguageDataResponse getSyllableData(GetLanguageDataRequest request) throws Exception;
 }

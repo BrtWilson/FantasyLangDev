@@ -33,10 +33,10 @@ public class DictionaryTableDAO {
     public DictionaryPageResponse getWordArray(DictionaryPageRequest request) {
         pageSize = request.getLimit();
         verifyLimit(request.getLimit());
-        String langID = request.getLanguageID();
+        String langID = request.getLanguageid();
         verifyLanguageID(langID);
 
-        ResultsPage pageOfWords = databaseInteractor.keyAndCompositePageQuery(tableName, attributeLangID, langID, pageSize, attributeFantasyWord, request.getLastWord().getFantasyWord());
+        ResultsPage pageOfWords = databaseInteractor.keyAndCompositePageQuery(tableName, attributeLangID, langID, pageSize, attributeFantasyWord, request.getLastdictionary().getFantasyWord());
         return convertToDictionaryResponse(pageOfWords, langID);
     }
 
@@ -65,7 +65,7 @@ public class DictionaryTableDAO {
     public DictionaryPageResponse searchWord(SearchWordRequest request) {
         pageSize = request.getLimit();
         verifyLimit(request.getLimit());
-        verifyLanguageID(request.getLanguageID());
+        verifyLanguageID(request.getLanguageid());
 
         if (request.getTypeOfData().equals(SearchWordRequest.str_BY_FANTASYWORD)) {
             //search by key and *like composite

@@ -31,7 +31,7 @@ public class NewLanguageService implements INewLanguageService {
     }
 
     @Override
-    public NewLanguageResponse newLanguage(NewLanguageRequest request) throws IOException, RemoteException {
+    public NewLanguageResponse newLanguage(NewLanguageRequest request) throws Exception {
         NewLanguageResponse response = getLanguageDAO().createLanguage(request);
         return response;
     }

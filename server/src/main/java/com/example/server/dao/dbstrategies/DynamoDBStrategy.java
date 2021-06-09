@@ -155,7 +155,12 @@ public class DynamoDBStrategy implements DBStrategyInterface {
 
         Iterator<Item> iterator = items.iterator();
         //iterator = items.iterator();
-        return iterator.next();
+        if (iterator.hasNext()){
+            return iterator.next();
+        }
+        else{
+            return null;
+        }
     }
 
 
