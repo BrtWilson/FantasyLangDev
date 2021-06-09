@@ -63,7 +63,7 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
             @Override
             public void onClick(View v) {
                 LoginTask loginTask = new LoginTask(presenter, LoginActivity.this);
-                LoginRequest request = new LoginRequest(username.toString(), password.toString());
+                LoginRequest request = new LoginRequest(username.getText().toString(), password.getText().toString());
                 loginTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, request);
                 username.setText("");
                 password.setText("");

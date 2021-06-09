@@ -72,13 +72,12 @@ public class SignupActivity extends AppCompatActivity implements SignUpPresenter
         signup.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 SignUpTask task = new SignUpTask(presenter, SignupActivity.this);
-                RegisterRequest request = new RegisterRequest(firstName.toString() + " " + lastName.toString(), username.toString(), password.toString());
+                RegisterRequest request = new RegisterRequest(firstName.getText().toString() + " " + lastName.getText().toString(), username.getText().toString(), password.getText().toString());
                 task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, request);
                 firstName.setText("");
                 lastName.setText("");
                 username.setText("");
                 password.setText("");
-                finish();
             }
         });
     }
@@ -109,6 +108,7 @@ public class SignupActivity extends AppCompatActivity implements SignUpPresenter
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra(MainActivity.CURRENT_USER_KEY, response.getUser());
             Toast.makeText(this, "Welcome, " + response.getUser().getName() + "!", Toast.LENGTH_SHORT).show();
+            finish();
             startActivity(intent);
         }
         else Toast.makeText(this, response.getMessage(), Toast.LENGTH_SHORT).show();

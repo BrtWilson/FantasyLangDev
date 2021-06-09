@@ -2,6 +2,7 @@ package edu.byu.cs.client.view.asyncTasks;
 
 import android.os.AsyncTask;
 
+import com.example.shared.model.net.RemoteException;
 import com.example.shared.model.service.request.LoginRequest;
 import com.example.shared.model.service.response.LoginResponse;
 
@@ -34,7 +35,7 @@ public class LoginTask extends AsyncTask<LoginRequest, Void, LoginResponse> {
         try {
             loginResponse = presenter.login(loginRequests[0]);
         }
-        catch (IOException ex) {
+        catch (IOException | RemoteException ex) {
             exception = ex;
         }
 

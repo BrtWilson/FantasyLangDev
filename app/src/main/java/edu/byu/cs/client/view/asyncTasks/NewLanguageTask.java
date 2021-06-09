@@ -35,7 +35,7 @@ public class NewLanguageTask extends AsyncTask<NewLanguageRequest, Void, NewLang
         try {
             response = presenter.newLanguage(requests[0]);
         }
-        catch (IOException | RemoteException ex) {
+        catch (IOException | RemoteException | RuntimeException ex) {
             exception = ex;
         }
 
