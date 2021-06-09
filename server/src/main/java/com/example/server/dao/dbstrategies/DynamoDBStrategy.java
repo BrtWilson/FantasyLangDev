@@ -666,11 +666,18 @@ public class DynamoDBStrategy implements DBStrategyInterface {
 
     private List<Map<String, String>> convertItemCollection_to_map(ItemCollection<QueryOutcome> items) {
         List<Map<String, String>> itemList = new ArrayList<>();
-        for (Item item : items) {
-            Map<String, String> itemMap = convertItemToMap(item);
-            itemList.add(itemMap);
+        if(items == null){
+            return null;
         }
-        return itemList;
+        else{
+            for (Item item : items) {
+                if(item != null){
+                    Map<String, String> itemMap = convertItemToMap(item);
+                    itemList.add(itemMap);
+                }
+            }
+            return itemList;
+        }
     }
 
     @Override
