@@ -1,5 +1,6 @@
 package edu.byu.cs.client.model.service;
 
+import com.example.shared.model.net.RemoteException;
 import com.example.shared.model.service.IUserService;
 import com.example.shared.model.service.request.LoginRequest;
 import com.example.shared.model.service.request.RegisterRequest;
@@ -18,7 +19,7 @@ public class SignUpServiceProxy implements IUserService {
         return null;
     }
 
-    public RegisterResponse register(RegisterRequest request) throws IOException {
+    public RegisterResponse register(RegisterRequest request) throws IOException, RemoteException {
         ServerFacade serverFacade = getServerFacade();
         RegisterResponse response = serverFacade.register(request);
 

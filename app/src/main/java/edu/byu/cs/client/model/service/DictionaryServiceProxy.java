@@ -30,8 +30,11 @@ public class DictionaryServiceProxy implements IDictionaryService {
     }
 
     @Override
-    public DictionaryPageResponse searchWord(SearchWordRequest request) {
-        return null;
+    public DictionaryPageResponse searchWord(SearchWordRequest request) throws IOException, RemoteException {
+        ServerFacade serverFacade = getServerFacade();
+        DictionaryPageResponse response = serverFacade.searchWord(request);//, URL_PATH);
+
+        return response;
     }
 
     @Override
@@ -40,8 +43,11 @@ public class DictionaryServiceProxy implements IDictionaryService {
     }
 
     @Override
-    public NewWordResponse insertNewWord(NewWordRequest request) {
-        return null;
+    public NewWordResponse insertNewWord(NewWordRequest request)  throws IOException, RemoteException {
+        ServerFacade serverFacade = getServerFacade();
+        NewWordResponse response = serverFacade.newWord(request);//, URL_PATH);
+
+        return response;
     }
 
     @Override
@@ -50,13 +56,19 @@ public class DictionaryServiceProxy implements IDictionaryService {
     }
 
     @Override
-    public NewWordResponse updateWord(NewWordRequest request) {
-        return null;
+    public NewWordResponse updateWord(NewWordRequest request) throws IOException, RemoteException {
+        ServerFacade serverFacade = getServerFacade();
+        NewWordResponse response = serverFacade.updateWord(request);//, URL_PATH);
+
+        return response;
     }
 
     @Override
-    public GeneralUpdateResponse deleteWord(DeleteWordRequest request) {
-        return null;
+    public GeneralUpdateResponse deleteWord(DeleteWordRequest request) throws IOException, RemoteException {
+        ServerFacade serverFacade = getServerFacade();
+        GeneralUpdateResponse response = serverFacade.deleteWord(request);//, URL_PATH);
+
+        return response;
     }
 
     ServerFacade getServerFacade() { return new ServerFacade(); }

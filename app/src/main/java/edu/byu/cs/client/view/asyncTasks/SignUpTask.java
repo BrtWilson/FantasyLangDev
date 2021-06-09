@@ -2,6 +2,7 @@ package edu.byu.cs.client.view.asyncTasks;
 
 import android.os.AsyncTask;
 
+import com.example.shared.model.net.RemoteException;
 import com.example.shared.model.service.request.RegisterRequest;
 import com.example.shared.model.service.response.RegisterResponse;
 
@@ -34,7 +35,7 @@ public class SignUpTask extends AsyncTask<RegisterRequest, Void, RegisterRespons
         try {
             response = presenter.signUp(requests[0]);
         }
-        catch (IOException ex) {
+        catch (IOException | RemoteException ex) {
             exception = ex;
         }
 

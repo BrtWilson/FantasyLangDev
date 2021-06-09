@@ -19,14 +19,12 @@ import com.example.shared.model.service.request.SearchWordRequest;
 import com.example.shared.model.service.request.TranslateRequest;
 import com.example.shared.model.service.request.UpdateAlphabetRequest;
 import com.example.shared.model.service.request.UpdateSyllablesRequest;
-import com.example.shared.model.service.request.UpdateWordRequest;
 import com.example.shared.model.service.response.DictionaryPageResponse;
 import com.example.shared.model.service.response.GeneralUpdateResponse;
 import com.example.shared.model.service.response.GetLanguageDataResponse;
 import com.example.shared.model.service.response.LoginResponse;
 import com.example.shared.model.service.response.NewLanguageResponse;
 import com.example.shared.model.service.response.NewWordResponse;
-import com.example.shared.model.service.response.Response;
 import com.example.shared.model.service.response.RegisterResponse;
 import com.example.shared.model.service.response.TranslateResponse;
 
@@ -38,21 +36,21 @@ public class ServerFacade implements ServerFacadeInterface {
 
     // TODO: Set this to the invoke URL of your API. Find it by going to your API in AWS, clicking
     //  on stages in the right-side menu, and clicking on the stage you deployed your API to.
-    private static final String SERVER_URL = "https://ubfjbeee2b.execute-api.us-east-1.amazonaws.com/tweeterBeta";
+    private static final String SERVER_URL = "https://dedp7pd1sf.execute-api.us-west-2.amazonaws.com/dev";//"https://ubfjbeee2b.execute-api.us-east-1.amazonaws.com/tweeterBeta";
 
-    static final String URL_PATH_LOGIN = "/login";
+    static final String URL_PATH_LOGIN = "/Login";
     //static final String URL_PATH_LOGOUT = "/logout";
-    static final String URL_PATH_REGISTER = "/register";
-    static final String URL_PATH_GETLANGDATA = "/getlanguagedata";
-    static final String URL_PATH_NEWLANGUAGE = "/createlanguage";
-    static final String URL_PATH_UPDATEALPHA = "/updatealphabet";
-    static final String URL_PATH_UPDATESYLLABLES = "/updatesyllables";
-    static final String URL_PATH_NEWWORD = "/newword";
-    static final String URL_PATH_SEARCHWORD = "/searchword";
-    static final String URL_PATH_DICTIONARY = "/dictionary";
-    static final String URL_PATH_UPDATEWORD = "/updateword";
-    static final String URL_PATH_DELETEWORD = "/deleteword";
-    static final String URL_PATH_TRANSLATE = "/translate";
+    static final String URL_PATH_REGISTER = "/Register";
+    static final String URL_PATH_GETLANGDATA = "/GetLanguageData";
+    static final String URL_PATH_NEWLANGUAGE = "/CreateLanguage";
+    static final String URL_PATH_UPDATEALPHA = "/UpdateAlphabet";
+    static final String URL_PATH_UPDATESYLLABLES = "/UpdateSyllables";
+    static final String URL_PATH_NEWWORD = "/InsertNewWord";
+    static final String URL_PATH_SEARCHWORD = "/SearchWord";
+    static final String URL_PATH_DICTIONARY = "/Dictionary";
+    static final String URL_PATH_UPDATEWORD = "/UpdateWord";
+    static final String URL_PATH_DELETEWORD = "/DeleteWord";
+    static final String URL_PATH_TRANSLATE = "/Translate";
 
     private final ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
 
@@ -64,98 +62,164 @@ public class ServerFacade implements ServerFacadeInterface {
      * @param request contains all information needed to perform a login.
      * @return the login response.
      */
-    public LoginResponse login(LoginRequest request) throws IOException {
+    public LoginResponse login(LoginRequest request) throws IOException, RemoteException  {
         String Url_Path = URL_PATH_LOGIN;
-        //LoginResponse response = clientCommunicator.doPost(Url_Path, request, null, LoginResponse.class);
+        LoginResponse response = clientCommunicator.doPost(Url_Path, request, null, LoginResponse.class);
 
-        // TEMP RESPONSE
-        User user = new User("Test User", "username", "password");
-        List<Language> languages = new ArrayList<>();
-        languages.add(new Language("elven0",request.getUsername(),"Elven", null));
-        languages.add(new Language("dwarven0",request.getUsername(),"Dwarven",null));
-        return new LoginResponse(user, languages);
+        //TEMP RESPONSE
+        if (response == null || !response.isSuccess()) {//***This is for show only! Comment out this statement when everything is working!***
+            User user = new User(request.getUsername(), request.getUsername(), request.getPassword());
+            List<Language> languages = new ArrayList<>();
+            languages.add(new Language("elven0",request.getUsername(),"Elven", null));
+            languages.add(new Language("dwarven0",request.getUsername(),"Dwarven",null));
+            response = new LoginResponse(user,languages);
+        }
         //
 
-       //return response;
+        return response;
     }
 
-    public RegisterResponse register(RegisterRequest request) throws IOException {
+    public RegisterResponse register(RegisterRequest request) throws IOException, RemoteException {
         String Url_Path = URL_PATH_REGISTER;
-        //RegisterResponse response = clientCommunicator.doPost(Url_Path, request, null, RegisterResponse.class);
+        RegisterResponse response = clientCommunicator.doPost(Url_Path, request, null, RegisterResponse.class);
 
-        // TEMP RESPONSE
-        User user = new User("Test User", "username", "password");
-        return new RegisterResponse(user, null);
+        //TEMP RESPONSE
+        if (response == null || !response.isSuccess()) {//***This is for show only! Comment out this statement when everything is working!***
+            User user = new User(request.getUserName(), request.getName(), request.getPassword());
+            List<Language> languages = new ArrayList<>();
+            languages.add(new Language("elven0",request.getUserName(),"Elven", null));
+            languages.add(new Language("dwarven0",request.getUserName(),"Dwarven",null));
+            response = new RegisterResponse(user,languages);
+        }
         //
 
-        //return response;
+        return response;
     }
 
     public GetLanguageDataResponse getLanguageData(GetLanguageDataRequest request) throws IOException, RemoteException {//RemoteException, ServerException, RequestException, IOException {
-//        String Url_Path = URL_PATH_GETLANGDATA;
-//        GetLanguageDataResponse response = clientCommunicator.doPost(Url_Path, request, null, GetLanguageDataResponse.class);
-//        return response;
-        List<String> syllables = new ArrayList<>();
-        syllables.add("st d");
-        syllables.add(null);
-        syllables.add("nt");
-        return new GetLanguageDataResponse("TestUser", "Elven", "elven0", "a b c ae", syllables);
+        String Url_Path = URL_PATH_GETLANGDATA;
+        GetLanguageDataResponse response = clientCommunicator.doPost(Url_Path, request, null, GetLanguageDataResponse.class);
+
+        //TEMP RESPONSE
+        if (response == null || !response.isSuccess()) {//***This is for show only! Comment out this statement when everything is working!***
+            List<String> syllables = new ArrayList<>();
+            syllables.add("st d");
+            syllables.add(null);
+            syllables.add("nt");
+            response = new GetLanguageDataResponse("TestUser", "Elven", "elven0", "a b c ae", syllables);
+        }
+        //
+
+        return response;
     }
 
-    public NewLanguageResponse createNewLanguage(NewLanguageRequest request) throws IOException, RemoteException {//RemoteException, ServerException, RequestException, IOException {
-//        String Url_Path = URL_PATH_NEWLANGUAGE;
-//        NewLanguageResponse response = clientCommunicator.doPost(Url_Path, request, null, NewLanguageResponse.class);
-//        return response;
+    public NewLanguageResponse createNewLanguage(NewLanguageRequest request) throws IOException, RemoteException, RuntimeException {//RemoteException, ServerException, RequestException, IOException {
+        String Url_Path = URL_PATH_NEWLANGUAGE;
+        NewLanguageResponse response = clientCommunicator.doPost(Url_Path, request, null, NewLanguageResponse.class);
+
         //TEMP RESPONSE
-        NewLanguageResponse response = new NewLanguageResponse(request.getUserName(),request.getLanguageName(),request.getLanguageName()+"0");
+        if (response == null || !response.isSuccess()) {//***This is for show only! Comment out this statement when everything is working!***
+            response = new NewLanguageResponse(request.getUserName(),request.getLanguageName(),request.getLanguageName()+"0");
+        }
+        //
+
         return response;
     }
 
     public GeneralUpdateResponse updateAlphabet(UpdateAlphabetRequest request) throws IOException, RemoteException {//RemoteException, ServerException, RequestException, IOException {
-//        String Url_Path = URL_PATH_UPDATEALPHA;
-//        GeneralUpdateResponse response = clientCommunicator.doPost(Url_Path, request, null, GeneralUpdateResponse.class);
-//        return response;
-        return new GeneralUpdateResponse("elven0");
+        String Url_Path = URL_PATH_UPDATEALPHA;
+        GeneralUpdateResponse response = clientCommunicator.doPost(Url_Path, request, null, GeneralUpdateResponse.class);
+
+        //TEMP RESPONSE
+        if (response == null || !response.isSuccess()) {//***This is for show only! Comment out this statement when everything is working!***
+            response = new GeneralUpdateResponse("elven0");
+        }
+        //
+
+        return response;
     }
 
     public GeneralUpdateResponse updateSyllables(UpdateSyllablesRequest request) throws IOException, RemoteException {//RemoteException, ServerException, RequestException, IOException {
-//        String Url_Path = URL_PATH_UPDATESYLLABLES;
-//        GeneralUpdateResponse response = clientCommunicator.doPost(Url_Path, request, null, GeneralUpdateResponse.class);
-//        return null;
-        return new GeneralUpdateResponse("elven0");
+        String Url_Path = URL_PATH_UPDATESYLLABLES;
+        GeneralUpdateResponse response = clientCommunicator.doPost(Url_Path, request, null, GeneralUpdateResponse.class);
+
+        //TEMP RESPONSE
+        if (response == null || !response.isSuccess()) {//***This is for show only! Comment out this statement when everything is working!***
+            response = new GeneralUpdateResponse("elven0");
+        }
+        //
+
+        return response;
     }
 
     public NewWordResponse newWord(NewWordRequest request) throws IOException, RemoteException {//RemoteException, ServerException, RequestException, IOException {
         String Url_Path = URL_PATH_NEWWORD;
         NewWordResponse response = clientCommunicator.doPost(Url_Path, request, null, NewWordResponse.class);
-        return null;
+
+        //TEMP RESPONSE
+        if (response == null || !response.isSuccess() || response.getNeedsConfirmation() == null) {//***This is for show only! Comment out this statement when everything is working!***
+            if (request.getFantasyWord().getFantasyWord().equals("Aiya") || request.getFantasyWord().getFantasyWord().equals("Namárië")) response = new NewWordResponse(request.getLanguageID(),request.getFantasyWord().getFantasyWord(),true);
+            else response = new NewWordResponse(request.getLanguageID(),request.getFantasyWord().getFantasyWord(), false);
+        }
+        //
+
+        return response;
     }
 
     public DictionaryPageResponse searchWord(SearchWordRequest request) throws IOException, RemoteException {//RemoteException, ServerException, RequestException, IOException {
         String Url_Path = URL_PATH_SEARCHWORD;
         DictionaryPageResponse response = clientCommunicator.doPost(Url_Path, request, null, DictionaryPageResponse.class);
+
+        //TEMP RESPONSE
+        if (response == null || !response.isSuccess()) {//***This is for show only! Comment out this statement when everything is working!***
+            List<Dictionary> dictionaries = new ArrayList<>();
+            dictionaries.add(new Dictionary("elven0", "Aiya", "", "hello"));
+            response = new DictionaryPageResponse(dictionaries,false,null, request.getLanguageid());
+        }
+        //
+
         return response;
     }
 
     public DictionaryPageResponse dictionary(DictionaryPageRequest request) throws IOException, RemoteException {//RemoteException, ServerException, RequestException, IOException {
-//        String Url_Path = URL_PATH_DICTIONARY;
-//        DictionaryPageResponse response = clientCommunicator.doPost(Url_Path, request, null, DictionaryPageResponse.class);
-//        return response;
-        List<Dictionary> dictionaries = new ArrayList<>();
-        dictionaries.add(new Dictionary("elven0", "Aiya", "", "hello"));
-        dictionaries.add(new Dictionary("elven0", "Namárië", "", "good bye"));
-        return new DictionaryPageResponse(dictionaries,false,null, request.getLanguageID());
+        String Url_Path = URL_PATH_DICTIONARY;
+        DictionaryPageResponse response = clientCommunicator.doPost(Url_Path, request, null, DictionaryPageResponse.class);
+
+        //TEMP RESPONSE
+        if (response == null || !response.isSuccess()) {//***This is for show only! Comment out this statement when everything is working!***
+            List<Dictionary> dictionaries = new ArrayList<>();
+            dictionaries.add(new Dictionary("elven0", "Aiya", "", "hello"));
+            dictionaries.add(new Dictionary("elven0", "Namárië", "", "good bye"));
+            response = new DictionaryPageResponse(dictionaries,false,null, request.getLanguageid());
+        }
+        //
+
+        return response;
     }
 
-    public GeneralUpdateResponse updateWord(UpdateWordRequest request) throws IOException, RemoteException {//RemoteException, ServerException, RequestException, IOException {
+    public NewWordResponse updateWord(NewWordRequest request) throws IOException, RemoteException {//RemoteException, ServerException, RequestException, IOException {
         String Url_Path = URL_PATH_UPDATEWORD;
-        GeneralUpdateResponse response = clientCommunicator.doPost(Url_Path, request, null, GeneralUpdateResponse.class);
+        NewWordResponse response = clientCommunicator.doPost(Url_Path, request, null, NewWordResponse.class);
+
+        //TEMP RESPONSE
+        if (response == null || !response.isSuccess()) {//***This is for show only! Comment out this statement when everything is working!***
+            response = new NewWordResponse(request.getLanguageID(), request.getFantasyWord().getFantasyWord(), false);
+        }
+        //
+
         return response;
     }
 
     public GeneralUpdateResponse deleteWord(DeleteWordRequest request) throws IOException, RemoteException {//RemoteException, ServerException, RequestException, IOException {
         String Url_Path = URL_PATH_DELETEWORD;
         GeneralUpdateResponse response = clientCommunicator.doPost(Url_Path, request, null, GeneralUpdateResponse.class);
+
+        //TEMP RESPONSE
+        if (response == null || !response.isSuccess()) {//***This is for show only! Comment out this statement when everything is working!***
+            response = new GeneralUpdateResponse("elven0");
+        }
+        //
+
         return response;
     }
 

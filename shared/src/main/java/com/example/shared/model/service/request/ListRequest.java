@@ -30,7 +30,7 @@ abstract class ListRequest{
      *
      * @return the follower.
      */
-    public String getLanguageID() {
+    public String getLanguageid() {
         return languageID;
     }
 
@@ -49,19 +49,19 @@ abstract class ListRequest{
      *
      * @return the last followee.
      */
-    public Dictionary getLastWord() {
+    public Dictionary getLastdictionary() {
         return lastWord;
     }
 
-    public void setLanguageID(String languageID) {
-        this.languageID = languageID;
+    public void setLanguageid(String languageid) {
+        this.languageID = languageid;
     }
 
     public void setLimit(int limit) {
         this.limit = limit;
     }
 
-    public void setLastWord(Dictionary lastWord) {
-        this.lastWord = lastWord;
+    public void setLastdictionary(Dictionary lastdictionary) {
+        this.lastWord = lastdictionary;
     }
 }

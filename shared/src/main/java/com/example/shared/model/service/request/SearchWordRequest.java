@@ -15,19 +15,19 @@ public class SearchWordRequest extends ListRequest{
     public static final String str_BY_FANTASYWORD = "FantasyWord";
 
     private String searchByData;
-    private String languageID;
+    private String languageid;
     private int typeOfData;
 
     /**
      *
      * @param searchByData the string entered by user to find corresponding words
-     * @param languageID the id of the language being searched
+     * @param languageid the id of the language being searched
      * @param typeOfData probably "Translation"
      */
-    public SearchWordRequest(String searchByData, String languageID, int limit, Dictionary lastWord, int typeOfData) {
-        super(languageID, limit, lastWord);
+    public SearchWordRequest(String searchByData, String languageid, int limit, Dictionary lastWord, int typeOfData) {
+        super(languageid, limit, lastWord);
         this.searchByData = searchByData;
-        this.languageID = languageID;
+        this.languageid = languageid;
         this.typeOfData = typeOfData;
     }
 
@@ -42,12 +42,12 @@ public class SearchWordRequest extends ListRequest{
         this.searchByData = searchByData;
     }
 
-    public String getLanguageID() {
-        return languageID;
+    public String getLanguageid() {
+        return languageid;
     }
 
-    public void setLanguageID(String languageID) {
-        this.languageID = languageID;
+    public void setLanguageid(String languageid) {
+        this.languageid = languageid;
     }
 
     public String getTypeOfData() {
