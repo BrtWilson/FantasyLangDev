@@ -90,7 +90,7 @@ public class LanguageTableDAO {
        //basicLanguageData.put(attributeUserName, request.getUserName());
         basicLanguageData.put(attributeLangID, createLangID(request));
         basicLanguageData.put(attributeLanguageName, request.getLanguageName());
-        if (databaseInteractor.insertItem(tableName, attributeUserName, request.getUserName(), basicLanguageData)) {
+        if (databaseInteractor.insertItemComboKey(tableName, attributeUserName,  request.getUserName(), attributeLangID, basicLanguageData.get(attributeLangID), basicLanguageData)) {
             Map<String, String> languageInserted = databaseInteractor.querySingleItem(tableName, attributeUserName, request.getUserName(), basicLanguageData);
             String languageIDRetrieved = languageInserted.get(attributeLangID);
             return new NewLanguageResponse(request.getUserName(), request.getLanguageName(), languageIDRetrieved);
