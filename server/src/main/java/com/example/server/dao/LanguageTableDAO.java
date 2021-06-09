@@ -99,7 +99,7 @@ public class LanguageTableDAO {
     }
 
     private String createLangID(NewLanguageRequest request) {
-        return request.getLanguageName() + "-" + request.getLanguageName();
+        return request.getUserName() + "-" + request.getLanguageName();
     }
 
     public GeneralUpdateResponse updateAlphabet(UpdateAlphabetRequest request) {
