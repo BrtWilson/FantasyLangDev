@@ -2,6 +2,7 @@ package com.example.server.dao;
 
 import com.example.server.dao.dbstrategies.AWS_RDBStrategy;
 import com.example.server.dao.dbstrategies.DBStrategyInterface;
+import com.example.server.dao.dbstrategies.DynamoDBStrategy;
 import com.example.server.dao.dbstrategies.ResultsPage;
 import com.example.shared.model.domain.Dictionary;
 import com.example.shared.model.service.request.DeleteWordRequest;
@@ -35,7 +36,7 @@ public class DictionaryTableDAO {
         String langID = request.getLanguageID();
         verifyLanguageID(langID);
 
-        ResultsPage pageOfWords = databaseInteractor.keyAndCompositePageQuery(tableName, attributeLangID, langID, pageSize, attributeFantasyWord, request.getLastWord());
+        ResultsPage pageOfWords = databaseInteractor.keyAndCompositePageQuery(tableName, attributeLangID, langID, pageSize, attributeFantasyWord, request.getLastWord().getFantasyWord());
         return convertToDictionaryResponse(pageOfWords, langID);
     }
 
@@ -98,7 +99,7 @@ public class DictionaryTableDAO {
         queryAttributes.put(attributeFantasyWord, fantasyWordData.getFantasyWord());
         //queryAttributes.put(attributePartOfSpeech, fantasyWordData.getPartOfSpeech());
         //queryAttributes.put(attributeTranslation, fantasyWordData.getTranslation());
-        return (databaseInteractor.getItem(tableName, queryAttributes) != null);
+        return (databaseInteractor.getItem(tableName, attributeLangID, queryAttributes, attributeFantasyWord) != null);
     }
 
     /**
@@ -106,12 +107,12 @@ public class DictionaryTableDAO {
      */
     public NewWordResponse insertNewWord(NewWordRequest request) {
         Map<String, String> newWordAttributes = new HashMap<>();
-        newWordAttributes.put(attributeLangID, request.getLanguageID());
+        //newWordAttributes.put(attributeLangID, request.getLanguageID());
         Dictionary fantasyWordData = request.getFantasyWord();
         newWordAttributes.put(attributeFantasyWord, fantasyWordData.getFantasyWord());
         newWordAttributes.put(attributePartOfSpeech, fantasyWordData.getPartOfSpeech());
         newWordAttributes.put(attributeTranslation, fantasyWordData.getTranslation());
-        databaseInteractor.insertItem(tableName, newWordAttributes);
+        databaseInteractor.insertItem(tableName, attributeLangID, request.getLanguageID(), newWordAttributes);
         return new NewWordResponse(request.getLanguageID(), fantasyWordData.getFantasyWord(), false);
     }
 
@@ -144,7 +145,7 @@ public class DictionaryTableDAO {
         deletionItemAttributes.put(attributeFantasyWord, fantasyWordData.getFantasyWord());
         deletionItemAttributes.put(attributePartOfSpeech, fantasyWordData.getPartOfSpeech());
         deletionItemAttributes.put(attributeTranslation, fantasyWordData.getTranslation());
-        boolean success = databaseInteractor.deleteItem(tableName, deletionItemAttributes);
+        boolean success = databaseInteractor.deleteItem(tableName, attributeLangID, deletionItemAttributes, attributeFantasyWord);
         if (success) {
             return new GeneralUpdateResponse(request.getLanguageID());
         }
@@ -152,7 +153,7 @@ public class DictionaryTableDAO {
     }
 
     private DBStrategyInterface getDatabaseInteractor() {
-        return new AWS_RDBStrategy();
-        //return new DynamoDBStrategy();
+        //return new AWS_RDBStrategy();
+        return new DynamoDBStrategy();
     }
 }

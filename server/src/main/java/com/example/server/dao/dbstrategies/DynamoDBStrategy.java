@@ -6,6 +6,7 @@ import com.amazonaws.services.dynamodbv2.document.BatchWriteItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Item;
 import com.amazonaws.services.dynamodbv2.document.ItemCollection;
+import com.amazonaws.services.dynamodbv2.document.ItemUtils;
 import com.amazonaws.services.dynamodbv2.document.PutItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.QueryOutcome;
 import com.amazonaws.services.dynamodbv2.document.Table;
@@ -150,6 +151,15 @@ public class DynamoDBStrategy implements DBStrategyInterface {
     }
 
     public static Item basicQueryWithKey(String targetTable, String key, String keyValue) throws Exception {
+        ItemCollection<QueryOutcome> items = basicListQueryWithKey(targetTable, key, keyValue);
+
+        Iterator<Item> iterator = items.iterator();
+        //iterator = items.iterator();
+        return iterator.next();
+    }
+
+
+    public static ItemCollection<QueryOutcome> basicListQueryWithKey(String targetTable, String key, String keyValue) throws Exception {
 
         Table table = dynamoDB.getTable(targetTable);
 
@@ -164,13 +174,12 @@ public class DynamoDBStrategy implements DBStrategyInterface {
         QuerySpec querySpec = new QuerySpec().withHashKey(key, keyValue);
 
         ItemCollection<QueryOutcome> items = null;
-        Iterator<Item> iterator = null;
+        //Iterator<Item> iterator = null;
         //Item item = null;
 
         System.out.println("Performing query");
         items = table.query(querySpec);
-        iterator = items.iterator();
-        return iterator.next();
+        return items;
     }
             /*while (iterator.hasNext()) {
                 item = iterator.next();
@@ -518,6 +527,31 @@ public class DynamoDBStrategy implements DBStrategyInterface {
         }
     }
 
+    public static void updateItemMultipleAttributes(String tableName, String key, String keyValue, Map<String, String> queryAttributes, Map<String, String> updateAttributes) throws Exception {
+        Table table = dynamoDB.getTable("Movies");
+
+        UpdateItemSpec updateItemSpec = new UpdateItemSpec().withPrimaryKey(key, keyValue)
+                .withReturnValues(ReturnValue.UPDATED_NEW);
+        for (Map.Entry<String,String> entry: updateAttributes.entrySet()) {
+            String attribute = entry.getKey();
+            String newAttributeValue = entry.getValue();
+
+            updateItemSpec = updateItemSpec.withUpdateExpression("set " + attribute + " = :a");
+            updateItemSpec = updateItemSpec.withValueMap(new ValueMap().withString(":a", newAttributeValue));
+        }
+
+        try {
+            System.out.println("Updating the item...");
+            UpdateItemOutcome outcome = table.updateItem(updateItemSpec);
+            System.out.println("UpdateItem succeeded:\n" + outcome.getItem().toJSONPretty());
+
+        }
+        catch (Exception e) {
+            System.err.println("Unable to update item: " + keyValue);
+            System.err.println(e.getMessage());
+        }
+    }
+
     /**
      * Retrieves a single String-type value from an object matching a specified key
      * @param tableName The Database Table being targeted
@@ -560,48 +594,131 @@ public class DynamoDBStrategy implements DBStrategyInterface {
         }
     }
 
+    //this first
     @Override
-    public boolean insertItem(String tableName, Map<String, String> attributesToInsert) {
-        return false;
+    public boolean insertItem(String tableName, String key, String keyValue, Map<String, String> attributesToInsert) {
+        ArrayList<String> attributes = convertMapKeys_to_Array(attributesToInsert);
+        ArrayList<String> attributeValues = convertMapValues_to_Array(attributesToInsert);
+        return createItemWithAttributes(tableName, key, keyValue, attributes, attributeValues);
+    }
+
+    private ArrayList<String> convertMapValues_to_Array(Map<String, String> attributesToInsert) {
+        ArrayList<String> attributes = new ArrayList<>();
+        for (Map.Entry<String, String> entry: attributesToInsert.entrySet()) {
+            attributes.add(entry.getKey());
+        }
+        return attributes;
+    }
+
+    private ArrayList<String> convertMapKeys_to_Array(Map<String, String> attributesToInsert) {
+        ArrayList<String> attributeValues = new ArrayList<>();
+        for (Map.Entry<String, String> entry: attributesToInsert.entrySet()) {
+            attributeValues.add(entry.getValue());
+        }
+        return attributeValues;
     }
 
     @Override
-    public Map<String, String> getItem(String tableName, String attributeName, String attributeValue) {
-        return null;
+    public boolean insertItemComboKey(String tableName, String key, String keyValue, String secondKey, String secondValue, Map<String, String> attributesToInsert) {
+        try {
+            ArrayList<String> attributes = convertMapKeys_to_Array(attributesToInsert);
+            ArrayList<String> attributeValues = convertMapValues_to_Array(attributesToInsert);
+            createItemWithDualKeyAndAttributes(tableName, key, keyValue, secondKey, secondValue, attributes, attributeValues);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    //and this
+    @Override
+    public Map<String, String> getItem(String tableName, String attributeName, String attributeValue) throws Exception {
+        Item item = basicQueryWithKey(tableName, attributeName, attributeValue);
+        return convertItemToMap(item);
     }
 
     @Override
-    public List<Map<String, String>> queryListItems(String tableName, Map<String, String> queryAttributes) {
-        return null;
+    public List<Map<String, String>> queryListItems(String tableName, String key, Map<String, String> queryAttributes) throws Exception {
+        //if (queryAttributes.size() == 1) {
+            ItemCollection<QueryOutcome> items = basicListQueryWithKey(tableName, key, queryAttributes.get(key));
+        //}
+        return convertItemCollection_to_map(items);
+    }
+
+    private List<Map<String, String>> convertItemCollection_to_map(ItemCollection<QueryOutcome> items) {
+        List<Map<String, String>> itemList = new ArrayList<>();
+        for (Item item : items) {
+            Map<String, String> itemMap = convertItemToMap(item);
+            itemList.add(itemMap);
+        }
+        return itemList;
     }
 
     @Override
     public ResultsPage keyAndCompositePageQuery(String tableName, String primaryKey, String keyValue, int pageSize, String byAttribute, String lastRetrieved) {
-        return null;
+        return getListByString(tableName, primaryKey, keyValue, pageSize, byAttribute, lastRetrieved);
     }
 
+    //No usages as yet
     @Override
     public ResultsPage keyAndAttributesPageQuery(String tableName, String primaryKey, String keyValue, Map<String, String> queryAttributes, boolean includesKey, int pageSize, String byAttribute, String lastRetrieved) {
         return null;
     }
 
     @Override
-    public Map<String, String> querySingleItem(String tableName, Map<String, String> queryAttributes) {
-        return null;
+    public Map<String, String> querySingleItem(String tableName, String key, String keyValue, Map<String, String> queryAttributes) throws Exception {
+        Item item = null;
+        if (queryAttributes.size() != 0) {
+            if ((queryAttributes.size() != 1) || (queryAttributes.get(key) == null) ) {
+                String secondKey = null;
+                String secondValue = null;
+                for (Map.Entry<String,String> entry: queryAttributes.entrySet()){
+                    if (entry.getKey() != key) {
+                        secondKey = entry.getKey();
+                        secondValue = entry.getValue();
+                    }
+                }
+                if (secondKey != null) {
+                    item = basicGetItemWithDualKey(tableName, key, keyValue, secondKey, secondValue);
+                } else {
+                    throw new Exception("Error: invalid query attributes.");
+                }
+            }
+        }
+        item = basicQueryWithKey(tableName, key, keyValue);
+        return convertItemToMap(item);
     }
 
     @Override
-    public boolean updateItem(String tableName, Map<String, String> queryAttributes, Map<String, String> updateAttributes) {
+    public boolean updateItem(String tableName, String key, String keyValue, Map<String, String> queryAttributes, Map<String, String> updateAttributes) throws Exception {
+        updateItemMultipleAttributes(tableName, key, keyValue, queryAttributes, updateAttributes);
         return false;
     }
 
     @Override
-    public Map<String, String> getItem(String tableName, Map<String, String> queryAttributes) {
-        return null;
+    public Map<String, String> getItem(String tableName, String key, Map<String, String> queryAttributes, String secondKey) {
+        Item item = basicGetItemWithDualKey(tableName, key, queryAttributes.get(key), secondKey, queryAttributes.get(secondKey));
+        return convertItemToMap(item);
     }
 
+    //Should work for either with single key or with combination key
     @Override
-    public boolean deleteItem(String tableName, Map<String, String> deletionItemAttributes) {
+    public boolean deleteItem(String tableName, String key, Map<String, String> deletionItemAttributes, String secondKey) {
+        if (secondKey.isEmpty()) {
+            String keyValue = deletionItemAttributes.get(key);
+            deleteItem(tableName, key, keyValue);
+        } else {
+            String keyValue = deletionItemAttributes.get(key);
+            String secondValue = deletionItemAttributes.get(secondKey);
+            deleteItemWithDualKey(tableName, key, keyValue, secondKey, secondValue);
+        }
+
         return false;
+    }
+
+    private Map<String, String> convertItemToMap(Item item) {
+        Map<String, String> itemMap = new HashMap<>();
+        Map<String, AttributeValue> map = (Map<String, AttributeValue>) ItemUtils.toAttributeValue(item);
+        return convertMap_to_WithStrings(map);
     }
 }

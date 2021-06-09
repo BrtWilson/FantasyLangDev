@@ -2,6 +2,7 @@ package com.example.server.dao;
 
 import com.example.server.dao.dbstrategies.AWS_RDBStrategy;
 import com.example.server.dao.dbstrategies.DBStrategyInterface;
+import com.example.server.dao.dbstrategies.DynamoDBStrategy;
 import com.example.shared.model.domain.User;
 import com.example.shared.model.service.request.LoginRequest;
 import com.example.shared.model.service.request.RegisterRequest;
@@ -27,23 +28,23 @@ public class UsersTableDAO {
     private static final String FAULTY_USER_REQUEST = "[Bad Request]";
     private static final String SERVER_SIDE_ERROR = "[Server Error]";
 
-    public RegisterResponse register(RegisterRequest request) {
+    public RegisterResponse register(RegisterRequest request) throws Exception {
         if (databaseInteractor.getItem(tableName, attributeUserName, request.getUserName()) != null) {
             return new RegisterResponse(false, "UserName already taken!");
         }
         Map<String, String> attributesToInsert = new HashMap<>();
-        attributesToInsert.put(attributeUserName, request.getUserName());
+        //attributesToInsert.put(attributeUserName, request.getUserName());
         attributesToInsert.put(attributeName, request.getName());
         attributesToInsert.put(attributePassword, request.getPassword());
 
-        if (databaseInteractor.insertItem(tableName, attributesToInsert)) {
+        if (databaseInteractor.insertItem(tableName, attributeUserName, request.getUserName(), attributesToInsert)) {
             User newUser = new User(request.getUserName(), request.getName(), null);
             return new RegisterResponse(newUser, null); //Only not null if we change insertion
         }
         return new RegisterResponse(false, "[Error] Failed to insert User!");
     }
 
-    public User login(LoginRequest request) {
+    public User login(LoginRequest request) throws Exception {
         if (databaseInteractor.getItem(tableName, attributeUserName, request.getUsername()) != null) {
             // return as success
             //THIS NEEDS TO BE FILLED WITH THE USER INFO
@@ -204,7 +205,7 @@ public class UsersTableDAO {
     */
 
     private DBStrategyInterface getDatabaseInteractor() {
-        return new AWS_RDBStrategy();
-        //return new DynamoDBStrategy();
+        //return new AWS_RDBStrategy();
+        return new DynamoDBStrategy();
     }
 }

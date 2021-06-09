@@ -5,10 +5,12 @@ import java.util.Map;
 
 public interface DBStrategyInterface {
 
-    boolean insertItem(String tableName, Map<String, String> attributesToInsert);
+    boolean insertItem(String tableName, String key, String keyValue, Map<String, String> attributesToInsert);
     // ::> Add identifier of key(s)?
 
-    Map<String, String> getItem(String tableName, String attributeName, String attributeValue);
+    boolean insertItemComboKey(String tableName, String key, String keyValue, String secondKey, String secondValue, Map<String, String> attributesToInsert);
+
+    Map<String, String> getItem(String tableName, String attributeName, String attributeValue) throws Exception;
     // ::> this will be either by key or index
 
     /**
@@ -17,7 +19,7 @@ public interface DBStrategyInterface {
      * @param queryAttributes the column names and corresponding values being queried
      * @return list of items (each row returned from the query matches an item)
      */
-    List<Map<String, String>> queryListItems(String tableName, Map<String, String> queryAttributes);
+    List<Map<String, String>> queryListItems(String tableName, String key, Map<String, String> queryAttributes) throws Exception;
     //::> differentiate query/getItem by key, composite key, or index: have a String indicating this type
         // Probably boolean "isByIndex"
 
@@ -50,16 +52,16 @@ public interface DBStrategyInterface {
      */
     ResultsPage keyAndAttributesPageQuery(String tableName, String primaryKey, String keyValue, Map<String, String> queryAttributes, boolean includesKey, int pageSize, String byAttribute, String lastRetrieved);
 
-    Map<String, String> querySingleItem(String tableName, Map<String, String> queryAttributes);
+    Map<String, String> querySingleItem(String tableName, String key, String value, Map<String, String> queryAttributes) throws Exception;
     //::> differentiate query/getItem by key, composite key, or index
 
-    boolean updateItem(String tableName, Map<String, String> queryAttributes, Map<String, String> updateAttributes);
-    //::> this will be either key or composite key: check map size for this
+    boolean updateItem(String tableName, String key, String keyValue, Map<String, String> queryAttributes, Map<String, String> updateAttributes) throws Exception;
+    //::> this will be either key or composite key: check map empty for this
 
-    Map<String, String> getItem(String tableName, Map<String, String> queryAttributes);
+    Map<String, String> getItem(String tableName, String key, Map<String, String> queryAttributes, String secondKey);
     //::> this will be either key or composite key: check map size for this
         // Probably Composite key (see other getItem)
 
-    boolean deleteItem(String tableName, Map<String, String> deletionItemAttributes);
-    //::> this will be either key or composite key: check map size for this
+    boolean deleteItem(String tableName, String key, Map<String, String> deletionItemAttributes, String secondKey);
+    //::> this will be either key or composite key: check if secondKey is empty for this
 }

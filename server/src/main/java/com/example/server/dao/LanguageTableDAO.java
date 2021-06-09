@@ -40,11 +40,11 @@ public class LanguageTableDAO {
      * @param request the LoginRequest providing the User's UserName
      * @return the list of languageID's found in the Language Table, corresponding to the given UserName
      */
-    public List<String> getLanguages(LoginRequest request) {
+    public List<String> getLanguages(LoginRequest request) throws Exception {
         Map<String, String> queryAttributes = new HashMap<>();
         queryAttributes.put(attributeUserName, request.getUsername());
 
-        List<Map<String, String>> queryResults = databaseInteractor.queryListItems(tableName, queryAttributes);
+        List<Map<String, String>> queryResults = databaseInteractor.queryListItems(tableName, attributeUserName, queryAttributes);
         List<String> userLanguages = new ArrayList<>();
         for (int i = 0; i < queryResults.size(); i++) {
             userLanguages.add(queryResults.get(i).get(attributeLangID));
@@ -58,7 +58,7 @@ public class LanguageTableDAO {
      * @return GetLanguageDataResponse object with all fields corresponding to the Languages Table
      *          including alphabet if it exists
      */
-    public GetLanguageDataResponse getLanguageData(GetLanguageDataRequest request) {
+    public GetLanguageDataResponse getLanguageData(GetLanguageDataRequest request) throws Exception {
         Map<String, String> languageData = databaseInteractor.getItem(tableName, attributeLangID, request.getLanguageID());
         if (languageData != null) {
             String userName = languageData.get(attributeUserName);
@@ -75,12 +75,12 @@ public class LanguageTableDAO {
      *  *TODO NOTE: likely will require particular adjustment for establishment of LANGUAGE_ID,
      *      unless we keep that the database will develop the key for this
      */
-    public NewLanguageResponse createLanguage(NewLanguageRequest request) {
+    public NewLanguageResponse createLanguage(NewLanguageRequest request) throws Exception {
         Map<String, String> basicLanguageData = new HashMap<>();
-        basicLanguageData.put(attributeUserName, request.getUserName());
+       //basicLanguageData.put(attributeUserName, request.getUserName());
         basicLanguageData.put(attributeLanguageName, request.getLanguageName());
-        if (databaseInteractor.insertItem(tableName, basicLanguageData)) {
-            Map<String, String> languageInserted = databaseInteractor.querySingleItem(tableName, basicLanguageData);
+        if (databaseInteractor.insertItem(tableName, attributeUserName, request.getUserName(), basicLanguageData)) {
+            Map<String, String> languageInserted = databaseInteractor.querySingleItem(tableName, attributeUserName, request.getUserName(), basicLanguageData);
             String languageIDRetrieved = languageInserted.get(attributeLangID);
             return new NewLanguageResponse(request.getUserName(), request.getLanguageName(), languageIDRetrieved);
         }
@@ -90,10 +90,10 @@ public class LanguageTableDAO {
     public GeneralUpdateResponse updateAlphabet(UpdateAlphabetRequest request) {
         Map<String, String> queryAttributes = new HashMap<>();
         Map<String, String> updateAttributes = new HashMap<>();
-        queryAttributes.put(attributeLangID, request.getLanguageID());
+        //queryAttributes.put(attributeLangID, request.getLanguageID());
         updateAttributes.put(attributeAlphabet, request.getAlphabet());
         try {
-            databaseInteractor.updateItem(tableName, queryAttributes, updateAttributes);
+            databaseInteractor.updateItem(tableName, attributeLangID, request.getLanguageID(), queryAttributes, updateAttributes);
         } catch (Exception e) {
             return new GeneralUpdateResponse(false, "[Error] Alphabet failed to update: " + e.getMessage());
         }
@@ -101,7 +101,7 @@ public class LanguageTableDAO {
     }
 
     private DBStrategyInterface getDatabaseInteractor() {
-        return new AWS_RDBStrategy();
-        //return new DynamoDBStrategy();
+        //return new AWS_RDBStrategy();
+        return new DynamoDBStrategy();
     }
 }

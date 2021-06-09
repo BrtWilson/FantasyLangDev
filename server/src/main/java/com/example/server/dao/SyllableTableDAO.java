@@ -33,10 +33,11 @@ public class SyllableTableDAO {
      * @param request provides languageID
      * @return a List of String containing the syllable data corresponding to the languageID if any exists
      */
-    public List<String> getSyllableData(GetLanguageDataRequest request) {
+    public List<String> getSyllableData(GetLanguageDataRequest request) throws Exception {
         Map<String, String> syllableQuery = new HashMap<>();
+        syllableQuery.put(attributeLangID, request.getLanguageID());
 
-        List<Map<String, String>> returnedItems = databaseInteractor.queryListItems(tableName, syllableQuery);
+        List<Map<String, String>> returnedItems = databaseInteractor.queryListItems(tableName, attributeLangID, syllableQuery);
         if (returnedItems.size() != 0) {
             Map<Integer, String> returnedSyllablePairs = parseItemsForSyllableMap(returnedItems);
             List<String> syllablesRetrieved = parseMapForSyllables(returnedSyllablePairs);
@@ -93,11 +94,11 @@ public class SyllableTableDAO {
         try {
             for (Map.Entry<Integer, String> entry : syllableItemsToInsert.entrySet()) {
                 Map<String, String> syllableItem = new HashMap<>();
-                syllableItem.put(attributeLangID, request.getLanguageID());
+                //syllableItem.put(attributeLangID, request.getLanguageID());
                 syllableItem.put(attributeTemplate, request.getSyllableTemplate());
                 syllableItem.put(attributeDigit, entry.getKey().toString());
                 syllableItem.put(attributePossibleChars, entry.getValue());
-                databaseInteractor.insertItem(tableName, syllableItem);
+                databaseInteractor.insertItem(tableName, attributeLangID, request.getLanguageID(), syllableItem);
             }
         } catch (Exception e) {
             return new GeneralUpdateResponse(false, e.getMessage());
@@ -107,7 +108,7 @@ public class SyllableTableDAO {
     }
 
     private DBStrategyInterface getDatabaseInteractor() {
-        return new AWS_RDBStrategy();
-        //return new DynamoDBStrategy();
+        //return new AWS_RDBStrategy();
+        return new DynamoDBStrategy();
     }
 }

@@ -561,7 +561,12 @@ public class AWS_RDBStrategy implements DBStrategyInterface {
     }
 
     @Override
-    public boolean insertItem(String tableName, Map<String, String> attributesToInsert) {
+    public boolean insertItem(String tableName, String key, String keyValue, Map<String, String> attributesToInsert) {
+        return false;
+    }
+
+    @Override
+    public boolean insertItemComboKey(String tableName, String key, String keyValue, String secondKey, String secondValue, Map<String, String> attributesToInsert) {
         return false;
     }
 
@@ -571,7 +576,7 @@ public class AWS_RDBStrategy implements DBStrategyInterface {
     }
 
     @Override
-    public List<Map<String, String>> queryListItems(String tableName, Map<String, String> queryAttributes) {
+    public List<Map<String, String>> queryListItems(String tableName, String key, Map<String, String> queryAttributes) {
         return null;
     }
 
@@ -586,22 +591,23 @@ public class AWS_RDBStrategy implements DBStrategyInterface {
     }
 
     @Override
-    public Map<String, String> querySingleItem(String tableName, Map<String, String> queryAttributes) {
+    public Map<String, String> querySingleItem(String tableName, String key, String value, Map<String, String> queryAttributes) throws Exception {
         return null;
     }
 
     @Override
-    public boolean updateItem(String tableName, Map<String, String> queryAttributes, Map<String, String> updateAttributes) {
+    public boolean updateItem(String tableName, String key, String keyValue, Map<String, String> queryAttributes, Map<String, String> updateAttributes) throws Exception {
         return false;
     }
 
     @Override
-    public Map<String, String> getItem(String tableName, Map<String, String> queryAttributes) {
+    public Map<String, String> getItem(String tableName, String key, Map<String, String> queryAttributes, String secondKey) {
         return null;
     }
 
     @Override
-    public boolean deleteItem(String tableName, Map<String, String> deletionItemAttributes) {
+    public boolean deleteItem(String tableName, String key, Map<String, String> deletionItemAttributes, String secondKey) {
         return false;
     }
+
 }
