@@ -34,7 +34,7 @@ public class LanguageService implements ILanguageService {
     }
 
     @Override
-    public List<String> getLanguages(LoginRequest request) {
+    public List<String> getLanguages(LoginRequest request) throws Exception {
         List<String> response = getLanguageDAO().getLanguages(request);
         return response;
     }

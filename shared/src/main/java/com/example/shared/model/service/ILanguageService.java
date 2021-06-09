@@ -14,5 +14,5 @@ import java.util.List;
 
 public interface ILanguageService {
 
-    public List<String> getLanguages(LoginRequest request);
+    public List<String> getLanguages(LoginRequest request) throws Exception;
 }

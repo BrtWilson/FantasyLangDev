@@ -18,7 +18,7 @@ public class UserLoginHandler implements RequestHandler<LoginRequest, LoginRespo
         LoginResponse response = null;
         try {
             response = userService.login(loginRequest);
-        } catch (RuntimeException | IOException e) {
+        } catch (Exception e) {
             String message = "[Bad Request]";
             throw new RuntimeException(message, e);
         }

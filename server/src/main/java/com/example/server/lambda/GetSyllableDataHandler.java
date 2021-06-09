@@ -29,6 +29,8 @@ public class GetSyllableDataHandler implements RequestHandler<GetLanguageDataReq
         } catch (RuntimeException | IOException e) {
             String message = "[Bad Request]";
             throw new RuntimeException(message, e);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return response;
     }
