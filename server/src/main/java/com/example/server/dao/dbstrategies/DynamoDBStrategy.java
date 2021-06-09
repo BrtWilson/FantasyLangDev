@@ -306,11 +306,18 @@ public class DynamoDBStrategy implements DBStrategyInterface {
     //Table followTable = dynamoDB.getTable("follows");
     //Index index = followTable.getIndex("follows_index");
 
-
+    /**
+     * Converts the AttributeValue objects in a map to Strings.
+     * If any entry shows null values, it is not added to the new map.
+     * @param item receives an item already converted to a Map<String, AttributeValue> object
+     * @return
+     */
     private static Map<String, String> convertMap_to_WithStrings(Map<String, AttributeValue> item) {
         Map<String, String> newMap = new HashMap<>();
         for (Map.Entry<String, AttributeValue> entry : item.entrySet()){
-            newMap.put(entry.getKey(), entry.getValue().toString());
+            if ((entry.getKey() != null) && (entry.getValue() != null)) {
+                newMap.put(entry.getKey(), entry.getValue().toString());
+            }
         }
         return newMap;
     }
