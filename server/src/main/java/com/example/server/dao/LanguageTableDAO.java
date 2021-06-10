@@ -1,24 +1,19 @@
 package com.example.server.dao;
 
-import com.example.server.dao.dbstrategies.AWS_RDBStrategy;
 import com.example.server.dao.dbstrategies.DBStrategyInterface;
 import com.example.server.dao.dbstrategies.DynamoDBStrategy;
 import com.example.shared.model.service.request.GetLanguageDataRequest;
 import com.example.shared.model.service.request.LoginRequest;
 import com.example.shared.model.service.request.NewLanguageRequest;
 import com.example.shared.model.service.request.UpdateAlphabetRequest;
-import com.example.shared.model.service.request.UpdateWordRequest;
 import com.example.shared.model.service.response.GeneralUpdateResponse;
 import com.example.shared.model.service.response.GetLanguageDataResponse;
-import com.example.shared.model.service.response.LoginResponse;
 import com.example.shared.model.service.response.NewLanguageResponse;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import sun.rmi.runtime.Log;
 
 public class LanguageTableDAO {
     private DBStrategyInterface databaseInteractor = getDatabaseInteractor();
@@ -42,7 +37,7 @@ public class LanguageTableDAO {
      */
     public List<String> getLanguages(LoginRequest request) throws Exception {
         Map<String, String> queryAttributes = new HashMap<>();
-        queryAttributes.put(attributeUserName, request.getUsername());
+        queryAttributes.put(attributeUserName, request.getUserName());
 
         List<Map<String, String>> queryResults = databaseInteractor.queryListItems(tableName, attributeUserName, queryAttributes);
         List<String> userLanguages = new ArrayList<>();

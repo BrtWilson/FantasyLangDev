@@ -1,12 +1,10 @@
 package com.example.server.dao;
 
-import com.example.server.dao.dbstrategies.AWS_RDBStrategy;
 import com.example.server.dao.dbstrategies.DBStrategyInterface;
 import com.example.server.dao.dbstrategies.DynamoDBStrategy;
 import com.example.shared.model.domain.User;
 import com.example.shared.model.service.request.LoginRequest;
 import com.example.shared.model.service.request.RegisterRequest;
-import com.example.shared.model.service.response.LoginResponse;
 import com.example.shared.model.service.response.RegisterResponse;
 
 import java.util.HashMap;
@@ -45,10 +43,10 @@ public class UsersTableDAO {
     }
 
     public User login(LoginRequest request) throws Exception {
-        if (databaseInteractor.getItem(tableName, attributeUserName, request.getUsername()) != null) {
+        if (databaseInteractor.getItem(tableName, attributeUserName, request.getUserName()) != null) {
             // return as success
             //THIS NEEDS TO BE FILLED WITH THE USER INFO
-            return new User(request.getUsername(), request.getUsername(), request.getPassword());
+            return new User(request.getUserName(), request.getUserName(), request.getPassword());
         }
         return new User(); // NO USER FOUND
     }

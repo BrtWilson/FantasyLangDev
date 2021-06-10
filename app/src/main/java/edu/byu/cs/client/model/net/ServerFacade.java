@@ -67,13 +67,13 @@ public class ServerFacade implements ServerFacadeInterface {
         LoginResponse response = clientCommunicator.doPost(Url_Path, request, null, LoginResponse.class);
 
         //TEMP RESPONSE
-        if (response == null || !response.isSuccess()) {//***This is for show only! Comment out this statement when everything is working!***
-            User user = new User(request.getUsername(), request.getUsername(), request.getPassword());
-            List<Language> languages = new ArrayList<>();
-            languages.add(new Language("elven0",request.getUsername(),"Elven", null));
-            languages.add(new Language("dwarven0",request.getUsername(),"Dwarven",null));
-            response = new LoginResponse(user,languages);
-        }
+//        if (response == null || !response.isSuccess()) {//***This is for show only! Comment out this statement when everything is working!***
+//            User user = new User(request.getUsername(), request.getUsername(), request.getPassword());
+//            List<Language> languages = new ArrayList<>();
+//            languages.add(new Language("elven0",request.getUsername(),"Elven", null));
+//            languages.add(new Language("dwarven0",request.getUsername(),"Dwarven",null));
+//            response = new LoginResponse(user,languages);
+//        }
         //
 
         return response;
@@ -84,13 +84,13 @@ public class ServerFacade implements ServerFacadeInterface {
         RegisterResponse response = clientCommunicator.doPost(Url_Path, request, null, RegisterResponse.class);
 
         //TEMP RESPONSE
-        if (response == null || !response.isSuccess()) {//***This is for show only! Comment out this statement when everything is working!***
-            User user = new User(request.getUserName(), request.getName(), request.getPassword());
-            List<Language> languages = new ArrayList<>();
-            languages.add(new Language("elven0",request.getUserName(),"Elven", null));
-            languages.add(new Language("dwarven0",request.getUserName(),"Dwarven",null));
-            response = new RegisterResponse(user,languages);
-        }
+//        if (response == null || !response.isSuccess()) {//***This is for show only! Comment out this statement when everything is working!***
+//            User user = new User(request.getUserName(), request.getName(), request.getPassword());
+//            List<Language> languages = new ArrayList<>();
+//            languages.add(new Language("elven0",request.getUserName(),"Elven", null));
+//            languages.add(new Language("dwarven0",request.getUserName(),"Dwarven",null));
+//            response = new RegisterResponse(user,languages);
+//        }
         //
 
         return response;
@@ -101,13 +101,13 @@ public class ServerFacade implements ServerFacadeInterface {
         GetLanguageDataResponse response = clientCommunicator.doPost(Url_Path, request, null, GetLanguageDataResponse.class);
 
         //TEMP RESPONSE
-        if (response == null || !response.isSuccess()) {//***This is for show only! Comment out this statement when everything is working!***
-            List<String> syllables = new ArrayList<>();
-            syllables.add("st d");
-            syllables.add(null);
-            syllables.add("nt");
-            response = new GetLanguageDataResponse("TestUser", "Elven", "elven0", "a b c ae", syllables);
-        }
+//        if (response == null || !response.isSuccess()) {//***This is for show only! Comment out this statement when everything is working!***
+//            List<String> syllables = new ArrayList<>();
+//            syllables.add("st d");
+//            syllables.add(null);
+//            syllables.add("nt");
+//            response = new GetLanguageDataResponse("TestUser", "Elven", "elven0", "a b c ae", syllables);
+//        }
         //
 
         return response;
@@ -118,9 +118,9 @@ public class ServerFacade implements ServerFacadeInterface {
         NewLanguageResponse response = clientCommunicator.doPost(Url_Path, request, null, NewLanguageResponse.class);
 
         //TEMP RESPONSE
-        if (response == null || !response.isSuccess()) {//***This is for show only! Comment out this statement when everything is working!***
-            response = new NewLanguageResponse(request.getUserName(),request.getLanguageName(),request.getLanguageName()+"0");
-        }
+//        if (response == null || !response.isSuccess()) {//***This is for show only! Comment out this statement when everything is working!***
+//            response = new NewLanguageResponse(request.getUserName(),request.getLanguageName(),request.getLanguageName()+"0");
+//        }
         //
 
         return response;
@@ -131,9 +131,9 @@ public class ServerFacade implements ServerFacadeInterface {
         GeneralUpdateResponse response = clientCommunicator.doPost(Url_Path, request, null, GeneralUpdateResponse.class);
 
         //TEMP RESPONSE
-        if (response == null || !response.isSuccess()) {//***This is for show only! Comment out this statement when everything is working!***
-            response = new GeneralUpdateResponse("elven0");
-        }
+//        if (response == null || !response.isSuccess()) {//***This is for show only! Comment out this statement when everything is working!***
+//            response = new GeneralUpdateResponse("elven0");
+//        }
         //
 
         return response;
@@ -144,9 +144,9 @@ public class ServerFacade implements ServerFacadeInterface {
         GeneralUpdateResponse response = clientCommunicator.doPost(Url_Path, request, null, GeneralUpdateResponse.class);
 
         //TEMP RESPONSE
-        if (response == null || !response.isSuccess()) {//***This is for show only! Comment out this statement when everything is working!***
-            response = new GeneralUpdateResponse("elven0");
-        }
+//        if (response == null || !response.isSuccess()) {//***This is for show only! Comment out this statement when everything is working!***
+//            response = new GeneralUpdateResponse("elven0");
+//        }
         //
 
         return response;
@@ -157,10 +157,10 @@ public class ServerFacade implements ServerFacadeInterface {
         NewWordResponse response = clientCommunicator.doPost(Url_Path, request, null, NewWordResponse.class);
 
         //TEMP RESPONSE
-        if (response == null || !response.isSuccess() || response.getNeedsConfirmation() == null) {//***This is for show only! Comment out this statement when everything is working!***
-            if (request.getFantasyWord().getFantasyWord().equals("Aiya") || request.getFantasyWord().getFantasyWord().equals("Namárië")) response = new NewWordResponse(request.getLanguageID(),request.getFantasyWord().getFantasyWord(),true);
-            else response = new NewWordResponse(request.getLanguageID(),request.getFantasyWord().getFantasyWord(), false);
-        }
+//        if (response == null || !response.isSuccess() || response.getNeedsConfirmation() == null) {//***This is for show only! Comment out this statement when everything is working!***
+//            if (request.getFantasyWord().getFantasyWord().equals("Aiya") || request.getFantasyWord().getFantasyWord().equals("Namárië")) response = new NewWordResponse(request.getLanguageID(),request.getFantasyWord().getFantasyWord(),true);
+//            else response = new NewWordResponse(request.getLanguageID(),request.getFantasyWord().getFantasyWord(), false);
+//        }
         //
 
         return response;
@@ -171,11 +171,11 @@ public class ServerFacade implements ServerFacadeInterface {
         DictionaryPageResponse response = clientCommunicator.doPost(Url_Path, request, null, DictionaryPageResponse.class);
 
         //TEMP RESPONSE
-        if (response == null || !response.isSuccess()) {//***This is for show only! Comment out this statement when everything is working!***
-            List<Dictionary> dictionaries = new ArrayList<>();
-            dictionaries.add(new Dictionary("elven0", "Aiya", "", "hello"));
-            response = new DictionaryPageResponse(dictionaries,false,null, request.getLanguageid());
-        }
+//        if (response == null || !response.isSuccess()) {//***This is for show only! Comment out this statement when everything is working!***
+//            List<Dictionary> dictionaries = new ArrayList<>();
+//            dictionaries.add(new Dictionary("elven0", "Aiya", "", "hello"));
+//            response = new DictionaryPageResponse(dictionaries,false,null, request.getLanguageid());
+//        }
         //
 
         return response;
@@ -186,12 +186,12 @@ public class ServerFacade implements ServerFacadeInterface {
         DictionaryPageResponse response = clientCommunicator.doPost(Url_Path, request, null, DictionaryPageResponse.class);
 
         //TEMP RESPONSE
-        if (response == null || !response.isSuccess()) {//***This is for show only! Comment out this statement when everything is working!***
-            List<Dictionary> dictionaries = new ArrayList<>();
-            dictionaries.add(new Dictionary("elven0", "Aiya", "", "hello"));
-            dictionaries.add(new Dictionary("elven0", "Namárië", "", "good bye"));
-            response = new DictionaryPageResponse(dictionaries,false,null, request.getLanguageid());
-        }
+//        if (response == null || !response.isSuccess()) {//***This is for show only! Comment out this statement when everything is working!***
+//            List<Dictionary> dictionaries = new ArrayList<>();
+//            dictionaries.add(new Dictionary("elven0", "Aiya", "", "hello"));
+//            dictionaries.add(new Dictionary("elven0", "Namárië", "", "good bye"));
+//            response = new DictionaryPageResponse(dictionaries,false,null, request.getLanguageid());
+//        }
         //
 
         return response;
@@ -202,9 +202,9 @@ public class ServerFacade implements ServerFacadeInterface {
         NewWordResponse response = clientCommunicator.doPost(Url_Path, request, null, NewWordResponse.class);
 
         //TEMP RESPONSE
-        if (response == null || !response.isSuccess()) {//***This is for show only! Comment out this statement when everything is working!***
-            response = new NewWordResponse(request.getLanguageID(), request.getFantasyWord().getFantasyWord(), false);
-        }
+//        if (response == null || !response.isSuccess()) {//***This is for show only! Comment out this statement when everything is working!***
+//            response = new NewWordResponse(request.getLanguageID(), request.getFantasyWord().getFantasyWord(), false);
+//        }
         //
 
         return response;
@@ -215,9 +215,9 @@ public class ServerFacade implements ServerFacadeInterface {
         GeneralUpdateResponse response = clientCommunicator.doPost(Url_Path, request, null, GeneralUpdateResponse.class);
 
         //TEMP RESPONSE
-        if (response == null || !response.isSuccess()) {//***This is for show only! Comment out this statement when everything is working!***
-            response = new GeneralUpdateResponse("elven0");
-        }
+//        if (response == null || !response.isSuccess()) {//***This is for show only! Comment out this statement when everything is working!***
+//            response = new GeneralUpdateResponse("elven0");
+//        }
         //
 
         return response;

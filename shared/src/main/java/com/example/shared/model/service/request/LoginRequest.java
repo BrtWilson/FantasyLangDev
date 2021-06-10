@@ -5,17 +5,17 @@ package com.example.shared.model.service.request;
  */
 public class LoginRequest {
 
-    private  String username;
+    private  String userName;
     private  String password;
 
     /**
      * Creates an instance.
      *
-     * @param username the username of the user to be logged in.
+     * @param userName the username of the user to be logged in.
      * @param password the password of the user to be logged in.
      */
-    public LoginRequest(String username, String password) {
-        this.username = username;
+    public LoginRequest(String userName, String password) {
+        this.userName = userName;
         this.password = password;
     }
 
@@ -27,8 +27,8 @@ public class LoginRequest {
      *
      * @return the username.
      */
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
     /**
@@ -40,8 +40,8 @@ public class LoginRequest {
         return password;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public void setPassword(String password) {
