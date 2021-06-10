@@ -10,10 +10,10 @@ public class GetLanguageDataRequest {
     /**
      * Creates an instance.
      *
-     * @param username the username of the user to be logged in.
+     * @param langID the username of the user to be logged in.
      */
-    public GetLanguageDataRequest(String username) {
-        this.languageID = username;
+    public GetLanguageDataRequest(String langID) {
+        this.languageID = langID;
     }
 
     /**

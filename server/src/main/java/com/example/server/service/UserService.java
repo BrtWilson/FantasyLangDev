@@ -15,6 +15,7 @@ import com.example.shared.model.service.response.RegisterResponse;
 import org.apache.commons.codec.language.bm.Lang;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,8 +29,8 @@ public class UserService implements IUserService {
         if(user.getUserName() != null){
             //get list of languages to make loginresponse object
             List<String> languages = getLanguageDao().getLanguages(request);
-            List<Language> languageDatas = null;
-            for (int i = 0; i < languages.size(); i++){
+            List<Language> languageDatas = new ArrayList<>();
+            for (int i = 0; i < languages.size(); i++) {
                 GetLanguageDataRequest dataRequest = new GetLanguageDataRequest(languages.get(i));
                 GetLanguageDataResponse dataResponse = getLanguageDao().getLanguageData(dataRequest);
                 Language curLang = new Language(dataResponse.getLanguageID(), dataResponse.getUserName(), dataResponse.getLanguageName(), dataResponse.getAlphabet());

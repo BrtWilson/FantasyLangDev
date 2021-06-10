@@ -52,7 +52,7 @@ public class LanguageTableDAO {
      * @param request provides the LanguageID
      * @return GetLanguageDataResponse object with all fields corresponding to the Languages Table
      *          including alphabet if it exists
-     */
+     */ // returning null when it shouldn't. The whole object is null (JSON error?)
     public GetLanguageDataResponse getLanguageData(GetLanguageDataRequest request) throws Exception {
         Map<String, String> queryAttributes = new HashMap<>();
         queryAttributes.put(attributeLangID, request.getLanguageID());
@@ -85,6 +85,7 @@ public class LanguageTableDAO {
        //basicLanguageData.put(attributeUserName, request.getUserName());
         basicLanguageData.put(attributeLangID, createLangID(request));
         basicLanguageData.put(attributeLanguageName, request.getLanguageName());
+        basicLanguageData.put(attributeAlphabet, "a b c");
         if (databaseInteractor.insertItemComboKey(tableName, attributeUserName,  request.getUserName(), attributeLangID, basicLanguageData.get(attributeLangID), basicLanguageData)) {
             Map<String, String> languageInserted = databaseInteractor.querySingleItem(tableName, attributeUserName, request.getUserName(), basicLanguageData);
             String languageIDRetrieved = languageInserted.get(attributeLangID);
